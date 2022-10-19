@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+}
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vmin;
+  /* width: 100%; */
+}
+
+.upgradeContainer {
+  display: flex;
+  width: 150vmin;
+  height: 80vmin;
+  border: 6px solid black;
+  justify-content: space-between;
+}
+
+.upgradeType {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  width: 20vmin;
+  border: 6px solid red;
+}
+
+.upgradeContent {
+  display: flex;
+  width: 130vmin;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 6px solid yellow;
+}
+.weaponType {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40vmin;
+  border: 6px solid blue;
+}
+
+.towerType {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40vmin;
+  border: 6px solid green;
+}
+
+.towerIcons {
+  display: flex;
+  width: 100vmin;
+  justify-content: space-evenly;
+  border: 6px solid purple;
+}
+
+.weaponIcons {
+  display: flex;
+  width: 100vmin;
+  justify-content: space-evenly;
+  border: 6px solid purple;
+}
