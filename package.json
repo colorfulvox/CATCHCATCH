@@ -1,0 +1,16 @@
+{
+  "name": "s07p31c106",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://lab.ssafy.com/s07-final/S07P31C106.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
