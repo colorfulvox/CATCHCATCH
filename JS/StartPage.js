@@ -10,7 +10,7 @@ const StartPageInit = () => {
   _Logo.id = "Logo";
 
   var LogoImg = document.createElement("img");
-  LogoImg.src = "LogoImg.gif";
+  LogoImg.src = "./Img/Logo.gif";
   LogoImg.width = 1000;
   LogoImg.height = 300;
   _Logo.appendChild(LogoImg);
