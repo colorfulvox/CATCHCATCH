@@ -1,0 +1,31 @@
+.levelupContainer {
+  display: flex;
+  width: 150vmin;
+  height: 80vmin;
+  border: 6px solid black;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.levelupContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 30vmin;
+  height: 60vmin;
+  border: 6px solid red;
+}
+
+.levelupImg {
+  width: 13vmin;
+  height: 13vmin;
+  border: 6px solid blue;
+  text-align: center;
+}
+
+.levelupText {
+  width: 20vmin;
+  height: 20vmin;
+  border: 6px solid green;
+}

@@ -23,4 +23,4 @@ export default function initUpgrade() {
   });
 }
 
-initUpgrade();
+// initUpgrade();
