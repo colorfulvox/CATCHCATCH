@@ -1,3 +1,7 @@
+import "../CSS/startPage.css";
+import "../JS/CharPage.js";
+import { CharPageOn } from "../JS/CharPage.js";
+
 const _StartPage = document.createElement("div");
 const _app = document.getElementById("app");
 _StartPage.id = "StartPage";
@@ -5,7 +9,7 @@ _StartPage.style.display = "none";
 _app.appendChild(_StartPage);
 
 const StartPageInit = () => {
-  // 로고 생성==================================
+  // 로고 생성=======================================
   const _Logo = document.createElement("div");
   _Logo.id = "Logo";
 
@@ -16,7 +20,7 @@ const StartPageInit = () => {
   _Logo.appendChild(LogoImg);
 
   _StartPage.appendChild(_Logo); // 로고 추가
-  //============================================
+  //==============================================
 
   // 시작하기 버튼 ====================================
   const _GoSelectChar = document.createElement("div");
@@ -32,9 +36,9 @@ const StartPageInit = () => {
   _GoSelectChar.appendChild(Btn);
 
   _StartPage.appendChild(_GoSelectChar); //시작하기 버튼 추가;
-  //=================================================
+  //================================================
 
-  // 랭킹 =============================================
+  // 랭킹 ============================================
   const _Ranked = document.createElement("div");
   _Ranked.id = "RankedId";
   var Btn = document.createElement("button");
@@ -88,4 +92,5 @@ export const StartPageOff = () => {
 // 캐릭터 선택 버튼 클릭 이벤트 리스너
 function GoSelectChar() {
   StartBtnOff();
+  CharPageOn();
 }

@@ -1,0 +1,26 @@
+#CharPage {
+  width: 100%;
+  height: 100%;
+  border: 2px solid green;
+  position: relative;
+}
+#CharPage #CharTemplate {
+  position: absolute;
+  width: 700px;
+  height: 200px;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid green;
+}
+#CharPage #ChoiceBtn {
+  position: absolute;
+  width: 70px;
+  height: 100px;
+
+  transform: translate(-50%, -50%);
+}
+
+#CharPage #StartBtn {
+  position: absolute;
+}

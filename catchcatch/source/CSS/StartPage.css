@@ -18,14 +18,14 @@
   transform: translate(-50%, -50%);
 }
 
-#StartPage #RankedId {
+#StartPage #QuitGameId {
   position: absolute;
   top: 72%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-#StartPage #QuitGameId {
+#StartPage #RankedId {
   position: absolute;
   top: 84%;
   left: 50%;
