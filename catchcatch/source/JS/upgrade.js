@@ -3,6 +3,7 @@ import tower from "./towerUpgrade.js";
 export default function initUpgrade() {
   const app = document.querySelector("#app");
   app.innerHTML = `
+  <button class="btn1">헤헤헤헤</button>
   <div class="upgradeContainer">
     <div class="upgradeType">
         <div class="weaponType">weapon</div>
@@ -18,8 +19,12 @@ export default function initUpgrade() {
   weapon();
   const weaponType = document.querySelector(".weaponType");
   weaponType.addEventListener("click", () => {
-    const upgradeContent = document.querySelector(".upgradeContent");
     weapon();
+  });
+  const btn1 = document.querySelector(".btn1");
+  btn1.addEventListener("click", () => {
+    const upgradeContainer = document.querySelector(".upgradeContainer");
+    upgradeContainer.style.display = "flex";
   });
 }
 

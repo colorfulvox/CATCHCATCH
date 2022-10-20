@@ -1,6 +1,7 @@
 export default function weapon() {
   const upgradecontent = document.querySelector(".upgradeContent");
   upgradecontent.innerHTML = `
+  <div class="weaponContent">
   <div class="weaponIcons">
     <div>그림</div>
     <div>그림</div>
@@ -50,6 +51,7 @@ export default function weapon() {
     <div>그림</div>
     <div>그림</div>
     <div>그림</div>
+  </div>
   </div>
   `;
 }
