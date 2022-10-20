@@ -16,4 +16,11 @@ export default function levelup() {
       </div>
     </div>
   `;
+  const contents = document.querySelectorAll(".levelupContent");
+  console.log(contents);
+  for (let i = 0; i < 3; i++) {
+    contents[i].addEventListener("click", () => {
+      console.log("특성");
+    });
+  }
 }
