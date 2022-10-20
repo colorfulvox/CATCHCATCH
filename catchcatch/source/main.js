@@ -2,7 +2,7 @@ import "./CSS/upgrade.css";
 import "./CSS/index.css";
 // import initUpgrade from "./JS/upgrade";
 import StartPageInit from "./JS/StartPage.js";
-import CharPageInit from "./JS/CharPage";
+import CharPageInit from "./JS/CharSpace";
 
 function Init() {
   StartPageInit(); //스타트 페이지 init
