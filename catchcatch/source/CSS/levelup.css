@@ -1,5 +1,5 @@
 .levelupContainer {
-  display: flex;
+  display: none;
   width: 150vmin;
   height: 80vmin;
   border: 6px solid black;
