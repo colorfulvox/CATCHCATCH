@@ -435,13 +435,13 @@ function update(time, delta) {
   //enemy start
 
     // 만약 몬스터가 화면 일정범위 벗어나면 죽이는 코드 -> 홀에 들어갈때 없어지게 하는 용도로 추후 사용
-    Phaser.Actions.IncY(aliens.getChildren(), 1);
-    aliens.children.iterate(function (alien) {
-        if (alien.y > 600) {
-            // 리소스 때문에 임의로 죽임
-            aliens.killAndHide(alien);
-        }
-    });
+    // Phaser.Actions.IncY(aliens.getChildren(), 1);
+    // aliens.children.iterate(function (alien) {
+    //     if (alien.y > 600) {
+    //         // 리소스 때문에 임의로 죽임
+    //         aliens.killAndHide(alien);
+    //     }
+    // });
 
   //enemy end
 }
@@ -516,14 +516,13 @@ function activateAlien (alien) {
   .setVisible(true)
   .setTint(Phaser.Display.Color.RandomRGB().color)
   .play('swarm');
-  alien.setPosition(8000,8000)
 }
 
 
 // 맵 밖 랜덤 좌표에서 생성
 function addAlien () {
-  const x = Phaser.Math.Between(8000, 8500);
-  const y = Phaser.Math.Between(8000, 8000);
+  const x = Phaser.Math.Between(0, 16000);
+  const y = Phaser.Math.Between(4000, 8000);
 
   // Find first inactive sprite in group or add new sprite, and set position
   const alien = aliens.get(x, y);
