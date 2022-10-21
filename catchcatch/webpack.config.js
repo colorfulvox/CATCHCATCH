@@ -1,6 +1,5 @@
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
-
 module.exports = {
   entry: "./source/main.js",
   output: { path: path.resolve(__dirname, "source"), filename: "main.js" },
@@ -12,7 +11,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(gif|svg|jpg|png)$/,
+        test: /\.(gif|svg|jpg|png|txt)$/,
         loader: "file-loader",
       },
       {
