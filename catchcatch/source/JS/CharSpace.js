@@ -144,6 +144,8 @@ function BackStart() {
 function GameStart() {
   //app 자체를 false해야되나?
   if (ChoiceCat === -1) console.log("시작 불가");
+  const StartPage = document.querySelector(".StartPage");
+  StartPage.style.display = "none";
   console.log(ChoiceCat);
   console.log(ChoiceLevel);
 }
