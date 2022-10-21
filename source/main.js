@@ -37,6 +37,7 @@ var input;
 var mouse;
 //player end
 
+//map start
 var map;
 var camera;
 var backgroundLayer;
@@ -46,9 +47,15 @@ var stage1Layer;
 var stage2Layer;
 var stage3Layer;
 var stage4Layer;
+let controls;
+//map end
+
+
+//enemy start
+
+//enemy end
 
 var game = new Phaser.Game(config);
-let controls;
 
 function preload() {
   //map start
@@ -77,6 +84,11 @@ function preload() {
   this.load.spritesheet('fairy4', 'assets/fairy4.png', { frameWidth: 136, frameHeight: 170 });
   this.load.spritesheet('fairy5', 'assets/fairy5.png', { frameWidth: 160, frameHeight: 190 });
   //player end
+
+
+  //enemy start
+
+  //enemy end
 
 }
 
@@ -286,6 +298,11 @@ function create() {
   this.physics.add.collider(player, stage3Layer);
   camera.startFollow(player, true);
   //map end
+
+
+  //enemy start
+
+  //enemy end
 }
 
 function update(time, delta) {
@@ -373,6 +390,12 @@ function update(time, delta) {
   // }
 
   //map end
+
+
+
+  //enemy start
+
+  //enemy end
 }
 
 
@@ -419,3 +442,9 @@ var move = function () {
   }
 }
 //player end
+
+
+
+//enemy start
+
+//enemy end
