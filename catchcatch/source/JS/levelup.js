@@ -1,5 +1,10 @@
+import inGameUI from "./inGameUI";
+
 export default function levelup() {
   const app = document.querySelector("#app");
+  // const levelupContainer = document.createElement("div");
+  // levelupContainer.setAttribute("class", "levelupContainer");
+
   app.innerHTML = `
   <div class="levelupContainer">
       <div class="levelupContent">
@@ -33,6 +38,7 @@ function expUp() {
     console.log(exp);
     exp++;
     const levelupContainer = document.querySelector(".levelupContainer");
+    inGameUI();
     if (exp === 3) {
       clearInterval(interval);
       levelupContainer.style.display = "flex";
