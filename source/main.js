@@ -21,7 +21,7 @@ const config = {
 var player;
 // 요정
 var now_fairy = 2;
-var fairys = [,,,,,];
+var fairys = [, , , , ,];
 var fairy;
 
 // 공격 및 공격 딜레이 관련
@@ -51,34 +51,38 @@ var game = new Phaser.Game(config);
 let controls;
 
 function preload() {
+  //map start
   this.load.image("tiles", "./tiles.png");
   this.load.image("tiles2", "./tiles2.png");
   this.load.tilemapTiledJSON("map", "resources.tmj");
-
-  //player start
-    // 플레이어 스프라이트
-    this.load.spritesheet('dude', 'assets/cat1.png', { frameWidth: 96, frameHeight: 100 });
-
-    // 공격 스프라이트
-    this.load.spritesheet('magic1', 'assets/attack/16_sunburn_spritesheet.png', {frameWidth: 100, frameHeight: 100, endFrame: 61});
-    this.load.spritesheet('magic2', 'assets/attack/12_nebula_spritesheet.png', { frameWidth: 100, frameHeight: 100, endFrame: 61 });
-    this.load.spritesheet('magic3', 'assets/attack/18_midnight_spritesheet.png', { frameWidth: 100, frameHeight: 100, endFrame: 61 });
-    this.load.spritesheet('magic4', 'assets/attack/2_magic8_spritesheet.png', { frameWidth: 100, frameHeight: 100, endFrame: 61 });
-    this.load.spritesheet('magic5', 'assets/attack/20_magicbubbles_spritesheet.png', { frameWidth: 100, frameHeight: 100, endFrame: 61 });
-    // 요정 스프라이트
-    this.load.spritesheet('fairy1', 'assets/fairy1.png', { frameWidth: 150, frameHeight: 142 });
-    this.load.spritesheet('fairy2', 'assets/fairy2.png', { frameWidth: 230, frameHeight: 210 });
-    this.load.spritesheet('fairy3', 'assets/fairy3.png', { frameWidth: 134, frameHeight: 158 });
-    this.load.spritesheet('fairy4', 'assets/fairy4.png', { frameWidth: 136, frameHeight: 170 });
-    this.load.spritesheet('fairy5', 'assets/fairy5.png', { frameWidth: 160, frameHeight: 190 });
-  //player end
-
   this.load.image('j1', 'j1.png');
   this.load.image('j2', 'j2.png');
   this.load.image('j3', 'j3.png');
+  //map end
+
+  //player start
+  // 플레이어 스프라이트
+  this.load.spritesheet('dude', 'assets/cat1.png', { frameWidth: 96, frameHeight: 100 });
+
+  // 공격 스프라이트
+  this.load.spritesheet('magic1', 'assets/attack/16_sunburn_spritesheet.png', { frameWidth: 100, frameHeight: 100, endFrame: 61 });
+  this.load.spritesheet('magic2', 'assets/attack/12_nebula_spritesheet.png', { frameWidth: 100, frameHeight: 100, endFrame: 61 });
+  this.load.spritesheet('magic3', 'assets/attack/18_midnight_spritesheet.png', { frameWidth: 100, frameHeight: 100, endFrame: 61 });
+  this.load.spritesheet('magic4', 'assets/attack/2_magic8_spritesheet.png', { frameWidth: 100, frameHeight: 100, endFrame: 61 });
+  this.load.spritesheet('magic5', 'assets/attack/20_magicbubbles_spritesheet.png', { frameWidth: 100, frameHeight: 100, endFrame: 61 });
+  // 요정 스프라이트
+  this.load.spritesheet('fairy1', 'assets/fairy1.png', { frameWidth: 150, frameHeight: 142 });
+  this.load.spritesheet('fairy2', 'assets/fairy2.png', { frameWidth: 230, frameHeight: 210 });
+  this.load.spritesheet('fairy3', 'assets/fairy3.png', { frameWidth: 134, frameHeight: 158 });
+  this.load.spritesheet('fairy4', 'assets/fairy4.png', { frameWidth: 136, frameHeight: 170 });
+  this.load.spritesheet('fairy5', 'assets/fairy5.png', { frameWidth: 160, frameHeight: 190 });
+  //player end
+
 }
 
 function create() {
+
+  //map start
   this.cameras.main.setBounds(0, 0, 16000, 16000);
   this.physics.world.setBounds(0, 0, 16000, 16000);
   map = this.make.tilemap({ key: "map" }); //map을 키로 가지는 JSON 파일 가져와 적용하기
@@ -100,42 +104,42 @@ function create() {
 
 
   cursors = this.input.keyboard.addKeys({
-    up:Phaser.Input.Keyboard.KeyCodes.W,
-    down:Phaser.Input.Keyboard.KeyCodes.S,
-    left:Phaser.Input.Keyboard.KeyCodes.A,
+    up: Phaser.Input.Keyboard.KeyCodes.W,
+    down: Phaser.Input.Keyboard.KeyCodes.S,
+    left: Phaser.Input.Keyboard.KeyCodes.A,
     right: Phaser.Input.Keyboard.KeyCodes.D,
     slot1: Phaser.Input.Keyboard.KeyCodes.ONE,
     slot2: Phaser.Input.Keyboard.KeyCodes.TWO,
     slot3: Phaser.Input.Keyboard.KeyCodes.THREE,
     slot4: Phaser.Input.Keyboard.KeyCodes.FOUR,
     slot5: Phaser.Input.Keyboard.KeyCodes.FIVE,
-});
+  });
+  // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true);
 
-  // // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true);
-
+  //map end
 
   //player start
   camera = this.cameras.main;
   input = this.input;
   mouse = input.mousePointer;
 
-    // 플레이어, 요정 로딩
-    player = this.physics.add.sprite(100, 450, 'dude');
-    player.setBounce(0.2);
-    player.setCollideWorldBounds(true);
-    player.setScale(1);
-    fairys[0] = this.add.sprite(-100, -100, 'fairy1');
-    fairys[1] = this.add.sprite(-100, -100, 'fairy2');
-    fairys[2] = this.add.sprite(-100, -100, 'fairy3');
-    fairys[3] = this.add.sprite(-100, -100, 'fairy4');
-    fairys[4] = this.add.sprite(-100, -100, 'fairy5');
-    fairys[0].setScale(0.5);
-    fairys[1].setScale(0.5);
-    fairys[2].setScale(0.5);
-    fairys[3].setScale(0.5);
-    fairys[4].setScale(0.5);
-  
-  //player end
+  // 플레이어, 요정 로딩
+  player = this.physics.add.sprite(100, 450, 'dude');
+  player.setBounce(0.2);
+  player.setCollideWorldBounds(true);
+  player.setScale(1);
+  fairys[0] = this.add.sprite(-100, -100, 'fairy1');
+  fairys[1] = this.add.sprite(-100, -100, 'fairy2');
+  fairys[2] = this.add.sprite(-100, -100, 'fairy3');
+  fairys[3] = this.add.sprite(-100, -100, 'fairy4');
+  fairys[4] = this.add.sprite(-100, -100, 'fairy5');
+  fairys[0].setScale(0.5);
+  fairys[1].setScale(0.5);
+  fairys[2].setScale(0.5);
+  fairys[3].setScale(0.5);
+  fairys[4].setScale(0.5);
+
+
 
   // animation
   this.anims.create({
@@ -146,119 +150,121 @@ function create() {
   });
 
   this.anims.create({
-      key: 'fairy1_attack',
-      frames: this.anims.generateFrameNumbers('fairy1', { start: 6, end: 10 }),
-      frameRate: 10,
-      repeat: 0
+    key: 'fairy1_attack',
+    frames: this.anims.generateFrameNumbers('fairy1', { start: 6, end: 10 }),
+    frameRate: 10,
+    repeat: 0
   });
 
   this.anims.create({
-      key: 'fairy2_idle',
-      frames: this.anims.generateFrameNumbers('fairy2', { start: 10, end: 19 }),
-      frameRate: 6,
-      repeat: -1
+    key: 'fairy2_idle',
+    frames: this.anims.generateFrameNumbers('fairy2', { start: 10, end: 19 }),
+    frameRate: 6,
+    repeat: -1
   });
 
   this.anims.create({
-      key: 'fairy2_attack',
-      frames: this.anims.generateFrameNumbers('fairy2', { start: 0, end: 8 }),
-      frameRate: 12,
-      repeat: 0
+    key: 'fairy2_attack',
+    frames: this.anims.generateFrameNumbers('fairy2', { start: 0, end: 8 }),
+    frameRate: 12,
+    repeat: 0
   });
 
   this.anims.create({
-      key: 'fairy3_idle',
-      frames: this.anims.generateFrameNumbers('fairy3', { start: 11, end: 19 }),
-      frameRate: 6,
-      repeat: -1
+    key: 'fairy3_idle',
+    frames: this.anims.generateFrameNumbers('fairy3', { start: 11, end: 19 }),
+    frameRate: 6,
+    repeat: -1
   });
 
   this.anims.create({
-      key: 'fairy3_attack',
-      frames: this.anims.generateFrameNumbers('fairy3', { start: 0, end: 9 }),
-      frameRate: 12,
-      repeat: 0
+    key: 'fairy3_attack',
+    frames: this.anims.generateFrameNumbers('fairy3', { start: 0, end: 9 }),
+    frameRate: 12,
+    repeat: 0
   });
 
   this.anims.create({
-      key: 'fairy4_idle',
-      frames: this.anims.generateFrameNumbers('fairy4', { start: 7, end: 14 }),
-      frameRate: 6,
-      repeat: -1
+    key: 'fairy4_idle',
+    frames: this.anims.generateFrameNumbers('fairy4', { start: 7, end: 14 }),
+    frameRate: 6,
+    repeat: -1
   });
 
   this.anims.create({
-      key: 'fairy4_attack',
-      frames: this.anims.generateFrameNumbers('fairy4', { start: 0, end: 5 }),
-      frameRate: 8,
-      repeat: 0
+    key: 'fairy4_attack',
+    frames: this.anims.generateFrameNumbers('fairy4', { start: 0, end: 5 }),
+    frameRate: 8,
+    repeat: 0
   });
 
   this.anims.create({
-      key: 'fairy5_idle',
-      frames: this.anims.generateFrameNumbers('fairy5', { start: 15, end: 24 }),
-      frameRate: 6,
-      repeat: -1
+    key: 'fairy5_idle',
+    frames: this.anims.generateFrameNumbers('fairy5', { start: 15, end: 24 }),
+    frameRate: 6,
+    repeat: -1
   });
 
   this.anims.create({
-      key: 'fairy5_attack',
-      frames: this.anims.generateFrameNumbers('fairy5', { start: 0, end: 13 }),
-      frameRate: 15,
-      repeat: 0
+    key: 'fairy5_attack',
+    frames: this.anims.generateFrameNumbers('fairy5', { start: 0, end: 13 }),
+    frameRate: 15,
+    repeat: 0
   });
 
   this.anims.create({
-      key: 'turn',
-      frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 0 }),
-      frameRate: 10
+    key: 'turn',
+    frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 0 }),
+    frameRate: 10
   });
   this.anims.create({
-      key: 'left',
-      frames: this.anims.generateFrameNumbers('dude', {start: 1, end: 7}),
-      frameRate: 10,
-      repeat: -1
+    key: 'left',
+    frames: this.anims.generateFrameNumbers('dude', { start: 1, end: 7 }),
+    frameRate: 10,
+    repeat: -1
   });
   this.anims.create({
-      key: 'right',
-      frames: this.anims.generateFrameNumbers('dude', {start: 1, end: 7}),
-      frameRate: 10,
-      repeat: -1
+    key: 'right',
+    frames: this.anims.generateFrameNumbers('dude', { start: 1, end: 7 }),
+    frameRate: 10,
+    repeat: -1
   });
   // 공격 애니메이션
   this.anims.create({
-      key: 'magic1',
-      frames: this.anims.generateFrameNumbers('magic1', {start: 0, end: 30, first: 0}),
-      frameRate: 200,
-      repeat: -1
+    key: 'magic1',
+    frames: this.anims.generateFrameNumbers('magic1', { start: 0, end: 30, first: 0 }),
+    frameRate: 200,
+    repeat: -1
   });
   this.anims.create({
-      key: 'magic2',
-      frames: this.anims.generateFrameNumbers('magic2', {start: 0, end: 30, first: 0}),
-      frameRate: 200,
-      repeat: -1
+    key: 'magic2',
+    frames: this.anims.generateFrameNumbers('magic2', { start: 0, end: 30, first: 0 }),
+    frameRate: 200,
+    repeat: -1
   });
   this.anims.create({
-      key: 'magic3',
-      frames: this.anims.generateFrameNumbers('magic3', {start: 0, end: 30, first: 0}),
-      frameRate: 200,
-      repeat: -1
+    key: 'magic3',
+    frames: this.anims.generateFrameNumbers('magic3', { start: 0, end: 30, first: 0 }),
+    frameRate: 200,
+    repeat: -1
   });
   this.anims.create({
-      key: 'magic4',
-      frames: this.anims.generateFrameNumbers('magic4', {start: 0, end: 30, first: 0}),
-      frameRate: 200,
-      repeat: -1
+    key: 'magic4',
+    frames: this.anims.generateFrameNumbers('magic4', { start: 0, end: 30, first: 0 }),
+    frameRate: 200,
+    repeat: -1
   });
   this.anims.create({
-      key: 'magic5',
-      frames: this.anims.generateFrameNumbers('magic5', {start: 0, end: 30, first: 0}),
-      frameRate: 200,
-      repeat: -1
+    key: 'magic5',
+    frames: this.anims.generateFrameNumbers('magic5', { start: 0, end: 30, first: 0 }),
+    frameRate: 200,
+    repeat: -1
   });
 
-  fairys[now_fairy].play('fairy'+(now_fairy+1)+'_idle', true);
+  fairys[now_fairy].play('fairy' + (now_fairy + 1) + '_idle', true);
+  //player end
 
+  //map start
   var j1;
 
   for (var i = 0; i < 5; i++) {
@@ -279,6 +285,7 @@ function create() {
   player.setPosition(8000, 8000); //width, height
   this.physics.add.collider(player, stage3Layer);
   camera.startFollow(player, true);
+  //map end
 }
 
 function update(time, delta) {
@@ -334,13 +341,13 @@ function update(time, delta) {
   //mouse clicked
   if (mouse.isDown && !control) {
     // 게임에서 외부 UI 연관 테스트
-    
+
 
     //for fire again
     magic = this.physics.add.sprite(fairys[now_fairy].x, fairys[now_fairy].y, 'magic' + (now_fairy + 1));
     timer = 0;
     fairys[now_fairy].anims.play('fairy' + (now_fairy + 1) + '_attack', true);
-    
+
     let angle = Phaser.Math.Angle.Between(fairys[now_fairy].x, fairys[now_fairy].y, input.x, input.y);
     angle = ((angle + Math.PI / 2) * 180 / Math.PI + 90);
     console.log((angle - 180) / 60);
@@ -351,57 +358,64 @@ function update(time, delta) {
     this.physics.moveTo(magic, input.x, input.y, 500);
     control = true;
 
-    //player enda
-
-    // var tile = map.getTileAt(map.worldToTileX(player.x), map.worldToTileY(player.y));
-
-    // if (tile) {
-    //   console.log('' + JSON.stringify(tile.properties))
-    // }
   }
   move();
+  //player end
+
+
+
+  //map start
+
+  // var tile = map.getTileAt(map.worldToTileX(player.x), map.worldToTileY(player.y));
+
+  // if (tile) {
+  //   console.log('' + JSON.stringify(tile.properties))
+  // }
+
+  //map end
 }
+
+
 //player start
-var move = function(){
+var move = function () {
   fairys[now_fairy].x = player.x - 30;
   fairys[now_fairy].y = player.y - 70;
-  if (cursors.left.isDown)
-  {
-      player.setVelocityX(-160);
+  if (cursors.left.isDown) {
+    player.setVelocityX(-160);
 
-      player.anims.play('left', true);
-      player.flipX = true;
+    player.anims.play('left', true);
+    player.flipX = true;
   } else if (cursors.right.isDown) {
-      player.setVelocityX(160);
-      player.flipX = false;
-      player.anims.play('right', true);
+    player.setVelocityX(160);
+    player.flipX = false;
+    player.anims.play('right', true);
   } else {
-      player.setVelocityX(0);
+    player.setVelocityX(0);
   }
 
   if (cursors.up.isDown) {
-      player.setVelocityY(-160);
+    player.setVelocityY(-160);
 
-      if (cursors.left.isDown) {
-          player.anims.play('left', true);
-      } else {
-          player.anims.play('right', true);
-      }
+    if (cursors.left.isDown) {
+      player.anims.play('left', true);
+    } else {
+      player.anims.play('right', true);
+    }
 
   } else if (cursors.down.isDown) {
-      player.setVelocityY(+160);
+    player.setVelocityY(+160);
 
-      if (cursors.left.isDown) {
-          player.anims.play('left', true);
-      } else {
-          player.anims.play('right', true);
-      }
+    if (cursors.left.isDown) {
+      player.anims.play('left', true);
+    } else {
+      player.anims.play('right', true);
+    }
 
   } else {
-      player.setVelocityY(0);
-      if (!cursors.left.isDown && !cursors.right.isDown) {
-          player.anims.play('turn', true);
-      }
+    player.setVelocityY(0);
+    if (!cursors.left.isDown && !cursors.right.isDown) {
+      player.anims.play('turn', true);
+    }
   }
 }
 //player end
