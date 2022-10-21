@@ -14,7 +14,7 @@ const StartPageInit = () => {
   _Logo.className = "Logo";
 
   var LogoImg = document.createElement("img");
-  LogoImg.src = "images/Logo.gif";
+  LogoImg.src = "images/Logo.png";
   LogoImg.width = 1000;
   LogoImg.height = 300;
   _Logo.appendChild(LogoImg);
