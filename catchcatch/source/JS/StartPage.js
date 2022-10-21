@@ -1,26 +1,36 @@
+import "../CSS/startPage.css";
+import "./CharSpace.js";
+import { CharSpaceOn } from "./CharSpace.js";
+
+
 const _StartPage = document.createElement("div");
 const _app = document.getElementById("app");
-_StartPage.id = "StartPage";
+_StartPage.className = "StartPage";
 _StartPage.style.display = "none";
 _app.appendChild(_StartPage);
 
 const StartPageInit = () => {
-  // 로고 생성==================================
+  // 로고 생성=======================================
   const _Logo = document.createElement("div");
-  _Logo.id = "Logo";
+  _Logo.className = "Logo";
 
   var LogoImg = document.createElement("img");
-  LogoImg.src = "images/Logo.gif";
+  LogoImg.src = "images/Logo.png";
   LogoImg.width = 1000;
   LogoImg.height = 300;
   _Logo.appendChild(LogoImg);
 
   _StartPage.appendChild(_Logo); // 로고 추가
-  //============================================
+  //==============================================
+
+  // 버튼 div
+  const _StartBtn = document.createElement("div");
+  _StartBtn.className = "StartBtnList";
+  _StartBtn.id = "StartBtnList";
 
   // 시작하기 버튼 ====================================
   const _GoSelectChar = document.createElement("div");
-  _GoSelectChar.id = "GoSelectCharId";
+  _GoSelectChar.className = "GoSelectCharId";
   var Btn = document.createElement("button");
   Btn.className = "StartBtn";
   Btn.textContent = "시작하기";
@@ -31,31 +41,32 @@ const StartPageInit = () => {
 
   _GoSelectChar.appendChild(Btn);
 
-  _StartPage.appendChild(_GoSelectChar); //시작하기 버튼 추가;
-  //=================================================
+  _StartBtn.appendChild(_GoSelectChar); //시작하기 버튼 추가;
+  //================================================
 
-  // 랭킹 =============================================
+  // 랭킹 ============================================
   const _Ranked = document.createElement("div");
-  _Ranked.id = "RankedId";
+  _Ranked.className = "RankedId";
   var Btn = document.createElement("button");
   Btn.className = "StartBtn";
   Btn.textContent = "랭킹 순위";
   _Ranked.appendChild(Btn);
 
-  _StartPage.appendChild(_Ranked); //랭킹 버튼 추가;
+  _StartBtn.appendChild(_Ranked); //랭킹 버튼 추가;
   //=================================================
 
   // 게임 종료 ===========================================
   const _QuitGame = document.createElement("div");
-  _QuitGame.id = "QuitGameId";
+  _QuitGame.className = "QuitGameId";
   var Btn = document.createElement("button");
   Btn.className = "StartBtn";
   Btn.textContent = "종료";
   _QuitGame.appendChild(Btn);
 
-  _StartPage.appendChild(_QuitGame); //게임종료 버튼 추가;
+  _StartBtn.appendChild(_QuitGame); //게임종료 버튼 추가;
   //=================================================
 
+  _StartPage.appendChild(_StartBtn);
   StartPageOn();
 };
 export default StartPageInit;
@@ -78,7 +89,7 @@ export const StartBtnOff = () => {
 
 export const StartPageOn = () => {
   StartBtnOn();
-  _StartPage.style.display = "block";
+  _StartPage.style.display = "flex";
 };
 
 export const StartPageOff = () => {
@@ -88,4 +99,5 @@ export const StartPageOff = () => {
 // 캐릭터 선택 버튼 클릭 이벤트 리스너
 function GoSelectChar() {
   StartBtnOff();
+  CharSpaceOn();
 }
