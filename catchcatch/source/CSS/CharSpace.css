@@ -39,11 +39,21 @@
 .CharTemplate {
   /* margin-right: 20px; */
   width: 760px;
+  height: 150px;
 
   display: flex;
   justify-content: space-around;
   align-items: center;
   align-content: center;
+}
+
+.CharObj {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  width: 700px;
+  height: 170px;
+  position: relative;
 }
 
 .ChoiceBtn {

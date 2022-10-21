@@ -1,12 +1,13 @@
 import "../CSS/CharSpace.css";
 import { StartBtnOn } from "./StartPage";
+import { SaveData } from "../main.js";
 
 var _CharSpace;
 
 var _SlideList;
 
 const CharPageInit = () => {
-  //여기서 미리 서버 정보를 가져온다.
+  //여기서 미리 서버 정보를 가져온다. ---------------------------
   var _StartBtnList = document.getElementById("StartBtnList");
   // StartPage가 생성되면 StartPage에 CharPage를 넣는것으로 하자
   _CharSpace = document.createElement("div");
@@ -37,17 +38,43 @@ const CharPageInit = () => {
   _Slide.appendChild(_SlideList);
 
   //캐릭터 템플릿 5개 생성
-  for (let i = 1; i <= 5; ++i) {
+  for (let i = 0; i < 5; ++i) {
     const _CharTemplate = document.createElement("li");
 
     _CharTemplate.className = "CharTemplate";
+
+    // CharObj = 이미지 + 구매 버튼
+    const _CharObj = document.createElement("div");
+    _CharObj.className = "CharObj";
+
+    // 캐릭터 이미지
     var CharImg = document.createElement("img");
-    CharImg.src = "images/CharImg/1.png";
+    CharImg.src = `images/CharImg/${i}.png`;
     CharImg.width = 150;
     CharImg.height = 150;
     CharImg.style.margin = "10px";
+    CharImg.style.position = "absolute";
 
-    _CharTemplate.appendChild(CharImg);
+    _CharObj.appendChild(CharImg);
+
+    // 구매 버튼
+    if (LocalData.Cat[i] === false) {
+      var Buybtn = document.createElement("button");
+      Buybtn.textContent = "100";
+      Buybtn.style.position = "absolute";
+      Buybtn.style.left = "20%";
+      Buybtn.style.bottom = "0%";
+      Buybtn.style.width = "100px";
+
+      Buybtn.id = `${i}`;
+      Buybtn.addEventListener("click", BuyChar);
+
+      _CharObj.appendChild(Buybtn);
+    } else {
+      if (ChoiceCat === -1) ChoiceCat = i;
+    }
+    // _CharTemplate <= CharOBj
+    _CharTemplate.appendChild(_CharObj);
 
     var CharContxt = document.createElement("p");
     CharContxt.textContent =
@@ -81,7 +108,7 @@ const CharPageInit = () => {
   _BackStartBtn.textContent = "뒤로가기";
   // 이벤트 리스너 추가 ------------------------
   _BackStartBtn.addEventListener("click", BackStart);
-  // --------------------------------------
+  // -------------------------------------
   _CharBtnList.appendChild(_BackStartBtn);
 
   // 게임시작
@@ -89,12 +116,14 @@ const CharPageInit = () => {
   _StartGameBtn.className = "CharBtn";
   _StartGameBtn.textContent = "게임 시작";
   _CharBtnList.appendChild(_StartGameBtn);
+  _StartGameBtn.addEventListener("click", GameStart);
 
   // 난이도 설정 임시로 버튼
   const _MapLevel = document.createElement("button");
   _MapLevel.className = "CharBtn";
-  _MapLevel.textContent = "난이도";
+  _MapLevel.textContent = "일반 모드";
   _CharBtnList.appendChild(_MapLevel);
+  _MapLevel.addEventListener("click", MapLevel);
 };
 
 export default CharPageInit;
@@ -114,8 +143,9 @@ function BackStart() {
 
 function GameStart() {
   //app 자체를 false해야되나?
-
-  console.log("GameStart");
+  if (ChoiceCat === -1) console.log("시작 불가");
+  console.log(ChoiceCat);
+  console.log(ChoiceLevel);
 }
 
 let CharIndex = 0;
@@ -123,6 +153,8 @@ function SlideLeft() {
   if (CharIndex > 0) {
     --CharIndex;
     _SlideList.style.left = -CharIndex * 760 + "px";
+    if (LocalData.Cat[CharIndex] != false) ChoiceCat = CharIndex;
+    else ChoiceCat = -1;
   }
 }
 
@@ -130,5 +162,33 @@ function SlideRight() {
   if (CharIndex < 4) {
     ++CharIndex;
     _SlideList.style.left = -CharIndex * 760 + "px";
+    if (LocalData.Cat[CharIndex] != false) ChoiceCat = CharIndex;
+    else ChoiceCat = -1;
+  }
+}
+function BuyChar() {
+  if (LocalData.Coin >= 100) {
+    LocalData.Coin -= 100;
+    LocalData.Cat[this.id] = true;
+    ChoiceCat = this.id;
+
+    this.style.display = "none";
+    SaveData();
+    // 코인 차감
+    // Buybtn 비활성
+    // 로컬데이터 수정
+  }
+}
+
+function MapLevel() {
+  if (ChoiceLevel === 0) {
+    this.textContent = "하드 모드";
+    ++ChoiceLevel;
+  } else if (ChoiceLevel === 1) {
+    this.textContent = "지옥 모드";
+    ++ChoiceLevel;
+  } else {
+    this.textContent = "일반 모드";
+    ChoiceLevel = 0;
   }
 }

@@ -2,6 +2,7 @@ import "../CSS/startPage.css";
 import "./CharSpace.js";
 import { CharSpaceOn } from "./CharSpace.js";
 
+
 const _StartPage = document.createElement("div");
 const _app = document.getElementById("app");
 _StartPage.className = "StartPage";
