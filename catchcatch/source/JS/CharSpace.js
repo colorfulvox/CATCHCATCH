@@ -1,6 +1,7 @@
 import "../CSS/CharSpace.css";
 import { StartBtnOn } from "./StartPage";
 import { SaveData } from "../main.js";
+import { config } from "../game.js";
 
 var _CharSpace;
 
@@ -146,6 +147,10 @@ function GameStart() {
   if (ChoiceCat === -1) console.log("시작 불가");
   const StartPage = document.querySelector(".StartPage");
   StartPage.style.display = "none";
+  var game = new Phaser.Game(config);
+  const gameContainer = document.querySelector("#game-container");
+  gameContainer.style.display = "block";
+
   console.log(ChoiceCat);
   console.log(ChoiceLevel);
 }

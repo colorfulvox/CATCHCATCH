@@ -1,5 +1,6 @@
 import "./CSS/upgrade.css";
 import "./CSS/index.css";
+import "./CSS/style.css";
 // import initUpgrade from "./JS/upgrade";
 import StartPageInit from "./JS/StartPage.js";
 import CharPageInit from "./JS/CharSpace";
