@@ -40,6 +40,7 @@ var mouse;
 
 //map start
 var map;
+var mapSize = 16000;
 var camera;
 var backgroundLayer;
 var portalLayer;
@@ -139,8 +140,8 @@ function preload() {
 
 function create() {
   //map start
-  this.cameras.main.setBounds(0, 0, 16000, 16000);
-  this.physics.world.setBounds(0, 0, 16000, 16000);
+  this.cameras.main.setBounds(0, 0, mapSize, mapSize);
+  this.physics.world.setBounds(0, 0, mapSize, mapSize);
   map = this.make.tilemap({ key: "map" }); //map을 키로 가지는 JSON 파일 가져와 적용하기
   const tileset = map.addTilesetImage("Tiles", "tiles"); //그릴떄 사용할 타일 이미지 적용하기
   const tileset2 = map.addTilesetImage("tiles2", "tiles2"); //그릴떄 사용할 타일 이미지 적용하기
@@ -471,18 +472,19 @@ function update(time, delta) {
     fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_attack", true);
 
     let angle = Phaser.Math.Angle.Between(
-      fairys[now_fairy].x,
-      fairys[now_fairy].y,
+      300,
+      300,
       input.x,
       input.y
     );
+
     angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
-    console.log((angle - 180) / 60);
+    console.log((angle - 180) / 60 - 1.5);
     magic.rotation += (angle - 180) / 60 - 1.5;
     magic.anims.play("magic" + (now_fairy + 1), true);
 
     //move to mouse position
-    this.physics.moveTo(magic, input.x, input.y, 500);
+    this.physics.moveTo(magic, fairys[now_fairy].x + (input.x - 300), fairys[now_fairy].y + (input.y - 300), 500);
     control = true;
   }
   move();
