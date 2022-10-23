@@ -1,50 +1,36 @@
 import inGameUI from "./inGameUI";
 
 export default function levelup() {
-  const app = document.querySelector("#app");
+  const gameContainer = document.querySelector("#game-container");
   // const levelupContainer = document.createElement("div");
   // levelupContainer.setAttribute("class", "levelupContainer");
 
-  app.innerHTML = `
-  <div class="levelupContainer">
-      <div class="levelupContent">
-      <div class="levelupImg">특성 아이콘</div>
-      <div class="levelupText">설명</div>
-      </div>
-      <div class="levelupContent">
-      <div class="levelupImg">특성 아이콘</div>
-      <div class="levelupText">설명</div>
-      </div>
-      <div class="levelupContent">
-      <div class="levelupImg">특성 아이콘</div>
-      <div class="levelupText">설명</div>
-      </div>
-      </div>
-  `;
+  const levelupContainer = document.createElement("div");
+  levelupContainer.setAttribute("class", "levelupContainer");
+  for (let i = 0; i < 3; i++) {
+    const levelupContent = document.createElement("div");
+    const levelupImg = document.createElement("div");
+    const levelupText = document.createElement("div");
+    levelupContent.setAttribute("class", "levelupContent");
+    levelupImg.setAttribute("class", "levelupImg");
+    levelupImg.innerText = "특성 아이콘";
+    levelupText.setAttribute("class", "levelupText");
+    levelupText.innerText = "설명";
+    levelupContent.appendChild(levelupImg);
+    levelupContent.appendChild(levelupText);
+    levelupContainer.appendChild(levelupContent);
+  }
+
+  gameContainer.appendChild(levelupContainer);
   const contents = document.querySelectorAll(".levelupContent");
-  const levelupContainer = document.querySelector(".levelupContainer");
+  // const levelupContainer = document.querySelector(".levelupContainer");
   console.log(contents);
+  const removeContainer = document.querySelector(".levelupContainer");
   for (let i = 0; i < 3; i++) {
     contents[i].addEventListener("click", () => {
       console.log("특성");
-      levelupContainer.style.display = "none";
-      expUp();
+      gameContainer.removeChild(removeContainer);
+      exp = 0;
     });
   }
 }
-
-function expUp() {
-  const interval = setInterval(() => {
-    console.log(exp);
-    exp++;
-    const levelupContainer = document.querySelector(".levelupContainer");
-    inGameUI();
-    if (exp === 3) {
-      clearInterval(interval);
-      levelupContainer.style.display = "flex";
-      exp = 0;
-    }
-  }, 1000);
-}
-
-expUp();

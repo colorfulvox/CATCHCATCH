@@ -1,3 +1,5 @@
+import levelup from "./JS/levelup.js";
+
 export const config = {
   type: Phaser.AUTO,
   width: 600,
@@ -464,7 +466,7 @@ function update(time, delta) {
     exp++;
     if (exp === 3) {
       level++;
-      console.log(123);
+      levelup();
     }
     //for fire again
     magic = this.physics.add.sprite(

@@ -3,7 +3,6 @@ import "./CSS/index.css";
 import "./CSS/style.css";
 import "./CSS/levelup.css";
 import initUpgrade from "./JS/upgrade.js";
-import StartPageInit from "./JS/StartPage.js";
 import levelup from "./JS/levelup.js";
 import inGameUI from "./JS/inGameUI.js";
 import StartPageInit from "./JS/StartPage.js";
