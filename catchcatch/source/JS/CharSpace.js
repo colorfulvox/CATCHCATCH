@@ -149,8 +149,7 @@ function GameStart() {
   StartPage.style.display = "none";
   var game = new Phaser.Game(config);
   const gameContainer = document.querySelector("#game-container");
-  gameContainer.style.display = "block";
-
+  gameContainer.style.display = "flex";
   console.log(ChoiceCat);
   console.log(ChoiceLevel);
 }

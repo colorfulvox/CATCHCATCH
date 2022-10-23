@@ -461,7 +461,11 @@ function update(time, delta) {
   //mouse clicked
   if (mouse.isDown && !control) {
     // 게임에서 외부 UI 연관 테스트
-
+    exp++;
+    if (exp === 3) {
+      level++;
+      console.log(123);
+    }
     //for fire again
     magic = this.physics.add.sprite(
       fairys[now_fairy].x,
@@ -471,12 +475,7 @@ function update(time, delta) {
     timer = 0;
     fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_attack", true);
 
-    let angle = Phaser.Math.Angle.Between(
-      300,
-      300,
-      input.x,
-      input.y
-    );
+    let angle = Phaser.Math.Angle.Between(300, 300, input.x, input.y);
 
     angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
     console.log((angle - 180) / 60 - 1.5);
@@ -484,7 +483,12 @@ function update(time, delta) {
     magic.anims.play("magic" + (now_fairy + 1), true);
 
     //move to mouse position
-    this.physics.moveTo(magic, fairys[now_fairy].x + (input.x - 300), fairys[now_fairy].y + (input.y - 300), 500);
+    this.physics.moveTo(
+      magic,
+      fairys[now_fairy].x + (input.x - 300),
+      fairys[now_fairy].y + (input.y - 300),
+      500
+    );
     control = true;
   }
   move();
