@@ -187,86 +187,86 @@ function create() {
   player = this.physics.add.sprite(100, 450, "dude");
   player.setBounce(0.2);
   player.setCollideWorldBounds(true);
-  player.setScale(1);
+  player.setScale(0.7);
   fairys[0] = this.add.sprite(-100, -100, "fairy1");
   fairys[1] = this.add.sprite(-100, -100, "fairy2");
   fairys[2] = this.add.sprite(-100, -100, "fairy3");
   fairys[3] = this.add.sprite(-100, -100, "fairy4");
   fairys[4] = this.add.sprite(-100, -100, "fairy5");
-  fairys[0].setScale(0.5);
-  fairys[1].setScale(0.5);
-  fairys[2].setScale(0.5);
-  fairys[3].setScale(0.5);
-  fairys[4].setScale(0.5);
+  fairys[0].setScale(0.35);
+  fairys[1].setScale(0.35);
+  fairys[2].setScale(0.35);
+  fairys[3].setScale(0.35);
+  fairys[4].setScale(0.35);
 
   // animation
   this.anims.create({
     key: "fairy1_idle",
     frames: this.anims.generateFrameNumbers("fairy1", { start: 12, end: 21 }),
-    frameRate: 6,
+    frameRate: 8,
     repeat: -1,
   });
 
   this.anims.create({
     key: "fairy1_attack",
     frames: this.anims.generateFrameNumbers("fairy1", { start: 6, end: 10 }),
-    frameRate: 10,
+    frameRate: 12,
     repeat: 0,
   });
 
   this.anims.create({
     key: "fairy2_idle",
     frames: this.anims.generateFrameNumbers("fairy2", { start: 10, end: 19 }),
-    frameRate: 6,
+    frameRate: 8,
     repeat: -1,
   });
 
   this.anims.create({
     key: "fairy2_attack",
     frames: this.anims.generateFrameNumbers("fairy2", { start: 0, end: 8 }),
-    frameRate: 12,
+    frameRate: 14,
     repeat: 0,
   });
 
   this.anims.create({
     key: "fairy3_idle",
     frames: this.anims.generateFrameNumbers("fairy3", { start: 11, end: 19 }),
-    frameRate: 6,
+    frameRate: 8,
     repeat: -1,
   });
 
   this.anims.create({
     key: "fairy3_attack",
     frames: this.anims.generateFrameNumbers("fairy3", { start: 0, end: 9 }),
-    frameRate: 12,
+    frameRate: 14,
     repeat: 0,
   });
 
   this.anims.create({
     key: "fairy4_idle",
     frames: this.anims.generateFrameNumbers("fairy4", { start: 7, end: 14 }),
-    frameRate: 6,
+    frameRate: 8,
     repeat: -1,
   });
 
   this.anims.create({
     key: "fairy4_attack",
     frames: this.anims.generateFrameNumbers("fairy4", { start: 0, end: 5 }),
-    frameRate: 8,
+    frameRate: 10,
     repeat: 0,
   });
 
   this.anims.create({
     key: "fairy5_idle",
     frames: this.anims.generateFrameNumbers("fairy5", { start: 15, end: 24 }),
-    frameRate: 6,
+    frameRate: 8,
     repeat: -1,
   });
 
   this.anims.create({
     key: "fairy5_attack",
     frames: this.anims.generateFrameNumbers("fairy5", { start: 0, end: 13 }),
-    frameRate: 15,
+    frameRate: 17,
     repeat: 0,
   });
 
@@ -465,7 +465,7 @@ function update(time, delta) {
     fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
   }
 
-  if (normalAttackTimer == 60) {
+  if (normalAttackTimer == 20) {
     normalAttackTimer = 0;
     control = false;
   } else {
@@ -507,11 +507,10 @@ function update(time, delta) {
 
   // 플레이어 이동
 var move = function () {
-  fairys[now_fairy].x = player.x - 30;
-  fairys[now_fairy].y = player.y - 70;
+  fairys[now_fairy].x = player.x - 20;
+  fairys[now_fairy].y = player.y - 50;
   if (cursors.left.isDown) {
     player.setVelocityX(-160);
-
     player.anims.play("left", true);
     player.flipX = true;
   } else if (cursors.right.isDown) {
@@ -544,6 +543,7 @@ var move = function () {
       player.anims.play("turn", true);
     }
   }
+
 };
 
   // 플레이어 공격
