@@ -1,7 +1,11 @@
 import "./CSS/upgrade.css";
 import "./CSS/index.css";
 import "./CSS/style.css";
-// import initUpgrade from "./JS/upgrade";
+import "./CSS/levelup.css";
+import initUpgrade from "./JS/upgrade.js";
+import StartPageInit from "./JS/StartPage.js";
+import levelup from "./JS/levelup.js";
+import inGameUI from "./JS/inGameUI.js";
 import StartPageInit from "./JS/StartPage.js";
 import CharPageInit from "./JS/CharSpace";
 
@@ -25,6 +29,7 @@ global.ChoiceLevel = 0;
 global.exp = 0;
 global.level = 0;
 
+global.exp = 0;
 function Init() {
   StartPageInit(); //스타트 페이지 init
   CharPageInit(); // 캐릭터 페이지 init
