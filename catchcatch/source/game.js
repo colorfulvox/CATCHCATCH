@@ -21,13 +21,13 @@ export const config = {
 //player start
 var player;
 // 요정
-var now_fairy = 2;
+var now_fairy = 0;
 var fairys = [, , , , ,];
 var fairy;
 
 // 공격 및 공격 딜레이 관련
 var control = false;
-var timer = 0;
+var normalAttackTimer = 0;
 var magic;
 
 var cursors;
@@ -178,6 +178,10 @@ function create() {
   camera = this.cameras.main;
   input = this.input;
   mouse = input.mousePointer;
+  this.input.on('pointermove', function (pointer) {
+    let cursor = pointer;
+    let angle = Phaser.Math.Angle.Between(player.x, player.y, cursor.x + this.cameras.main.scrollX, cursor.y + this.cameras.main.scrollY)
+}, this);
 
   // 플레이어, 요정 로딩
   player = this.physics.add.sprite(100, 450, "dude");
@@ -336,6 +340,17 @@ function create() {
   });
 
   fairys[now_fairy].play("fairy" + (now_fairy + 1) + "_idle", true);
+
+  // mouse down event start
+  this.input.on('pointerdown', function (pointer) {
+
+    if (!control) {
+      magicFire(this);
+    }
+
+  }, this);
+  // mouse down event end
+
   //player end
 
   //map start
@@ -379,14 +394,13 @@ function create() {
 
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
   this.physics.add.overlap(player, aliens, hitplayer, null, this);
-
+  
   // 몬스터 리스폰  -> 추후 몬스터가 죽었을 때 리스폰 역할로 사용
   this.time.addEvent({
     delay: 100,
     loop: true,
     callback: addAlien,
   });
-
   //enemy end
 }
 
@@ -451,41 +465,16 @@ function update(time, delta) {
     fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
   }
 
-  if (timer == 60) {
-    timer = 0;
+  if (normalAttackTimer == 60) {
+    normalAttackTimer = 0;
     control = false;
   } else {
-    timer++;
+    normalAttackTimer++;
   }
   // fairy.anims.playAfterRepeat('fairy1_idle');
   //mouse clicked
   if (mouse.isDown && !control) {
-    // 게임에서 외부 UI 연관 테스트
 
-    //for fire again
-    magic = this.physics.add.sprite(
-      fairys[now_fairy].x,
-      fairys[now_fairy].y,
-      "magic" + (now_fairy + 1)
-    );
-    timer = 0;
-    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_attack", true);
-
-    let angle = Phaser.Math.Angle.Between(
-      300,
-      300,
-      input.x,
-      input.y
-    );
-
-    angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
-    console.log((angle - 180) / 60 - 1.5);
-    magic.rotation += (angle - 180) / 60 - 1.5;
-    magic.anims.play("magic" + (now_fairy + 1), true);
-
-    //move to mouse position
-    this.physics.moveTo(magic, fairys[now_fairy].x + (input.x - 300), fairys[now_fairy].y + (input.y - 300), 500);
-    control = true;
   }
   move();
   //player end
@@ -515,6 +504,8 @@ function update(time, delta) {
 }
 
 //player start
+
+  // 플레이어 이동
 var move = function () {
   fairys[now_fairy].x = player.x - 30;
   fairys[now_fairy].y = player.y - 70;
@@ -554,14 +545,62 @@ var move = function () {
     }
   }
 };
+
+  // 플레이어 공격
+var magicFire = function(game){
+      // 게임에서 외부 UI 연관 테스트
+
+    //for fire again
+    magic = game.physics.add.sprite(
+      fairys[now_fairy].x,
+      fairys[now_fairy].y,
+      "magic" + (now_fairy + 1)
+    );
+    // console.log(magic);
+    // console.log(magic.body);
+    game.physics.add.overlap(magic, aliens, attack, null, this);
+    // magic.body.setCircle(45);
+  
+    /*충돌관련 하드코딩 된 부분 나중에 수정 */
+    magic.body.width = 50;
+    magic.body.height = 50;
+    magic.body.offset.x = 25;
+    magic.body.offset.y = 25;
+    normalAttackTimer = 0;
+    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_attack", true);
+
+    let angle = Phaser.Math.Angle.Between(
+      fairys[now_fairy].x,
+      fairys[now_fairy].y,
+      input.x + camera.scrollX,
+      input.y + camera.scrollY
+    );
+  
+    // 각도 계산 공식
+    angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
+    magic.rotation += (angle - 180) / 60 - 1.5;
+    magic.anims.play("magic" + (now_fairy + 1), true);
+
+    //move to mouse position
+    game.physics.moveTo(magic, input.x + camera.scrollX, input.y + camera.scrollY, 500);
+    control = true;
+}
 //player end
 
 //enemy start
 
 function hitplayer(player, alien) {
   // 일단 피해 준 몬스터는 사라지는데 추후 코드로 몇초간 안보이게 또는 유저 잠시 무적으로 수정해야함
-  alien.disableBody(true, true);
+  alien.destroy();
 
+  // 피해 1 줌
+  // life -= 1;
+}
+
+function attack(magic, alien) {
+  // 일단 피해 준 몬스터는 사라지는데 추후 코드로 몇초간 안보이게 또는 유저 잠시 무적으로 수정해야함
+  alien.destroy();
+  magic.destroy();
   // 피해 1 줌
   // life -= 1;
 }
