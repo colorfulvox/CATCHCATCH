@@ -3,8 +3,21 @@ body {
   margin: 0;
   width: 100%;
   height: 100%;
+  font-family: "neodgm";
 }
 #app {
   width: 100%;
   height: 100%;
+
+}
+
+@font-face {
+  font-family: "neodgm";
+  src: url("../../public/images/neodgm.woff");
+  font-weight: normal;
+}
+@font-face {
+  font-family: "KenneyBlocks";
+  src: url("../../public/KenneyMiniSquareMono.ttf");
+  font-weight: normal;
 }

@@ -2,7 +2,6 @@ import "../CSS/startPage.css";
 import "./CharSpace.js";
 import { CharSpaceOn } from "./CharSpace.js";
 
-
 const _StartPage = document.createElement("div");
 const _app = document.getElementById("app");
 _StartPage.className = "StartPage";
@@ -10,12 +9,17 @@ _StartPage.style.display = "none";
 _app.appendChild(_StartPage);
 
 const StartPageInit = () => {
+  _app.style.background = "url('../Background.gif')";
+  _app.style.backgroundPosition = "center";
+  _app.style.backgroundRepeat = "no-repeat";
+  _app.style.backgroundSize = "cover";
   // 로고 생성=======================================
   const _Logo = document.createElement("div");
   _Logo.className = "Logo";
 
   var LogoImg = document.createElement("img");
   LogoImg.src = "images/Logo.png";
+
   LogoImg.width = 1000;
   LogoImg.height = 300;
   _Logo.appendChild(LogoImg);
@@ -23,17 +27,31 @@ const StartPageInit = () => {
   _StartPage.appendChild(_Logo); // 로고 추가
   //==============================================
 
-  // 버튼 div
+  // 모든 버튼 div
+  const _AllBtn = document.createElement("div");
+  _AllBtn.className = "AllBtnList";
+  _AllBtn.id = "AllBtnList";
+  _StartPage.appendChild(_AllBtn);
+
+  // 시작 버튼 div
   const _StartBtn = document.createElement("div");
   _StartBtn.className = "StartBtnList";
-  _StartBtn.id = "StartBtnList";
 
+  _AllBtn.appendChild(_StartBtn);
   // 시작하기 버튼 ====================================
   const _GoSelectChar = document.createElement("div");
   _GoSelectChar.className = "GoSelectCharId";
   var Btn = document.createElement("button");
   Btn.className = "StartBtn";
-  Btn.textContent = "시작하기";
+  Btn.textContent = "GameStart";
+
+  // Btn.type = "submit";
+
+  Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
+  Btn.style.backgroundSize = "contain";
+  Btn.style.backgroundRepeat = "no-repeat";
+  Btn.style.backgroundPosition = "center";
+  Btn.style.fontFamily = "KenneyBlocks";
 
   //이벤트 리스너 추가------------
   Btn.addEventListener("click", GoSelectChar);
@@ -49,7 +67,14 @@ const StartPageInit = () => {
   _Ranked.className = "RankedId";
   var Btn = document.createElement("button");
   Btn.className = "StartBtn";
-  Btn.textContent = "랭킹 순위";
+  Btn.textContent = "Ranking";
+
+  Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
+  Btn.style.backgroundSize = "contain";
+  Btn.style.backgroundRepeat = "no-repeat";
+  Btn.style.backgroundPosition = "center";
+  Btn.style.fontFamily = "KenneyBlocks";
+
   _Ranked.appendChild(Btn);
 
   _StartBtn.appendChild(_Ranked); //랭킹 버튼 추가;
@@ -60,20 +85,24 @@ const StartPageInit = () => {
   _QuitGame.className = "QuitGameId";
   var Btn = document.createElement("button");
   Btn.className = "StartBtn";
-  Btn.textContent = "종료";
+  Btn.textContent = "Exit";
+
+  Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
+  Btn.style.backgroundSize = "contain";
+  Btn.style.backgroundRepeat = "no-repeat";
+  Btn.style.backgroundPosition = "center";
+  Btn.style.fontFamily = "KenneyBlocks";
+
   _QuitGame.appendChild(Btn);
 
   _StartBtn.appendChild(_QuitGame); //게임종료 버튼 추가;
   //=================================================
-
-  _StartPage.appendChild(_StartBtn);
   StartPageOn();
 };
 export default StartPageInit;
 
 export const StartBtnOn = () => {
   const StartBtnClassList = document.querySelectorAll(".StartBtn");
-
   for (let i = 0; i < StartBtnClassList.length; ++i) {
     StartBtnClassList[i].style.display = "block";
   }

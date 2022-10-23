@@ -9,12 +9,12 @@ var _SlideList;
 
 const CharPageInit = () => {
   //여기서 미리 서버 정보를 가져온다. ---------------------------
-  var _StartBtnList = document.getElementById("StartBtnList");
+  var _AllBtn = document.getElementById("AllBtnList");
   // StartPage가 생성되면 StartPage에 CharPage를 넣는것으로 하자
   _CharSpace = document.createElement("div");
   _CharSpace.className = "CharSpace";
   _CharSpace.style.display = "none";
-  _StartBtnList.appendChild(_CharSpace);
+  _AllBtn.appendChild(_CharSpace);
   //--------------------------------------------------
 
   // ChoiceChar = 캐릭터 템플릿 + Slide 버튼
@@ -79,11 +79,7 @@ const CharPageInit = () => {
 
     var CharContxt = document.createElement("p");
     CharContxt.textContent =
-      "다솜 감사합니다 비나리 우리는 노트북 아련 그루잠 바람꽃\
-     도담도담 그루잠 나래 산들림 이플 별빛 비나리 나래 옅구름 \
-     도서관 예그리나 도담도담 아름드리 안녕 이플 별하 함초롱하다 아련 나래 우리는\
-      바나나 미리내 가온누리 로운 컴퓨터 소록소록 바람꽃 옅구름 책방 감사합니다 별빛 \
-      도서관 아름드리 이플 포도 나래 별빛 이플 옅구름 미리내 아슬라 노트북.";
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu maximus purus. In hac habitasse platea dictumst. Aenean sit amet mauris elit. Aliquam posuere pharetra ipsum, eu ullamcorper arcu tincidunt id. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer sit amet ipsum est. Nulla sodales felis sit amet velit commodo, fringilla fringilla nisi posuere. Aenean tempor cursus augue a blandit. Curabitur tempus ante ex. Praesent ullamcorper finibus erat quis laoreet. Vestibulum volutpat metus quis blandit placerat.";
     CharContxt.style.margin = "10px";
     _CharTemplate.appendChild(CharContxt);
 
