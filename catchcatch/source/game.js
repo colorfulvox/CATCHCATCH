@@ -341,16 +341,6 @@ function create() {
 
   fairys[now_fairy].play("fairy" + (now_fairy + 1) + "_idle", true);
 
-  // mouse down event start
-  this.input.on('pointerdown', function (pointer) {
-
-    if (!control) {
-      magicFire(this);
-    }
-
-  }, this);
-  // mouse down event end
-
   //player end
 
   //map start
@@ -474,7 +464,7 @@ function update(time, delta) {
   // fairy.anims.playAfterRepeat('fairy1_idle');
   //mouse clicked
   if (mouse.isDown && !control) {
-
+    magicFire(this);
   }
   move();
   //player end
