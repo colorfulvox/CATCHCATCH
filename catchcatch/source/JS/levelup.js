@@ -1,4 +1,4 @@
-import inGameUI from "./inGameUI";
+import inGameUI, { updateExp } from "./inGameUI";
 
 export default function levelup() {
   const gameContainer = document.querySelector("#game-container");
@@ -30,7 +30,6 @@ export default function levelup() {
     contents[i].addEventListener("click", () => {
       console.log("특성");
       gameContainer.removeChild(removeContainer);
-      exp = 0;
     });
   }
 }

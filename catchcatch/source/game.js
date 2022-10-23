@@ -1,3 +1,4 @@
+import inGameUI, { updateExp } from "./JS/inGameUI.js";
 import levelup from "./JS/levelup.js";
 
 export const config = {
@@ -390,6 +391,7 @@ function create() {
   });
 
   //enemy end
+  inGameUI();
 }
 
 function update(time, delta) {
@@ -464,9 +466,12 @@ function update(time, delta) {
   if (mouse.isDown && !control) {
     // 게임에서 외부 UI 연관 테스트
     exp++;
+    updateExp();
     if (exp === 3) {
       level++;
+      exp = 0;
       levelup();
+      updateExp();
     }
     //for fire again
     magic = this.physics.add.sprite(
