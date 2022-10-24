@@ -5,9 +5,9 @@ import "./CSS/UI/levelup.css";
 // import initUpgrade from "./JS/upgrade";
 import StartPageInit from "./JS/UI/StartPage.js";
 import CharPageInit from "./JS/UI/CharSpace";
-import initUpgrade from "./JS/upgrade.js";
-import levelup from "./JS/levelup.js";
-import inGameUI from "./JS/inGameUI.js";
+import initUpgrade from "./JS/UI/upgrade.js";
+import levelup from "./JS/UI/levelup.js";
+import inGameUI from "./JS/UI/inGameUI.js";
 
 // localStorage.clear();
 

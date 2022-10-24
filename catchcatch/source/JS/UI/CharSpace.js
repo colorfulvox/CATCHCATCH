@@ -2,6 +2,7 @@ import "../../CSS/UI/CharSpace.css";
 import { StartBtnOn } from "./StartPage";
 import { SaveData } from "../../main.js";
 import { config } from "../GAME/game.js";
+import levelup from "./levelup";
 
 var _CharSpace;
 

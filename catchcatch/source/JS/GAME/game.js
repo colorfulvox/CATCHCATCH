@@ -1,3 +1,6 @@
+import inGameUI, { updateExp } from "../UI/inGameUI.js";
+import levelup from "../UI/levelup.js";
+
 export const config = {
   type: Phaser.AUTO,
   width: 600,
@@ -418,6 +421,8 @@ function create() {
     callback: addAlien,
   });
   //enemy end
+
+  inGameUI();
 }
 
 function update(time, delta) {
@@ -564,6 +569,14 @@ var move = function () {
 // 플레이어 공격
 var magicFire = function (game) {
   // 게임에서 외부 UI 연관 테스트
+  exp++;
+  updateExp();
+  if (exp === 3) {
+    level++;
+    exp = 0;
+    levelup();
+    updateExp();
+  }
 
   //for fire again
   magic = game.physics.add.sprite(

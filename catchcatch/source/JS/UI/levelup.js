@@ -1,5 +1,3 @@
-import inGameUI, { updateExp } from "./inGameUI";
-
 export default function levelup() {
   const gameContainer = document.querySelector("#game-container");
   // const levelupContainer = document.createElement("div");

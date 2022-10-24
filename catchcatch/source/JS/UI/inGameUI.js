@@ -1,4 +1,4 @@
-import "../CSS/inGameUI.css";
+import "../../CSS/UI/inGameUI.css";
 
 export default function inGameUI() {
   const gameContainer = document.querySelector("#game-container");
