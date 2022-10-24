@@ -57,8 +57,16 @@ let controls;
 
 // 몬스터 변수 선언
 var aliens;
+var alien;
 var target;
 var monster;
+var player;
+
+var mon1_delay = 0;
+var mon1_x;
+var mon1_y;
+
+var alien_count = 0;
 
 // 몬스터 이미지
 
@@ -393,30 +401,18 @@ function create() {
 
   //enemy start
 
-  // 스프라이트셋 애니메이션 호출
-  this.anims.create({
-    key: "swarm",
-    frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 1 }),
-    frameRate: 2,
-    repeat: -1,
-  });
-
-  // 몬스터 그룹 생성, 속도, 크기 설정
-  aliens = this.physics.add.group({
-    key: "alien",
-    velocityX: 10,
-    velocityY: 10,
-  });
+  aliens = this.add.group()
 
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
-  this.physics.add.overlap(player, aliens, hitplayer, null, this);
+  this.physics.add.overlap(player, alien, hitplayer, null, this);
 
-  // 몬스터 리스폰  -> 추후 몬스터가 죽었을 때 리스폰 역할로 사용
-  this.time.addEvent({
-    delay: 100,
-    loop: true,
-    callback: addAlien,
-  });
+
+  this.anims.create({
+      key: 'swarm',
+      frames: this.anims.generateFrameNumbers('alien', { start: 0, end: 1 }),
+      frameRate: 2,
+      repeat: -1
+})
   //enemy end
 }
 
@@ -507,14 +503,21 @@ function update(time, delta) {
 
   //enemy start
 
-  // 만약 몬스터가 화면 일정범위 벗어나면 죽이는 코드 -> 홀에 들어갈때 없어지게 하는 용도로 추후 사용
-  // Phaser.Actions.IncY(aliens.getChildren(), 1);
-  // aliens.children.iterate(function (alien) {
-  //     if (alien.y > 600) {
-  //         // 리소스 때문에 임의로 죽임
-  //         aliens.killAndHide(alien);
-  //     }
-  // });
+  if (alien_count !=0){
+    this.physics.moveToObject(alien, player, 100);}
+    mon1_delay ++;
+
+  if (mon1_delay > 60){
+      mon1_x = Phaser.Math.Between(0, 16000);
+      mon1_y = Phaser.Math.Between(4000, 8000);
+      alien = this.physics.add.sprite(mon1_x,mon1_y,'alien')
+      alien_count += 1
+      mon1_delay = 0
+      aliens.add(alien)
+      anime(alien)
+      }
+
+  this.physics.add.overlap(player, alien, hitplayer, null, this);
 
   //enemy end
 }
@@ -618,30 +621,17 @@ function hitplayer(player, alien) {
 }
 
 function attack(magic, alien) {
-  // 일단 피해 준 몬스터는 사라지는데 추후 코드로 몇초간 안보이게 또는 유저 잠시 무적으로 수정해야함
   alien.destroy();
   magic.destroy();
+  alien_count -= 1;
   // 피해 1 줌
   // life -= 1;
 }
 
-// 몬스터 소환 및 색 변경
-function activateAlien(alien) {
+function anime(alien){
   alien
-    .setActive(true)
-    .setVisible(true)
-    .setTint(Phaser.Display.Color.RandomRGB().color)
-    .play("swarm");
-}
-
-// 맵 밖 랜덤 좌표에서 생성
-function addAlien() {
-  const x = Phaser.Math.Between(0, 16000);
-  const y = Phaser.Math.Between(4000, 8000);
-
-  // Find first inactive sprite in group or add new sprite, and set position
-  const alien = aliens.get(x, y);
-  activateAlien(alien);
+  .setTint(Phaser.Display.Color.RandomRGB().color)
+  .play('swarm');
 }
 
 //enemy end
