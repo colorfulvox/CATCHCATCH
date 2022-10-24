@@ -1,7 +1,7 @@
-import "../CSS/CharSpace.css";
+import "../../CSS/UI/CharSpace.css";
 import { StartBtnOn } from "./StartPage";
-import { SaveData } from "../main.js";
-import { config } from "../game.js";
+import { SaveData } from "../../main.js";
+import { config } from "../GAME/game.js";
 
 var _CharSpace;
 

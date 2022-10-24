@@ -8,16 +8,15 @@ body {
 #app {
   width: 100%;
   height: 100%;
-
 }
 
 @font-face {
   font-family: "neodgm";
-  src: url("../../public/images/neodgm.woff");
+  src: url("../../../public/fonts/neodgm.woff");
   font-weight: normal;
 }
 @font-face {
   font-family: "KenneyBlocks";
-  src: url("../../public/KenneyMiniSquareMono.ttf");
+  src: url("../../../public/fonts/KenneyMiniSquareMono.ttf");
   font-weight: normal;
 }

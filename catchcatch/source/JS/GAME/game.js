@@ -65,65 +65,81 @@ var monster;
 
 function preload() {
   //map start
-  this.load.image("tiles", "images/tiles.png");
-  this.load.image("tiles2", "images/tiles2.png");
-  this.load.tilemapTiledJSON("map", "images/resources.tmj");
-  this.load.image("j1", "images/j1.png");
-  this.load.image("j2", "images/j2.png");
-  this.load.image("j3", "images/j3.png");
+  this.load.image("tiles", "images/map/tiles.png");
+  this.load.image("tiles2", "images/map/tiles2.png");
+  this.load.tilemapTiledJSON("map", "images/map/resources.tmj");
+  this.load.image("j1", "images/mine/j1.png");
+  this.load.image("j2", "images/mine/j2.png");
+  this.load.image("j3", "images/mine/j3.png");
   //map end
 
   //player start
   // 플레이어 스프라이트
-  this.load.spritesheet("dude", "images/cat1.png", {
+  this.load.spritesheet("dude", "images/cat/cat1.png", {
     frameWidth: 96,
     frameHeight: 100,
   });
 
   // 공격 스프라이트
-  this.load.spritesheet("magic1", "images/attack/16_sunburn_spritesheet.png", {
-    frameWidth: 100,
-    frameHeight: 100,
-    endFrame: 61,
-  });
-  this.load.spritesheet("magic2", "images/attack/12_nebula_spritesheet.png", {
-    frameWidth: 100,
-    frameHeight: 100,
-    endFrame: 61,
-  });
-  this.load.spritesheet("magic3", "images/attack/18_midnight_spritesheet.png", {
-    frameWidth: 100,
-    frameHeight: 100,
-    endFrame: 61,
-  });
-  this.load.spritesheet("magic4", "images/attack/2_magic8_spritesheet.png", {
-    frameWidth: 100,
-    frameHeight: 100,
-    endFrame: 61,
-  });
+  this.load.spritesheet(
+    "magic1",
+    "images/attack/weapon/16_sunburn_spritesheet.png",
+    {
+      frameWidth: 100,
+      frameHeight: 100,
+      endFrame: 61,
+    }
+  );
+  this.load.spritesheet(
+    "magic2",
+    "images/attack/weapon/12_nebula_spritesheet.png",
+    {
+      frameWidth: 100,
+      frameHeight: 100,
+      endFrame: 61,
+    }
+  );
+  this.load.spritesheet(
+    "magic3",
+    "images/attack/weapon/18_midnight_spritesheet.png",
+    {
+      frameWidth: 100,
+      frameHeight: 100,
+      endFrame: 61,
+    }
+  );
+  this.load.spritesheet(
+    "magic4",
+    "images/attack/weapon/2_magic8_spritesheet.png",
+    {
+      frameWidth: 100,
+      frameHeight: 100,
+      endFrame: 61,
+    }
+  );
   this.load.spritesheet(
     "magic5",
-    "images/attack/20_magicbubbles_spritesheet.png",
+    "images/attack/weapon/20_magicbubbles_spritesheet.png",
     { frameWidth: 100, frameHeight: 100, endFrame: 61 }
   );
   // 요정 스프라이트
-  this.load.spritesheet("fairy1", "images/fairy1.png", {
+  this.load.spritesheet("fairy1", "images/fairy/fairy1.png", {
     frameWidth: 150,
     frameHeight: 142,
   });
-  this.load.spritesheet("fairy2", "images/fairy2.png", {
+  this.load.spritesheet("fairy2", "images/fairy/fairy2.png", {
     frameWidth: 230,
     frameHeight: 210,
   });
-  this.load.spritesheet("fairy3", "images/fairy3.png", {
+  this.load.spritesheet("fairy3", "images/fairy/fairy3.png", {
     frameWidth: 134,
     frameHeight: 158,
   });
-  this.load.spritesheet("fairy4", "images/fairy4.png", {
+  this.load.spritesheet("fairy4", "images/fairy/fairy4.png", {
     frameWidth: 136,
     frameHeight: 170,
   });
-  this.load.spritesheet("fairy5", "images/fairy5.png", {
+  this.load.spritesheet("fairy5", "images/fairy/fairy5.png", {
     frameWidth: 160,
     frameHeight: 190,
   });
@@ -178,10 +194,19 @@ function create() {
   camera = this.cameras.main;
   input = this.input;
   mouse = input.mousePointer;
-  this.input.on('pointermove', function (pointer) {
-    let cursor = pointer;
-    let angle = Phaser.Math.Angle.Between(player.x, player.y, cursor.x + this.cameras.main.scrollX, cursor.y + this.cameras.main.scrollY)
-}, this);
+  this.input.on(
+    "pointermove",
+    function (pointer) {
+      let cursor = pointer;
+      let angle = Phaser.Math.Angle.Between(
+        player.x,
+        player.y,
+        cursor.x + this.cameras.main.scrollX,
+        cursor.y + this.cameras.main.scrollY
+      );
+    },
+    this
+  );
 
   // 플레이어, 요정 로딩
   player = this.physics.add.sprite(100, 450, "dude");
@@ -384,7 +409,7 @@ function create() {
 
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
   this.physics.add.overlap(player, aliens, hitplayer, null, this);
-  
+
   // 몬스터 리스폰  -> 추후 몬스터가 죽었을 때 리스폰 역할로 사용
   this.time.addEvent({
     delay: 100,
@@ -495,7 +520,7 @@ function update(time, delta) {
 
 //player start
 
-  // 플레이어 이동
+// 플레이어 이동
 var move = function () {
   fairys[now_fairy].x = player.x - 20;
   fairys[now_fairy].y = player.y - 50;
@@ -533,48 +558,52 @@ var move = function () {
       player.anims.play("turn", true);
     }
   }
-
 };
 
-  // 플레이어 공격
-var magicFire = function(game){
-      // 게임에서 외부 UI 연관 테스트
+// 플레이어 공격
+var magicFire = function (game) {
+  // 게임에서 외부 UI 연관 테스트
 
-    //for fire again
-    magic = game.physics.add.sprite(
-      fairys[now_fairy].x,
-      fairys[now_fairy].y,
-      "magic" + (now_fairy + 1)
-    );
-    // console.log(magic);
-    // console.log(magic.body);
-    game.physics.add.overlap(magic, aliens, attack, null, this);
-    // magic.body.setCircle(45);
-  
-    /*충돌관련 하드코딩 된 부분 나중에 수정 */
-    magic.body.width = 50;
-    magic.body.height = 50;
-    magic.body.offset.x = 25;
-    magic.body.offset.y = 25;
-    normalAttackTimer = 0;
-    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_attack", true);
+  //for fire again
+  magic = game.physics.add.sprite(
+    fairys[now_fairy].x,
+    fairys[now_fairy].y,
+    "magic" + (now_fairy + 1)
+  );
+  // console.log(magic);
+  // console.log(magic.body);
+  game.physics.add.overlap(magic, aliens, attack, null, this);
+  // magic.body.setCircle(45);
 
-    let angle = Phaser.Math.Angle.Between(
-      fairys[now_fairy].x,
-      fairys[now_fairy].y,
-      input.x + camera.scrollX,
-      input.y + camera.scrollY
-    );
-  
-    // 각도 계산 공식
-    angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
-    magic.rotation += (angle - 180) / 60 - 1.5;
-    magic.anims.play("magic" + (now_fairy + 1), true);
+  /*충돌관련 하드코딩 된 부분 나중에 수정 */
+  magic.body.width = 50;
+  magic.body.height = 50;
+  magic.body.offset.x = 25;
+  magic.body.offset.y = 25;
+  normalAttackTimer = 0;
+  fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_attack", true);
 
-    //move to mouse position
-    game.physics.moveTo(magic, input.x + camera.scrollX, input.y + camera.scrollY, 500);
-    control = true;
-}
+  let angle = Phaser.Math.Angle.Between(
+    fairys[now_fairy].x,
+    fairys[now_fairy].y,
+    input.x + camera.scrollX,
+    input.y + camera.scrollY
+  );
+
+  // 각도 계산 공식
+  angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
+  magic.rotation += (angle - 180) / 60 - 1.5;
+  magic.anims.play("magic" + (now_fairy + 1), true);
+
+  //move to mouse position
+  game.physics.moveTo(
+    magic,
+    input.x + camera.scrollX,
+    input.y + camera.scrollY,
+    500
+  );
+  control = true;
+};
 //player end
 
 //enemy start

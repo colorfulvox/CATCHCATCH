@@ -1,4 +1,4 @@
-import "../CSS/startPage.css";
+import "../../CSS/UI/StartPage.css";
 import "./CharSpace.js";
 import { CharSpaceOn } from "./CharSpace.js";
 
@@ -9,7 +9,7 @@ _StartPage.style.display = "none";
 _app.appendChild(_StartPage);
 
 const StartPageInit = () => {
-  _app.style.background = "url('../Background.gif')";
+  _app.style.background = "url('images/ui/Background.gif')";
   _app.style.backgroundPosition = "center";
   _app.style.backgroundRepeat = "no-repeat";
   _app.style.backgroundSize = "cover";
@@ -18,7 +18,7 @@ const StartPageInit = () => {
   _Logo.className = "Logo";
 
   var LogoImg = document.createElement("img");
-  LogoImg.src = "images/Logo.png";
+  LogoImg.src = "images/ui/Logo.png";
 
   LogoImg.width = 1000;
   LogoImg.height = 300;
@@ -47,7 +47,7 @@ const StartPageInit = () => {
 
   // Btn.type = "submit";
 
-  Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
+  // Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
   Btn.style.backgroundSize = "contain";
   Btn.style.backgroundRepeat = "no-repeat";
   Btn.style.backgroundPosition = "center";
@@ -69,7 +69,7 @@ const StartPageInit = () => {
   Btn.className = "StartBtn";
   Btn.textContent = "Ranking";
 
-  Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
+  // Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
   Btn.style.backgroundSize = "contain";
   Btn.style.backgroundRepeat = "no-repeat";
   Btn.style.backgroundPosition = "center";
@@ -87,7 +87,7 @@ const StartPageInit = () => {
   Btn.className = "StartBtn";
   Btn.textContent = "Exit";
 
-  Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
+  // Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
   Btn.style.backgroundSize = "contain";
   Btn.style.backgroundRepeat = "no-repeat";
   Btn.style.backgroundPosition = "center";
