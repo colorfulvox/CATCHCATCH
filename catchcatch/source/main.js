@@ -1,9 +1,9 @@
-import "./CSS/upgrade.css";
-import "./CSS/index.css";
-import "./CSS/style.css";
+import "./CSS/UI/upgrade.css";
+import "./CSS/UI/index.css";
+import "./CSS/GAME/style.css";
 // import initUpgrade from "./JS/upgrade";
-import StartPageInit from "./JS/StartPage.js";
-import CharPageInit from "./JS/CharSpace";
+import StartPageInit from "./JS/UI/StartPage.js";
+import CharPageInit from "./JS/UI/CharSpace";
 
 // localStorage.clear();
 
