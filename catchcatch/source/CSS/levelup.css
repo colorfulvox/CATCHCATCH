@@ -1,10 +1,16 @@
 .levelupContainer {
-  display: none;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 150vmin;
   height: 80vmin;
   border: 6px solid black;
+  background-color: white;
   justify-content: space-evenly;
+  transform: translateX(-50%) translateY(-50%);
   align-items: center;
+  z-index: 100;
 }
 
 .levelupContent {
