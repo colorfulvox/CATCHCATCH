@@ -133,6 +133,7 @@ export const CharSpaceOff = () => {
   _CharSpace.style.display = "none";
 };
 
+// 돌아가기
 function BackStart() {
   CharSpaceOff();
   StartBtnOn();
