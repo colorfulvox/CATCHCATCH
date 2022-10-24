@@ -29,7 +29,8 @@ global.ChoiceLevel = 0;
 global.exp = 0;
 global.level = 0;
 
-global.exp = 0;
+global.pause = false;
+global.isUpgrade = false;
 function Init() {
   StartPageInit(); //스타트 페이지 init
   CharPageInit(); // 캐릭터 페이지 init

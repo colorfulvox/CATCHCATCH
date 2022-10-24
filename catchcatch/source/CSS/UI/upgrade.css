@@ -11,11 +11,15 @@ body {
 
 .upgradeContainer {
   display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
   width: 150vmin;
   height: 80vmin;
   border: 6px solid black;
   justify-content: space-between;
-  display: none;
+  z-index: 101;
 }
 
 .upgradeType {
@@ -34,6 +38,13 @@ body {
   justify-content: center;
   align-items: center;
   border: 6px solid yellow;
+}
+.playerType {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40vmin;
+  border: 6px solid orange;
 }
 .weaponType {
   display: flex;

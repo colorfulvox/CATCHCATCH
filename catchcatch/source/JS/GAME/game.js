@@ -1,5 +1,6 @@
 import inGameUI, { updateExp } from "../UI/inGameUI.js";
 import levelup from "../UI/levelup.js";
+import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
 export const config = {
   type: Phaser.AUTO,
@@ -13,6 +14,7 @@ export const config = {
     create: create,
     update: update,
   },
+
   physics: {
     default: "arcade",
     arcade: {
@@ -21,6 +23,22 @@ export const config = {
     },
   },
 };
+
+var SceneB = new Phaser.Class({
+  Extends: Phaser.Scene,
+
+  initialize: function SceneB() {
+    Phaser.Scene.call(this, { key: "sceneB" });
+  },
+
+  preload: function () {
+    cursors = this.input.keyboard.addKeys({
+      menu: Phaser.Input.Keyboard.KeyCodes.SHIFT,
+    });
+  },
+
+  create: function () {},
+});
 
 //player start
 var player;
@@ -189,6 +207,10 @@ function create() {
     slot3: Phaser.Input.Keyboard.KeyCodes.THREE,
     slot4: Phaser.Input.Keyboard.KeyCodes.FOUR,
     slot5: Phaser.Input.Keyboard.KeyCodes.FIVE,
+  });
+  global.thiss = this.scene;
+  this.input.keyboard.on("keydown-" + "SHIFT", function (event) {
+    initUpgrade();
   });
   // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true);
 
@@ -426,6 +448,7 @@ function create() {
 }
 
 function update(time, delta) {
+  //menu
   //player start
   if (
     cursors.slot1.isDown &&
@@ -522,9 +545,9 @@ function update(time, delta) {
   // });
 
   //enemy end
-}
 
-//player start
+  //player start
+}
 
 // 플레이어 이동
 var move = function () {
@@ -658,3 +681,5 @@ function addAlien() {
 }
 
 //enemy end
+
+function toggleMenu() {}
