@@ -1,0 +1,12 @@
+[
+    {
+        "sprite" : "",
+        "maxhealth" : 100,
+        "health": 100,
+        "dmgmul": 1.0,
+        "speed": 160,
+        "ablity": "",
+        "heal": 0,
+        "coin" : 0
+    }
+]

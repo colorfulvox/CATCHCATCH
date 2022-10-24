@@ -20,7 +20,12 @@ export const config = {
 };
 
 //player start
+// 고양이 json
+var cats;
+// 플레이어 객체
 var player;
+// 캐릭터 선택 시 변경될 변수
+var cats_number = 0;
 // 요정
 var now_fairy = 0;
 var fairys = [, , , , ,];
@@ -84,7 +89,7 @@ function preload() {
 
   //player start
   // 플레이어 스프라이트
-  this.load.spritesheet("dude", "images/cat/cat1.png", {
+  this.load.spritesheet("cat1", "images/cat/cat1.png", {
     frameWidth: 96,
     frameHeight: 100,
   });
@@ -200,6 +205,9 @@ function create() {
   //map end
 
   //player start
+  cats = require('./jsons/cats.json');
+  console.log(cats);
+  player = cats[cats_number];
   camera = this.cameras.main;
   input = this.input;
   mouse = input.mousePointer;
@@ -218,10 +226,10 @@ function create() {
   );
 
   // 플레이어, 요정 로딩
-  player = this.physics.add.sprite(100, 450, "dude");
-  player.setBounce(0.2);
-  player.setCollideWorldBounds(true);
-  player.setScale(0.7);
+  player['sprite'] = this.physics.add.sprite(100, 450, "cat1");
+  player['sprite'].setBounce(0.2);
+  player['sprite'].setCollideWorldBounds(true);
+  player['sprite'].setScale(0.7);
   fairys[0] = this.add.sprite(-100, -100, "fairy1");
   fairys[1] = this.add.sprite(-100, -100, "fairy2");
   fairys[2] = this.add.sprite(-100, -100, "fairy3");
@@ -306,21 +314,23 @@ function create() {
 
   this.anims.create({
     key: "turn",
-    frames: this.anims.generateFrameNumbers("dude", { start: 0, end: 0 }),
+    frames: this.anims.generateFrameNumbers("cat1", { start: 0, end: 0 }),
     frameRate: 10,
   });
   this.anims.create({
     key: "left",
-    frames: this.anims.generateFrameNumbers("dude", { start: 1, end: 7 }),
+    frames: this.anims.generateFrameNumbers("cat1", { start: 1, end: 7 }),
     frameRate: 10,
     repeat: -1,
   });
   this.anims.create({
     key: "right",
-    frames: this.anims.generateFrameNumbers("dude", { start: 1, end: 7 }),
+    frames: this.anims.generateFrameNumbers("cat1", { start: 1, end: 7 }),
     frameRate: 10,
     repeat: -1,
   });
+
+
   // 공격 애니메이션
   this.anims.create({
     key: "magic1",
@@ -387,16 +397,16 @@ function create() {
     j1 = this.physics.add.sprite(x, y, "j1");
     j1.body.immovable = true;
 
-    this.physics.add.collider(player, j1);
+    this.physics.add.collider(player['sprite'], j1);
   }
 
   console.log(j1);
 
   // this.physics.add.overlap(player, portalLayer);
 
-  player.setPosition(8000, 8000); //width, height
-  this.physics.add.collider(player, stage3Layer);
-  camera.startFollow(player, false);
+  player['sprite'].setPosition(8000, 8000); //width, height
+  this.physics.add.collider(player['sprite'], stage3Layer);
+  camera.startFollow(player['sprite'], false);
   //map end
 
   //enemy start
@@ -404,8 +414,7 @@ function create() {
   aliens = this.add.group()
 
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
-  this.physics.add.overlap(player, alien, hitplayer, null, this);
-
+  this.physics.add.overlap(player['sprite'], alien, hitplayer, null, this);
 
   this.anims.create({
       key: 'swarm',
@@ -504,7 +513,7 @@ function update(time, delta) {
   //enemy start
 
   if (alien_count !=0){
-    this.physics.moveToObject(alien, player, 100);}
+    this.physics.moveToObject(alien, player['sprite'], 100);}
     mon1_delay ++;
 
   if (mon1_delay > 60){
@@ -517,7 +526,7 @@ function update(time, delta) {
       anime(alien)
       }
 
-  this.physics.add.overlap(player, alien, hitplayer, null, this);
+  this.physics.add.overlap(player['sprite'], alien, hitplayer, null, this);
 
   //enemy end
 }
@@ -526,40 +535,40 @@ function update(time, delta) {
 
 // 플레이어 이동
 var move = function () {
-  fairys[now_fairy].x = player.x - 20;
-  fairys[now_fairy].y = player.y - 50;
+  fairys[now_fairy].x = player['sprite'].x - 20;
+  fairys[now_fairy].y = player['sprite'].y - 50;
   if (cursors.left.isDown) {
-    player.setVelocityX(-160);
-    player.anims.play("left", true);
-    player.flipX = true;
+    player['sprite'].setVelocityX(-160);
+    player['sprite'].anims.play("left", true);
+    player['sprite'].flipX = true;
   } else if (cursors.right.isDown) {
-    player.setVelocityX(160);
-    player.flipX = false;
-    player.anims.play("right", true);
+    player['sprite'].setVelocityX(160);
+    player['sprite'].flipX = false;
+    player['sprite'].anims.play("right", true);
   } else {
-    player.setVelocityX(0);
+    player['sprite'].setVelocityX(0);
   }
 
   if (cursors.up.isDown) {
-    player.setVelocityY(-160);
+    player['sprite'].setVelocityY(-160);
 
     if (cursors.left.isDown) {
-      player.anims.play("left", true);
+      player['sprite'].anims.play("left", true);
     } else {
-      player.anims.play("right", true);
+      player['sprite'].anims.play("right", true);
     }
   } else if (cursors.down.isDown) {
-    player.setVelocityY(+160);
+    player['sprite'].setVelocityY(+160);
 
     if (cursors.left.isDown) {
-      player.anims.play("left", true);
+      player['sprite'].anims.play("left", true);
     } else {
-      player.anims.play("right", true);
+      player['sprite'].anims.play("right", true);
     }
   } else {
-    player.setVelocityY(0);
+    player['sprite'].setVelocityY(0);
     if (!cursors.left.isDown && !cursors.right.isDown) {
-      player.anims.play("turn", true);
+      player['sprite'].anims.play("turn", true);
     }
   }
 };
@@ -612,10 +621,14 @@ var magicFire = function (game) {
 
 //enemy start
 
-function hitplayer(player, alien) {
+function hitplayer(p, alien) {
   // 일단 피해 준 몬스터는 사라지는데 추후 코드로 몇초간 안보이게 또는 유저 잠시 무적으로 수정해야함
   alien.destroy();
-
+  player['health']-=50;
+  console.log(player['health']);
+  if (player['health'] <= 0) {
+    console.log('Game Over!');
+  }
   // 피해 1 줌
   // life -= 1;
 }
