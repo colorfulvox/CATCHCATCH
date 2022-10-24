@@ -489,7 +489,7 @@ function update(time, delta) {
   }
   // fairy.anims.playAfterRepeat('fairy1_idle');
   //mouse clicked
-  if (mouse.isDown && !control) {
+  if (mouse.leftButtonDown() && !control) {
     magicFire(this);
   }
   move();
