@@ -21,6 +21,7 @@ global.LocalData = JSON.parse(localStorage.getItem("data"));
 global.ChoiceCat = -1;
 global.ChoiceLevel = 0;
 
+global.exp = 0;
 function Init() {
   StartPageInit(); //스타트 페이지 init
   CharPageInit(); // 캐릭터 페이지 init

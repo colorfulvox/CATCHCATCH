@@ -15,6 +15,7 @@ body {
   height: 80vmin;
   border: 6px solid black;
   justify-content: space-between;
+  display: none;
 }
 
 .upgradeType {
@@ -29,8 +30,8 @@ body {
 .upgradeContent {
   display: flex;
   width: 130vmin;
-  flex-direction: column;
-  justify-content: space-evenly;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   border: 6px solid yellow;
 }
@@ -52,14 +53,46 @@ body {
 
 .towerIcons {
   display: flex;
-  width: 100vmin;
+  width: 80vmin;
+  height: 15%;
   justify-content: space-evenly;
+  align-items: center;
   border: 6px solid purple;
 }
 
 .weaponIcons {
   display: flex;
   width: 100vmin;
+  height: 15%;
   justify-content: space-evenly;
+  align-items: center;
   border: 6px solid purple;
+}
+
+.tower1234 {
+  display: flex;
+  width: 20vmin;
+  height: 80%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tower {
+  border: 6px solid salmon;
+}
+
+.towerContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 70%;
+}
+
+.weaponContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 70%;
 }
