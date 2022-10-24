@@ -14,6 +14,7 @@ export const config = {
     default: "arcade",
     arcade: {
       debug: false,
+      fixedStep: false,
     },
   },
 };
@@ -387,7 +388,7 @@ function create() {
 
   player.setPosition(8000, 8000); //width, height
   this.physics.add.collider(player, stage3Layer);
-  camera.startFollow(player, true);
+  camera.startFollow(player, false);
   //map end
 
   //enemy start
