@@ -8,7 +8,7 @@
   width: 1200px;
   height: 700px;
   position: relative;
-  /* border: 2px solid green; */
+  border: 2px solid red;
 }
 
 .StartPage .AllBtnList {
@@ -20,7 +20,7 @@
 
   width: 1000px;
   height: 300px;
-  /* border: 2px solid red; */
+  border: 2px solid red;
 }
 .StartPage .StartBtnList {
   width: 100%;
@@ -31,7 +31,7 @@
   align-items: center;
 }
 
-.StartPage .Logo {
+/* .StartPage .Logo {
 }
 
 .StartPage .GoSelectCharId {
@@ -41,15 +41,22 @@
 }
 
 .StartPage .RankedId {
-}
+} */
 
 .StartBtn {
-  background: url("../../../public/images/ui/button_1.png") center no-repeat;
+  background: url("../../../public/images/ui/btn_idle.png") center no-repeat;
+  background-size: contain;
   font-size: x-large;
+  font-family: "KenneyBlocks";
   width: 260px;
   height: 70px;
   border: none;
-  /* color: white; */
+  color: white;
+}
+
+.StartBtn:active {
+  background: url("../../../public/images/ui/btn_click.png") center no-repeat;
+  background-size: contain;
 }
 
 /* 여기서부턴 캐릭터 선택 */
