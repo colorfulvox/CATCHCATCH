@@ -5,7 +5,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 100%, 100%;
-  border: 2px solid gold;
+  /* border: 2px solid gold; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +40,7 @@
   height: 50px;
   right: 5px;
   top: 5px;
-  border: 2px solid wheat;
+  /* border: 2px solid wheat; */
 }
 .CanCount {
   color: yellow;
@@ -74,7 +74,7 @@
 .CharSpace {
   width: 300px;
   height: 70%;
-  border: 2px solid cyan;
+  /* border: 2px solid cyan; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,13 +88,13 @@
   color: white;
   width: 150px;
   height: 30px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
 }
 
 .ChoiceCharBox {
   width: 300px;
   height: 180px;
-  border: 2px solid red;
+  /* border: 2px solid red; */
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -135,7 +135,7 @@
 .Slide {
   width: 190px;
   height: 160px;
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   overflow: hidden;
   position: relative;
 }
@@ -147,7 +147,7 @@
   left: 0;
   top: 0;
   transition: left 0.5s ease-out;
-  border: 2px solid sandybrown;
+  /* border: 2px solid sandybrown; */
 }
 
 .CharTemp {
@@ -176,7 +176,7 @@
 .OtherBtn {
   width: 260px;
   height: 30%;
-  border: 2px solid greenyellow;
+  /* border: 2px solid greenyellow; */
   display: flex;
   align-items: center;
   flex-direction: column;
