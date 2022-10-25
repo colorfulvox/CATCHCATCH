@@ -34,25 +34,25 @@ var cats_number = 0;
 var now_fairy = 0;
 var fairys = [, , , , ,];
 var fairy;
-
+global.thisScene = "";
 // 공격 및 공격 딜레이 관련
-var control = false;
-var normalAttackTimer = 0;
+global.control = false;
+global.normalAttackTimer = 0;
 var normalAttackAS = 20;
 var magic;
-var magics = [];
+global.magics = "";
 export var cursors;
 var gameOver = false;
 var scoreText;
 // 마우스 포인터 관련
-var input;
+export var input;
 var mouse;
 //player end
 
 //map start
 var map;
 export var mapSize = 16000;
-var camera;
+export var camera;
 var backgroundLayer;
 var portalLayer;
 var wallLayer;
@@ -66,7 +66,7 @@ let controls;
 //enemy start
 
 // 몬스터 변수 선언
-var aliens;
+export var aliens;
 var alien;
 var target;
 var player;
@@ -112,11 +112,10 @@ function preload() {
   );
   this.load.spritesheet(
     "magic2",
-    "images/attack/weapon/12_nebula_spritesheet.png",
+    "images/attack/weapon/7_firespin_spritesheet.png",
     {
       frameWidth: 100,
       frameHeight: 100,
-      endFrame: 61,
     }
   );
   this.load.spritesheet(
@@ -139,7 +138,12 @@ function preload() {
   );
   this.load.spritesheet(
     "magic5",
-    "images/attack/weapon/20_magicbubbles_spritesheet.png",
+    "images/attack/weapon/8_protectioncircle_spritesheet.png",
+    { frameWidth: 100, frameHeight: 100, endFrame: 61 }
+  );
+  this.load.spritesheet(
+    "magic5_1",
+    "images/attack/weapon/13_vortex_spritesheet.png",
     { frameWidth: 100, frameHeight: 100, endFrame: 61 }
   );
   // 요정 스프라이트
@@ -175,7 +179,7 @@ function preload() {
 }
 
 function create() {
-
+  thisScene = this;
   //map start
   this.cameras.main.setBounds(0, 0, mapSize, mapSize);
   this.physics.world.setBounds(0, 0, mapSize, mapSize);
@@ -206,6 +210,7 @@ function create() {
     slot3: Phaser.Input.Keyboard.KeyCodes.THREE,
     slot4: Phaser.Input.Keyboard.KeyCodes.FOUR,
     slot5: Phaser.Input.Keyboard.KeyCodes.FIVE,
+    skill: Phaser.Input.Keyboard.KeyCodes.SPACE
   });
   // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true);
 
@@ -237,11 +242,12 @@ function create() {
   );
 
   // 플레이어, 요정 로딩
-  fairys[0] = new Fairy(this,100, 10, 1, 360, 60, 10, 100, 1, player);
-  fairys[1] = new Fairy(this,100, 10, 1, 300, 70, 10, 20, 2, player);
-  fairys[2] = new Fairy(this,100, 10, 1, 240, 80, 10, 300, 3, player);
-  fairys[3] = new Fairy(this,100, 10, 1, 180, 90, 10, 400, 4, player);
-  fairys[4] = new Fairy(this,100, 10, 1, 120, 100, 10, 500, 5, player);
+  fairys[0] = new Fairy(this, 100, 4, 1, 1, 60, 10, 500, 1, player);
+  fairys[0].initFairy1(2, 2);
+  fairys[1] = new Fairy(this,100, 10, 1, 1, 70, 10, 160, 2, player);
+  fairys[2] = new Fairy(this,100, 0, 1, 3, 80, 10, 300, 3, player);
+  fairys[3] = new Fairy(this,100, 10, 1, 4, 90, 10, 400, 4, player);
+  fairys[4] = new Fairy(this, 100, 10, 1, 5, 100, 10, 500, 5, player);
   player.changeFairy(fairys[0]);
   normalAttackAS = fairys[0].as;
   // animation
@@ -339,7 +345,7 @@ function create() {
     key: "magic1",
     frames: this.anims.generateFrameNumbers("magic1", {
       start: 0,
-      end: 30,
+      end: 60,
       first: 0,
     }),
     frameRate: 200,
@@ -349,7 +355,7 @@ function create() {
     key: "magic2",
     frames: this.anims.generateFrameNumbers("magic2", {
       start: 0,
-      end: 30,
+      end: 60,
       first: 0,
     }),
     frameRate: 200,
@@ -359,7 +365,7 @@ function create() {
     key: "magic3",
     frames: this.anims.generateFrameNumbers("magic3", {
       start: 0,
-      end: 30,
+      end: 60,
       first: 0,
     }),
     frameRate: 200,
@@ -369,7 +375,7 @@ function create() {
     key: "magic4",
     frames: this.anims.generateFrameNumbers("magic4", {
       start: 0,
-      end: 30,
+      end: 60,
       first: 0,
     }),
     frameRate: 200,
@@ -379,13 +385,22 @@ function create() {
     key: "magic5",
     frames: this.anims.generateFrameNumbers("magic5", {
       start: 0,
-      end: 30,
+      end: 60,
       first: 0,
     }),
     frameRate: 200,
     repeat: -1,
   });
-
+  this.anims.create({
+    key: "magic5_1",
+    frames: this.anims.generateFrameNumbers("magic5_1", {
+      start: 0,
+      end: 60,
+      first: 0,
+    }),
+    frameRate: 200,
+    repeat: -1,
+  });
   fairys[now_fairy].play("fairy" + (now_fairy + 1) + "_idle", true);
 
   //player end
@@ -415,10 +430,10 @@ function create() {
   //enemy start
 
   aliens = this.physics.add.group();
-
+  magics = this.physics.add.group();
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
-  this.physics.add.overlap(player, aliens, player.hitPlayer);
-
+  this.physics.add.collider(player, aliens, player.hitPlayer);
+  thisScene.physics.add.overlap(magics, aliens, attack);
     this.anims.create({
         key: 'swarm',
         frames: this.anims.generateFrameNumbers('alien', { start: 0, end: 1 }),
@@ -436,30 +451,36 @@ function update(time, delta) {
   //player start
   changeSlot();
 
-  if (normalAttackTimer == normalAttackAS) {
-    normalAttackTimer = 0;
+  if (normalAttackTimer > normalAttackAS) {
     control = false;
   } else {
     normalAttackTimer++;
   }
-  // fairy.anims.playAfterRepeat('fairy1_idle');
-  //mouse clicked
+    //mouse clicked
   if (mouse.leftButtonDown() && !control) {
-    magicFire(this);
+    magic = new Magic(this, fairys[now_fairy]);
+    this.physics.add.overlap(magic, aliens, fairys[now_fairy].attack, null, this);
+    fairys[now_fairy].normalAttack(magic);
   }
+
   player.move();
   //player end
 
-  //map start
+  // fairy skill start
+  for (let i = 0; i < 5; i++){
+    if (fairys[i].timer === fairys[now_fairy].skillCD) {
+      fairys[i].skillUse = false;
+    } else {
+      fairys[i].timer++;
+    }
+  }
+  // fairy skill end
 
-  // var tile = map.getTileAt(map.worldToTileX(player.x), map.worldToTileY(player.y));
+  if (cursors.slot1.isDown && !fairys[now_fairy].skillUse) {
+    
+    fairys[now_fairy].skillFire();
 
-  // if (tile) {
-  //   console.log('' + JSON.stringify(tile.properties))
-  // }
-
-  //map end
-
+  }
   //enemy start
 
   if (alien_count !=0){
@@ -503,13 +524,6 @@ if (mon1_delay > 60){
     this.physics.add.collider(aliens, alien);
     alien.anime(alien);
     }
-  for(let i = magics.length-1; i>=0;i--){
-    magics[i].timer++;
-    if(magics[i].timer == magics[i].lifetime){
-      magics[i].destroy();
-      magics.splice(i,1);
-    }
-  }
 
   //enemy end
   
@@ -520,7 +534,6 @@ if (mon1_delay > 60){
 // 플레이어 공격
 var magicFire = function (game) {
   // 게임에서 외부 UI 연관 테스트
-
   //for fire again
   magic = new Magic(game, fairys[now_fairy].range, fairys[now_fairy]);
   magics.push(magic);
@@ -535,7 +548,7 @@ var magicFire = function (game) {
   magic.body.offset.x = 25;
   magic.body.offset.y = 25;
   normalAttackTimer = 0;
-  fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_attack", true);
+
 
   let angle = Phaser.Math.Angle.Between(
     fairys[now_fairy].x,
@@ -631,16 +644,27 @@ function changeSlot(){
 }
 
 function attack(magic, alien) {
-  // magic.destroy();
-  if(!alien.invincible){
-    alien.health -= 1
+  if (!alien.invincible) {
+    if (magic.pierceCount > 0) {
+      magic.pierceCount--;
+    } else {
+      magic.destroy();
+    }
+
+    if (now_fairy === 2) { //  && fairys[now_fairy].level === 9 (추후에 레벨업 생길 때 추가)
+      let num = Math.floor(Math.random() * 100);
+      if (num <= 9) {
+        alien.destroy();
+      }
+    }
+
+    alien.health -= fairys[now_fairy].dmg;
     alien.invincible = true;
-    if (alien.health == 0){
+    if (alien.health <= 0){
       alien.destroy();
       alien_count -= 1;
     }
   }
-
 }
 
 
