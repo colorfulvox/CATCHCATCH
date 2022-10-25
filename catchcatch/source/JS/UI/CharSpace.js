@@ -14,6 +14,7 @@ const CharPageInit = () => {
   _CharSpace = document.createElement("div");
   _CharSpace.className = "CharSpace";
   _CharSpace.style.display = "none";
+
   _AllBtn.appendChild(_CharSpace);
   //--------------------------------------------------
 
