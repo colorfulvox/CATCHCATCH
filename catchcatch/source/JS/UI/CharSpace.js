@@ -9,6 +9,15 @@ var _SlideList;
 var _BuyBtn;
 var _GameStartBtn;
 var _CanCount;
+const catnamelist = [
+  "캐　츠",
+  "용냥이",
+  "무냥이",
+  "영냥이",
+  "진냥이",
+  "규냥이",
+  "희냥이",
+];
 
 const CharPageInit = () => {
   //여기서 미리 서버 정보를 가져온다. ---------------------------
@@ -76,16 +85,6 @@ const CharPageInit = () => {
   _SlideList.className = "SlideList";
   _Slide.appendChild(_SlideList);
 
-  const catnamelist = [
-    "캐　츠",
-    "용냥이",
-    "무냥이",
-    "영냥이",
-    "진냥이",
-    "규냥이",
-    "희냥이",
-  ];
-
   for (let i = 0; i < 7; ++i) {
     var _CharTemp = document.createElement("div");
     _CharTemp.className = "CharTemp";
@@ -93,14 +92,21 @@ const CharPageInit = () => {
     //캐릭터 이미지 가져오기
     var _CharImg = document.createElement("img");
     _CharImg.className = "CharImg";
-    _CharImg.src = `images/CharImg/${i}.png`;
+    _CharImg.id = `CharImg_${i}`;
+
+    if (LocalData.Cat[i] != false) _CharImg.src = `images/CharImg/${i}.png`;
+    else _CharImg.src = `images/CharImg/Unable/${i}.png`;
     // _CharImg.style.border = "3px solid black";
     _CharTemp.appendChild(_CharImg);
 
     //캐릭 이름 가져오기
     var _CharName = document.createElement("div");
     _CharName.className = "CharName";
-    _CharName.textContent = "[" + catnamelist[i] + "]";
+    _CharName.id = `CharName_${i}`;
+
+    if (LocalData.Cat[i] != false)
+      _CharName.textContent = "[" + catnamelist[i] + "]";
+    else _CharName.textContent = "[" + " ???? " + "]";
     _CharTemp.appendChild(_CharName);
 
     _SlideList.appendChild(_CharTemp);
@@ -209,6 +215,11 @@ function BuyChar() {
     ChoiceCat = CharIndex;
 
     _CanCount.textContent = "x" + LocalData.Coin;
+
+    const ChangeCharImg = document.getElementById(`CharImg_${CharIndex}`);
+    ChangeCharImg.src = `images/CharImg/${CharIndex}.png`;
+    const ChangeCharName = document.getElementById(`CharName_${CharIndex}`);
+    ChangeCharName.textContent = "[" + catnamelist[CharIndex] + "]";
 
     this.style.display = "none";
     const target = document.getElementById("GameStartBtn");
