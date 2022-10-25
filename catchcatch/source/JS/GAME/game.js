@@ -632,12 +632,14 @@ function changeSlot(){
 
 function attack(magic, alien) {
   // magic.destroy();
+  if(!alien.invincible){
     alien.health -= 1
     alien.invincible = true;
     if (alien.health == 0){
       alien.destroy();
       alien_count -= 1;
     }
+  }
 
 }
 
