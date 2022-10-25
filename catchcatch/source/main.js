@@ -12,13 +12,16 @@ global.LocalData = localStorage.getItem("data");
 if (global.LocalData === null) {
   localStorage.setItem(
     "data",
-    JSON.stringify({ Coin: 1000, Cat: [false, false, false, false, false] })
+    JSON.stringify({
+      Coin: 1000,
+      Cat: [true, false, false, false, false, false, false],
+    })
   );
 }
 global.LocalData = JSON.parse(localStorage.getItem("data"));
 
 // 게임 시작 전 데이터
-global.ChoiceCat = -1;
+global.ChoiceCat = 0;
 global.ChoiceLevel = 0;
 
 function Init() {

@@ -1,31 +1,144 @@
-.CharSpace {
-  width: 100%;
+.SettingSpace {
+  width: 300px;
   height: 100%;
+  /* background-image: url("../../../public/images/ui/panel.svg"); */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%, 100%;
   /* border: 2px solid gold; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  position: relative;
+}
+.BackIcon {
+  position: absolute;
+  background: url("../../../public/images/ui/backicon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  width: 30px;
+  height: 30px;
+  left: 2px;
+  top: 2px;
+}
+.BackIcon:active {
+  background: url("../../../public/images/ui/backiconclick.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
+.CanIcon {
+  background: url("../../../public/images/canicon.png") no-repeat center;
+  background-size: 50px 70px;
+  position: absolute;
+  overflow: hidden;
+  width: 50px;
+  height: 50px;
+  right: 5px;
+  top: 5px;
+  /* border: 2px solid wheat; */
+}
+.CanCount {
+  color: yellow;
+  position: absolute;
+  left: 20%;
+  bottom: -2px;
+}
+.BuyBtn {
+  position: absolute;
+  width: 200px;
+  height: 60px;
+  font-family: "KenneyBlocks";
+  font-size: x-large;
+  color: white;
+  top: 34%;
+  z-index: 1;
+  background: url("../../../public/images/ui/Buycanbtn.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
 }
 
-.ChoiceChar {
-  width: 900px;
-  height: 210px;
-  /* border: 2px solid black; */
+.BuyBtn:active {
+  background: url("../../../public/images/ui/Buycanbtnclick.png") no-repeat
+    center;
+  color: gray;
+  background-size: contain;
+}
+
+.CharSpace {
+  width: 300px;
+  height: 70%;
+  /* border: 2px solid cyan; */
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+}
+
+.ContentName {
+  font-size: x-large;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+  width: 150px;
+  height: 30px;
+  /* border: 2px solid black; */
+}
+
+.ChoiceCharBox {
+  width: 300px;
+  height: 180px;
+  /* border: 2px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.CharLeftBtn {
+  background: url("../../../public/images/ui/left.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  width: 30px;
+  height: 40px;
+}
+.CharLeftBtn:active {
+  background: url("../../../public/images/ui/gleft.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
+.CharRightBtn {
+  background: url("../../../public/images/ui/right.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  width: 30px;
+  height: 40px;
+}
+.CharRightBtn:active {
+  background: url("../../../public/images/ui/gright.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
 }
 .Slide {
-  width: 760px;
-  height: 170px;
-  position: relative;
-  margin: 50px auto;
+  width: 190px;
+  height: 160px;
+  /* border: 2px solid blue; */
   overflow: hidden;
-  /* border: 2px solid slateblue; */
-  background-color: gray;
+  position: relative;
 }
-
 .SlideList {
   display: flex;
   position: absolute;
@@ -34,41 +147,76 @@
   left: 0;
   top: 0;
   transition: left 0.5s ease-out;
+  /* border: 2px solid sandybrown; */
 }
 
-.CharTemplate {
-  /* margin-right: 20px; */
-  width: 760px;
-  height: 150px;
-
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  align-content: center;
-}
-
-.CharObj {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
-  width: 700px;
-  height: 170px;
+.CharTemp {
+  width: 190px;
+  height: 160px;
   position: relative;
 }
+.CharImg {
+  position: absolute;
+  top: 20%;
+  left: 34.8%;
+  width: 150px;
+  height: 150px;
+  margin: -50px 0 0 -50px;
+}
+.CharName {
+  position: absolute;
+  bottom: 3%;
+  left: 29%;
 
-.ChoiceBtn {
-  width: 50px;
-  height: 100px;
+  text-align: center;
+  color: white;
+  font-size: large;
 }
 
-.CharBtnList {
-  width: 700px;
-  height: 60px;
-  /* border: 2px solid slateblue; */
+.OtherBtn {
+  width: 260px;
+  height: 30%;
+  /* border: 2px solid greenyellow; */
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.CharBtn {
-  width: 200px;
+.LevelBtn {
+  width: 130px;
+  height: 40px;
+  font-family: "KenneyBlocks";
+  text-align: center;
+  justify-content: center;
+  font-size: large;
+  color: white;
+  border: none;
+}
+
+.GameStartBtn {
+  width: 180px;
+  height: 50px;
+  font-family: "KenneyBlocks";
+  text-align: center;
+  color: white;
+  font-size: large;
+  background: url("../../../public/images/ui/GameStartBtn.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
+.GameStartBtn:active {
+  background: url("../../../public/images/ui/GameStartBtnclick.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.GameStartBtn:disabled {
+  background: url("../../../public/images/ui/disabledbtn.png");
+  color: gray;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
