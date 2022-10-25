@@ -1,7 +1,10 @@
 .CharSpace {
   width: 500px;
-  height: 40000px;
+  height: 300px;
   background-image: url("../../../public/images/ui/panel.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%, 100%;
   border: 2px solid gold;
   display: flex;
   flex-direction: column;

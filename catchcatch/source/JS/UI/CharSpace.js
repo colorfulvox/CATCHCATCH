@@ -18,68 +18,68 @@ const CharPageInit = () => {
   _AllBtn.appendChild(_CharSpace);
   //--------------------------------------------------
 
-  // ChoiceChar = 캐릭터 템플릿 + Slide 버튼
-  var _ChoiceChar = document.createElement("div");
-  _ChoiceChar.className = "ChoiceChar";
-  _CharSpace.appendChild(_ChoiceChar);
+  // // ChoiceChar = 캐릭터 템플릿 + Slide 버튼
+  // var _ChoiceChar = document.createElement("div");
+  // _ChoiceChar.className = "ChoiceChar";
+  // _CharSpace.appendChild(_ChoiceChar);
 
-  const _Slide = document.createElement("div");
-  _Slide.className = "Slide";
-  _ChoiceChar.appendChild(_Slide);
+  // const _Slide = document.createElement("div");
+  // _Slide.className = "Slide";
+  // _ChoiceChar.appendChild(_Slide);
 
-  //캐릭터 슬라이드 리스트
-  _SlideList = document.createElement("ul");
-  _SlideList.className = "SlideList";
-  _Slide.appendChild(_SlideList);
+  // //캐릭터 슬라이드 리스트
+  // _SlideList = document.createElement("ul");
+  // _SlideList.className = "SlideList";
+  // _Slide.appendChild(_SlideList);
 
-  //캐릭터 템플릿 5개 생성
-  for (let i = 0; i < 5; ++i) {
-    const _CharTemplate = document.createElement("li");
+  // //캐릭터 템플릿 5개 생성
+  // for (let i = 0; i < 5; ++i) {
+  //   const _CharTemplate = document.createElement("li");
 
-    _CharTemplate.className = "CharTemplate";
+  //   _CharTemplate.className = "CharTemplate";
 
-    // CharObj = 이미지 + 텍스트
-    const _CharObj = document.createElement("div");
-    _CharObj.className = "CharObj";
+  //   // CharObj = 이미지 + 텍스트
+  //   const _CharObj = document.createElement("div");
+  //   _CharObj.className = "CharObj";
 
-    // 캐릭터 이미지
+  //   // 캐릭터 이미지
 
-    var CharImg = document.createElement("div");
-    CharImg.className = "CharImg";
-    // CharImg.style.background = url(`images/CharImg/${i}.png`);
-    // CharImg.width = 150;
-    // CharImg.height = 150;
-    // CharImg.style.margin = "10px";
-    // CharImg.style.position = "absolute";
+  //   var CharImg = document.createElement("div");
+  //   CharImg.className = "CharImg";
+  //   // CharImg.style.background = url(`images/CharImg/${i}.png`);
+  //   // CharImg.width = 150;
+  //   // CharImg.height = 150;
+  //   // CharImg.style.margin = "10px";
+  //   // CharImg.style.position = "absolute";
 
-    _CharObj.appendChild(CharImg);
+  //   _CharObj.appendChild(CharImg);
 
-    var CharContxt = document.createElement("div");
-    CharContxt.className = "CharContxt";
-    // CharContxt.textContent =
-    //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu maximus purus. In hac habitasse platea dictumst. Aenean sit amet mauris elit. Aliquam posuere pharetra ipsum, eu ullamcorper arcu tincidunt id. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer sit amet ipsum est. Nulla sodales felis sit amet velit commodo, fringilla fringilla nisi posuere. Aenean tempor cursus augue a blandit. Curabitur tempus ante ex. Praesent ullamcorper finibus erat quis laoreet. Vestibulum volutpat metus quis blandit placerat.";
-    // CharContxt.style.margin = "10px";
-    _CharObj.appendChild(CharContxt);
+  //   var CharContxt = document.createElement("div");
+  //   CharContxt.className = "CharContxt";
+  //   // CharContxt.textContent =
+  //   //   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu maximus purus. In hac habitasse platea dictumst. Aenean sit amet mauris elit. Aliquam posuere pharetra ipsum, eu ullamcorper arcu tincidunt id. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer sit amet ipsum est. Nulla sodales felis sit amet velit commodo, fringilla fringilla nisi posuere. Aenean tempor cursus augue a blandit. Curabitur tempus ante ex. Praesent ullamcorper finibus erat quis laoreet. Vestibulum volutpat metus quis blandit placerat.";
+  //   // CharContxt.style.margin = "10px";
+  //   _CharObj.appendChild(CharContxt);
 
-    // 구매 버튼
-    if (LocalData.Cat[i] === false) {
-      // var Buybtn = document.createElement("button");
-      // Buybtn.textContent = "100";
-      // Buybtn.style.position = "absolute";
-      // Buybtn.style.left = "20%";
-      // Buybtn.style.bottom = "0%";
-      // Buybtn.style.width = "100px";
-      // Buybtn.id = `${i}`;
-      // Buybtn.addEventListener("click", BuyChar);
-      // _CharObj.appendChild(Buybtn);
-    } else {
-      if (ChoiceCat === -1) ChoiceCat = i;
-    }
-    // _CharTemplate <= CharOBj
-    _CharTemplate.appendChild(_CharObj);
+  //   // 구매 버튼
+  //   if (LocalData.Cat[i] === false) {
+  //     // var Buybtn = document.createElement("button");
+  //     // Buybtn.textContent = "100";
+  //     // Buybtn.style.position = "absolute";
+  //     // Buybtn.style.left = "20%";
+  //     // Buybtn.style.bottom = "0%";
+  //     // Buybtn.style.width = "100px";
+  //     // Buybtn.id = `${i}`;
+  //     // Buybtn.addEventListener("click", BuyChar);
+  //     // _CharObj.appendChild(Buybtn);
+  //   } else {
+  //     if (ChoiceCat === -1) ChoiceCat = i;
+  //   }
+  //   // _CharTemplate <= CharOBj
+  //   _CharTemplate.appendChild(_CharObj);
 
-    _SlideList.appendChild(_CharTemplate);
-  }
+  //   _SlideList.appendChild(_CharTemplate);
+  // }
 
   // //Left - Slide버튼
   // const _LeftBtn = document.createElement("button");

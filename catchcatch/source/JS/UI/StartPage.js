@@ -80,18 +80,23 @@ const StartPageInit = () => {
 export default StartPageInit;
 
 export const StartBtnOn = () => {
-  const StartBtnClassList = document.querySelectorAll(".StartBtn");
-  for (let i = 0; i < StartBtnClassList.length; ++i) {
-    StartBtnClassList[i].style.display = "block";
-  }
+  const StartBtnClassList = document.querySelector(".StartBtnList");
+  StartBtnClassList.style.display = "flex";
+
+  // document.querySelectorAll(".StartBtn");
+  // for (let i = 0; i < StartBtnClassList.length; ++i) {
+  //   StartBtnClassList[i].style.display = "block";
+  // }
 };
 
 export const StartBtnOff = () => {
-  const StartBtnClassList = document.querySelectorAll(".StartBtn");
+  const StartBtnClassList = document.querySelector(".StartBtnList");
+  StartBtnClassList.style.display = "none";
+  // const StartBtnClassList = document.querySelectorAll(".StartBtn");
 
-  for (let i = 0; i < StartBtnClassList.length; ++i) {
-    StartBtnClassList[i].style.display = "none";
-  }
+  // for (let i = 0; i < StartBtnClassList.length; ++i) {
+  //   StartBtnClassList[i].style.display = "none";
+  // }
 };
 
 export const StartPageOn = () => {
