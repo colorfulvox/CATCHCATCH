@@ -59,14 +59,15 @@ let controls;
 var aliens;
 var alien;
 var target;
-var monster;
 var player;
-
+var cursors;
 var mon1_delay = 0;
 var mon1_x;
 var mon1_y;
-
 var alien_count = 0;
+var random_rocation;
+var invincible = false;
+var timer;
 
 // 몬스터 이미지
 
@@ -401,18 +402,23 @@ function create() {
 
   //enemy start
 
-  aliens = this.add.group()
+  aliens = this.physics.add.group();
 
-  // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
-  this.physics.add.overlap(player, alien, hitplayer, null, this);
+    // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
+    this.physics.add.overlap(player, aliens, hitplayer);
 
 
-  this.anims.create({
-      key: 'swarm',
-      frames: this.anims.generateFrameNumbers('alien', { start: 0, end: 1 }),
-      frameRate: 2,
-      repeat: -1
-})
+    this.anims.create({
+        key: 'swarm',
+        frames: this.anims.generateFrameNumbers('alien', { start: 0, end: 1 }),
+        frameRate: 2,
+        repeat: -1
+        })
+
+    // 공격 맞은 후 일시 무적에 사용
+    timer = this.time.addEvent({delay:2000, callback:()=>{invincible=false}, loop: true});
+
+
   //enemy end
 }
 
@@ -504,20 +510,47 @@ function update(time, delta) {
   //enemy start
 
   if (alien_count !=0){
-    this.physics.moveToObject(alien, player, 100);}
+    for(let i=0;i<aliens.children.entries.length;i++){
+        // console.log(this.physics.moveToObject(monsters[i], player, 100))
+        // if ()
+        this.physics.moveToObject(aliens.children.entries[i], player, 100);
+        
+    }
+        
+    }
+    
     mon1_delay ++;
 
-  if (mon1_delay > 60){
-      mon1_x = Phaser.Math.Between(0, 16000);
-      mon1_y = Phaser.Math.Between(4000, 8000);
-      alien = this.physics.add.sprite(mon1_x,mon1_y,'alien')
-      alien_count += 1
-      mon1_delay = 0
-      aliens.add(alien)
-      anime(alien)
-      }
 
-  this.physics.add.overlap(player, alien, hitplayer, null, this);
+// 랜덤 위치에 몬스터 생성 (추후 player.x 및 y 좌표 기준 생성으로 변경)
+if (mon1_delay > 60){
+    random_rocation = Math.floor(Math.random()*4)+1
+    if (random_rocation == 1){
+    mon1_x = Phaser.Math.Between(player.x-2000, player.x+2000);
+    mon1_y = Phaser.Math.Between(player.y+2000, player.y+2010);}
+
+    if (random_rocation == 2){
+        mon1_x = Phaser.Math.Between(player.x-2000, player.x+2000);
+        mon1_y = Phaser.Math.Between(player.y-2000, player.y-2010);}
+
+    if (random_rocation == 3){
+        mon1_x = Phaser.Math.Between(player.x-2000, player.x-2000);
+        mon1_y = Phaser.Math.Between(player.y-2000, player.y+2000);}
+
+    if (random_rocation == 4){
+        mon1_x = Phaser.Math.Between(player.x+2000, player.x+2000);
+        mon1_y = Phaser.Math.Between(player.y-2000, player.y+2000);}
+    
+
+        
+    alien = this.physics.add.sprite(mon1_x,mon1_y,'alien').setInteractive();
+    alien.hp = 3;
+    alien_count += 1
+    mon1_delay = 0
+    aliens.add(alien)
+    this.physics.add.collider(aliens, alien)
+    anime(alien)
+    }
 
   //enemy end
 }
@@ -612,20 +645,27 @@ var magicFire = function (game) {
 
 //enemy start
 
-function hitplayer(player, alien) {
-  // 일단 피해 준 몬스터는 사라지는데 추후 코드로 몇초간 안보이게 또는 유저 잠시 무적으로 수정해야함
-  alien.destroy();
+function hitplayer (player, alien)
+{   
+    if (invincible == false){
+    invincible = true
+    alien.hp -= 1
+    console.log(invincible)
+    // 일단 피해 준 몬스터는 사라지는데 추후 코드로 몇초간 안보이게 또는 유저 잠시 무적으로 수정해야함
+    // alien.destroy();
+    alien_count -= 1;
+    // 피해 1 줌
+    // stop_game -= 1;
+    }
 
-  // 피해 1 줌
-  // life -= 1;
 }
 
 function attack(magic, alien) {
-  alien.destroy();
   magic.destroy();
+  alien.hp -= 1
+  if (alien.hp == 0){
+  alien.destroy();}
   alien_count -= 1;
-  // 피해 1 줌
-  // life -= 1;
 }
 
 function anime(alien){
