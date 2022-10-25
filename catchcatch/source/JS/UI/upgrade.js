@@ -4,7 +4,7 @@ import player from "./playerUpgrade.js";
 export default function initUpgrade() {
   // console.log(this.)
 
-  thiss.pause();
+  $this.pause();
   const gameContainer = document.querySelector("#game-container");
   const upgradeContainer = document.createElement("div");
   const upgradeContent = document.createElement("div");
@@ -54,7 +54,7 @@ export function closeUpgrade() {
 
 function sceneHandler(e) {
   if (e.key == "Shift") {
-    thiss.resume();
+    $this.resume();
     closeUpgrade();
     window.removeEventListener("keydown", sceneHandler);
   }

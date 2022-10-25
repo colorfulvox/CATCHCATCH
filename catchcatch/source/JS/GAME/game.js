@@ -208,7 +208,7 @@ function create() {
     slot4: Phaser.Input.Keyboard.KeyCodes.FOUR,
     slot5: Phaser.Input.Keyboard.KeyCodes.FIVE,
   });
-  global.thiss = this.scene;
+  global.$this = this.scene;
   this.input.keyboard.on("keydown-" + "SHIFT", function (event) {
     initUpgrade();
   });
@@ -406,8 +406,6 @@ function create() {
 
     this.physics.add.collider(player, j1);
   }
-
-  console.log(j1);
 
   // this.physics.add.overlap(player, portalLayer);
 
