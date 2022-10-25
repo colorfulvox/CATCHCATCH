@@ -1,3 +1,7 @@
+import Fairy from './GameObj/Fairy';
+import Magic from './GameObj/Magic';
+import Player from './GameObj/Player';
+
 export const config = {
   type: Phaser.AUTO,
   width: 600,
@@ -34,9 +38,10 @@ var fairy;
 // 공격 및 공격 딜레이 관련
 var control = false;
 var normalAttackTimer = 0;
+var normalAttackAS = 20;
 var magic;
-
-var cursors;
+var magics = [];
+export var cursors;
 var gameOver = false;
 var scoreText;
 // 마우스 포인터 관련
@@ -46,7 +51,7 @@ var mouse;
 
 //map start
 var map;
-var mapSize = 16000;
+export var mapSize = 16000;
 var camera;
 var backgroundLayer;
 var portalLayer;
@@ -66,12 +71,13 @@ var alien;
 var target;
 var monster;
 var player;
+var player;
 
 var mon1_delay = 0;
 var mon1_x;
 var mon1_y;
 
-var alien_count = 0;
+global.alien_count = 0;
 
 // 몬스터 이미지
 
@@ -169,6 +175,7 @@ function preload() {
 }
 
 function create() {
+
   //map start
   this.cameras.main.setBounds(0, 0, mapSize, mapSize);
   this.physics.world.setBounds(0, 0, mapSize, mapSize);
@@ -206,8 +213,12 @@ function create() {
 
   //player start
   cats = require('./jsons/cats.json');
+  fairys = require('./jsons/fairys.json');
   console.log(cats);
   player = cats[cats_number];
+  player = new Player(this, 1, 100, 100);
+  console.log(player);
+  console.log(player)
   camera = this.cameras.main;
   input = this.input;
   mouse = input.mousePointer;
@@ -226,21 +237,13 @@ function create() {
   );
 
   // 플레이어, 요정 로딩
-  player['sprite'] = this.physics.add.sprite(100, 450, "cat1");
-  player['sprite'].setBounce(0.2);
-  player['sprite'].setCollideWorldBounds(true);
-  player['sprite'].setScale(0.7);
-  fairys[0] = this.add.sprite(-100, -100, "fairy1");
-  fairys[1] = this.add.sprite(-100, -100, "fairy2");
-  fairys[2] = this.add.sprite(-100, -100, "fairy3");
-  fairys[3] = this.add.sprite(-100, -100, "fairy4");
-  fairys[4] = this.add.sprite(-100, -100, "fairy5");
-  fairys[0].setScale(0.35);
-  fairys[1].setScale(0.35);
-  fairys[2].setScale(0.35);
-  fairys[3].setScale(0.35);
-  fairys[4].setScale(0.35);
-
+  fairys[0] = new Fairy(this,100, 10, 1, 360, 60, 10, 100, 1, player);
+  fairys[1] = new Fairy(this,100, 10, 1, 300, 70, 10, 20, 2, player);
+  fairys[2] = new Fairy(this,100, 10, 1, 240, 80, 10, 300, 3, player);
+  fairys[3] = new Fairy(this,100, 10, 1, 180, 90, 10, 400, 4, player);
+  fairys[4] = new Fairy(this,100, 10, 1, 120, 100, 10, 500, 5, player);
+  player.changeFairy(fairys[0]);
+  normalAttackAS = fairys[0].as;
   // animation
   this.anims.create({
     key: "fairy1_idle",
@@ -397,16 +400,16 @@ function create() {
     j1 = this.physics.add.sprite(x, y, "j1");
     j1.body.immovable = true;
 
-    this.physics.add.collider(player['sprite'], j1);
+    this.physics.add.collider(player, j1);
   }
 
   console.log(j1);
 
   // this.physics.add.overlap(player, portalLayer);
 
-  player['sprite'].setPosition(8000, 8000); //width, height
-  this.physics.add.collider(player['sprite'], stage3Layer);
-  camera.startFollow(player['sprite'], false);
+  player.setPosition(8000, 8000); //width, height
+  this.physics.add.collider(player, stage3Layer);
+  camera.startFollow(player, false);
   //map end
 
   //enemy start
@@ -414,7 +417,7 @@ function create() {
   aliens = this.add.group()
 
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
-  this.physics.add.overlap(player['sprite'], alien, hitplayer, null, this);
+  this.physics.add.overlap(player, alien, player.hitPlayer,null, this);
 
   this.anims.create({
       key: 'swarm',
@@ -427,66 +430,9 @@ function create() {
 
 function update(time, delta) {
   //player start
-  if (
-    cursors.slot1.isDown &&
-    now_fairy !== 0 &&
-    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
-  ) {
-    fairys[now_fairy].x = -100;
-    fairys[now_fairy].y = -100;
-    now_fairy = 0;
-    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
-  }
+  changeSlot();
 
-  if (
-    cursors.slot2.isDown &&
-    now_fairy !== 1 &&
-    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
-  ) {
-    fairys[now_fairy].x = -100;
-    fairys[now_fairy].y = -100;
-    now_fairy = 1;
-    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
-  }
-
-  if (
-    cursors.slot3.isDown &&
-    now_fairy !== 2 &&
-    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
-  ) {
-    fairys[now_fairy].x = -100;
-    fairys[now_fairy].y = -100;
-    now_fairy = 2;
-    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
-  }
-
-  if (
-    cursors.slot4.isDown &&
-    now_fairy !== 3 &&
-    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
-  ) {
-    fairys[now_fairy].x = -100;
-    fairys[now_fairy].y = -100;
-    now_fairy = 3;
-    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
-  }
-
-  if (
-    cursors.slot5.isDown &&
-    now_fairy !== 4 &&
-    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
-  ) {
-    fairys[now_fairy].x = -100;
-    fairys[now_fairy].y = -100;
-    now_fairy = 4;
-    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
-  }
-
-  if (!fairys[now_fairy].anims.isPlaying) {
-    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
-  }
-
-  if (normalAttackTimer == 20) {
+  if (normalAttackTimer == normalAttackAS) {
     normalAttackTimer = 0;
     control = false;
   } else {
@@ -497,23 +443,13 @@ function update(time, delta) {
   if (mouse.leftButtonDown() && !control) {
     magicFire(this);
   }
-  move();
+  player.move();
   //player end
-
-  //map start
-
-  // var tile = map.getTileAt(map.worldToTileX(player.x), map.worldToTileY(player.y));
-
-  // if (tile) {
-  //   console.log('' + JSON.stringify(tile.properties))
-  // }
-
-  //map end
 
   //enemy start
 
   if (alien_count !=0){
-    this.physics.moveToObject(alien, player['sprite'], 100);}
+    this.physics.moveToObject(alien, player, 100);}
     mon1_delay ++;
 
   if (mon1_delay > 60){
@@ -525,64 +461,28 @@ function update(time, delta) {
       aliens.add(alien)
       anime(alien)
       }
+  for(let i = magics.length-1; i>=0;i--){
+    magics[i].timer++;
+    if(magics[i].timer == magics[i].lifetime){
+      magics[i].destroy();
+      magics.splice(i,1);
+    }
+  }
 
-  this.physics.add.overlap(player['sprite'], alien, hitplayer, null, this);
+  this.physics.add.overlap(player, alien, player.hitPlayer, null, this);
 
   //enemy end
 }
 
 //player start
 
-// 플레이어 이동
-var move = function () {
-  fairys[now_fairy].x = player['sprite'].x - 20;
-  fairys[now_fairy].y = player['sprite'].y - 50;
-  if (cursors.left.isDown) {
-    player['sprite'].setVelocityX(-160);
-    player['sprite'].anims.play("left", true);
-    player['sprite'].flipX = true;
-  } else if (cursors.right.isDown) {
-    player['sprite'].setVelocityX(160);
-    player['sprite'].flipX = false;
-    player['sprite'].anims.play("right", true);
-  } else {
-    player['sprite'].setVelocityX(0);
-  }
-
-  if (cursors.up.isDown) {
-    player['sprite'].setVelocityY(-160);
-
-    if (cursors.left.isDown) {
-      player['sprite'].anims.play("left", true);
-    } else {
-      player['sprite'].anims.play("right", true);
-    }
-  } else if (cursors.down.isDown) {
-    player['sprite'].setVelocityY(+160);
-
-    if (cursors.left.isDown) {
-      player['sprite'].anims.play("left", true);
-    } else {
-      player['sprite'].anims.play("right", true);
-    }
-  } else {
-    player['sprite'].setVelocityY(0);
-    if (!cursors.left.isDown && !cursors.right.isDown) {
-      player['sprite'].anims.play("turn", true);
-    }
-  }
-};
-
 // 플레이어 공격
 var magicFire = function (game) {
   // 게임에서 외부 UI 연관 테스트
 
   //for fire again
-  magic = game.physics.add.sprite(
-    fairys[now_fairy].x,
-    fairys[now_fairy].y,
-    "magic" + (now_fairy + 1)
-  );
+  magic = new Magic(game, fairys[now_fairy].range, fairys[now_fairy]);
+  magics.push(magic);
   // console.log(magic);
   // console.log(magic.body);
   game.physics.add.overlap(magic, aliens, attack, null, this);
@@ -607,31 +507,91 @@ var magicFire = function (game) {
   angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
   magic.rotation += (angle - 180) / 60 - 1.5;
   magic.anims.play("magic" + (now_fairy + 1), true);
-
+  
   //move to mouse position
   game.physics.moveTo(
     magic,
     input.x + camera.scrollX,
     input.y + camera.scrollY,
-    500
+    fairys[now_fairy].velo
   );
   control = true;
 };
+
+function changeSlot(){
+  if (
+    cursors.slot1.isDown &&
+    now_fairy !== 0 &&
+    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
+  ) {
+    fairys[now_fairy].x = -100;
+    fairys[now_fairy].y = -100;
+    now_fairy = 0;
+    player.changeFairy(fairys[now_fairy]);
+    normalAttackAS = fairys[now_fairy].as;
+    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
+  }
+
+  if (
+    cursors.slot2.isDown &&
+    now_fairy !== 1 &&
+    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
+  ) {
+    fairys[now_fairy].x = -100;
+    fairys[now_fairy].y = -100;
+    now_fairy = 1;
+    player.changeFairy(fairys[now_fairy]);
+    normalAttackAS = fairys[now_fairy].as;
+    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
+  }
+
+  if (
+    cursors.slot3.isDown &&
+    now_fairy !== 2 &&
+    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
+  ) {
+    fairys[now_fairy].x = -100;
+    fairys[now_fairy].y = -100;
+    now_fairy = 2;
+    player.changeFairy(fairys[now_fairy]);
+    normalAttackAS = fairys[now_fairy].as;
+    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
+  }
+
+  if (
+    cursors.slot4.isDown &&
+    now_fairy !== 3 &&
+    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
+  ) {
+    fairys[now_fairy].x = -100;
+    fairys[now_fairy].y = -100;
+    now_fairy = 3;
+    player.changeFairy(fairys[now_fairy]);
+    normalAttackAS = fairys[now_fairy].as;
+    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
+  }
+
+  if (
+    cursors.slot5.isDown &&
+    now_fairy !== 4 &&
+    /idle/.test(fairys[now_fairy].anims.currentAnim.key)
+  ) {
+    fairys[now_fairy].x = -100;
+    fairys[now_fairy].y = -100;
+    now_fairy = 4;
+    player.changeFairy(fairys[now_fairy]);
+    normalAttackAS = fairys[now_fairy].as;
+    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
+  }
+
+  if (!fairys[now_fairy].anims.isPlaying) {
+    fairys[now_fairy].anims.play("fairy" + (now_fairy + 1) + "_idle", true);
+  }
+}
+
 //player end
 
 //enemy start
-
-function hitplayer(p, alien) {
-  // 일단 피해 준 몬스터는 사라지는데 추후 코드로 몇초간 안보이게 또는 유저 잠시 무적으로 수정해야함
-  alien.destroy();
-  player['health']-=50;
-  console.log(player['health']);
-  if (player['health'] <= 0) {
-    console.log('Game Over!');
-  }
-  // 피해 1 줌
-  // life -= 1;
-}
 
 function attack(magic, alien) {
   alien.destroy();

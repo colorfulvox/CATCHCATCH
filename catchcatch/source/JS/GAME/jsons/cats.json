@@ -6,7 +6,6 @@
         "dmgmul": 1.0,
         "speed": 160,
         "ablity": "",
-        "heal": 0,
-        "coin" : 0
+        "heal": 0
     }
 ]
