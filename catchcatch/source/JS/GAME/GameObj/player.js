@@ -25,7 +25,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   invincible = false;
   constructor(scene, dmgmul, maxHealth, health) {
 
-    super(scene, mapSize/2, mapSize/2, "cat1");
+    super(scene, 0, 0, "cat1");
     this.scale = 0.7;
     this.alpha = 1;
     this.dmgmul = dmgmul;

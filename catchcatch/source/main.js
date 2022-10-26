@@ -4,6 +4,10 @@ import "./CSS/GAME/style.css";
 // import initUpgrade from "./JS/upgrade";
 import StartPageInit from "./JS/UI/StartPage.js";
 import CharPageInit from "./JS/UI/CharSpace";
+import perlin from "./JS/GAME/perlin.js"
+
+global.noise = {};
+perlin ()
 
 // localStorage.clear();
 
