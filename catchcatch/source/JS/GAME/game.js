@@ -148,6 +148,35 @@ function preload() {
     "images/attack/weapon/13_vortex_spritesheet.png",
     { frameWidth: 100, frameHeight: 100, endFrame: 61 }
   );
+
+  // 스킬 스프라이트
+  this.load.spritesheet(
+    "skill1",
+    "images/attack/weapon/17_felspell_spritesheet.png",
+    {
+      frameWidth: 100,
+      frameHeight: 100,
+      endFrame: 61,
+    }
+  );
+  this.load.spritesheet(
+    "skill2",
+    "images/attack/weapon/15_loading_spritesheet.png",
+    {
+      frameWidth: 100,
+      frameHeight: 100,
+      endFrame: 61,
+    }
+  );
+  this.load.spritesheet(
+    "skill4",
+    "images/attack/weapon/10_weaponhit_spritesheet.png",
+    {
+      frameWidth: 100,
+      frameHeight: 100,
+      endFrame: 61,
+    }
+  );
   // 요정 스프라이트
   this.load.spritesheet("fairy1", "images/fairy/fairy1.png", {
     frameWidth: 150,
@@ -184,7 +213,7 @@ function create() {
   inGameUI();
   thisScene = this;
   //map start
-  this.chunkSize = 16;
+  this.chunkSize = 8;
   this.tileSize = 1024;
   this.cameraSpeed = 10;
 
@@ -247,6 +276,7 @@ function create() {
   fairySet[1] = new Fairy(this, 100, 10, 1, 1, 70, 10, 160, 2, player);
   fairySet[2] = new Fairy(this, 100, 0, 1, 3, 80, 10, 300, 3, player);
   fairySet[3] = new Fairy(this, 100, 10, 1, 4, 90, 10, 400, 4, player);
+  fairySet[3].initFairy3(0, 0);
   fairySet[4] = new Fairy(this, 100, 10, 1, 5, 100, 10, 500, 5, player);
   for (let i = 0; i < 5; i++) {
     fairySet[i].setDepth(1);
@@ -504,6 +534,7 @@ function create() {
 }
 
 function update(time, delta) {
+
   //map start
   if (
     this.cameras.main.worldView.x > -1000 &&
@@ -592,6 +623,20 @@ function update(time, delta) {
     fairySet[nowFairy].normalAttack(magic);
   }
 
+  for (let i = 0; i < 5; i++){
+    if (fairySet[i].timer < fairySet[i].skillCD) {
+      fairySet[i].timer++;
+    } else {
+      fairySet[i].skillUse = false;
+    }
+  }
+
+  if (cursors.skill.isDown && !fairySet[nowFairy].skillUse) {
+    console.log(fairySet[nowFairy].timer);
+    console.log(fairySet[nowFairy].skillCD);
+    fairySet[nowFairy].skillFire();
+  }
+
   player.move();
   //player end
 
@@ -649,55 +694,6 @@ function update(time, delta) {
 }
 
 //player start
-
-// 플레이어 공격
-var magicFire = function (game) {
-  // 게임에서 외부 UI 연관 테스트
-  exp++;
-  updateExp();
-  if (exp === 3) {
-    level++;
-    exp = 0;
-    levelup();
-    updateExp();
-  }
-  //for fire again
-  magic = new Magic(game, fairySet[nowFairy].range, fairySet[nowFairy]);
-  magics.push(magic);
-  // console.log(magic);
-  // console.log(magic.body);
-  game.physics.add.overlap(magic, alienSet, attack, null, this);
-  // magic.body.setCircle(45);
-
-  /*충돌관련 하드코딩 된 부분 나중에 수정 */
-  magic.body.width = 50;
-  magic.body.height = 50;
-  magic.body.offset.x = 25;
-  magic.body.offset.y = 25;
-  normalAttackTimer = 0;
-
-  let angle = Phaser.Math.Angle.Between(
-    fairySet[nowFairy].x,
-    fairySet[nowFairy].y,
-    input.x + camera.scrollX,
-    input.y + camera.scrollY
-  );
-
-  // 각도 계산 공식
-  angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
-  magic.rotation += (angle - 180) / 60 - 1.5;
-  magic.anims.play("magic" + (nowFairy + 1), true);
-
-  //move to mouse position
-  game.physics.moveTo(
-    magic,
-    input.x + camera.scrollX,
-    input.y + camera.scrollY,
-    fairySet[nowFairy].velo
-  );
-  control = true;
-};
-
 function changeSlot() {
   if (
     cursors.slot1.isDown &&
@@ -771,7 +767,6 @@ function changeSlot() {
 
 function attack(magic, alien) {
   if (!alien.invincible) {
-    console.log(1234);
     if (magic.pierceCount > 0) {
       magic.pierceCount--;
     } else {
@@ -779,10 +774,11 @@ function attack(magic, alien) {
     }
 
     if (nowFairy === 2) {
-      //  && fairys[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
-      let num = Math.floor(Math.random() * 100);
-      if (num <= 9) {
+      //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
+      let num = Math.floor((Math.random() * 100) + 1);
+      if (num <= fairySet[nowFairy].deathCount) {
         alien.destroy();
+        alienCount -= 1;
       }
     }
 
