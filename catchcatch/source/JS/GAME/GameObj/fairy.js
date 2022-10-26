@@ -1,80 +1,151 @@
-import {cursors, mapSize} from "../game.js";
-
+import { input, camera, aliens } from "../game.js";
+import Magic from "./Magic.js";
 export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
-    // 얘는 공격 스프라이트 객체
-    player;
-    fairyNum;
-    attack;
-    // 얘는 스킬 스프라이트 객체
-    skill;
-    skillUse = false;
-    skillCd = 100;
-    timer = 0;
-    attackCount;
-    pierceCount;
-    velo;
-    size;
-    vampire;
-    stun;
-    aura;
-    auraRange;
-    block;
-    bombCount;
+  // 얘는 공격 스프라이트 객체
+  player;
+  fairyNum;
+  attack;
+  // 얘는 스킬 스프라이트 객체
+  skill;
+  skillUse = false;
+  skillCD = 100;
+  timer = 0;
+  maxAttackCount;
+  attackCount;
+  maxPierceCount = 0;
+  pierceCount = 0;
+  velo;
+  size;
+  vampire;
+  stun;
+  aura;
+  aura_range;
+  block;
+  bombcount;
+  bombtime = 3;
+  constructor(scene, skillCD,
+     dmg, dmg_bonus, range, as,
+      as_bonus, velo, fairyNum, player) {
+    super(scene, -100, -100, "fairy" + fairyNum);
+    this.fairyNum = fairyNum;
+    this.scale = 0.35;
+    this.alpha = 1;
+    this.player = player;
+    this.skillCD = skillCD;
+    this.dmg = dmg;
+    this.dmg_bonus = dmg_bonus;
+    this.range = range;
+    this.as=as;
+    this.as_bonus = as_bonus;
+    this.velo = velo;
 
-    constructor(scene, skillCd,
-                dmg, dmgBonus, range, as,
-                asBonus, velo, fairyNum, player) {
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
 
-        super(scene, -100, -100, "fairy" + fairyNum);
-        this.scale = 0.35;
-        this.alpha = 1;
-        this.player = player;
-        this.skillCd = skillCd;
-        this.dmg = dmg;
-        this.dmg_bonus = dmgBonus;
-        this.range = range;
-        this.as = as;
-        this.as_bonus = asBonus;
-        this.velo = velo;
+  }
+  // 마법사
+  initFairy1(attackCount, pierceCount) {
+    this.maxAttackCount = attackCount;
+    this.maxPierceCount = pierceCount;
+    this.attackCount = attackCount;
+    this.pierceCount = pierceCount;
+  }
+  // 사신
+  initFairy2(size, vampire){
+    this.size = size;
+    this.vampire = vampire;
+  }
+  // 닌자
+  initFairy3(stun){
+    this.stun = stun;
+  }
+  // 슬라임
+  initFairy4(size, aura, aura_range, block){
+    this.size = size;
+    this.aura = aura;
+    this.aura_range = aura_range;
+    this.block = block;
+  }
+  // 마녀
+  initFairy5(size, bombcount){
+    this.size = size;
+    this.bombcount = bombcount;
+  }
 
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
 
+  normalAttack(magic) {
+    magics.add(magic);
+
+    this.anims.play("fairy" + this.fairyNum + "_attack", true);
+    // magic.body.width = 50;
+    // magic.body.height = 50;
+    // magic.body.offset.x = 25;
+    // magic.body.offset.y = 25;
+
+    let angle = Phaser.Math.Angle.Between(
+      this.x,
+      this.y,
+      input.x + camera.scrollX,
+      input.y + camera.scrollY
+    );
+    
+    angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
+    magic.rotation += (angle - 180) / 60 - 1.5;
+
+
+    magic.anims.play("magic" + this.fairyNum, true);
+
+    switch (this.fairyNum) {
+      case 1:
+        if (this.attackCount > 0) {
+          this.attackCount--;
+          normalAttackTimer = this.as - 20;
+        } else {
+          this.attackCount = this.maxAttackCount;
+          normalAttackTimer = 0;
+        }
+        break;
+      case 2:
+        magic.setVisible(false);
+        this.maxPierceCount = 99999;
+        this.pierceCount = 99999;
+        magic.setScale(2);
+        magic.body.checkCollision.none = true;
+        normalAttackTimer = 0;
+        break;
+      case 3:
+        // 3갈래는 영선님 알고리즘 사용하기
+        this.maxPierceCount = 99999;
+        this.pierceCount = 99999;
+        normalAttackTimer = 0;
+        break;
+      case 4:
+        // 얘 뭔가 구려보임 바꿀 필요 있음
+        normalAttackTimer = 0;
+        break;
+      case 5:
+        // 폭탄 때문에 새로운 매커니즘 적용시키기에는 효율이 안좋음
+        // 공격속도와 폭발 지속시간으로 변경하는 건 어떤 지 제안
+        magic.body.checkCollision.none = true;
+        this.maxPierceCount = 99999;
+        this.pierceCount = 99999;ㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+        this.velo = 0;
+        normalAttackTimer = 0;
+        break;
     }
+    thisScene.physics.moveTo(
+      magic,
+      input.x + camera.scrollX,
+      input.y + camera.scrollY,
+      this.velo
+    );
+    control = true;
+  }
 
-    // 마법사
-    initFairy1(attackCount, pierceCount) {
-        this.attackCount = attackCount;
-        this.pierceCount = pierceCount;
-    }
+  skillFire() {
+    
+  }
 
-    // 사신
-    initFairy2(size, vampire) {
-        this.attackCount = attackCount;
-        this.pierceCount = pierceCount;
-    }
 
-    // 닌자
-    initFairy3(stun) {
-        this.stun = stun;
-    }
-
-    // 슬라임
-    initFairy4(size, aura, auraRange, block) {
-        this.size = size;
-        this.aura = aura;
-        this.auraRange = auraRange;
-        this.block = block;
-    }
-
-    // 마녀
-    initFairy5(size, bombCount) {
-        this.size = size;
-        this.bombCount = bombCount;
-    }
-
-    enemyHit(fairy, alien) {
-
-    }
 }
