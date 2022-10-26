@@ -2,7 +2,7 @@ export default function levelup() {
   const gameContainer = document.querySelector("#game-container");
   // const levelupContainer = document.createElement("div");
   // levelupContainer.setAttribute("class", "levelupContainer");
-
+  $this.pause();
   const levelupContainer = document.createElement("div");
   levelupContainer.setAttribute("class", "levelupContainer");
   for (let i = 0; i < 3; i++) {
@@ -27,6 +27,7 @@ export default function levelup() {
   for (let i = 0; i < 3; i++) {
     contents[i].addEventListener("click", () => {
       console.log("특성");
+      $this.resume();
       gameContainer.removeChild(removeContainer);
     });
   }

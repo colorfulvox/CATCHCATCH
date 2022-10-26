@@ -534,7 +534,6 @@ function create() {
 }
 
 function update(time, delta) {
-
   //map start
   if (
     this.cameras.main.worldView.x > -1000 &&
@@ -623,7 +622,7 @@ function update(time, delta) {
     fairySet[nowFairy].normalAttack(magic);
   }
 
-  for (let i = 0; i < 5; i++){
+  for (let i = 0; i < 5; i++) {
     if (fairySet[i].timer < fairySet[i].skillCD) {
       fairySet[i].timer++;
     } else {
@@ -656,12 +655,11 @@ function update(time, delta) {
 
   mon1Delay++;
 
-
-// 랜덤 위치에 몬스터 생성 (추후 player.x 및 y 좌표 기준 생성으로 변경)
+  // 랜덤 위치에 몬스터 생성 (추후 player.x 및 y 좌표 기준 생성으로 변경)
   if (mon1Delay > 60) {
     gameTimer++;
     console.log(gameTimer);
-    randomLocation = Math.floor(Math.random() * 4) + 1
+    randomLocation = Math.floor(Math.random() * 4) + 1;
     if (randomLocation === 1) {
       mon1X = Phaser.Math.Between(player.x - 2000, player.x + 2000);
       mon1Y = Phaser.Math.Between(player.y + 2000, player.y + 2010);
@@ -775,9 +773,18 @@ function attack(magic, alien) {
 
     if (nowFairy === 2) {
       //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
-      let num = Math.floor((Math.random() * 100) + 1);
+      let num = Math.floor(Math.random() * 100 + 1);
       if (num <= fairySet[nowFairy].deathCount) {
         alien.destroy();
+        exp++;
+        updateExp();
+        if (exp === 3) {
+          level++;
+          exp = 0;
+          levelup();
+          updateExp();
+        }
+
         alienCount -= 1;
       }
     }
@@ -786,6 +793,15 @@ function attack(magic, alien) {
     alien.invincible = true;
     if (alien.health <= 0) {
       alien.destroy();
+      exp++;
+      updateExp();
+      if (exp === 3) {
+        level++;
+        exp = 0;
+        levelup();
+        updateExp();
+      }
+
       alienCount -= 1;
     }
   }
