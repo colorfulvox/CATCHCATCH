@@ -1,4 +1,3 @@
-
 export default class Magic extends Phaser.Physics.Arcade.Sprite {
   collidingEditEnemy = null;
   constructor(scene, fairy) {
