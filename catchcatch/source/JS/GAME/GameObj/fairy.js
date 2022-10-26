@@ -1,5 +1,6 @@
 import { input, camera, aliens } from "../game.js";
 import Magic from "./magic.js";
+import Skill from "./skill.js";
 export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
   // 얘는 공격 스프라이트 객체
@@ -19,6 +20,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   size;
   vampire;
   stun;
+  deathCount;
   aura;
   aura_range;
   block;
@@ -27,7 +29,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, skillCD,
      dmg, dmg_bonus, range, as,
       as_bonus, velo, fairyNum, player) {
-    super(scene, -100, -100, "fairy" + fairyNum);
+    super(scene, -10000, -10000, "fairy" + fairyNum);
     this.fairyNum = fairyNum;
     this.scale = 0.35;
     this.alpha = 1;
@@ -55,10 +57,15 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   initFairy2(size, vampire){
     this.size = size;
     this.vampire = vampire;
+    this.maxPierceCount = 99999;
+    this.pierceCount = 99999;
   }
   // 닌자
-  initFairy3(stun){
+  initFairy3(stun, deathCount){
     this.stun = stun;
+    this.deathCount = deathCount;
+    this.maxPierceCount = 99999;
+    this.pierceCount = 99999;
   }
   // 슬라임
   initFairy4(size, aura, aura_range, block){
@@ -71,6 +78,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   initFairy5(size, bombcount){
     this.size = size;
     this.bombcount = bombcount;
+    this.maxPierceCount = 99999;
+    this.pierceCount = 99999;
   }
 
 
@@ -144,7 +153,29 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   }
 
   skillFire() {
-    
+    switch (this.fairyNum) {
+      case 1:
+        let skill = new Skill(thisScene, this);
+        magics.add(skill);
+        skill.dmg = skill.dmg * 2;
+        skill.setPosition(input.x + camera.scrollX, input.y + camera.scrollY);
+        this.skillUse = true;
+        this.timer = 0;
+        break;
+      case 2:
+        
+        break;
+      case 3:
+
+        break;
+      case 4:
+
+        break;
+      case 5:
+
+        break;
+    }
+
   }
 
 
