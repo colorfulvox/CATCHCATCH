@@ -45,14 +45,6 @@ const StartPageInit = () => {
   Btn.className = "StartBtn";
   Btn.textContent = "GameStart";
 
-  // Btn.type = "submit";
-
-  // Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
-  Btn.style.backgroundSize = "contain";
-  Btn.style.backgroundRepeat = "no-repeat";
-  Btn.style.backgroundPosition = "center";
-  Btn.style.fontFamily = "KenneyBlocks";
-
   //이벤트 리스너 추가------------
   Btn.addEventListener("click", GoSelectChar);
   //-------------------------
@@ -68,13 +60,6 @@ const StartPageInit = () => {
   var Btn = document.createElement("button");
   Btn.className = "StartBtn";
   Btn.textContent = "Ranking";
-
-  // Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
-  Btn.style.backgroundSize = "contain";
-  Btn.style.backgroundRepeat = "no-repeat";
-  Btn.style.backgroundPosition = "center";
-  Btn.style.fontFamily = "KenneyBlocks";
-
   _Ranked.appendChild(Btn);
 
   _StartBtn.appendChild(_Ranked); //랭킹 버튼 추가;
@@ -86,13 +71,6 @@ const StartPageInit = () => {
   var Btn = document.createElement("button");
   Btn.className = "StartBtn";
   Btn.textContent = "Exit";
-
-  // Btn.style.backgroundImage = "url('../images/ui/Button_1.png')";
-  Btn.style.backgroundSize = "contain";
-  Btn.style.backgroundRepeat = "no-repeat";
-  Btn.style.backgroundPosition = "center";
-  Btn.style.fontFamily = "KenneyBlocks";
-
   _QuitGame.appendChild(Btn);
 
   _StartBtn.appendChild(_QuitGame); //게임종료 버튼 추가;
@@ -102,18 +80,23 @@ const StartPageInit = () => {
 export default StartPageInit;
 
 export const StartBtnOn = () => {
-  const StartBtnClassList = document.querySelectorAll(".StartBtn");
-  for (let i = 0; i < StartBtnClassList.length; ++i) {
-    StartBtnClassList[i].style.display = "block";
-  }
+  const StartBtnClassList = document.querySelector(".StartBtnList");
+  StartBtnClassList.style.display = "flex";
+
+  // document.querySelectorAll(".StartBtn");
+  // for (let i = 0; i < StartBtnClassList.length; ++i) {
+  //   StartBtnClassList[i].style.display = "block";
+  // }
 };
 
 export const StartBtnOff = () => {
-  const StartBtnClassList = document.querySelectorAll(".StartBtn");
+  const StartBtnClassList = document.querySelector(".StartBtnList");
+  StartBtnClassList.style.display = "none";
+  // const StartBtnClassList = document.querySelectorAll(".StartBtn");
 
-  for (let i = 0; i < StartBtnClassList.length; ++i) {
-    StartBtnClassList[i].style.display = "none";
-  }
+  // for (let i = 0; i < StartBtnClassList.length; ++i) {
+  //   StartBtnClassList[i].style.display = "none";
+  // }
 };
 
 export const StartPageOn = () => {
