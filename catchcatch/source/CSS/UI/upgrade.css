@@ -11,10 +11,15 @@ body {
 
 .upgradeContainer {
   display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
   width: 150vmin;
   height: 80vmin;
   border: 6px solid black;
   justify-content: space-between;
+  z-index: 101;
 }
 
 .upgradeType {
@@ -29,10 +34,17 @@ body {
 .upgradeContent {
   display: flex;
   width: 130vmin;
-  flex-direction: column;
-  justify-content: space-evenly;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   border: 6px solid yellow;
+}
+.playerType {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40vmin;
+  border: 6px solid orange;
 }
 .weaponType {
   display: flex;
@@ -52,14 +64,46 @@ body {
 
 .towerIcons {
   display: flex;
-  width: 100vmin;
+  width: 80vmin;
+  height: 15%;
   justify-content: space-evenly;
+  align-items: center;
   border: 6px solid purple;
 }
 
 .weaponIcons {
   display: flex;
   width: 100vmin;
+  height: 15%;
   justify-content: space-evenly;
+  align-items: center;
   border: 6px solid purple;
+}
+
+.tower1234 {
+  display: flex;
+  width: 20vmin;
+  height: 80%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tower {
+  border: 6px solid salmon;
+}
+
+.towerContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 70%;
+}
+
+.weaponContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 70%;
 }
