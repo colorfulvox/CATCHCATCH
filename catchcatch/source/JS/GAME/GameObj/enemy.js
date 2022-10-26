@@ -20,8 +20,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   }
 
-  anime(alien){
-    alien
+  anime(){
+    this
     .setTint(Phaser.Display.Color.RandomRGB().color)
     .play(this.anim);
   }
