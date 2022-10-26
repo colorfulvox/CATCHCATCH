@@ -57,6 +57,9 @@ export var input;
 var mouse;
 //player end
 
+//gametimer
+var gameTimer = 0;
+
 //map start
 var map;
 var chunks = [];
@@ -600,6 +603,8 @@ this.cameras.main.startFollow(player, false);
 
 // 랜덤 위치에 몬스터 생성 (추후 player.x 및 y 좌표 기준 생성으로 변경)
     if (mon1Delay > 60) {
+        gameTimer++;
+        console.log(gameTimer);
         randomLocation = Math.floor(Math.random() * 4) + 1
         if (randomLocation === 1) {
             mon1X = Phaser.Math.Between(player.x - 2000, player.x + 2000);
