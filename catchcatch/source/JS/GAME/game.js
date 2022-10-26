@@ -58,6 +58,9 @@ export var input;
 var mouse;
 //player end
 
+//gametimer
+var gameTimer = 0;
+
 //map start
 var map;
 var chunks = [];
