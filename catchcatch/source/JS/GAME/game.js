@@ -1,7 +1,7 @@
-import Fairy from './GameObj/fairy';
-import Magic from './GameObj/magic';
-import Player from './GameObj/player';
-import Enemy from './GameObj/enemy';
+import Fairy from './GameObj/fairy.js';
+import Magic from './GameObj/magic.js';
+import Player from './GameObj/player.js';
+import Enemy from './GameObj/enemy.js';
 
 export const config = {
     type: Phaser.AUTO,
@@ -32,10 +32,10 @@ let player;
 // 캐릭터 선택 시 변경될 변수
 let catNumber = 0;
 // 요정
-var now_fairy = 0;
-var fairys = [, , , , ,];
+var nowFairy = 0;
+var fairySet = [, , , , ,];
 var fairy;
-
+global.thisScene = "";
 // 공격 및 공격 딜레이 관련
 global.control = false;
 global.normalAttackTimer = 0;
@@ -67,16 +67,15 @@ let controls;
 //enemy start
 
 // 몬스터 변수 선언
-export var aliens;
+export var alienSet;
 var alien;
 var target;
-var player;
 var cursors;
-var mon1_delay = 0;
-var mon1_x;
-var mon1_y;
-global.alien_count = 0;
-var random_rocation;
+var mon1Delay = 0;
+var mon1X;
+var mon1Y;
+global.alienCount = 0;
+var randomLocation;
 var invincible = false;
 var timer;
 
@@ -243,14 +242,14 @@ function create() {
     );
 
   // 플레이어, 요정 로딩
-  fairys[0] = new Fairy(this, 100, 4, 1, 1, 60, 10, 500, 1, player);
-  fairys[0].initFairy1(2, 2);
-  fairys[1] = new Fairy(this,100, 10, 1, 1, 70, 10, 160, 2, player);
-  fairys[2] = new Fairy(this,100, 0, 1, 3, 80, 10, 300, 3, player);
-  fairys[3] = new Fairy(this,100, 10, 1, 4, 90, 10, 400, 4, player);
-  fairys[4] = new Fairy(this, 100, 10, 1, 5, 100, 10, 500, 5, player);
-  player.changeFairy(fairys[0]);
-  normalAttackAS = fairys[0].as;
+  fairySet[0] = new Fairy(this, 100, 4, 1, 1, 60, 10, 500, 1, player);
+  fairySet[0].initFairy1(2, 2);
+  fairySet[1] = new Fairy(this,100, 10, 1, 1, 70, 10, 160, 2, player);
+  fairySet[2] = new Fairy(this,100, 0, 1, 3, 80, 10, 300, 3, player);
+  fairySet[3] = new Fairy(this,100, 10, 1, 4, 90, 10, 400, 4, player);
+  fairySet[4] = new Fairy(this, 100, 10, 1, 5, 100, 10, 500, 5, player);
+  player.changeFairy(fairySet[0]);
+  normalAttackAS = fairySet[0].as;
   // animation
   this.anims.create({
     key: "fairy1_idle",
@@ -402,7 +401,7 @@ function create() {
     frameRate: 200,
     repeat: -1,
   });
-  fairys[now_fairy].play("fairy" + (now_fairy + 1) + "_idle", true);
+  fairySet[nowFairy].play("fairy" + (nowFairy + 1) + "_idle", true);
 
     //player end
 
@@ -430,11 +429,11 @@ function create() {
 
     //enemy start
 
-  aliens = this.physics.add.group();
+  alienSet = this.physics.add.group();
   magics = this.physics.add.group();
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
-  this.physics.add.collider(player, aliens, player.hitPlayer);
-  thisScene.physics.add.overlap(magics, aliens, attack);
+  this.physics.add.collider(player, alienSet, player.hitPlayer);
+  thisScene.physics.add.overlap(magics, alienSet, attack);
     this.anims.create({
         key: 'swarm',
         frames: this.anims.generateFrameNumbers('alien', {start: 0, end: 1}),
@@ -463,9 +462,9 @@ function update(time, delta) {
   }
     //mouse clicked
   if (mouse.leftButtonDown() && !control) {
-    magic = new Magic(this, fairys[now_fairy]);
-    this.physics.add.overlap(magic, aliens, fairys[now_fairy].attack, null, this);
-    fairys[now_fairy].normalAttack(magic);
+    magic = new Magic(this, fairySet[nowFairy]);
+    this.physics.add.overlap(magic, alienSet, fairySet[nowFairy].attack, null, this);
+    fairySet[nowFairy].normalAttack(magic);
   }
 
   player.move();
@@ -545,11 +544,11 @@ function update(time, delta) {
 var magicFire = function (game) {
   // 게임에서 외부 UI 연관 테스트
   //for fire again
-  magic = new Magic(game, fairys[now_fairy].range, fairys[now_fairy]);
+  magic = new Magic(game, fairySet[nowFairy].range, fairySet[nowFairy]);
   magics.push(magic);
   // console.log(magic);
   // console.log(magic.body);
-  game.physics.add.overlap(magic, aliens, attack, null, this);
+  game.physics.add.overlap(magic, alienSet, attack, null, this);
   // magic.body.setCircle(45);
 
   /*충돌관련 하드코딩 된 부분 나중에 수정 */
@@ -661,31 +660,19 @@ function attack(magic, alien) {
       magic.destroy();
     }
 
-    if (now_fairy === 2) { //  && fairys[now_fairy].level === 9 (추후에 레벨업 생길 때 추가)
+    if (nowFairy === 2) { //  && fairys[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
       let num = Math.floor(Math.random() * 100);
       if (num <= 9) {
         alien.destroy();
       }
     }
 
-    alien.health -= fairys[now_fairy].dmg;
+    alien.health -= fairySet[nowFairy].dmg;
     alien.invincible = true;
     if (alien.health <= 0){
       alien.destroy();
-      alien_count -= 1;
+      alienCount -= 1;
     }
   }
 }
-
-    alien.health -= fairys[now_fairy].dmg;
-    alien.invincible = true;
-    if (alien.health <= 0){
-      alien.destroy();
-      alien_count -= 1;
-    }
-  }
->>>>>>> Game_HJS
-}
-
-
 //enemy end

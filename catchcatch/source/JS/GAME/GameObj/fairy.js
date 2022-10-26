@@ -1,5 +1,5 @@
 import { input, camera, aliens } from "../game.js";
-import Magic from "./Magic.js";
+import Magic from "./magic.js";
 export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
   // 얘는 공격 스프라이트 객체
@@ -129,7 +129,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         // 공격속도와 폭발 지속시간으로 변경하는 건 어떤 지 제안
         magic.body.checkCollision.none = true;
         this.maxPierceCount = 99999;
-        this.pierceCount = 99999;ㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+        this.pierceCount = 99999;
         this.velo = 0;
         normalAttackTimer = 0;
         break;
