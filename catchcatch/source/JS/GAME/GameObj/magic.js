@@ -1,8 +1,10 @@
 export default class Magic extends Phaser.Physics.Arcade.Sprite {
   collidingEditEnemy = null;
+  stun;
   constructor(scene, fairy) {
 
     super(scene, fairy.x, fairy.y, "magic" + fairy.fairyNum);
+    this.stun = fairy.stun;
     scene.time.addEvent({ delay: (fairy.range * 1000), callback: () => { this.destroy(); }, loop: false });
     if (fairy.fairyNum === 2) {
       scene.time.addEvent({ delay: 300, callback: () => { this.body.checkCollision.none = false; this.setVisible(true); this.setVelocity(0, 0); }, loop: false });
