@@ -2,6 +2,7 @@ import "../../CSS/UI/CharSpace.css";
 import { StartBtnOn } from "./StartPage";
 import { SaveData } from "../../main.js";
 import { config } from "../GAME/game.js";
+import levelup from "./levelup";
 
 var _SettingSpace;
 
@@ -166,8 +167,7 @@ function GameStart() {
   StartPage.style.display = "none";
   var game = new Phaser.Game(config);
   const gameContainer = document.querySelector("#game-container");
-  gameContainer.style.display = "block";
-
+  gameContainer.style.display = "flex";
   console.log(ChoiceCat);
   console.log(ChoiceLevel);
 }

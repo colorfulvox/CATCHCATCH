@@ -2,6 +2,10 @@ import Fairy from './GameObj/fairy.js';
 import Magic from './GameObj/magic.js';
 import Player from './GameObj/player.js';
 import Enemy from './GameObj/enemy.js';
+import inGameUI, { updateExp } from "../UI/inGameUI.js";
+import levelup from "../UI/levelup.js";
+import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
+
 
 import {Chunk, Tile} from './Entities.js';
 
@@ -26,11 +30,8 @@ export const config = {
             debug: true,
             fixedStep: false,
         },
-    },
-};
-
-
-
+    }
+}
 //player start
 // 고양이 json
 let cats;
@@ -202,6 +203,10 @@ function create() {
     slot4: Phaser.Input.Keyboard.KeyCodes.FOUR,
     slot5: Phaser.Input.Keyboard.KeyCodes.FIVE,
     skill: Phaser.Input.Keyboard.KeyCodes.SPACE
+  });
+  global.$this = this.scene;
+  this.input.keyboard.on("keydown-" + "SHIFT", function (event) {
+    initUpgrade();
   });
   // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true);
 
@@ -386,6 +391,35 @@ function create() {
     frameRate: 200,
     repeat: -1,
   });
+
+
+  fairys[now_fairy].play("fairy" + (now_fairy + 1) + "_idle", true);
+
+  //player end
+
+  //map start
+  var j1;
+
+  for (var i = 0; i < 5; i++) {
+    var x = Phaser.Math.Between(400, 600);
+    var y = Phaser.Math.Between(400, 600);
+
+    j1 = this.physics.add.sprite(x, y, "j1");
+    j1.body.immovable = true;
+
+    this.physics.add.collider(player, j1);
+  }
+
+  // this.physics.add.overlap(player, portalLayer);
+
+  player.setPosition(8000, 8000); //width, height
+  this.physics.add.collider(player, stage3Layer);
+  camera.startFollow(player, false);
+  //map end
+
+  //enemy start
+
+  // 스프라이트셋 애니메이션 호출
   this.anims.create({
     key: "magic5_1",
     frames: this.anims.generateFrameNumbers("magic5_1", {
@@ -412,6 +446,20 @@ function create() {
   this.physics.add.collider(player, alienSet, player.hitPlayer);
   thisScene.physics.add.overlap(magics,alienSet,attack);
   //map start
+  // 몬스터 리스폰  -> 추후 몬스터가 죽었을 때 리스폰 역할로 사용
+  this.time.addEvent({
+    delay: 100,
+    loop: true,
+    callback: addAlien,
+  });
+  //enemy end
+
+  inGameUI();
+}
+
+function update(time, delta) {
+  //menu
+  //player start
   if (
     this.cameras.main.worldView.x > -1000 &&
     this.cameras.main.worldView.x < 1000 &&
@@ -606,6 +654,11 @@ this.cameras.main.startFollow(player, false);
             mon1Y = Phaser.Math.Between(player.y + 2000, player.y + 2010);
         }
 
+  //enemy end
+
+  //player start
+}
+
         if (randomLocation === 2) {
             mon1X = Phaser.Math.Between(player.x - 2000, player.x + 2000);
             mon1Y = Phaser.Math.Between(player.y - 2000, player.y - 2010);
@@ -639,6 +692,15 @@ this.cameras.main.startFollow(player, false);
 // 플레이어 공격
 var magicFire = function (game) {
   // 게임에서 외부 UI 연관 테스트
+  exp++;
+  updateExp();
+  if (exp === 3) {
+    level++;
+    exp = 0;
+    levelup();
+    updateExp();
+  }
+
   //for fire again
   magic = new Magic(game, fairySet[nowFairy].range, fairySet[nowFairy]);
   magics.push(magic);
@@ -784,5 +846,10 @@ function getChunk(x, y) {
     }
   }
   return chunk;
-}
+
 //map end
+
+
+//enemy end
+
+function toggleMenu() {}
