@@ -1,4 +1,4 @@
-export default function tower() {
+export default function player() {
   const upgradeContent = document.querySelector(".upgradeContent");
   upgradeContent.innerHTML = `
     <div class="tower1234">
@@ -8,6 +8,7 @@ export default function tower() {
         </div>
     </div>
     <div class="towerContent">
+    
         <div class="towerIcons">
             <div>그림</div>
             <div>그림</div>

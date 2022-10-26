@@ -2,6 +2,9 @@ import Fairy from "./GameObj/fairy.js";
 import Magic from "./GameObj/magic.js";
 import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
+import inGameUI, { updateExp } from "../UI/inGameUI.js";
+import levelup from "../UI/levelup.js";
+import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
 import { Chunk, Tile } from "./Entities.js";
 
@@ -175,6 +178,7 @@ function preload() {
 }
 
 function create() {
+  inGameUI();
   thisScene = this;
   //map start
   this.chunkSize = 16;
@@ -202,7 +206,10 @@ function create() {
     skill: Phaser.Input.Keyboard.KeyCodes.SPACE,
   });
   // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true);
-
+  global.$this = this.scene;
+  this.input.keyboard.on("keydown-" + "SHIFT", function (event) {
+    initUpgrade();
+  });
   //map end
 
   //player start
@@ -640,6 +647,14 @@ function update(time, delta) {
 // 플레이어 공격
 var magicFire = function (game) {
   // 게임에서 외부 UI 연관 테스트
+  exp++;
+  updateExp();
+  if (exp === 3) {
+    level++;
+    exp = 0;
+    levelup();
+    updateExp();
+  }
   //for fire again
   magic = new Magic(game, fairySet[nowFairy].range, fairySet[nowFairy]);
   magics.push(magic);
