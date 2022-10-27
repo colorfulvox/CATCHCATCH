@@ -27,7 +27,7 @@ export const config = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: true,
+      debug: false,
       fixedStep: false,
     },
   },
@@ -102,8 +102,10 @@ var cursors;
 // 보스
 var slime_king;
 
+// 보스 패턴
+var pt;
 // 보스 활성 확인
-var slime_king_active;
+var boss_active;
 
 // 몬스터 생성주기
 var mon1Delay = 0;
@@ -564,6 +566,7 @@ function create() {
 
 
   this.physics.add.collider(player, bossSet, player.hitPlayer);
+  this.physics.add.collider(bossSet, monsterSet);
   thisScene.physics.add.overlap(magics, bossSet, attack);
 
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
@@ -664,10 +667,10 @@ function create() {
   //enemy end
 
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
-    if  (!slime_king_active){
-      slime_king = new Boss(this,300,80,player.x+300,player.y+300,'slime_king','swarm',5,1)
+    if  (!boss_active){
+      slime_king = new Boss(this,200,80,player.x+300,player.y+300,'slime_king','swarm',5,1,'boss')
       slime_king.anime()
-      slime_king_active = true
+      boss_active = true
       bossSet.add(slime_king)
     }
 }
@@ -792,13 +795,12 @@ function update(time, delta) {
         }
     }
 
-    if (slime_king_active){
-    this.physics.moveToObject(slime_king,player,80);
-    if(slime_king.health <= 100){
-      slime_king.destroy()
-      slime_king_active = false
-    }
-    }
+    if (boss_active){
+      for (let i = 0; i < bossSet.children.entries.length; i ++){
+    this.physics.moveToObject(bossSet.children.entries[i],player,bossSet.children.entries[i].velo);
+    if (bossSet.children.entries[i].health <=0){
+    slime_pattern(this,bossSet.children.entries[i].pt,bossSet.children.entries[i].x,bossSet.children.entries[i].y)
+    bossSet.children.entries[i].destroy()}}}
 
     mon1Delay++;
     mon2Delay++;
@@ -945,7 +947,7 @@ function attack(magic, monster) {
 
     monster.health -= fairySet[nowFairy].dmg;
     monster.invincible = true;
-    if (monster.health <= 0) {
+    if (monster.health <= 0 && monster.type !='boss') {
       monster.destroy();
       player.levelUp();
       monsterCount -= 1;
@@ -961,7 +963,6 @@ function hithole(hole,monster){
   if (hole.hp <= 0){
     console.log('game over')
   }
-  
 }
 
 
@@ -974,44 +975,49 @@ function addMonster(scene,mon_name, mon_anime,hp,velo,x,y,type){
 }
 
 
-
-
 function enemySpawn(scene){
   randomLocation = Math.floor(Math.random() * 4) + 1
   if (randomLocation === 1) {
-    monX = Phaser.Math.Between(player.x - 1000, player.x + 1000);
-    monY = Phaser.Math.Between(player.y + 1000, player.y + 1010);
+    monX = Phaser.Math.Between(player.x - 500, player.x + 500);
+    monY = Phaser.Math.Between(player.y + 500, player.y + 510);
   }
 
   else if (randomLocation === 2) {
-    monX = Phaser.Math.Between(player.x - 1000, player.x + 1000);
-    monY = Phaser.Math.Between(player.y - 1000, player.y - 1010);
+    monX = Phaser.Math.Between(player.x - 500, player.x + 500);
+    monY = Phaser.Math.Between(player.y - 500, player.y - 510);
   }
 
   else if (randomLocation === 3) {
-    monX = Phaser.Math.Between(player.x - 1000, player.x - 1000);
-    monY = Phaser.Math.Between(player.y - 1000, player.y + 1000);
+    monX = Phaser.Math.Between(player.x - 500, player.x - 500);
+    monY = Phaser.Math.Between(player.y - 500, player.y + 500);
   }
 
   else if (randomLocation === 4) {
-    monX = Phaser.Math.Between(player.x + 1000, player.x + 1000);
-    monY = Phaser.Math.Between(player.y - 1000, player.y + 1000);}
+    monX = Phaser.Math.Between(player.x + 500, player.x + 500);
+    monY = Phaser.Math.Between(player.y - 500, player.y + 500);}
 }
 
+function slime_pattern(scene,pt,x,y){
+  if(pt != 16){
+      pt *= 2
+      console.log(pt)
+      for (let i = 0; i<pt; i++){
+        // 분열될 때마다 체력 감소 구현하기
+        if(pt < 4){
+          slime_king = new Boss(scene,100,100,x+i*100,y,'slime_king','swarm',2.5,pt,'boss')}
+        else if (pt < 8){
+          slime_king = new Boss(scene,50,100,x+i*50,y,'slime_king','swarm',1.25,pt,'boss')
+        }
+        else{
+          slime_king = new Boss(scene,25,100,x+i*25,y,'slime_king','swarm',0.5,pt,'boss')
+        }
+          slime_king.anime()
+          scene.physics.add.collider(bossSet, slime_king);
+          bossSet.add(slime_king)
+      }
+  }
+}
 
-
-
-// slime_pattern(){
-//   if(this.pt == 1){
-//       bossSet[0].destory()
-//       for (let i; i<10; i++){
-//           slime_king_copy = new Boss(scene,50,100,boss.x,boss.y,'slime_king_2','swarm',5,2)
-//           slime_king.anime()
-//           bossSet.add(slime_king_copy)
-//       }
-      
-//   }
-// }
 //enemy end
 
 //map start
