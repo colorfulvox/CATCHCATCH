@@ -7,7 +7,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
   velo;
   invincible = false;
   bossSpiece;
-  constructor(scene, maxHealth, velo, randomX, randomY, bossSpiece,anim,scale,pt) {
+  constructor(scene, maxHealth, velo, randomX, randomY, bossSpiece,anim,scale,pt,type) {
     scene.time.addEvent({delay:400, callback:()=>{this.invincible=false}, loop: true});
     super(scene, randomX, randomY, bossSpiece);
     this.maxHealth = maxHealth;
@@ -20,6 +20,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
     this.pt = pt;
     this.scale = scale;
+    this.type = type;
 
   }
 
