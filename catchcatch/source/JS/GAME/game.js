@@ -7,6 +7,9 @@ import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
 import { Chunk, Tile } from "./Entities.js";
+import CatTower from "./GameObj/cattower.js";
+import Boss from './GameObj/boss.js';
+import Mine from "./GameObj/mine.js";
 
 export const config = {
   type: Phaser.AUTO,
@@ -26,7 +29,7 @@ export const config = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: true,
+      debug: false,
       fixedStep: false,
     },
   },
@@ -50,6 +53,7 @@ global.normalAttackTimer = 0;
 var normalAttackAS = 20;
 var magic;
 global.magics = "";
+
 export var cursors;
 var gameOver = false;
 var scoreText;
@@ -69,24 +73,94 @@ export var camera;
 let controls;
 //map end
 
+//navi start
+var navi;
+//navi end
+
+//coin start
+global.coin = 0;
+global.cointext = "";
+//coin end
+
 //enemy start
 
+
 // 몬스터 변수 선언
-export var alienSet;
+export var monsterSet;
+var monster;
+
+export var bossSet;
+// 1번 몬스터: alien
 var alien;
-var target;
+
+// 2번 몬스터: worm
+var worm;
+
+// 3번 몬스터: sonic
+var sonic;
+
+// 4번 몬스터: turtle
+var turtle; 
+
+// 5번 몬스터: alien_plus
+var alien_plus;
+
+// 6번 몬스터: worm_plus
+var worm_plus;
+
 var cursors;
+
+
+// 보스
+var slime_king;
+
+// 보스 패턴
+var pt;
+// 보스 활성 확인
+var boss_active;
+
+// 몬스터 생성주기
 var mon1Delay = 0;
-var mon1X;
-var mon1Y;
-global.alienCount = 0;
-var randomLocation;
-var invincible = false;
+var mon2Delay = 0;
+var mon3Delay = 0;
+var mon4Delay = 0;
+
+var monX;
+var monY;
+global.monsterCount = 0;
+var randomLocation = 0;
 var timer;
+var random_monster = 0;
+
+
+// 임시 구멍
+var hole;
 
 // 몬스터 이미지
 
 //enemy end
+
+
+//tower start
+var towerLU
+var towerRU
+var towerLD
+var towerRD
+global.towerAttacks = "";
+global.towerSkillAttacks = "";
+//tower end
+
+//mine start
+var mine;
+var minecount = 10;
+var StartMineRangeX = -1000; 
+var StartMineRangeY = -1000; 
+var EndMineRangeX = 1000; 
+var EndMineRangeY = 1000; 
+
+global.mines = "";
+//mine end
+
 
 function preload() {
   //map start
@@ -94,6 +168,24 @@ function preload() {
   this.load.image("sprSand", "images/map/sprSand.png");
   this.load.image("sprGrass", "images/map/sprGrass.png");
   //map end
+
+  //tower start
+  this.load.image("cat", "images/cattower/cat.png");
+  this.load.image("can", "images/cattower/can.png");
+  this.load.image("skill", "images/cattower/skill.png");
+  //tower end
+
+  //hole start
+  this.load.image("hole", "images/hole/hole.png");
+  //hole end
+
+  //navi start
+  this.load.image("navi", "images/navi/arrow.png");
+  //navi end
+
+  //mine start
+  this.load.image("mine", "images/mine/mine.png")
+  //mine end
 
   //player start
   // 플레이어 스프라이트
@@ -136,6 +228,7 @@ function preload() {
       endFrame: 61,
     }
   );
+
   this.load.spritesheet(
     "magic2",
     "images/attack/weapon/7_firespin_spritesheet.png",
@@ -144,6 +237,7 @@ function preload() {
       frameHeight: 100,
     }
   );
+
   this.load.spritesheet(
     "magic3",
     "images/attack/weapon/18_midnight_spritesheet.png",
@@ -153,6 +247,7 @@ function preload() {
       endFrame: 61,
     }
   );
+
   this.load.spritesheet(
     "magic4",
     "images/attack/weapon/2_magic8_spritesheet.png",
@@ -162,11 +257,13 @@ function preload() {
       endFrame: 61,
     }
   );
+
   this.load.spritesheet(
     "magic5",
     "images/attack/weapon/8_protectioncircle_spritesheet.png",
     { frameWidth: 100, frameHeight: 100, endFrame: 61 }
   );
+
   this.load.spritesheet(
     "magic5_1",
     "images/attack/weapon/13_vortex_spritesheet.png",
@@ -206,39 +303,49 @@ function preload() {
     frameWidth: 150,
     frameHeight: 142,
   });
+
   this.load.spritesheet("fairy2", "images/fairy/fairy2.png", {
     frameWidth: 230,
     frameHeight: 210,
   });
+
   this.load.spritesheet("fairy3", "images/fairy/fairy3.png", {
     frameWidth: 134,
     frameHeight: 158,
   });
+
   this.load.spritesheet("fairy4", "images/fairy/fairy4.png", {
     frameWidth: 136,
     frameHeight: 170,
   });
+
   this.load.spritesheet("fairy5", "images/fairy/fairy5.png", {
     frameWidth: 160,
     frameHeight: 190,
   });
+
   //player end
 
-  //enemy start
-  this.load.spritesheet(
-    "alien",
-    "http://labs.phaser.io/assets/tests/invaders/invader1.png",
-    { frameWidth: 32, frameHeight: 32 }
-  );
-  //enemy end
+    //enemy start
+
+    // 몬스터
+    this.load.spritesheet(
+        "alien",
+        "http://labs.phaser.io/assets/tests/invaders/invader1.png",
+        {frameWidth: 32, frameHeight: 32}
+    );
+
+    // 보스
+    
+    //enemy end
 }
 
 function create() {
   thisScene = this;
   //map start
   this.chunkSize = 8;
-  this.tileSize = 1024;
-  this.cameraSpeed = 10;
+  this.tileSize = 300;
+  this.cameraSpeed = 1;
 
   this.cameras.main.setZoom(1);
   this.followPoint = new Phaser.Math.Vector2(
@@ -273,10 +380,9 @@ function create() {
 
   player = cats[catNumber];
   player = new Player(this, 1, 100, 100, "cat"+(ChoiceCat+1));
-  player.setDepth(1);
+  player.setDepth(2);
   inGameUI();
-  console.log(player);
-  console.log(player);
+
   camera = this.cameras.main;
   input = this.input;
   mouse = input.mousePointer;
@@ -502,24 +608,42 @@ function create() {
 
   //player end
 
-  //map start
-
-  //map end
+  //cointext start
+  cointext = this.add.text(500, 10, 'coin: 0', { font: '10px Arial Black', fill: '#000' }).setScrollFactor(0);
+  cointext.setStroke('#fff', 1);
+  cointext.setDepth(2);
+  //cointext end
 
   //enemy start
 
-  alienSet = this.physics.add.group();
+  monsterSet = this.physics.add.group();
   magics = this.physics.add.group();
+  towerAttacks = this.physics.add.group();
+  towerSkillAttacks = this.physics.add.group();
+  mines = this.physics.add.group();
+
+    // 임시 구멍
+    hole = this.physics.add.sprite(0,0,'fairy4')
+    hole.hp = 100; 
+    hole.setDepth(1);
+
+    // 그룹셋
+    monsterSet = this.physics.add.group();
+    bossSet = this.physics.add.group();
+    magics = this.physics.add.group();
+
+
+  this.physics.add.collider(player, bossSet, player.hitPlayer);
+  this.physics.add.collider(bossSet, monsterSet);
+  thisScene.physics.add.overlap(magics, bossSet, attack);
+
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
-  this.physics.add.collider(player, alienSet, player.hitPlayer);
-  thisScene.physics.add.overlap(magics, alienSet, attack);
+  this.physics.add.collider(player, monsterSet, player.hitPlayer);
+  thisScene.physics.add.overlap(magics, monsterSet, attack);
+    // 만약 몬스터와 구멍이 닿았다면 (hithole 함수 실행)
+    thisScene.physics.add.overlap(hole,monsterSet,hithole)
+  
   //map start
-  if (
-    this.cameras.main.worldView.x > -1000 &&
-    this.cameras.main.worldView.x < 1000 &&
-    this.cameras.main.worldView.y > -1000 &&
-    this.cameras.main.worldView.y < 1000
-  ) {
     var snappedChunkX =
       this.chunkSize *
       this.tileSize *
@@ -562,23 +686,10 @@ function create() {
         }
       }
     }
-  }
 
-  if (cursors.up.isDown && this.cameras.main.worldView.y > -1000) {
-    this.followPoint.y -= this.cameraSpeed;
-  }
-  if (cursors.down.isDown && this.cameras.main.worldView.y < 1000) {
-    this.followPoint.y += this.cameraSpeed;
-  }
-  if (cursors.left.isDown && this.cameras.main.worldView.x > -1000) {
-    this.followPoint.x -= this.cameraSpeed;
-  }
-  if (cursors.right.isDown && this.cameras.main.worldView.x < 1000) {
-    this.followPoint.x += this.cameraSpeed;
-  }
 
   this.cameras.main.centerOn(this.followPoint.x, this.followPoint.y);
-  //map enderlap(magics, alienSet, attack);
+  //map enderlap(magics, monsterSet, attack);
   this.anims.create({
     key: "swarm",
     frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 1 }),
@@ -595,17 +706,59 @@ function create() {
     loop: true,
   });
 
+    // ============== 몬스터 스프라이트 애니메이션 목록 ==================
+    this.anims.create({
+        key: 'swarm',
+        frames: this.anims.generateFrameNumbers('alien', {start: 0, end: 1}),
+        frameRate: 2,
+        repeat: -1
+    })
   //enemy end
+
+
+  //tower start
+
+  towerLU = new CatTower(this, -100, -100, "cat", "can", "skill");
+  towerRU = new CatTower(this, 100, -100, "cat", "can", "skill");
+  towerLD = new CatTower(this, -100, 100, "cat", "can", "skill");
+  towerRD = new CatTower(this, 100, 100, "cat", "can", "skill");
+  towerLU.scale_Circle();
+  towerRU.scale_Circle();
+  towerLD.scale_Circle();
+  towerRD.scale_Circle();
+towerLU.setDepth(1);
+towerRU.setDepth(1);
+towerLD.setDepth(1);
+towerRD.setDepth(1);
+  
+  //tower end
+
+  //mine start
+  for(let i = 0; i < minecount; i++){
+    mine = new Mine(this, Math.random() * (EndMineRangeX - StartMineRangeX) + StartMineRangeX, Math.random() * (EndMineRangeY - StartMineRangeY) + StartMineRangeY, "mine");
+    mine.scale_Circle();
+    mines.add(mine);
+  }
+  //mine end
+
+    // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
+    if  (!boss_active){
+      slime_king = new Boss(this,200,80,player.x+300,player.y+300,'slime_king','swarm',5,1,'boss')
+    if  (!slime_king_active){
+      slime_king = new Boss(this,300,80,player.x+300,player.y+300,'slime_king','swarm',5,1)
+      slime_king.setDepth(2);
+      slime_king.anime()
+      boss_active = true
+      bossSet.add(slime_king)
+    }
+
+    //navi start
+    navi = this.add.image(50, 50, 'navi').setScrollFactor(0).setScale(0.1);
+    navi.setDepth(2)
+    //navi end
 }
 
 function update(time, delta) {
-  //map start
-  if (
-    this.cameras.main.worldView.x > -1000 &&
-    this.cameras.main.worldView.x < 1000 &&
-    this.cameras.main.worldView.y > -1000 &&
-    this.cameras.main.worldView.y < 1000
-  ) {
     var snappedChunkX =
       this.chunkSize *
       this.tileSize *
@@ -648,23 +801,19 @@ function update(time, delta) {
         }
       }
     }
-  }
 
-  if (cursors.up.isDown && this.cameras.main.worldView.y > -1000) {
-    this.followPoint.y -= this.cameraSpeed;
-  }
-  if (cursors.down.isDown && this.cameras.main.worldView.y < 1000) {
-    this.followPoint.y += this.cameraSpeed;
-  }
-  if (cursors.left.isDown && this.cameras.main.worldView.x > -1000) {
-    this.followPoint.x -= this.cameraSpeed;
-  }
-  if (cursors.right.isDown && this.cameras.main.worldView.x < 1000) {
-    this.followPoint.x += this.cameraSpeed;
-  }
+
+    this.followPoint.x = player.x
+    this.followPoint.y = player.y
 
   this.cameras.main.startFollow(player, false);
   //map end
+
+  //navi start
+  
+  navi.rotation = Phaser.Math.Angle.Between( hole.x, hole.y, player.x, player.y);
+
+  //navi end
 
   //player start
   changeSlot();
@@ -680,7 +829,7 @@ function update(time, delta) {
     magic.setDepth(2);
     this.physics.add.overlap(
       magic,
-      alienSet,
+      monsterSet,
       fairySet[nowFairy].attack,
       null,
       this
@@ -697,8 +846,7 @@ function update(time, delta) {
   }
 
   if (cursors.skill.isDown && !fairySet[nowFairy].skillUse) {
-    console.log(fairySet[nowFairy].timer);
-    console.log(fairySet[nowFairy].skillCD);
+
     fairySet[nowFairy].skillFire();
   }
 
@@ -707,54 +855,90 @@ function update(time, delta) {
 
   //enemy start
 
-  if (alienCount !== 0) {
-    for (let i = 0; i < alienSet.children.entries.length; i++) {
-      // console.log(this.physics.moveToObject(monsters[i], player, 100))
-      // if ()
-      this.physics.moveToObject(
-        alienSet.children.entries[i],
-        player,
-        alienSet.children.entries[i].velo
-      );
-    }
-  }
 
-  mon1Delay++;
-
-  // 랜덤 위치에 몬스터 생성 (추후 player.x 및 y 좌표 기준 생성으로 변경)
-  if (mon1Delay > 60) {
-    gameTimer++;
-    console.log(gameTimer);
-    randomLocation = Math.floor(Math.random() * 4) + 1;
-    if (randomLocation === 1) {
-      mon1X = Phaser.Math.Between(player.x - 2000, player.x + 2000);
-      mon1Y = Phaser.Math.Between(player.y + 2000, player.y + 2010);
+    // 몬스터가 유저 따라가게함
+    if (monsterCount !== 0) {
+        for (let i = 0; i < monsterSet.children.entries.length; i++) {
+          if (monsterSet.children.entries[i].type == 'follower'){
+            this.physics.moveToObject(monsterSet.children.entries[i], player, monsterSet.children.entries[i].velo);}
+            // #홀에 따라가게 하는 코드 작성하기#
+          else if (monsterSet.children.entries[i].type == 'siege'){
+            this.physics.moveToObject(monsterSet.children.entries[i], hole, monsterSet.children.entries[i].velo);}
+        }
     }
 
-    if (randomLocation === 2) {
-      mon1X = Phaser.Math.Between(player.x - 2000, player.x + 2000);
-      mon1Y = Phaser.Math.Between(player.y - 2000, player.y - 2010);
-    }
+    if (boss_active){
+      for (let i = 0; i < bossSet.children.entries.length; i ++){
+    this.physics.moveToObject(bossSet.children.entries[i],player,bossSet.children.entries[i].velo);
+    if (bossSet.children.entries[i].health <=0){
+    slime_pattern(this,bossSet.children.entries[i].pt,bossSet.children.entries[i].x,bossSet.children.entries[i].y)
+    bossSet.children.entries[i].destroy()}}}
 
-    if (randomLocation === 3) {
-      mon1X = Phaser.Math.Between(player.x - 2000, player.x - 2000);
-      mon1Y = Phaser.Math.Between(player.y - 2000, player.y + 2000);
-    }
+    mon1Delay++;
+    mon2Delay++;
+    
+    // 만약 특정 시간 이후에 소환하려면 조건문 생성
+    mon3Delay++;
+    mon4Delay++;
 
-    if (randomLocation === 4) {
-      mon1X = Phaser.Math.Between(player.x + 2000, player.x + 2000);
-      mon1Y = Phaser.Math.Between(player.y - 2000, player.y + 2000);
-    }
+    // 플레이어 기준랜덤 위치에 몬스터 생성
+    // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
+    if (mon1Delay > 300) {
+      // 1번 zombie
+      enemySpawn(randomLocation)
+      
+      // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
+      addMonster(this, 'alien', 'swarm',10,100,monX,monY,'follower')
+      // addMonster(this, 'alien_plus', 'alien_plus_anim',20,100,monX,monY,'follower')
 
-    alien = new Enemy(this, 10, 100, mon1X, mon1Y, "alien", "swarm");
-    alienCount += 1;
-    mon1Delay = 0;
-    alienSet.add(alien);
-    this.physics.add.collider(alienSet, alien);
-    alien.anime(alien);
+      mon1Delay = 0};
+
+    
+    if (mon2Delay > 1200){
+      // 2번 worm
+      enemySpawn(randomLocation)
+      addMonster(this, 'worm', 'swarm', 10,70,monX,monY, 'siege')
+
+      // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
+      // addMonster(this, 'worm_plus', 'worm_plus_anim',20,100,monX,monY,'follower')
+
+      mon2Delay = 0};
+    
+    if (mon3Delay > 1500){
+      enemySpawn(randomLocation)
+      addMonster(this, 'sonic', 'swarm', 5,200,monX,monY,'follower')
+      mon3Delay = 0};
+
+    
+    if (mon4Delay > 3000){
+      enemySpawn(randomLocation)
+      addMonster(this, 'turtle', 'swarm', 100,30,monX,monY,'siege')
+      mon4Delay = 0};
+    
+      for(let i = magics.length-1; i>=0;i--){
+    magics[i].timer++;
+    if(magics[i].timer == magics[i].lifetime){
+      magics[i].destroy();
+      magics.splice(i,1);
+    }
   }
 
   //enemy end
+
+
+  //tower start
+
+  towerLU.towerAttackTimer++;
+  towerRU.towerAttackTimer++;
+  towerLD.towerAttackTimer++;
+  towerRD.towerAttackTimer++;
+
+  towerLU.towerSkillAttackTimer++;
+  towerRU.towerSkillAttackTimer++;
+  towerLD.towerSkillAttackTimer++;
+  towerRD.towerSkillAttackTimer++;
+  //tower end
+
 }
 
 //player start
@@ -829,8 +1013,8 @@ function changeSlot() {
   }
 }
 
-function attack(magic, alien) {
-  if (!alien.invincible) {
+function attack(magic, monster) {
+  if (!monster.invincible) {
     if (magic.pierceCount > 0) {
       magic.pierceCount--;
     } else {
@@ -841,22 +1025,87 @@ function attack(magic, alien) {
       //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
       let num = Math.floor(Math.random() * 100 + 1);
       if (num <= fairySet[nowFairy].deathCount) {
-        alien.destroy();
+        monster.destroy();
         player.levelUp();
 
-        alienCount -= 1;
+        monsterCount -= 1;
       }
     }
 
-    alien.health -= fairySet[nowFairy].dmg;
-    alien.invincible = true;
-    if (alien.health <= 0) {
-      alien.destroy();
+    monster.health -= fairySet[nowFairy].dmg;
+    monster.invincible = true;
+    if (monster.health <= 0 && monster.type !='boss') {
+      monster.destroy();
       player.levelUp();
-      alienCount -= 1;
+      monsterCount -= 1;
     }
   }
 }
+
+// 임시 구멍 구현 
+function hithole(hole,monster){
+  hole.hp -= 1
+  monster.destroy()
+
+  if (hole.hp <= 0){
+    console.log('game over')
+  }
+}
+
+
+function addMonster(scene,mon_name, mon_anime,hp,velo,x,y,type){
+  monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime,type);
+  monster.setDepth(2);
+  monsterCount += 1;
+  monsterSet.add(monster);
+  scene.physics.add.collider(monsterSet, monster);
+  monster.anime();
+}
+
+
+function enemySpawn(scene){
+  randomLocation = Math.floor(Math.random() * 4) + 1
+  if (randomLocation === 1) {
+    monX = Phaser.Math.Between(player.x - 500, player.x + 500);
+    monY = Phaser.Math.Between(player.y + 500, player.y + 510);
+  }
+
+  else if (randomLocation === 2) {
+    monX = Phaser.Math.Between(player.x - 500, player.x + 500);
+    monY = Phaser.Math.Between(player.y - 500, player.y - 510);
+  }
+
+  else if (randomLocation === 3) {
+    monX = Phaser.Math.Between(player.x - 500, player.x - 500);
+    monY = Phaser.Math.Between(player.y - 500, player.y + 500);
+  }
+
+  else if (randomLocation === 4) {
+    monX = Phaser.Math.Between(player.x + 500, player.x + 500);
+    monY = Phaser.Math.Between(player.y - 500, player.y + 500);}
+}
+
+function slime_pattern(scene,pt,x,y){
+  if(pt != 16){
+      pt *= 2
+      console.log(pt)
+      for (let i = 0; i<pt; i++){
+        // 분열될 때마다 체력 감소 구현하기
+        if(pt < 4){
+          slime_king = new Boss(scene,100,100,x+i*100,y,'slime_king','swarm',2.5,pt,'boss')}
+        else if (pt < 8){
+          slime_king = new Boss(scene,50,100,x+i*50,y,'slime_king','swarm',1.25,pt,'boss')
+        }
+        else{
+          slime_king = new Boss(scene,25,100,x+i*25,y,'slime_king','swarm',0.5,pt,'boss')
+        }
+          slime_king.anime()
+          scene.physics.add.collider(bossSet, slime_king);
+          bossSet.add(slime_king)
+      }
+  }
+}
+
 //enemy end
 
 //map start
