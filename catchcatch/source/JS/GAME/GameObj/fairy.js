@@ -13,19 +13,21 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   timer = 0;
   maxAttackCount;
   attackCount;
-  maxPierceCount = 0;
-  pierceCount = 0;
+  maxPierceCount = 99999;
+  pierceCount = 99999;
   velo;
   size;
   vampire;
   stun;
   deathCount;
-  aura;
-  aura_range;
-  block;
-  bombcount;
+  bounceCount = 0;
+  copyCount = 0;
+  maxBombCount;
+  bombcount = 999999;
   bombtime = 3;
   level = 1;
+  evo1 = false;
+  evo2 = false;
 
   constructor(
     scene,
@@ -77,20 +79,177 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     this.pierceCount = 99999;
   }
   // 슬라임
-  initFairy4(size, aura, aura_range, block) {
-    this.size = size;
-    this.aura = aura;
-    this.aura_range = aura_range;
-    this.block = block;
-  }
+  initFairy4() {}
   // 마녀
-  initFairy5(size, bombcount) {
+  initFairy5(size, maxBombCount) {
     this.size = size;
-    this.bombcount = bombcount;
+    this.maxBombCount = maxBombCount;
+    this.bombcount = maxBombCount;
     this.maxPierceCount = 99999;
     this.pierceCount = 99999;
   }
 
+  levelUp(){
+    switch(this.level){
+      case 1:
+        this.levelUp2()
+        break;
+      case 2:
+        this.levelUp3()
+        break;
+      case 3:
+        this.levelUp4()
+        break;
+      case 5:
+        this.levelUp6()
+        break;
+      case 6:
+        this.levelUp7()
+        break;
+      case 7:
+        this.levelUp8()
+        break;
+    }
+  }
+
+  levelUp2(){
+    this.level = 2;
+    switch(this.fairyNum){
+      case 1:
+        this.maxAttackCount++;
+        break;
+      case 2:
+        this.size += 0.2;
+        break;
+      case 3:
+        this.range +=2;
+        break;
+      case 4:
+        this.as -= this.as_bonus;
+        break;
+      case 5:
+        this.maxBombCount++;
+        this.bombcount++;
+        break;
+    }
+  }
+
+  levelUp3(){
+    this.level = 3;
+    switch(this.fairyNum){
+      case 1:
+        this.as -= this.as_bonus;
+        break;
+      case 2:
+        this.as -= this.as_bonus;
+        break;
+      case 3:
+        this.as -= this.as_bonus;
+        break;
+      case 4:
+        this.bounceCount += 1;
+        break;
+      case 5:
+        this.size += 0.2;
+        break;
+    }
+  }
+
+  levelUp4(){
+    this.level = 4;
+    switch(this.fairyNum){
+      case 1:
+        this.maxPierceCount+=2;
+        break;
+      case 2:
+        this.vampire++;
+        break;
+      case 3:
+        this.stun += 0.5;
+        break;
+      case 4:
+        this.copyCount = 5;
+        break;
+      case 5:
+        this.maxBombCount++;
+        this.bombcount++;
+        break;
+    }
+  }
+
+  levelUp5(){
+    this.level = 5;
+    this.evo1 = true;
+  }
+
+  levelUp6(){
+    this.level = 6;
+    switch(this.fairyNum){
+      case 1:
+        this.maxAttackCount++;
+        break;
+      case 2:
+        this.size += 0.2;
+        break;
+      case 3:
+        this.range +=2;
+        break;
+      case 4:
+        this.as -= this.as_bonus;
+        break;
+      case 5:
+        this.maxBombCount++;
+        this.bombcount++;
+        break;
+    }
+  }
+
+  levelUp7(){
+    this.level = 7;
+    switch(this.fairyNum){
+      case 1:
+        this.as -= this.as_bonus;
+        break;
+      case 2:
+        this.as -= this.as_bonus;
+        break;
+      case 3:
+        this.as -= this.as_bonus;
+        break;
+      case 4:
+        this.bounceCount += 1;
+        break;
+      case 5:
+        this.size += 0.2;
+        break;
+    }
+  }
+
+  levelUp8(){
+    this.level = 8;
+    switch(this.fairyNum){
+      case 1:
+        this.maxPierceCount+=2;
+        break;
+      case 2:
+        this.vampire++;
+        break;
+      case 3:
+        this.stun += 0.5;
+        break;
+      case 4:
+        this.copyCount = 5;
+        break;
+      case 5:
+        this.maxBombCount++;
+        this.bombcount++;
+        break;
+    }
+  }
+  levelUp9(){
+    this.level = 9;
+    this.evo2 = true;
+  }
   normalAttack(magic) {
     magics.add(magic);
 
@@ -137,13 +296,13 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         normalAttackTimer = 0;
         break;
       case 4:
-        // 얘 뭔가 구려보임 바꿀 필요 있음
+        // 
         normalAttackTimer = 0;
         break;
       case 5:
         // 폭탄 때문에 새로운 매커니즘 적용시키기에는 효율이 안좋음
-        // 공격속도와 폭발 지속시간으로 변경하는 건 어떤 지 제안
         magic.body.checkCollision.none = true;
+        this.bombcount--;
         this.maxPierceCount = 99999;
         this.pierceCount = 99999;
         this.velo = 0;
@@ -160,9 +319,10 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   }
 
   skillFire() {
+    let skill;
     switch (this.fairyNum) {
       case 1:
-        let skill = new Skill(thisScene, this);
+        skill = new Skill(thisScene, this);
         magics.add(skill);
         skill.dmg = skill.dmg * 2;
         skill.setPosition(input.x + camera.scrollX, input.y + camera.scrollY);
@@ -170,10 +330,24 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.timer = 0;
         break;
       case 2:
+        skill = new Skill(thisScene, this);
+        skill.setDepth(2);
+        skill.setScale(2);
+        magics.add(skill);
+        skill.dmg = skill.dmg * 2;
+        skill.setPosition(this.x, this.y);
+        this.skillUse = true;
+        this.timer = 0;
         break;
       case 3:
         break;
       case 4:
+        this.player.x = 0;
+        this.player.y = 0;
+        thisScene.followPoint.x = 0;
+        thisScene.followPoint.y = 0;
+        this.skillUse = true;
+        this.timer = 0;
         break;
       case 5:
         break;

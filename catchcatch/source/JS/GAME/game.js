@@ -193,6 +193,30 @@ function preload() {
     frameWidth: 96,
     frameHeight: 100,
   });
+  this.load.spritesheet("cat2", "images/cat/cat2.png", {
+    frameWidth: 116,
+    frameHeight: 112,
+  });
+  this.load.spritesheet("cat3", "images/cat/cat3.png", {
+    frameWidth: 116,
+    frameHeight: 112,
+  });
+  this.load.spritesheet("cat4", "images/cat/cat4.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
+  this.load.spritesheet("cat5", "images/cat/cat5.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
+  this.load.spritesheet("cat6", "images/cat/cat6.png", {
+    frameWidth: 116,
+    frameHeight: 112,
+  });
+  this.load.spritesheet("cat7", "images/cat/cat7.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
 
   // 공격 스프라이트
   this.load.spritesheet(
@@ -355,7 +379,7 @@ function create() {
   fairySet = require("./jsons/fairys.json");
 
   player = cats[catNumber];
-  player = new Player(this, 1, 100, 100);
+  player = new Player(this, 1, 100, 100, "cat"+(ChoiceCat+1));
   player.setDepth(2);
   inGameUI();
 
@@ -383,13 +407,13 @@ function create() {
     4,
     1,
     1,
-    60,
-    10,
+    140,
+    40,
     500,
     1,
     player
   );
-  fairySet[0].initFairy1(2, 2);
+  fairySet[0].initFairy1(0, 0);
   global.reaper = fairySet[1] = new Fairy(
     this,
     100,
@@ -414,31 +438,33 @@ function create() {
     3,
     player
   );
+  fairySet[2].initFairy3(0, 10);
   global.slime = fairySet[3] = new Fairy(
     this,
-    100,
+    7200,
     10,
     1,
-    4,
+    3,
     90,
     10,
     400,
     4,
     player
   );
-  fairySet[3].initFairy3(0, 0);
+
   global.witch = fairySet[4] = new Fairy(
     this,
     100,
     10,
     1,
     5,
-    100,
+    40,
     10,
     500,
     5,
     player
   );
+  fairySet[4].initFairy5(1, 1)
   for (let i = 0; i < 5; i++) {
     fairySet[i].setDepth(1);
   }
@@ -515,23 +541,7 @@ function create() {
     repeat: 0,
   });
 
-  this.anims.create({
-    key: "turn",
-    frames: this.anims.generateFrameNumbers("cat1", { start: 0, end: 0 }),
-    frameRate: 10,
-  });
-  this.anims.create({
-    key: "left",
-    frames: this.anims.generateFrameNumbers("cat1", { start: 1, end: 7 }),
-    frameRate: 10,
-    repeat: -1,
-  });
-  this.anims.create({
-    key: "right",
-    frames: this.anims.generateFrameNumbers("cat1", { start: 1, end: 7 }),
-    frameRate: 10,
-    repeat: -1,
-  });
+
 
   // 공격 애니메이션
   this.anims.create({
@@ -807,15 +817,16 @@ function update(time, delta) {
 
   //player start
   changeSlot();
-
+  normalAttackAS = fairySet[nowFairy].as;
   if (normalAttackTimer > normalAttackAS) {
     control = false;
   } else {
     normalAttackTimer++;
   }
   //mouse clicked
-  if (mouse.leftButtonDown() && !control) {
+  if (mouse.leftButtonDown() && !control && fairySet[nowFairy].bombcount>0) {
     magic = new Magic(this, fairySet[nowFairy]);
+    magic.setDepth(2);
     this.physics.add.overlap(
       magic,
       monsterSet,

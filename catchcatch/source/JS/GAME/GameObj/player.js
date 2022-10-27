@@ -27,8 +27,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   healLevel = 1;
   fairy;
   invincible = false;
-  constructor(scene, dmgmul, maxHealth, health) {
-    super(scene, 0, 0, "cat1");
+  constructor(scene, dmgmul, maxHealth, health, catname) {
+
+    super(scene, 0, 0, catname);
     this.scale = 0.7;
     this.alpha = 1;
     this.dmgmul = dmgmul;
@@ -36,8 +37,24 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.health = health;
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    scene.anims.create({
+      key: "turn",
+      frames: this.anims.generateFrameNumbers(catname, { start: 0, end: 0 }),
+      frameRate: 10,
+    });
+    scene.anims.create({
+      key: "left",
+      frames: this.anims.generateFrameNumbers(catname, { start: 1, end: 7 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: "right",
+      frames: this.anims.generateFrameNumbers(catname, { start: 1, end: 7 }),
+      frameRate: 10,
+      repeat: -1,
+    });
   }
-
   levelUp() {
     this.exp++;
     updateExp();
@@ -49,9 +66,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       updateExp();
       this.maxExp = this.maxExp + this.maxExpBonus;
     }
+    
+
   }
 
-  changeFairy(fairy) {
+  changeFairy(fairy){
     this.fairy = fairy;
   }
 
@@ -110,5 +129,4 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  shootBeam() {}
 }
