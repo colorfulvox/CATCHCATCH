@@ -96,14 +96,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   hitByEnemy(damage) {}
 
   hitPlayer(player, alien) {
-    if (player.invincible == false) {
-      player.invincible = true;
-      alien.hp -= 1;
-      player.health -= 1;
+    if (player.invincible == false){
+      player.invincible = true
+      player.health-=1;
       console.log(player.invincible);
       console.log(player.health);
-      // 일단 피해 준 몬스터는 사라지는데 추후 코드로 몇초간 안보이게 또는 유저 잠시 무적으로 수정해야함
-      // alien.destroy();
       // 피해 1 줌
       // stop_game -= 1;
       if (player.health <= 0) {
