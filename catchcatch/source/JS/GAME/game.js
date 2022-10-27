@@ -7,7 +7,9 @@ import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
 import { Chunk, Tile } from "./Entities.js";
+import CatTower from "./GameObj/cattower.js";
 import Boss from './GameObj/boss.js';
+import Mine from "./GameObj/mine.js";
 
 export const config = {
   type: Phaser.AUTO,
@@ -51,6 +53,7 @@ global.normalAttackTimer = 0;
 var normalAttackAS = 20;
 var magic;
 global.magics = "";
+
 export var cursors;
 var gameOver = false;
 var scoreText;
@@ -69,6 +72,15 @@ export var mapSize = 16000;
 export var camera;
 let controls;
 //map end
+
+//navi start
+var navi;
+//navi end
+
+//coin start
+global.coin = 0;
+global.cointext = "";
+//coin end
 
 //enemy start
 
@@ -128,12 +140,52 @@ var hole;
 
 //enemy end
 
+
+//tower start
+var towerLU
+var towerRU
+var towerLD
+var towerRD
+global.towerAttacks = "";
+global.towerSkillAttacks = "";
+//tower end
+
+//mine start
+var mine;
+var minecount = 10;
+var StartMineRangeX = -1000; 
+var StartMineRangeY = -1000; 
+var EndMineRangeX = 1000; 
+var EndMineRangeY = 1000; 
+
+global.mines = "";
+//mine end
+
+
 function preload() {
   //map start
   this.load.image("sprWater", "images/map/sprWater.png");
   this.load.image("sprSand", "images/map/sprSand.png");
   this.load.image("sprGrass", "images/map/sprGrass.png");
   //map end
+
+  //tower start
+  this.load.image("cat", "images/cattower/cat.png");
+  this.load.image("can", "images/cattower/can.png");
+  this.load.image("skill", "images/cattower/skill.png");
+  //tower end
+
+  //hole start
+  this.load.image("hole", "images/hole/hole.png");
+  //hole end
+
+  //navi start
+  this.load.image("navi", "images/navi/arrow.png");
+  //navi end
+
+  //mine start
+  this.load.image("mine", "images/mine/mine.png")
+  //mine end
 
   //player start
   // 플레이어 스프라이트
@@ -268,8 +320,8 @@ function create() {
   thisScene = this;
   //map start
   this.chunkSize = 8;
-  this.tileSize = 1024;
-  this.cameraSpeed = 10;
+  this.tileSize = 300;
+  this.cameraSpeed = 1;
 
   this.cameras.main.setZoom(1);
   this.followPoint = new Phaser.Math.Vector2(
@@ -304,10 +356,9 @@ function create() {
 
   player = cats[catNumber];
   player = new Player(this, 1, 100, 100);
-  player.setDepth(1);
+  player.setDepth(2);
   inGameUI();
-  console.log(player);
-  console.log(player);
+
   camera = this.cameras.main;
   input = this.input;
   mouse = input.mousePointer;
@@ -547,12 +598,19 @@ function create() {
 
   //player end
 
-  //map start
-
-  //map end
+  //cointext start
+  cointext = this.add.text(500, 10, 'coin: 0', { font: '10px Arial Black', fill: '#000' }).setScrollFactor(0);
+  cointext.setStroke('#fff', 1);
+  cointext.setDepth(2);
+  //cointext end
 
   //enemy start
 
+  monsterSet = this.physics.add.group();
+  magics = this.physics.add.group();
+  towerAttacks = this.physics.add.group();
+  towerSkillAttacks = this.physics.add.group();
+  mines = this.physics.add.group();
 
     // 임시 구멍
     hole = this.physics.add.sprite(0,0,'fairy4')
@@ -576,12 +634,6 @@ function create() {
     thisScene.physics.add.overlap(hole,monsterSet,hithole)
   
   //map start
-  if (
-    this.cameras.main.worldView.x > -1000 &&
-    this.cameras.main.worldView.x < 1000 &&
-    this.cameras.main.worldView.y > -1000 &&
-    this.cameras.main.worldView.y < 1000
-  ) {
     var snappedChunkX =
       this.chunkSize *
       this.tileSize *
@@ -624,20 +676,7 @@ function create() {
         }
       }
     }
-  }
 
-  if (cursors.up.isDown && this.cameras.main.worldView.y > -1000) {
-    this.followPoint.y -= this.cameraSpeed;
-  }
-  if (cursors.down.isDown && this.cameras.main.worldView.y < 1000) {
-    this.followPoint.y += this.cameraSpeed;
-  }
-  if (cursors.left.isDown && this.cameras.main.worldView.x > -1000) {
-    this.followPoint.x -= this.cameraSpeed;
-  }
-  if (cursors.right.isDown && this.cameras.main.worldView.x < 1000) {
-    this.followPoint.x += this.cameraSpeed;
-  }
 
   this.cameras.main.centerOn(this.followPoint.x, this.followPoint.y);
   //map enderlap(magics, monsterSet, attack);
@@ -666,23 +705,50 @@ function create() {
     })
   //enemy end
 
+
+  //tower start
+
+  towerLU = new CatTower(this, -100, -100, "cat", "can", "skill");
+  towerRU = new CatTower(this, 100, -100, "cat", "can", "skill");
+  towerLD = new CatTower(this, -100, 100, "cat", "can", "skill");
+  towerRD = new CatTower(this, 100, 100, "cat", "can", "skill");
+  towerLU.scale_Circle();
+  towerRU.scale_Circle();
+  towerLD.scale_Circle();
+  towerRD.scale_Circle();
+towerLU.setDepth(1);
+towerRU.setDepth(1);
+towerLD.setDepth(1);
+towerRD.setDepth(1);
+  
+  //tower end
+
+  //mine start
+  for(let i = 0; i < minecount; i++){
+    mine = new Mine(this, Math.random() * (EndMineRangeX - StartMineRangeX) + StartMineRangeX, Math.random() * (EndMineRangeY - StartMineRangeY) + StartMineRangeY, "mine");
+    mine.scale_Circle();
+    mines.add(mine);
+  }
+  //mine end
+
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
     if  (!boss_active){
       slime_king = new Boss(this,200,80,player.x+300,player.y+300,'slime_king','swarm',5,1,'boss')
+    if  (!slime_king_active){
+      slime_king = new Boss(this,300,80,player.x+300,player.y+300,'slime_king','swarm',5,1)
+      slime_king.setDepth(2);
       slime_king.anime()
       boss_active = true
       bossSet.add(slime_king)
     }
+
+    //navi start
+    navi = this.add.image(50, 50, 'navi').setScrollFactor(0).setScale(0.1);
+    navi.setDepth(2)
+    //navi end
 }
 
 function update(time, delta) {
-  //map start
-  if (
-    this.cameras.main.worldView.x > -1000 &&
-    this.cameras.main.worldView.x < 1000 &&
-    this.cameras.main.worldView.y > -1000 &&
-    this.cameras.main.worldView.y < 1000
-  ) {
     var snappedChunkX =
       this.chunkSize *
       this.tileSize *
@@ -725,23 +791,19 @@ function update(time, delta) {
         }
       }
     }
-  }
 
-  if (cursors.up.isDown && this.cameras.main.worldView.y > -1000) {
-    this.followPoint.y -= this.cameraSpeed;
-  }
-  if (cursors.down.isDown && this.cameras.main.worldView.y < 1000) {
-    this.followPoint.y += this.cameraSpeed;
-  }
-  if (cursors.left.isDown && this.cameras.main.worldView.x > -1000) {
-    this.followPoint.x -= this.cameraSpeed;
-  }
-  if (cursors.right.isDown && this.cameras.main.worldView.x < 1000) {
-    this.followPoint.x += this.cameraSpeed;
-  }
+
+    this.followPoint.x = player.x
+    this.followPoint.y = player.y
 
   this.cameras.main.startFollow(player, false);
   //map end
+
+  //navi start
+  
+  navi.rotation = Phaser.Math.Angle.Between( hole.x, hole.y, player.x, player.y);
+
+  //navi end
 
   //player start
   changeSlot();
@@ -773,8 +835,7 @@ function update(time, delta) {
   }
 
   if (cursors.skill.isDown && !fairySet[nowFairy].skillUse) {
-    console.log(fairySet[nowFairy].timer);
-    console.log(fairySet[nowFairy].skillCD);
+
     fairySet[nowFairy].skillFire();
   }
 
@@ -852,6 +913,21 @@ function update(time, delta) {
   }
 
   //enemy end
+
+
+  //tower start
+
+  towerLU.towerAttackTimer++;
+  towerRU.towerAttackTimer++;
+  towerLD.towerAttackTimer++;
+  towerRD.towerAttackTimer++;
+
+  towerLU.towerSkillAttackTimer++;
+  towerRU.towerSkillAttackTimer++;
+  towerLD.towerSkillAttackTimer++;
+  towerRD.towerSkillAttackTimer++;
+  //tower end
+
 }
 
 //player start
@@ -968,6 +1044,7 @@ function hithole(hole,monster){
 
 function addMonster(scene,mon_name, mon_anime,hp,velo,x,y,type){
   monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime,type);
+  monster.setDepth(2);
   monsterCount += 1;
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
