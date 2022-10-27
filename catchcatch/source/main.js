@@ -1,6 +1,7 @@
 import "./CSS/UI/upgrade.css";
 import "./CSS/UI/index.css";
 import "./CSS/GAME/style.css";
+import "./CSS/UI/levelup.css";
 // import initUpgrade from "./JS/upgrade";
 import StartPageInit from "./JS/UI/StartPage.js";
 import CharPageInit from "./JS/UI/CharSpace";
@@ -25,7 +26,6 @@ if (global.LocalData === null) {
   );
 }
 global.LocalData = JSON.parse(localStorage.getItem("data"));
-
 // 게임 시작 전 데이터
 global.ChoiceCat = 0;
 global.ChoiceLevel = 0;

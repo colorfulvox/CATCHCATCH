@@ -36,7 +36,7 @@ export const config = {
 // 고양이 json
 let cats;
 // 플레이어 객체
-let player;
+global.player = "";
 // 캐릭터 선택 시 변경될 변수
 let catNumber = 0;
 // 요정
@@ -234,7 +234,6 @@ function preload() {
 }
 
 function create() {
-  inGameUI();
   thisScene = this;
   //map start
   this.chunkSize = 8;
@@ -271,10 +270,11 @@ function create() {
   //player start
   cats = require("./jsons/cats.json");
   fairySet = require("./jsons/fairys.json");
-  console.log(ChoiceCat);
+
   player = cats[catNumber];
   player = new Player(this, 1, 100, 100, "cat"+(ChoiceCat+1));
   player.setDepth(1);
+  inGameUI();
   console.log(player);
   console.log(player);
   camera = this.cameras.main;
@@ -295,13 +295,68 @@ function create() {
   );
 
   // 플레이어, 요정 로딩
-  fairySet[0] = new Fairy(this, 100, 4, 1, 1, 60, 10, 500, 1, player);
+  global.wizard = fairySet[0] = new Fairy(
+    this,
+    100,
+    4,
+    1,
+    1,
+    60,
+    10,
+    500,
+    1,
+    player
+  );
   fairySet[0].initFairy1(2, 2);
-  fairySet[1] = new Fairy(this, 100, 10, 1, 1, 70, 10, 160, 2, player);
-  fairySet[2] = new Fairy(this, 100, 0, 1, 3, 80, 10, 300, 3, player);
-  fairySet[3] = new Fairy(this, 100, 10, 1, 4, 90, 10, 400, 4, player);
-  fairySet[3].initFairy3(1, 10);
-  fairySet[4] = new Fairy(this, 100, 10, 1, 5, 100, 10, 500, 5, player);
+  global.reaper = fairySet[1] = new Fairy(
+    this,
+    100,
+    10,
+    1,
+    1,
+    70,
+    10,
+    160,
+    2,
+    player
+  );
+  global.ninja = fairySet[2] = new Fairy(
+    this,
+    100,
+    0,
+    1,
+    3,
+    80,
+    10,
+    300,
+    3,
+    player
+  );
+  global.slime = fairySet[3] = new Fairy(
+    this,
+    100,
+    10,
+    1,
+    4,
+    90,
+    10,
+    400,
+    4,
+    player
+  );
+  fairySet[3].initFairy3(0, 0);
+  global.witch = fairySet[4] = new Fairy(
+    this,
+    100,
+    10,
+    1,
+    5,
+    100,
+    10,
+    500,
+    5,
+    player
+  );
   for (let i = 0; i < 5; i++) {
     fairySet[i].setDepth(1);
   }
@@ -542,7 +597,6 @@ function create() {
 }
 
 function update(time, delta) {
-
   //map start
   if (
     this.cameras.main.worldView.x > -1000 &&
@@ -631,7 +685,7 @@ function update(time, delta) {
     fairySet[nowFairy].normalAttack(magic);
   }
 
-  for (let i = 0; i < 5; i++){
+  for (let i = 0; i < 5; i++) {
     if (fairySet[i].timer < fairySet[i].skillCD) {
       fairySet[i].timer++;
     } else {
@@ -664,12 +718,11 @@ function update(time, delta) {
 
   mon1Delay++;
 
-
-// 랜덤 위치에 몬스터 생성 (추후 player.x 및 y 좌표 기준 생성으로 변경)
+  // 랜덤 위치에 몬스터 생성 (추후 player.x 및 y 좌표 기준 생성으로 변경)
   if (mon1Delay > 60) {
     gameTimer++;
     console.log(gameTimer);
-    randomLocation = Math.floor(Math.random() * 4) + 1
+    randomLocation = Math.floor(Math.random() * 4) + 1;
     if (randomLocation === 1) {
       mon1X = Phaser.Math.Between(player.x - 2000, player.x + 2000);
       mon1Y = Phaser.Math.Between(player.y + 2000, player.y + 2010);
@@ -783,9 +836,11 @@ function attack(magic, alien) {
 
     if (nowFairy === 2) {
       //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
-      let num = Math.floor((Math.random() * 100) + 1);
+      let num = Math.floor(Math.random() * 100 + 1);
       if (num <= fairySet[nowFairy].deathCount) {
         alien.destroy();
+        player.levelUp();
+
         alienCount -= 1;
       }
     }
@@ -794,6 +849,7 @@ function attack(magic, alien) {
     alien.invincible = true;
     if (alien.health <= 0) {
       alien.destroy();
+      player.levelUp();
       alienCount -= 1;
     }
   }
