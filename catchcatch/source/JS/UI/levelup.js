@@ -9,11 +9,82 @@ export default function levelup() {
       heal: { level: player.healLevel, text: "회복력 증가" },
       speed: { level: player.speedLevel, text: "이동속도 증가" },
     },
-    wizard: { name: "위저드", fairy: wizard, text: ["ㅇ", "", "", ""] },
-    reaper: { name: "사신", fairy: reaper, text: ["ㄹ", "", "", ""] },
-    ninja: { name: "닌자", fairy: ninja, text: ["ㅇ", "", "", ""] },
-    slime: { name: "슬라임", fairy: slime, text: ["ㅇ", "", "", ""] },
-    witch: { name: "마녀", fairy: witch, text: ["ㅇ", "", "", ""] },
+    // 2 3 4 [5] 6 7 8 [9]
+    wizard: {
+      name: "위저드",
+      fairy: wizard,
+      text: [
+        "불마법 개수 증가",
+        "공격 속도 증가",
+        "관통 효과 적용",
+        "",
+
+        "불마법 개수 증가",
+        "공격 속도 증가",
+        "관통 개수 증가",
+        "",
+      ],
+    },
+    reaper: {
+      name: "사신",
+      fairy: reaper,
+      text: [
+        "공격 범위 증가",
+        "공격 속도 증가",
+        "흡혈 효과 적용",
+        "",
+
+        "공격 범위 증가",
+        "공격 속도 증가",
+        "흡혈 효과 증가",
+        "",
+      ],
+    },
+    ninja: {
+      name: "닌자",
+      fairy: ninja,
+      text: [
+        "사거리 증가",
+        "공격 속도 증가",
+        "기절 효과 적용",
+        "",
+
+        "사거리 증가",
+        "공격 속도 증가",
+        "기절 효과 증가",
+        "",
+      ],
+    },
+    slime: {
+      name: "슬라임",
+      fairy: slime,
+      text: [
+        "공격 속도 증가",
+        "튕기는 횟수 증가",
+        "복사 효과 적용",
+        "",
+
+        "공격 속도 증가",
+        "튕기는 횟수 증가",
+        "복사 효과 증가",
+        "",
+      ],
+    },
+    witch: {
+      name: "마녀",
+      fairy: witch,
+      text: [
+        "설치 개수 증가Ⅰ",
+        "폭팔 반경 증가",
+        "설치 개수 증가Ⅱ",
+        "",
+
+        "설치 개수 증가Ⅲ",
+        "폭팔 반경 증가",
+        "설치 개수 증가Ⅳ",
+        "",
+      ],
+    },
   };
   let randomIndexArray = [];
   for (let i = 0; i < 3; i++) {
@@ -62,17 +133,17 @@ export default function levelup() {
       // 설명인데..
       levelupName.innerHTML = `[${
         property[propertyArr[randomIndexArray[i]]].name
-      }] <br> Lv. ${property[propertyArr[randomIndexArray[i]]].fairy.level}`;
+      }] <br> Lv. ${
+        property[propertyArr[randomIndexArray[i]]].fairy.level + 1
+      }`;
       // levelupName.textContent += "Lv. 1";
     } else {
       levelupContent.style.backgroundImage =
         'url("../images/ui/levelup/commonupgrade_addName.png")';
 
-      levelupText.innerText =
-        property.common[commonArr[randomCommon]].level +
-        property.common[commonArr[randomCommon]].text;
+      levelupText.innerText = property.common[commonArr[randomCommon]].text;
       levelupName.innerHTML = `[공통] <br> Lv. ${
-        property.common[commonArr[randomCommon]].level
+        property.common[commonArr[randomCommon]].level + 1
       }`;
       // levelupName.textContent += "Lv. 1";
     }
