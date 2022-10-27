@@ -2,6 +2,7 @@ import Fairy from './GameObj/fairy.js';
 import Magic from './GameObj/magic.js';
 import Player from './GameObj/player.js';
 import Enemy from './GameObj/enemy.js';
+import Boss from './GameObj/boss.js';
 
 export const config = {
     type: Phaser.AUTO,
@@ -66,23 +67,56 @@ let controls;
 
 //enemy start
 
+
 // 몬스터 변수 선언
 export var monsterSet;
 var monster;
+
+export var bossSet;
 // 1번 몬스터: alien
 var alien;
 
 // 2번 몬스터: worm
 var worm;
 
+// 3번 몬스터: sonic
+var sonic;
+
+// 4번 몬스터: turtle
+var turtle; 
+
+// 5번 몬스터: alien_plus
+var alien_plus;
+
+// 6번 몬스터: worm_plus
+var worm_plus;
+
 var cursors;
-var monDelay = 0;
+
+
+// 보스
+var slime_king;
+
+// 보스 활성 확인
+var slime_king_active;
+
+// 몬스터 생성주기
+var mon1Delay = 0;
+var mon2Delay = 0;
+var mon3Delay = 0;
+var mon4Delay = 0;
+
 var monX;
 var monY;
 global.monsterCount = 0;
-var randomLocation;
+var randomLocation = 0;
 var timer;
 var random_monster = 0;
+
+
+// 임시 구멍
+var hole;
+
 // 몬스터 이미지
 
 //enemy end
@@ -185,11 +219,16 @@ function preload() {
   //player end
 
     //enemy start
+
+    // 몬스터
     this.load.spritesheet(
         "alien",
         "http://labs.phaser.io/assets/tests/invaders/invader1.png",
         {frameWidth: 32, frameHeight: 32}
     );
+
+    // 보스
+    
     //enemy end
 }
 
@@ -443,14 +482,27 @@ function create() {
     //map end
 
     //enemy start
-  
-  monsterSet = this.physics.add.group();
-  magics = this.physics.add.group();
+
+
+    // 임시 구멍
+    hole = this.physics.add.sprite(8000,8100,'fairy4')
+    hole.hp = 100;
+
+    // 그룹셋
+    monsterSet = this.physics.add.group();
+    bossSet = this.physics.add.group();
+    magics = this.physics.add.group();
+
+
+  this.physics.add.collider(player, bossSet, player.hitPlayer);
+  thisScene.physics.add.overlap(magics, bossSet, attack);
 
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
   this.physics.add.collider(player, monsterSet, player.hitPlayer);
   thisScene.physics.add.overlap(magics, monsterSet, attack);
-
+  
+  // 만약 몬스터와 구멍이 닿았다면 (hithole 함수 실행)
+  thisScene.physics.add.overlap(hole,monsterSet,hithole)
 
   // 플레이어가 공격 맞은 후 일시 무적에 사용
       timer = this.time.addEvent({
@@ -468,12 +520,18 @@ function create() {
     })
   //enemy end
 
+    // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
+    if  (!slime_king_active){
+      slime_king = new Boss(this,300,80,player.x+300,player.y+300,'slime_king','swarm',5,1)
+      slime_king.anime()
+      slime_king_active = true
+      bossSet.add(slime_king)
+    }
 }
 
 function update(time, delta) {
     //player start
     changeSlot();
-
   if (normalAttackTimer > normalAttackAS) {
     control = false;
   } else {
@@ -483,6 +541,7 @@ function update(time, delta) {
   if (mouse.leftButtonDown() && !control) {
     magic = new Magic(this, fairySet[nowFairy]);
     this.physics.add.overlap(magic, monsterSet, fairySet[nowFairy].attack, null, this);
+    
     fairySet[nowFairy].normalAttack(magic);
   }
 
@@ -505,60 +564,64 @@ function update(time, delta) {
     // 몬스터가 유저 따라가게함
     if (monsterCount !== 0) {
         for (let i = 0; i < monsterSet.children.entries.length; i++) {
-            this.physics.moveToObject(monsterSet.children.entries[i], player, monsterSet.children.entries[i].velo);
+          if (monsterSet.children.entries[i].type == 'follower'){
+            this.physics.moveToObject(monsterSet.children.entries[i], player, monsterSet.children.entries[i].velo);}
             // #홀에 따라가게 하는 코드 작성하기#
+          else if (monsterSet.children.entries[i].type == 'siege'){
+            this.physics.moveToObject(monsterSet.children.entries[i], hole, monsterSet.children.entries[i].velo);}
         }
-
     }
 
-    monDelay++;
+    if (slime_king_active){
+    this.physics.moveToObject(slime_king,player,80);
+    if(slime_king.health <= 100){
+      slime_king.destroy()
+      slime_king_active = false
+    }
+    }
 
+    mon1Delay++;
+    mon2Delay++;
+    
+    // 만약 특정 시간 이후에 소환하려면 조건문 생성
+    mon3Delay++;
+    mon4Delay++;
 
-// 랜덤 위치에 몬스터 생성 (추후 player.x 및 y 좌표 기준 생성으로 변경)
-    if (monDelay > 60) {
-        randomLocation = Math.floor(Math.random() * 4) + 1
-        if (randomLocation === 1) {
-            monX = Phaser.Math.Between(player.x - 2000, player.x + 2000);
-            monY = Phaser.Math.Between(player.y + 2000, player.y + 2010);
-        }
-
-        else if (randomLocation === 2) {
-            monX = Phaser.Math.Between(player.x - 2000, player.x + 2000);
-            monY = Phaser.Math.Between(player.y - 2000, player.y - 2010);
-        }
-
-        else if (randomLocation === 3) {
-            monX = Phaser.Math.Between(player.x - 2000, player.x - 2000);
-            monY = Phaser.Math.Between(player.y - 2000, player.y + 2000);
-        }
-
-        else if (randomLocation === 4) {
-            monX = Phaser.Math.Between(player.x + 2000, player.x + 2000);
-            monY = Phaser.Math.Between(player.y - 2000, player.y + 2000);}
+    // 플레이어 기준랜덤 위치에 몬스터 생성
+    // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
+    if (mon1Delay > 300) {
+      // 1번 zombie
+      enemySpawn(randomLocation)
       
-        random_monster = Math.floor(Math.random() * 4) + 1;
+      // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
+      addMonster(this, 'alien', 'swarm',10,100,monX,monY,'follower')
+      // addMonster(this, 'alien_plus', 'alien_plus_anim',20,100,monX,monY,'follower')
 
-        switch (random_monster){
-          case 1:
-            // 몬스터이름, 애니메이션, 체력, 속도, x,y
-            addMonster(this, 'alien', 'swarm',10,100,monX,monY);
-            
-            break;
+      mon1Delay = 0};
 
-          // case 2:
-          //   worm = new Enemy(this, 10, 100, monX,monY, 'worm', 'worm_anim');
-          //   monsterCount += 1;
-          //   monDelay = 0;
-          //   monsterSet.add(alien);
-          //   this.physics.add.collider(monsterSet, alien);
-          //   alien.anime(alien);
-          //   break;
+    
+    if (mon2Delay > 1200){
+      // 2번 worm
+      enemySpawn(randomLocation)
+      addMonster(this, 'worm', 'swarm', 10,70,monX,monY, 'siege')
 
-          // case 3:
-        }
-    }
+      // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
+      // addMonster(this, 'worm_plus', 'worm_plus_anim',20,100,monX,monY,'follower')
 
-  for(let i = magics.length-1; i>=0;i--){
+      mon2Delay = 0};
+    
+    if (mon3Delay > 1500){
+      enemySpawn(randomLocation)
+      addMonster(this, 'sonic', 'swarm', 5,200,monX,monY,'follower')
+      mon3Delay = 0};
+
+    
+    if (mon4Delay > 3000){
+      enemySpawn(randomLocation)
+      addMonster(this, 'turtle', 'swarm', 100,30,monX,monY,'siege')
+      mon4Delay = 0};
+    
+      for(let i = magics.length-1; i>=0;i--){
     magics[i].timer++;
     if(magics[i].timer == magics[i].lifetime){
       magics[i].destroy();
@@ -707,12 +770,63 @@ function attack(magic, monster) {
 }
 
 
-function addMonster(scene,mon_name, mon_anime,hp,velo,x,y){
-  monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime);
+// 임시 구멍 구현 
+function hithole(hole,monster){
+  hole.hp -= 1
+  monster.destroy()
+
+  if (hole.hp <= 0){
+    console.log('game over')
+  }
+  
+}
+
+
+function addMonster(scene,mon_name, mon_anime,hp,velo,x,y,type){
+  monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime,type);
   monsterCount += 1;
-  monDelay = 0;
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
   monster.anime();
 }
+
+
+
+
+function enemySpawn(scene){
+  randomLocation = Math.floor(Math.random() * 4) + 1
+  if (randomLocation === 1) {
+    monX = Phaser.Math.Between(player.x - 1000, player.x + 1000);
+    monY = Phaser.Math.Between(player.y + 1000, player.y + 1010);
+  }
+
+  else if (randomLocation === 2) {
+    monX = Phaser.Math.Between(player.x - 1000, player.x + 1000);
+    monY = Phaser.Math.Between(player.y - 1000, player.y - 1010);
+  }
+
+  else if (randomLocation === 3) {
+    monX = Phaser.Math.Between(player.x - 1000, player.x - 1000);
+    monY = Phaser.Math.Between(player.y - 1000, player.y + 1000);
+  }
+
+  else if (randomLocation === 4) {
+    monX = Phaser.Math.Between(player.x + 1000, player.x + 1000);
+    monY = Phaser.Math.Between(player.y - 1000, player.y + 1000);}
+}
+
+
+
+
+// slime_pattern(){
+//   if(this.pt == 1){
+//       bossSet[0].destory()
+//       for (let i; i<10; i++){
+//           slime_king_copy = new Boss(scene,50,100,boss.x,boss.y,'slime_king_2','swarm',5,2)
+//           slime_king.anime()
+//           bossSet.add(slime_king_copy)
+//       }
+      
+//   }
+// }
 //enemy end

@@ -1,49 +1,48 @@
-import { cursors, mapSize } from "../game.js";
+import { bossSet } from "../game";
 
-
-export default class Enemy extends Phaser.Physics.Arcade.Sprite {
+export default class Boss extends Phaser.Physics.Arcade.Sprite {
 
   maxHealth;
   health;
   velo;
   invincible = false;
-  monSpiece;
-  constructor(scene, maxHealth, velo, randomX, randomY, monSpiece, anim,type) {
+  bossSpiece;
+  constructor(scene, maxHealth, velo, randomX, randomY, bossSpiece,anim,scale,pt) {
     scene.time.addEvent({delay:400, callback:()=>{this.invincible=false}, loop: true});
-    super(scene, randomX, randomY, monSpiece);
+    super(scene, randomX, randomY, bossSpiece);
     this.maxHealth = maxHealth;
     this.health = maxHealth;
     this.velo = velo;
     this.alpha = 1;
     this.anim = anim;
-    this.monSpiece = monSpiece;
-    this.type = type;
+    this.bossSpiece = bossSpiece;
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    this.pt = pt;
+    this.scale = scale;
 
   }
 
   anime(){
-    if (this.monSpiece == 'alien'){
+    if (this.bossSpiece == 'slime_king'){
       this
-      .setTint(0xff0000)
+      .setTint(0x00ff00)
     }
-    else if (this.monSpiece == 'worm'){
+    else if (this.bossSpiece == 'fire_giant'){
       this
-      .setTint(0x00ff00);}
+      .setTint(0xff0000);}
 
-    else if (this.monSpiece == 'sonic'){
+    else if (this.bossSpiece == 'golem'){
       this
       .setTint(0x0000ff)
     }
 
-    else if (this.monSpiece == 'turtle'){
+    else if (this.bossSpiece == 'unkown'){
       this
       .setTint(0xac28f6)
     }
     this
     .play(this.anim);
     // .setTint(Phaser.Display.Color.RandomRGB().color)
-
   }
 }
