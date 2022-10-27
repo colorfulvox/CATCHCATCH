@@ -9,13 +9,31 @@
 }
 
 #progress::-webkit-progress-bar {
-  background: #f0f0f0;
+  /* background: #f0f0f0; */
   border-radius: 10px;
   box-shadow: inset 3px 3px 10px #ccc;
+  background: url("../../../public/images/ui/barHorizontal_shadow_mid.png");
 }
 #progress::-webkit-progress-value {
   border-radius: 10px;
-  background: #1d976c;
-  background: -webkit-linear-gradient(to right, #93f9b9, #1d976c);
-  background: linear-gradient(to right, #93f9b9, #1d976c);
+  background-image: url("../../../public/images/ui/barHorizontal_green_mid.png");
+  /* background: -webkit-linear-gradient(to right, #93f9b9, #1d976c); */
+  /* background: linear-gradient(to right, #93f9b9, #1d976c); */
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  position: absolute;
+  top: 10%;
+  right: 3%;
+  width: 10%;
+  height: 20%;
+  border: blue solid 6px;
+}
+
+.stat {
+  border: red solid 6px;
+  height: 5%;
 }

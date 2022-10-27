@@ -26,7 +26,6 @@ if (global.LocalData === null) {
   );
 }
 global.LocalData = JSON.parse(localStorage.getItem("data"));
-
 // 게임 시작 전 데이터
 global.ChoiceCat = 0;
 global.ChoiceLevel = 0;

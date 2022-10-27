@@ -1,30 +1,32 @@
 import { cursors, mapSize } from "../game.js";
-
-
+import { updateExp } from "../../UI/inGameUI.js";
+import levelup from "../../UI/levelup.js";
 export const Direction = Object.freeze({
-  Up: 'Up',
-  Down: 'Down',
-  Left: 'Left',
-  Right: 'Right'
+  Up: "Up",
+  Down: "Down",
+  Left: "Left",
+  Right: "Right",
 });
 
-
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-
   maxHealth = 100;
   health = 100;
+  healthLevel = 1;
   dmgmul = 1;
+  dmgmulLevel = 1;
   speed = 160;
-  maxExp = 100;
+  speedLevel = 1;
+  maxExp = 3;
   exp = 0;
-  maxExpBonus = 20;
+  level = 1;
+  maxExpBonus = 1;
   // 캐릭터 특수능력 일단 보류
   ablity;
   heal = 0;
+  healLevel = 1;
   fairy;
   invincible = false;
   constructor(scene, dmgmul, maxHealth, health) {
-
     super(scene, 0, 0, "cat1");
     this.scale = 0.7;
     this.alpha = 1;
@@ -33,10 +35,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.health = health;
     scene.add.existing(this);
     scene.physics.add.existing(this);
-
   }
 
-  changeFairy(fairy){
+  levelUp() {
+    this.exp++;
+    updateExp();
+    console.log("levelup");
+    if (this.exp === this.maxExp) {
+      this.level++;
+      this.exp = 0;
+      levelup();
+      updateExp();
+      this.maxExp = this.maxExp + this.maxExpBonus;
+    }
+  }
+
+  changeFairy(fairy) {
     this.fairy = fairy;
   }
 
@@ -54,10 +68,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     } else {
       this.setVelocityX(0);
     }
-  
+
     if (cursors.up.isDown) {
       this.setVelocityY(-160);
-  
+
       if (cursors.left.isDown) {
         this.anims.play("left", true);
       } else {
@@ -65,7 +79,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     } else if (cursors.down.isDown) {
       this.setVelocityY(+160);
-  
+
       if (cursors.left.isDown) {
         this.anims.play("left", true);
       } else {
@@ -79,15 +93,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  hitByEnemy(damage) {
-
-  }
+  hitByEnemy(damage) {}
 
   hitPlayer(player, alien) {
-    if (player.invincible == false){
-      player.invincible = true
-      alien.hp -= 1
-      player.health-=1;
+    if (player.invincible == false) {
+      player.invincible = true;
+      alien.hp -= 1;
+      player.health -= 1;
       console.log(player.invincible);
       console.log(player.health);
       // 일단 피해 준 몬스터는 사라지는데 추후 코드로 몇초간 안보이게 또는 유저 잠시 무적으로 수정해야함
@@ -95,12 +107,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       // 피해 1 줌
       // stop_game -= 1;
       if (player.health <= 0) {
-        console.log('Game Over!');
+        console.log("Game Over!");
       }
-      }
+    }
   }
 
-  shootBeam() {
-
-  }
+  shootBeam() {}
 }
