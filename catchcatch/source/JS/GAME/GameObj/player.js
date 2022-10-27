@@ -20,6 +20,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   exp = 0;
   level = 1;
   maxExpBonus = 1;
+  coin = 1000;
   // 캐릭터 특수능력 일단 보류
   ablity;
   heal = 0;
