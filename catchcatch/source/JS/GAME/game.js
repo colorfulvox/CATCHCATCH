@@ -101,6 +101,30 @@ function preload() {
     frameWidth: 96,
     frameHeight: 100,
   });
+  this.load.spritesheet("cat2", "images/cat/cat2.png", {
+    frameWidth: 116,
+    frameHeight: 112,
+  });
+  this.load.spritesheet("cat3", "images/cat/cat3.png", {
+    frameWidth: 116,
+    frameHeight: 112,
+  });
+  this.load.spritesheet("cat4", "images/cat/cat4.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
+  this.load.spritesheet("cat5", "images/cat/cat5.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
+  this.load.spritesheet("cat6", "images/cat/cat6.png", {
+    frameWidth: 116,
+    frameHeight: 112,
+  });
+  this.load.spritesheet("cat7", "images/cat/cat7.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
 
   // 공격 스프라이트
   this.load.spritesheet(
@@ -247,9 +271,9 @@ function create() {
   //player start
   cats = require("./jsons/cats.json");
   fairySet = require("./jsons/fairys.json");
-  console.log(cats);
+  console.log(ChoiceCat);
   player = cats[catNumber];
-  player = new Player(this, 1, 100, 100);
+  player = new Player(this, 1, 100, 100, "cat"+(ChoiceCat+1));
   player.setDepth(1);
   console.log(player);
   console.log(player);
@@ -276,7 +300,7 @@ function create() {
   fairySet[1] = new Fairy(this, 100, 10, 1, 1, 70, 10, 160, 2, player);
   fairySet[2] = new Fairy(this, 100, 0, 1, 3, 80, 10, 300, 3, player);
   fairySet[3] = new Fairy(this, 100, 10, 1, 4, 90, 10, 400, 4, player);
-  fairySet[3].initFairy3(0, 0);
+  fairySet[3].initFairy3(1, 10);
   fairySet[4] = new Fairy(this, 100, 10, 1, 5, 100, 10, 500, 5, player);
   for (let i = 0; i < 5; i++) {
     fairySet[i].setDepth(1);
@@ -354,23 +378,7 @@ function create() {
     repeat: 0,
   });
 
-  this.anims.create({
-    key: "turn",
-    frames: this.anims.generateFrameNumbers("cat1", { start: 0, end: 0 }),
-    frameRate: 10,
-  });
-  this.anims.create({
-    key: "left",
-    frames: this.anims.generateFrameNumbers("cat1", { start: 1, end: 7 }),
-    frameRate: 10,
-    repeat: -1,
-  });
-  this.anims.create({
-    key: "right",
-    frames: this.anims.generateFrameNumbers("cat1", { start: 1, end: 7 }),
-    frameRate: 10,
-    repeat: -1,
-  });
+
 
   // 공격 애니메이션
   this.anims.create({

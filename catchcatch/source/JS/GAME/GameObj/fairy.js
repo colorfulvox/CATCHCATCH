@@ -14,8 +14,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   timer = 0;
   maxAttackCount;
   attackCount;
-  maxPierceCount = 0;
-  pierceCount = 0;
+  maxPierceCount = 99999;
+  pierceCount = 99999;
   velo;
   size;
   vampire;

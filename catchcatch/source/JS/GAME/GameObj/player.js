@@ -23,9 +23,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   heal = 0;
   fairy;
   invincible = false;
-  constructor(scene, dmgmul, maxHealth, health) {
+  constructor(scene, dmgmul, maxHealth, health, catname) {
 
-    super(scene, 0, 0, "cat1");
+    super(scene, 0, 0, catname);
     this.scale = 0.7;
     this.alpha = 1;
     this.dmgmul = dmgmul;
@@ -33,6 +33,24 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.health = health;
     scene.add.existing(this);
     scene.physics.add.existing(this);
+
+    scene.anims.create({
+      key: "turn",
+      frames: this.anims.generateFrameNumbers(catname, { start: 0, end: 0 }),
+      frameRate: 10,
+    });
+    scene.anims.create({
+      key: "left",
+      frames: this.anims.generateFrameNumbers(catname, { start: 1, end: 7 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: "right",
+      frames: this.anims.generateFrameNumbers(catname, { start: 1, end: 7 }),
+      frameRate: 10,
+      repeat: -1,
+    });
 
   }
 
