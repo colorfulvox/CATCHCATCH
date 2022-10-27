@@ -9,6 +9,7 @@ import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 import { Chunk, Tile } from "./Entities.js";
 import CatTower from "./GameObj/cattower.js";
 import Boss from './GameObj/boss.js';
+import Mine from "./GameObj/mine.js";
 
 export const config = {
   type: Phaser.AUTO,
@@ -76,6 +77,11 @@ let controls;
 var navi;
 //navi end
 
+//coin start
+global.coin = 0;
+global.cointext = "";
+//coin end
+
 //enemy start
 
 
@@ -142,6 +148,17 @@ global.towerAttacks = "";
 global.towerSkillAttacks = "";
 //tower end
 
+//mine start
+var mine;
+var minecount = 10;
+var StartMineRangeX = -1000; 
+var StartMineRangeY = -1000; 
+var EndMineRangeX = 1000; 
+var EndMineRangeY = 1000; 
+
+global.mines = "";
+//mine end
+
 
 function preload() {
   //map start
@@ -163,6 +180,10 @@ function preload() {
   //navi start
   this.load.image("navi", "images/navi/arrow.png");
   //navi end
+
+  //mine start
+  this.load.image("mine", "images/mine/mine.png")
+  //mine end
 
   //player start
   // 플레이어 스프라이트
@@ -335,8 +356,7 @@ function create() {
   player = new Player(this, 1, 100, 100);
   player.setDepth(2);
   inGameUI();
-  console.log(player);
-  console.log(player);
+
   camera = this.cameras.main;
   input = this.input;
   mouse = input.mousePointer;
@@ -576,9 +596,11 @@ function create() {
 
   //player end
 
-  //map start
-
-  //map end
+  //cointext start
+  cointext = this.add.text(500, 10, 'coin: 0', { font: '10px Arial Black', fill: '#000' }).setScrollFactor(0);
+  cointext.setStroke('#fff', 1);
+  cointext.setDepth(2);
+  //cointext end
 
   //enemy start
 
@@ -586,6 +608,7 @@ function create() {
   magics = this.physics.add.group();
   towerAttacks = this.physics.add.group();
   towerSkillAttacks = this.physics.add.group();
+  mines = this.physics.add.group();
 
     // 임시 구멍
     hole = this.physics.add.sprite(0,0,'fairy4')
@@ -697,6 +720,14 @@ towerRD.setDepth(1);
   
   //tower end
 
+  //mine start
+  for(let i = 0; i < minecount; i++){
+    mine = new Mine(this, Math.random() * (EndMineRangeX - StartMineRangeX) + StartMineRangeX, Math.random() * (EndMineRangeY - StartMineRangeY) + StartMineRangeY, "mine");
+    mine.scale_Circle();
+    mines.add(mine);
+  }
+  //mine end
+
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
     if  (!slime_king_active){
       slime_king = new Boss(this,300,80,player.x+300,player.y+300,'slime_king','swarm',5,1)
@@ -766,7 +797,6 @@ function update(time, delta) {
   //navi start
   
   navi.rotation = Phaser.Math.Angle.Between( hole.x, hole.y, player.x, player.y);
-  console.log(navi.rotation)
 
   //navi end
 
@@ -800,8 +830,7 @@ function update(time, delta) {
   }
 
   if (cursors.skill.isDown && !fairySet[nowFairy].skillUse) {
-    console.log(fairySet[nowFairy].timer);
-    console.log(fairySet[nowFairy].skillCD);
+
     fairySet[nowFairy].skillFire();
   }
 
