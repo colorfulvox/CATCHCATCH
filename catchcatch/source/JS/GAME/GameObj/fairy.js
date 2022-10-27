@@ -2,7 +2,6 @@ import { input, camera, aliens } from "../game.js";
 import Magic from "./magic.js";
 import Skill from "./skill.js";
 export default class Fairy extends Phaser.Physics.Arcade.Sprite {
-
   // 얘는 공격 스프라이트 객체
   player;
   fairyNum;
@@ -26,9 +25,20 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   block;
   bombcount;
   bombtime = 3;
-  constructor(scene, skillCD,
-     dmg, dmg_bonus, range, as,
-      as_bonus, velo, fairyNum, player) {
+  level = 1;
+
+  constructor(
+    scene,
+    skillCD,
+    dmg,
+    dmg_bonus,
+    range,
+    as,
+    as_bonus,
+    velo,
+    fairyNum,
+    player
+  ) {
     super(scene, -10000, -10000, "fairy" + fairyNum);
     this.fairyNum = fairyNum;
     this.scale = 0.35;
@@ -38,13 +48,12 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     this.dmg = dmg;
     this.dmg_bonus = dmg_bonus;
     this.range = range;
-    this.as=as;
+    this.as = as;
     this.as_bonus = as_bonus;
     this.velo = velo;
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
-
   }
   // 마법사
   initFairy1(attackCount, pierceCount) {
@@ -54,34 +63,33 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     this.pierceCount = pierceCount;
   }
   // 사신
-  initFairy2(size, vampire){
+  initFairy2(size, vampire) {
     this.size = size;
     this.vampire = vampire;
     this.maxPierceCount = 99999;
     this.pierceCount = 99999;
   }
   // 닌자
-  initFairy3(stun, deathCount){
+  initFairy3(stun, deathCount) {
     this.stun = stun;
     this.deathCount = deathCount;
     this.maxPierceCount = 99999;
     this.pierceCount = 99999;
   }
   // 슬라임
-  initFairy4(size, aura, aura_range, block){
+  initFairy4(size, aura, aura_range, block) {
     this.size = size;
     this.aura = aura;
     this.aura_range = aura_range;
     this.block = block;
   }
   // 마녀
-  initFairy5(size, bombcount){
+  initFairy5(size, bombcount) {
     this.size = size;
     this.bombcount = bombcount;
     this.maxPierceCount = 99999;
     this.pierceCount = 99999;
   }
-
 
   normalAttack(magic) {
     magics.add(magic);
@@ -98,10 +106,9 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       input.x + camera.scrollX,
       input.y + camera.scrollY
     );
-    
+
     angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
     magic.rotation += (angle - 180) / 60 - 1.5;
-
 
     magic.anims.play("magic" + this.fairyNum, true);
 
@@ -163,20 +170,13 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.timer = 0;
         break;
       case 2:
-        
         break;
       case 3:
-
         break;
       case 4:
-
         break;
       case 5:
-
         break;
     }
-
   }
-
-
 }
