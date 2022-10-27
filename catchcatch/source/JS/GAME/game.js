@@ -744,14 +744,11 @@ towerRD.setDepth(1);
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
     if  (!boss_active){
       slime_king = new Boss(this,200,80,player.x+300,player.y+300,'slime_king','swarm',5,1,'boss')
-    if  (!slime_king_active){
-      slime_king = new Boss(this,300,80,player.x+300,player.y+300,'slime_king','swarm',5,1)
       slime_king.setDepth(2);
       slime_king.anime()
       boss_active = true
       bossSet.add(slime_king)
     }
-
     //navi start
     navi = this.add.image(50, 50, 'navi').setScrollFactor(0).setScale(0.1);
     navi.setDepth(2)
@@ -1099,9 +1096,9 @@ function slime_pattern(scene,pt,x,y){
         else{
           slime_king = new Boss(scene,25,100,x+i*25,y,'slime_king','swarm',0.5,pt,'boss')
         }
-          slime_king.anime()
+          slime_king.anime();
           scene.physics.add.collider(bossSet, slime_king);
-          bossSet.add(slime_king)
+          bossSet.add(slime_king);
       }
   }
 }
