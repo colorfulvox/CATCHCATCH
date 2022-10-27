@@ -1,4 +1,4 @@
-import { alienSet } from "../game";
+import { monsterSet, bossSet } from "../game";
 import TMagic from "./tmagic";
 import TSkill from "./tskill";
 
@@ -25,7 +25,8 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    scene.physics.add.overlap(this, alienSet, this.overlaphit);
+    scene.physics.add.overlap(this, monsterSet, this.overlaphit);
+    scene.physics.add.overlap(this, bossSet, this.overlaphit);
   }
 
   scale_Circle() {
@@ -52,7 +53,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       towerAttacks.add(magicleft);
       towerAttacks.add(magicright);
     }
-    game.physics.add.overlap(towerAttacks, alienSet, tower.attack);
+    game.physics.add.overlap(towerAttacks, monsterSet, tower.attack);
 
     tower.towerAttackTimer = 0;
 
@@ -121,7 +122,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       alien.invincible = true;
       if (alien.health <= 0) {
         alien.destroy();
-        alienCount -= 1;
+        monsterCount -= 1;
       }
     }
   }
@@ -134,7 +135,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       alien.invincible = true;
       if (alien.health <= 0) {
         alien.destroy();
-        alienCount -= 1;
+        monsterCount -= 1;
       }
     }
   }
@@ -162,7 +163,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
     towerSkillAttacks.add(skill);
     // console.log(towerSkillAttacks)
-    game.physics.add.overlap(towerSkillAttacks, alienSet, tower.skillattack);
+    game.physics.add.overlap(towerSkillAttacks, monsterSet, tower.skillattack);
 
     tower.towerSkillAttackTimer = 0;
 

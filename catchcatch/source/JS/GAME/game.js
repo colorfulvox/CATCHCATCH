@@ -72,6 +72,10 @@ export var camera;
 let controls;
 //map end
 
+//navi start
+var navi;
+//navi end
+
 //enemy start
 
 
@@ -155,6 +159,10 @@ function preload() {
   //hole start
   this.load.image("hole", "images/hole/hole.png");
   //hole end
+
+  //navi start
+  this.load.image("navi", "images/navi/arrow.png");
+  //navi end
 
   //player start
   // 플레이어 스프라이트
@@ -289,8 +297,8 @@ function create() {
   thisScene = this;
   //map start
   this.chunkSize = 8;
-  this.tileSize = 1024;
-  this.cameraSpeed = 10;
+  this.tileSize = 300;
+  this.cameraSpeed = 1;
 
   this.cameras.main.setZoom(1);
   this.followPoint = new Phaser.Math.Vector2(
@@ -325,7 +333,7 @@ function create() {
 
   player = cats[catNumber];
   player = new Player(this, 1, 100, 100);
-  player.setDepth(1);
+  player.setDepth(2);
   inGameUI();
   console.log(player);
   console.log(player);
@@ -574,7 +582,7 @@ function create() {
 
   //enemy start
 
-  alienSet = this.physics.add.group();
+  monsterSet = this.physics.add.group();
   magics = this.physics.add.group();
   towerAttacks = this.physics.add.group();
   towerSkillAttacks = this.physics.add.group();
@@ -600,12 +608,6 @@ function create() {
     thisScene.physics.add.overlap(hole,monsterSet,hithole)
   
   //map start
-  if (
-    this.cameras.main.worldView.x > -1000 &&
-    this.cameras.main.worldView.x < 1000 &&
-    this.cameras.main.worldView.y > -1000 &&
-    this.cameras.main.worldView.y < 1000
-  ) {
     var snappedChunkX =
       this.chunkSize *
       this.tileSize *
@@ -648,20 +650,7 @@ function create() {
         }
       }
     }
-  }
 
-  if (cursors.up.isDown && this.cameras.main.worldView.y > -1000) {
-    this.followPoint.y -= this.cameraSpeed;
-  }
-  if (cursors.down.isDown && this.cameras.main.worldView.y < 1000) {
-    this.followPoint.y += this.cameraSpeed;
-  }
-  if (cursors.left.isDown && this.cameras.main.worldView.x > -1000) {
-    this.followPoint.x -= this.cameraSpeed;
-  }
-  if (cursors.right.isDown && this.cameras.main.worldView.x < 1000) {
-    this.followPoint.x += this.cameraSpeed;
-  }
 
   this.cameras.main.centerOn(this.followPoint.x, this.followPoint.y);
   //map enderlap(magics, monsterSet, attack);
@@ -701,26 +690,29 @@ function create() {
   towerRU.scale_Circle();
   towerLD.scale_Circle();
   towerRD.scale_Circle();
+towerLU.setDepth(1);
+towerRU.setDepth(1);
+towerLD.setDepth(1);
+towerRD.setDepth(1);
   
   //tower end
 
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
     if  (!slime_king_active){
       slime_king = new Boss(this,300,80,player.x+300,player.y+300,'slime_king','swarm',5,1)
+      slime_king.setDepth(2);
       slime_king.anime()
       slime_king_active = true
       bossSet.add(slime_king)
     }
+
+    //navi start
+    navi = this.add.image(50, 50, 'navi').setScrollFactor(0).setScale(0.1);
+    navi.setDepth(2)
+    //navi end
 }
 
 function update(time, delta) {
-  //map start
-  if (
-    this.cameras.main.worldView.x > -1000 &&
-    this.cameras.main.worldView.x < 1000 &&
-    this.cameras.main.worldView.y > -1000 &&
-    this.cameras.main.worldView.y < 1000
-  ) {
     var snappedChunkX =
       this.chunkSize *
       this.tileSize *
@@ -763,26 +755,18 @@ function update(time, delta) {
         }
       }
     }
-  }
 
-  if (cursors.up.isDown && this.cameras.main.worldView.y > -1000) {
-    this.followPoint.y -= this.cameraSpeed;
-  }
-  if (cursors.down.isDown && this.cameras.main.worldView.y < 1000) {
-    this.followPoint.y += this.cameraSpeed;
-  }
-  if (cursors.left.isDown && this.cameras.main.worldView.x > -1000) {
-    this.followPoint.x -= this.cameraSpeed;
-  }
-  if (cursors.right.isDown && this.cameras.main.worldView.x < 1000) {
-    this.followPoint.x += this.cameraSpeed;
-  }
+
+    this.followPoint.x = player.x
+    this.followPoint.y = player.y
 
   this.cameras.main.startFollow(player, false);
   //map end
 
   //navi start
-  // navi.rotation = Phaser.Math.Angle.Between(navi.x, navi.y, hole.x, hole.y);
+  
+  navi.rotation = Phaser.Math.Angle.Between( hole.x, hole.y, player.x, player.y);
+  console.log(navi.rotation)
 
   //navi end
 
@@ -1028,6 +1012,7 @@ function hithole(hole,monster){
 
 function addMonster(scene,mon_name, mon_anime,hp,velo,x,y,type){
   monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime,type);
+  monster.setDepth(2);
   monsterCount += 1;
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
