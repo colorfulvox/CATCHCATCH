@@ -301,13 +301,13 @@ function create() {
     4,
     1,
     1,
-    60,
-    10,
+    140,
+    40,
     500,
     1,
     player
   );
-  fairySet[0].initFairy1(2, 2);
+  fairySet[0].initFairy1(0, 0);
   global.reaper = fairySet[1] = new Fairy(
     this,
     100,
@@ -332,31 +332,33 @@ function create() {
     3,
     player
   );
+  fairySet[2].initFairy3(0, 10);
   global.slime = fairySet[3] = new Fairy(
     this,
-    100,
+    7200,
     10,
     1,
-    4,
+    3,
     90,
     10,
     400,
     4,
     player
   );
-  fairySet[3].initFairy3(0, 0);
+
   global.witch = fairySet[4] = new Fairy(
     this,
     100,
     10,
     1,
     5,
-    100,
+    40,
     10,
     500,
     5,
     player
   );
+  fairySet[4].initFairy5(1, 1)
   for (let i = 0; i < 5; i++) {
     fairySet[i].setDepth(1);
   }
@@ -666,15 +668,16 @@ function update(time, delta) {
 
   //player start
   changeSlot();
-
+  normalAttackAS = fairySet[nowFairy].as;
   if (normalAttackTimer > normalAttackAS) {
     control = false;
   } else {
     normalAttackTimer++;
   }
   //mouse clicked
-  if (mouse.leftButtonDown() && !control) {
+  if (mouse.leftButtonDown() && !control && fairySet[nowFairy].bombcount>0) {
     magic = new Magic(this, fairySet[nowFairy]);
+    magic.setDepth(2);
     this.physics.add.overlap(
       magic,
       alienSet,

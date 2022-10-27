@@ -36,18 +36,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.health = health;
     scene.add.existing(this);
     scene.physics.add.existing(this);
-
-  levelUp() {
-    this.exp++;
-    updateExp();
-    console.log("levelup");
-    if (this.exp === this.maxExp) {
-      this.level++;
-      this.exp = 0;
-      levelup();
-      updateExp();
-      this.maxExp = this.maxExp + this.maxExpBonus;
-    }
     scene.anims.create({
       key: "turn",
       frames: this.anims.generateFrameNumbers(catname, { start: 0, end: 0 }),
@@ -65,6 +53,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       frameRate: 10,
       repeat: -1,
     });
+  }
+  levelUp() {
+    this.exp++;
+    updateExp();
+    console.log("levelup");
+    if (this.exp === this.maxExp) {
+      this.level++;
+      this.exp = 0;
+      levelup();
+      updateExp();
+      this.maxExp = this.maxExp + this.maxExpBonus;
+    }
+    
 
   }
 
@@ -130,5 +131,4 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  shootBeam() {}
 }

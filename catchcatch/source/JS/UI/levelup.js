@@ -61,19 +61,19 @@ export default function levelup() {
   for (let i = 0; i < 3; i++) {
     contents[i].addEventListener("click", () => {
       if (contents[i].id === "wizard") {
-        wizard.level++;
+        wizard.levelUp();
         console.log(wizard);
       } else if (contents[i].id === "reaper") {
-        reaper.level++;
+        reaper.levelUp();
         console.log(reaper);
       } else if (contents[i].id === "ninja") {
-        ninja.level++;
+        ninja.levelUp();
         console.log(ninja);
       } else if (contents[i].id === "slime") {
-        slime.level++;
+        slime.levelUp();
         console.log(slime);
       } else if (contents[i].id === "witch") {
-        witch.level++;
+        witch.levelUp();
         console.log(witch);
       } else {
         player[`${commonArr[randomCommon]}Level`] += 1;
