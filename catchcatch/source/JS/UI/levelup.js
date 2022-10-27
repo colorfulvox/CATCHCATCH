@@ -1,8 +1,13 @@
-const arr = ["common", "wizard", "reaper", "ninja", "slime", "witch"];
-
+const propertyArr = ["common", "wizard", "reaper", "ninja", "slime", "witch"];
+const commonArr = ["health", "dmgmulLevel", "heal", "speed"];
 export default function levelup() {
   const property = {
-    common: [],
+    common: {
+      health: { level: player.healthLevel, text: "최대 체력 증가" },
+      dmgmulLevel: { level: player.dmgmulLevel, text: "공격력 증가" },
+      heal: { level: player.healLevel, text: "회복력 증가" },
+      speed: { level: player.speedLevel, text: "이동속도 증가" },
+    },
     wizard: { fairy: wizard },
     reaper: { fairy: reaper },
     ninja: { fairy: ninja },
@@ -25,21 +30,24 @@ export default function levelup() {
   $this.pause();
   const levelupContainer = document.createElement("div");
   levelupContainer.setAttribute("class", "levelupContainer");
+  const randomCommon = Math.floor(Math.random() * 4);
   for (let i = 0; i < 3; i++) {
     const levelupContent = document.createElement("div");
     const levelupImg = document.createElement("div");
     const levelupText = document.createElement("div");
     levelupContent.setAttribute("class", "levelupContent");
-    levelupContent.setAttribute("id", `${arr[randomIndexArray[i]]}`);
+    levelupContent.setAttribute("id", `${propertyArr[randomIndexArray[i]]}`);
     levelupImg.setAttribute("class", "levelupImg");
-    levelupImg.innerText = `${arr[randomIndexArray[i]]}`;
+    levelupImg.innerText = `${propertyArr[randomIndexArray[i]]}`;
     levelupText.setAttribute("class", "levelupText");
-    if (arr[randomIndexArray[i]] !== "common") {
+    if (propertyArr[randomIndexArray[i]] !== "common") {
       levelupText.innerText = `${
-        property[arr[randomIndexArray[i]]].fairy.level
+        property[propertyArr[randomIndexArray[i]]].fairy.level
       }`;
     } else {
-      levelupText.innerText = player.level;
+      levelupText.innerText =
+        property.common[commonArr[randomCommon]].level +
+        property.common[commonArr[randomCommon]].text;
     }
     levelupContent.appendChild(levelupImg);
     levelupContent.appendChild(levelupText);
@@ -67,6 +75,8 @@ export default function levelup() {
       } else if (contents[i].id === "witch") {
         witch.level++;
         console.log(witch);
+      } else {
+        player[`${commonArr[randomCommon]}Level`] += 1;
       }
 
       $this.resume();
