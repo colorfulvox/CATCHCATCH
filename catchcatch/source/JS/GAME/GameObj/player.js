@@ -19,7 +19,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   maxExp = 3;
   exp = 0;
   level = 1;
-  maxExpBonus = 1;
+  maxExpBonus = 0;
   coin = 1000;
   // 캐릭터 특수능력 일단 보류
   ablity;
@@ -28,7 +28,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   fairy;
   invincible = false;
   constructor(scene, dmgmul, maxHealth, health, catname) {
-
     super(scene, 0, 0, catname);
     this.scale = 0.7;
     this.alpha = 1;
@@ -66,11 +65,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       updateExp();
       this.maxExp = this.maxExp + this.maxExpBonus;
     }
-    
-
   }
 
-  changeFairy(fairy){
+  changeFairy(fairy) {
     this.fairy = fairy;
   }
 
@@ -116,9 +113,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   hitByEnemy(damage) {}
 
   hitPlayer(player, alien) {
-    if (player.invincible == false){
-      player.invincible = true
-      player.health-=1;
+    if (player.invincible == false) {
+      player.invincible = true;
+      player.health -= 1;
       console.log(player.invincible);
       console.log(player.health);
       // 피해 1 줌
@@ -128,5 +125,4 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
   }
-
 }
