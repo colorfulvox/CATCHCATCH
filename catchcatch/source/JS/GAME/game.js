@@ -17,6 +17,7 @@ export const config = {
     height: 600,
     parent: "game-container",
     backgroundColor: "black",
+    resolution: window.devicePixelRatio,
     pixelArt: true,
     roundPixels: true,
     scene: {
@@ -79,7 +80,6 @@ var navi;
 
 //coin start
 global.coin = 0;
-global.cointext = "";
 //coin end
 
 //enemy start
@@ -611,9 +611,9 @@ function create() {
     //player end
 
     //cointext start
-    cointext = this.add.text(500, 10, 'coin: 0', {font: '10px Arial Black', fill: '#000'}).setScrollFactor(0);
-    cointext.setStroke('#fff', 1);
-    cointext.setDepth(2);
+    // cointext = this.add.text(500, 20, 'coin: 0', {font: 'Bold 15px Arial', fill: '#fff', fontStyle: "strong"}).setScrollFactor(0);
+    // cointext.setStroke('#000', 2);
+    // cointext.setDepth(2);
     //cointext end
 
     //enemy start
