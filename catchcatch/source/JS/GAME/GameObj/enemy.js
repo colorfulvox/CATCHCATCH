@@ -1,5 +1,4 @@
-import { cursors, mapSize } from "../game.js";
-
+import Explosion from "./Explosion";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
@@ -45,5 +44,18 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     .play(this.anim);
     // .setTint(Phaser.Display.Color.RandomRGB().color)
 
+  }
+
+  update(time,delta){
+    if(!this.body){
+      return;
+    }
+    if (this.body.velocity.x > 0) this.flipX = true;
+    else this.flipX = false;
+  }
+
+  die_anim(){
+    new Explosion(this.scene, this.x, this.y);
+    // this.scene.m_explosionSound.play();  몬스터 폭발 사운드
   }
 }

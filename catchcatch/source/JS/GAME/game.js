@@ -1057,24 +1057,25 @@ function attack(magic, monster) {
             magic.destroy();
         }
 
-        if (nowFairy === 2) {
-            //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
-            let num = Math.floor(Math.random() * 100 + 1);
-            if (num <= fairySet[nowFairy].deathCount) {
-                monster.destroy();
-                player.levelUp();
+    if (nowFairy === 2 ) {
+      //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
+      let num = Math.floor(Math.random() * 100 + 1);
+      if (num <= fairySet[nowFairy].deathCount && monster.type != 'boss') {
+        monster.die_anim();
+        monster.destroy();
+        player.levelUp();
 
                 monsterCount -= 1;
             }
         }
 
-        monster.health -= fairySet[nowFairy].dmg;
-        monster.invincible = true;
-        if (monster.health <= 0 && monster.type != 'boss') {
-            monster.destroy();
-            player.levelUp();
-            monsterCount -= 1;
-        }
+    monster.health -= fairySet[nowFairy].dmg;
+    monster.invincible = true;
+    if (monster.health <= 0 && monster.type !='boss') {
+      monster.die_anim();
+      monster.destroy();
+      player.levelUp();
+      monsterCount -= 1;
     }
 }
 
@@ -1116,22 +1117,18 @@ function enemySpawn(scene) {
     }
 }
 
-function slime_pattern(scene, pt, x, y) {
-    if (pt != 16) {
-        pt *= 2
-        console.log(pt)
-        for (let i = 0; i < pt; i++) {
-            // 분열될 때마다 체력 감소 구현하기
-            if (pt < 4) {
-                slime_king = new Boss(scene, 100, 100, x + i * 100, y, 'slime_king', 'swarm', 2.5, pt, 'boss')
-            } else if (pt < 8) {
-                slime_king = new Boss(scene, 50, 100, x + i * 50, y, 'slime_king', 'swarm', 1.25, pt, 'boss')
-            } else {
-                slime_king = new Boss(scene, 25, 100, x + i * 25, y, 'slime_king', 'swarm', 0.5, pt, 'boss')
-            }
-            slime_king.anime();
-            scene.physics.add.collider(bossSet, slime_king);
-            bossSet.add(slime_king);
+function slime_pattern(scene,pt,x,y){
+  if(pt != 16){
+      pt *= 2
+      for (let i = 0; i<pt; i++){
+        // 분열될 때마다 체력 감소 구현하기
+        if(pt < 4){
+          slime_king = new Boss(scene,100,100,x+i*100,y,'slime_king','swarm',2.5,pt,'boss')}
+        else if (pt < 8){
+          slime_king = new Boss(scene,50,100,x+i*50,y,'slime_king','swarm',1.25,pt,'boss')
+        }
+        else{
+          slime_king = new Boss(scene,25,100,x+i*25,y,'slime_king','swarm',0.5,pt,'boss')
         }
     }
 }
