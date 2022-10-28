@@ -7,6 +7,15 @@ export default function weapon() {
   upgradecontent.innerHTML = "";
   const weaponContent = document.createElement("div");
   weaponContent.setAttribute("class", "weaponContent");
+  const levelContent = document.createElement("div");
+  levelContent.setAttribute("class", "levelContent");
+  arr.map((el, idx) => {
+    const div = document.createElement("div");
+    div.setAttribute("class", "level");
+    div.innerText = `Lv.${idx + 1}`;
+    levelContent.appendChild(div);
+  });
+  weaponContent.appendChild(levelContent);
   fairy.map((el, idx) => {
     const weaponIcons = document.createElement("div");
     weaponIcons.setAttribute("class", "weaponIcons");
@@ -28,5 +37,6 @@ export default function weapon() {
     });
     weaponContent.appendChild(weaponIcons);
   });
+
   upgradecontent.appendChild(weaponContent);
 }
