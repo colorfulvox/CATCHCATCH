@@ -978,6 +978,11 @@ function update(time, delta) {
     enemySpawn(randomLocation);
     addMonster(this, "turtle", "swarm", 100, 30, monX, monY, "siege");
   }
+
+    if ((gameTimer > 0) && (gameTimer % 300 == 0)) {
+        enemySpawn(randomLocation)
+        addMonster(this, 'slime', 'swarm', 10, 75, monX, monY, 'follower')
+    }
   // 몬스터 빅웨이브
   if (gameTimer > 600 && gameTimer < 1200 && gameTimer % 3 == 0) {
     // 1번 zombie
@@ -1175,21 +1180,35 @@ function attack(magic, monster) {
       //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
       let num = Math.floor(Math.random() * 100 + 1);
       if (num <= fairySet[nowFairy].deathCount && monster.type != "boss") {
+        if (monster.monSpiece != 'slime'){
         monster.die_anim();
         monster.destroy();
         player.expUp();
-
-        monsterCount -= 1;
+        monsterCount -= 1;}
+        else if (monster.monSpiece == 'slime'){
+            for (let i=0; i<2; i++){
+                console.log('동작')
+                addMonster(thisScene, 'baby_slime', 'swarm', 50, 125, monster.x+i*10, monster.y, 'follower')
+            }
+    monster.destroy()
+            monsterCount -= 1 }
       }
     }
 
     monster.health -= fairySet[nowFairy].dmg;
     monster.invincible = true;
     if (monster.health <= 0 && monster.type != "boss") {
-      monster.die_anim();
-      monster.destroy();
-      player.expUp();
-      monsterCount -= 1;
+        if (monster.monSpiece != 'slime'){
+            monster.die_anim();
+            monster.destroy();
+            player.expUp();
+            monsterCount -= 1;}
+        else if (monster.monSpiece == 'slime'){
+                for (let i=0; i<2; i++){
+                    addMonster(thisScene, 'baby_slime', 'swarm', 50, 125, monster.x+i*20, monster.y, 'follower')
+                }
+                monster.destroy()
+                monsterCount -= 1 }
     }
   }
 }
@@ -1220,6 +1239,7 @@ function hithole(hole, monster) {
 
 function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
   monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime, type);
+    if (monster.monSpiece == 'baby_slime'){monster.scale=0.5}
   monster.setDepth(2);
   monsterCount += 1;
   monsterSet.add(monster);
