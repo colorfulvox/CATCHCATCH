@@ -20,7 +20,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   isthree = false;//3연발
   bulletLevel = 0;
   towerEvelop =[true, false, false, false]; //전기, 불, 물, 땅
-  circlesize = 0.01;
+  circlesize = 0.1;
 
   timedEvent;
   constructor(scene, towerX, towerY, towersprite, weaponsprite, skillsprite) {
@@ -37,7 +37,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   }
 
   scale_Circle() {
-    this.setScale(circlesize);
+    this.setScale(this.circlesize);
     console.log(this);
     let hw = this.body.halfWidth;
     let hh = this.body.halfHeight;
@@ -135,20 +135,20 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   bulletFunc(){
 if(this.istwo === false && this.isthree === false){
   this.istwo === true
-  bulletLevel += 1;
+  this.bulletLevel += 1;
 }
 else if(this.istwo === true && this.isthree === false){
   this.three === true
-  bulletLevel += 1;
+  this.bulletLevel += 1;
 }
   }
 
   rangeFunc(){
-    circlesize += 0.01;
+    this.circlesize += 0.01;
   }
 
   speedFunc(){
-    towerASLevel += 1;
+    this.towerASLevel += 1;
   }
 
   attack(magic, alien) {

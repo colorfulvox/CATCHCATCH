@@ -34,8 +34,7 @@ export const config = {
             fixedStep: false,
         },
     },
-  },
-};
+  }
 
 //player start
 // 고양이 json
@@ -693,7 +692,7 @@ function create() {
             }
         }
     }
-  }
+  
   for (var i = 0; i < chunks.length; i++) {
     var chunk = chunks[i];
 
@@ -786,7 +785,6 @@ function create() {
   expbarBG.setDepth(2);
   //exp bar end
 }
-
 function update(time, delta) {
   var snappedChunkX =
     this.chunkSize *
