@@ -21,7 +21,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   vampire;
   stun;
   deathCount;
-  bounceCount = 2;
+  bounceCount = 0;
   copyCount = 0;
   maxBombCount;
   bombcount = 999999;
@@ -156,7 +156,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.as -= this.as_bonus;
         break;
       case 4:
-        this.bounceCount += 1;
+        this.bounceCount += 3;
         break;
       case 5:
         this.spriteScale += 0.5;
@@ -226,7 +226,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.as -= this.as_bonus;
         break;
       case 4:
-        this.bounceCount += 1;
+        this.bounceCount += 3;
         break;
       case 5:
         this.spriteScale += 0.5;
