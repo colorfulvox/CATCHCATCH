@@ -107,3 +107,12 @@ body {
   align-items: center;
   height: 70%;
 }
+
+.levelContent {
+  display: flex;
+  width: 100vmin;
+  height: 15%;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 6px solid purple;
+}

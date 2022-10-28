@@ -2,14 +2,14 @@ import "../../CSS/UI/inGameUI.css";
 
 export default function inGameUI() {
   const gameContainer = document.querySelector("#game-container");
-  const progress = document.createElement("progress");
+  // const progress = document.createElement("progress");
   const stats = document.createElement("div");
   const heal = document.createElement("div");
   const dmgmul = document.createElement("div");
   const speed = document.createElement("div");
-  progress.setAttribute("id", "progress");
-  progress.setAttribute("value", player.exp);
-  progress.setAttribute("max", 100);
+  // progress.setAttribute("id", "progress");
+  // progress.setAttribute("value", player.exp);
+  // progress.setAttribute("max", 100);
   stats.setAttribute("class", "stats");
   heal.setAttribute("class", "stat");
   dmgmul.setAttribute("class", "stat");
@@ -23,17 +23,17 @@ export default function inGameUI() {
   stats.appendChild(heal);
   stats.appendChild(dmgmul);
   stats.appendChild(speed);
-  gameContainer.appendChild(progress);
+  // gameContainer.appendChild(progress);
   gameContainer.appendChild(stats);
 }
 
 export function updateExp() {
-  const progress = document.querySelector("#progress");
+  // const progress = document.querySelector("#progress");
   const heal = document.querySelector("#heal");
   const dmgmul = document.querySelector("#dmgmul");
   const speed = document.querySelector("#speed");
   heal.innerText = `${player.healLevel}Lv`;
   dmgmul.innerText = `${player.dmgmulLevel}Lv`;
   speed.innerText = `${player.speedLevel}Lv`;
-  progress.setAttribute("value", player.exp);
+  // progress.setAttribute("value", player.exp);
 }
