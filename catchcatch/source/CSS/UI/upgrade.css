@@ -18,6 +18,7 @@ body {
   width: 150vmin;
   height: 80vmin;
   border: 6px solid black;
+  background: white;
   justify-content: space-between;
   z-index: 101;
 }
@@ -115,4 +116,18 @@ body {
   justify-content: space-evenly;
   align-items: center;
   border: 6px solid purple;
+}
+
+.levels {
+  display: flex;
+  height: 70%;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+.levelss {
+  height: 15%;
+  border: blue solid 6px;
+  line-height: 71.35px;
 }
