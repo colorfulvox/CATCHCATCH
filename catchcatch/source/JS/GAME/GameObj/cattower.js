@@ -43,18 +43,17 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     let magicleft = new TMagic(game, tower);
 
     let magicright = new TMagic(game, tower);
-
-    // magicleft.setScale(0.01);
-    // magicright.setScale(0.01);
-    if (this.isthree === false) {
-      towerAttacks.add(magic);
-    } else {
-      towerAttacks.add(magic);
-      towerAttacks.add(magicleft);
-      towerAttacks.add(magicright);
+    if (mouse.type !== "boss" || (mouse.type === "boss" && mouse.bossSpiece !=="slime_king")) {
+      console.log(mouse)
+      if (this.isthree === false) {
+        towerAttacks.add(magic);
+      } else {
+        towerAttacks.add(magic);
+        towerAttacks.add(magicleft);
+        towerAttacks.add(magicright);
+      }
     }
     game.physics.add.overlap(towerAttacks, monsterSet, tower.attack);
-
     tower.towerAttackTimer = 0;
 
     let angle = Phaser.Math.Angle.Between(tower.x, tower.y, mouse.x, mouse.y);
@@ -102,7 +101,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       vyp =
         tower.y - d * Math.sin(((180 - (angle_mouse - 30)) * Math.PI) / 180);
     }
-
+    if (mouse.type !== "boss" || (mouse.type === "boss" && mouse.bossSpiece !=="slime_king")) {
     if (tower.isthree === false) {
       game.physics.moveTo(magic, mouse.x, mouse.y, speed);
     } else {
@@ -110,6 +109,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       game.physics.moveTo(magic, mouse.x, mouse.y, speed);
       game.physics.moveTo(magicright, vxp, vyp, speed);
     }
+  }
     // control = true;
   }
 
@@ -129,7 +129,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
   skillattack(skill, alien) {
     if (!alien.invincible) {
-
       alien.health -= skill.dmg;
       //   console.log(alien.health);
       alien.invincible = true;
@@ -154,12 +153,12 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
   skillFire(game, tower, mouse, speed) {
     // console.log(1234)
+    if (mouse.type !== "boss" || (mouse.type === "boss" && mouse.bossSpiece !=="slime_king")) {
     let skill = new TSkill(game, tower);
     skill.body.checkCollision.none = true;
-    var hw = skill.body.halfWidth;
+    var hw = skill.body.halfWidth;2
     var hh = skill.body.halfHeight;
     skill.setCircle(hw * 1000, hh - hw * 1000, hh - hw * 1000);
-
 
     towerSkillAttacks.add(skill);
     // console.log(towerSkillAttacks)
@@ -175,7 +174,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       ease: "Linear",
       completeDelay: speed,
     });
-  };
-
-
+  }
+}
 }

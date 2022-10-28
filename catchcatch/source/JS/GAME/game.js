@@ -156,6 +156,12 @@ global.mines = "";
 
 //mine end
 
+//exp bar start
+var expbar;
+var expbarBG;
+
+//exp bar end
+
 
 function preload() {
     //map start
@@ -373,6 +379,7 @@ function create() {
     cats = require("./jsons/cats.json");
     fairySet = require("./jsons/fairys.json");
 
+
     player = cats[catNumber];
     player = new Player(this, 1, 100, 100, "cat" + (ChoiceCat + 1));
     player.setDepth(2);
@@ -447,6 +454,7 @@ function create() {
         player
     );
 
+
     global.witch = fairySet[4] = new Fairy(
         this,
         100,
@@ -461,7 +469,7 @@ function create() {
     );
     fairySet[4].initFairy5(1, 1)
     for (let i = 0; i < 5; i++) {
-        fairySet[i].setDepth(1);
+        fairySet[i].setDepth(2);
     }
     player.changeFairy(fairySet[0]);
     normalAttackAS = fairySet[0].as;
@@ -741,6 +749,13 @@ function create() {
     navi = this.add.image(50, 50, 'navi').setScrollFactor(0).setScale(0.1);
     navi.setDepth(2)
     //navi end
+
+    //exp bar start
+    expbar = this.add.graphics().setScrollFactor(0);
+    expbarBG = this.add.graphics().setScrollFactor(0);
+    expbar.setDepth(3);
+    expbarBG.setDepth(2);
+    //exp bar end
 }
 
 function update(time, delta) {
@@ -946,6 +961,19 @@ function update(time, delta) {
     towerRD.towerSkillAttackTimer++;
     //tower end
 
+
+    //exp bar start
+    expbar.clear();
+
+    //  BG
+    expbarBG.fillStyle(0x000000);
+    expbarBG.fillRect(0, 0, this.cameras.main.worldView.width, 16); // x y 가로길이, 세로길이
+
+    //  Health
+
+    expbar.fillStyle(0xff0000);
+    expbar.fillRect(0, 0, this.cameras.main.worldView.width * (player.exp / player.maxExp), 16);
+    //exp bar end
 }
 
 //player start
@@ -1028,6 +1056,7 @@ function attack(magic, monster) {
             magic.destroy();
         }
 
+<<<<<<< HEAD
     if (nowFairy === 2 ) {
       //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
       let num = Math.floor(Math.random() * 100 + 1);
@@ -1035,11 +1064,21 @@ function attack(magic, monster) {
         monster.die_anim();
         monster.destroy();
         player.levelUp();
+=======
+        if (nowFairy === 2) {
+            //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
+            let num = Math.floor(Math.random() * 100 + 1);
+            if (num <= fairySet[nowFairy].deathCount && monster.type != 'boss') {
+                monster.die_anim();
+                monster.destroy();
+                player.levelUp();
+>>>>>>> a5df55aa7ca8ef1ff5f872a9db9d0eb6921d2d14
 
                 monsterCount -= 1;
             }
         }
 
+<<<<<<< HEAD
     monster.health -= fairySet[nowFairy].dmg;
     monster.invincible = true;
     if (monster.health <= 0 && monster.type !='boss') {
@@ -1047,11 +1086,21 @@ function attack(magic, monster) {
       monster.destroy();
       player.levelUp();
       monsterCount -= 1;
+=======
+        monster.health -= fairySet[nowFairy].dmg;
+        monster.invincible = true;
+        if (monster.health <= 0 && monster.type != 'boss') {
+            monster.die_anim();
+            monster.destroy();
+            player.levelUp();
+            monsterCount -= 1;
+        }
+>>>>>>> a5df55aa7ca8ef1ff5f872a9db9d0eb6921d2d14
     }
   }
 }
 
-// 임시 구멍 구현 
+// 임시 구멍 구현
 function hithole(hole, monster) {
     hole.hp -= 1
     monster.destroy()
@@ -1092,7 +1141,6 @@ function enemySpawn(scene) {
 function slime_pattern(scene, pt, x, y) {
     if (pt != 16) {
         pt *= 2
-        console.log(pt)
         for (let i = 0; i < pt; i++) {
             // 분열될 때마다 체력 감소 구현하기
             if (pt < 4) {
@@ -1102,9 +1150,12 @@ function slime_pattern(scene, pt, x, y) {
             } else {
                 slime_king = new Boss(scene, 25, 100, x + i * 25, y, 'slime_king', 'swarm', 0.5, pt, 'boss')
             }
+<<<<<<< HEAD
             slime_king.anime();
             scene.physics.add.collider(bossSet, slime_king);
             bossSet.add(slime_king);
+=======
+>>>>>>> a5df55aa7ca8ef1ff5f872a9db9d0eb6921d2d14
         }
     }
 }
