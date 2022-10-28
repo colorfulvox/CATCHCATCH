@@ -1018,10 +1018,11 @@ function attack(magic, monster) {
       magic.destroy();
     }
 
-    if (nowFairy === 2) {
+    if (nowFairy === 2 ) {
       //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
       let num = Math.floor(Math.random() * 100 + 1);
-      if (num <= fairySet[nowFairy].deathCount) {
+      if (num <= fairySet[nowFairy].deathCount && monster.type != 'boss') {
+        monster.die_anim();
         monster.destroy();
         player.levelUp();
 
@@ -1032,6 +1033,7 @@ function attack(magic, monster) {
     monster.health -= fairySet[nowFairy].dmg;
     monster.invincible = true;
     if (monster.health <= 0 && monster.type !='boss') {
+      monster.die_anim();
       monster.destroy();
       player.levelUp();
       monsterCount -= 1;
@@ -1085,7 +1087,6 @@ function enemySpawn(scene){
 function slime_pattern(scene,pt,x,y){
   if(pt != 16){
       pt *= 2
-      console.log(pt)
       for (let i = 0; i<pt; i++){
         // 분열될 때마다 체력 감소 구현하기
         if(pt < 4){
