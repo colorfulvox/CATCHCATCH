@@ -408,7 +408,9 @@ function create() {
         40,
         500,
         1,
-        player
+        player,
+        0.5,
+        1
     );
     fairySet[0].initFairy1(0, 0);
     global.reaper = fairySet[1] = new Fairy(
@@ -421,7 +423,9 @@ function create() {
         10,
         160,
         2,
-        player
+        player,
+        0.4,
+        2
     );
     global.ninja = fairySet[2] = new Fairy(
         this,
@@ -433,7 +437,9 @@ function create() {
         10,
         300,
         3,
-        player
+        player,
+        0.5,
+        1
     );
     fairySet[2].initFairy3(0, 10);
     global.slime = fairySet[3] = new Fairy(
@@ -441,12 +447,14 @@ function create() {
         7200,
         10,
         1,
-        3,
+        99999,
         90,
         10,
         400,
         4,
-        player
+        player,
+        0.5,
+        1
     );
 
 
@@ -460,7 +468,9 @@ function create() {
         10,
         500,
         5,
-        player
+        player,
+        0.5,
+        1
     );
     fairySet[4].initFairy5(1, 1)
     for (let i = 0; i < 5; i++) {
@@ -1066,6 +1076,24 @@ function attack(magic, monster) {
         } else {
             magic.destroy();
         }
+    
+    if (nowFairy === 3){
+      if(monsterSet.children.entries.length !== 0){
+        if(magic.bounceCount <= 0){
+          magic.destroy();
+        }else{
+          let monNum = Math.floor(Math.random() * monsterSet.children.entries.length);
+
+          thisScene.physics.moveTo(
+            magic,
+            monsterSet.children.entries[monNum].x,
+            monsterSet.children.entries[monNum].y,
+            magic.fairy.velo
+          );
+          magic.bounceCount--;
+        }
+      }
+    }
 
     if (nowFairy === 2 ) {
       //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
