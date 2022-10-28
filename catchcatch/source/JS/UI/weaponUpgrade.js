@@ -1,3 +1,5 @@
+import Player from "../GAME/GameObj/player";
+
 export default function weapon() {
   const arr = ["", "", "", "", "", "", "", "", ""];
   const fairy = [wizard, reaper, ninja, slime, witch];
@@ -14,6 +16,13 @@ export default function weapon() {
         div.innerText = "완료";
       } else {
         div.innerText = "그림";
+        if (idx2 === 4 || idx2 === 8) {
+          div.addEventListener("click", () => {
+            if (fairy[idx].level === idx2) {
+              fairy[idx].levelUp();
+            }
+          });
+        }
       }
       weaponIcons.appendChild(div);
     });
