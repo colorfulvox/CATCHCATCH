@@ -1028,25 +1028,27 @@ function attack(magic, monster) {
             magic.destroy();
         }
 
-        if (nowFairy === 2) {
-            //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
-            let num = Math.floor(Math.random() * 100 + 1);
-            if (num <= fairySet[nowFairy].deathCount) {
-                monster.destroy();
-                player.levelUp();
+    if (nowFairy === 2 ) {
+      //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
+      let num = Math.floor(Math.random() * 100 + 1);
+      if (num <= fairySet[nowFairy].deathCount && monster.type != 'boss') {
+        monster.die_anim();
+        monster.destroy();
+        player.levelUp();
 
                 monsterCount -= 1;
             }
         }
 
-        monster.health -= fairySet[nowFairy].dmg;
-        monster.invincible = true;
-        if (monster.health <= 0 && monster.type != 'boss') {
-            monster.destroy();
-            player.levelUp();
-            monsterCount -= 1;
-        }
+    monster.health -= fairySet[nowFairy].dmg;
+    monster.invincible = true;
+    if (monster.health <= 0 && monster.type !='boss') {
+      monster.die_anim();
+      monster.destroy();
+      player.levelUp();
+      monsterCount -= 1;
     }
+  }
 }
 
 // 임시 구멍 구현 
