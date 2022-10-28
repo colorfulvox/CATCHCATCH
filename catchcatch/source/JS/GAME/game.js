@@ -12,25 +12,27 @@ import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
 export const config = {
-  type: Phaser.AUTO,
-  width: 600,
-  height: 600,
-  parent: "game-container",
-  backgroundColor: "black",
-  pixelArt: true,
-  roundPixels: true,
-  scene: {
-    //scene 제어에
-    preload: preload,
-    create: create,
-    update: update,
-  },
-  physics: {
-    default: "arcade",
-    arcade: {
-      fps: 60,
-      debug: false,
-      fixedStep: false,
+    type: Phaser.AUTO,
+    width: 600,
+    height: 600,
+    parent: "game-container",
+    backgroundColor: "black",
+    resolution: window.devicePixelRatio,
+    pixelArt: true,
+    roundPixels: true,
+    scene: {
+        //scene 제어에
+        preload: preload,
+        create: create,
+        update: update,
+    },
+    physics: {
+        default: "arcade",
+        arcade: {
+            fps: 60,
+            debug: false,
+            fixedStep: false,
+        },
     },
   },
 };
@@ -79,7 +81,6 @@ var navi;
 
 //coin start
 global.coin = 0;
-global.cointext = "";
 //coin end
 
 //enemy start
@@ -407,6 +408,66 @@ function create() {
     40,
     500,
     1,
+    player,
+        0.5,
+        1
+  );
+  fairySet[0].initFairy1(0, 0);
+  global.reaper = fairySet[1] = new Fairy(
+    this,
+    100,
+    10,
+    1,
+    1,
+    70,
+    10,
+    160,
+    2,
+    player,
+        0.4,
+        2
+  );
+  global.ninja = fairySet[2] = new Fairy(
+    this,
+    100,
+    0,
+    1,
+    3,
+    80,
+    10,
+    300,
+    3,
+    player,
+        0.5,
+        1
+  );
+  fairySet[2].initFairy3(0, 10);
+  global.slime = fairySet[3] = new Fairy(
+    this,
+    7200,
+    10,
+    1,
+    99999,
+    90,
+    10,
+    400,
+    4,
+    player,
+        0.5,
+        1
+  );
+
+  // 플레이어, 요정 로딩
+  global.wizard = fairySet[0] = new Fairy(
+    this,
+    100,
+    4,
+    1,
+    1,
+    140,
+    40,
+    500,
+    1,
     player
   );
   fairySet[0].initFairy1(0, 0);
@@ -448,217 +509,240 @@ function create() {
     player
   );
 
-  global.witch = fairySet[4] = new Fairy(
-    this,
-    100,
-    10,
-    1,
-    5,
-    40,
-    10,
-    500,
-    5,
-    player
-  );
-  fairySet[4].initFairy5(1, 1);
-  for (let i = 0; i < 5; i++) {
-    fairySet[i].setDepth(2);
-  }
-  player.changeFairy(fairySet[0]);
-  normalAttackAS = fairySet[0].as;
-  // animation
-  this.anims.create({
-    key: "fairy1_idle",
-    frames: this.anims.generateFrameNumbers("fairy1", { start: 12, end: 21 }),
-    frameRate: 8,
-    repeat: -1,
-  });
+    global.witch = fairySet[4] = new Fairy(
+        this,
+        100,
+        10,
+        1,
+        5,
+        40,
+        10,
+        500,
+        5,
+        player,
+        0.5,
+        1
+    );
+    fairySet[4].initFairy5(1, 1)
+    for (let i = 0; i < 5; i++) {
+        fairySet[i].setDepth(2);
+    }
+    player.changeFairy(fairySet[0]);
+    normalAttackAS = fairySet[0].as;
+    // animation
+    this.anims.create({
+        key: "fairy1_idle",
+        frames: this.anims.generateFrameNumbers("fairy1", {start: 12, end: 21}),
+        frameRate: 8,
+        repeat: -1,
+    });
 
-  this.anims.create({
-    key: "fairy1_attack",
-    frames: this.anims.generateFrameNumbers("fairy1", { start: 6, end: 10 }),
-    frameRate: 12,
-    repeat: 0,
-  });
+    this.anims.create({
+        key: "fairy1_attack",
+        frames: this.anims.generateFrameNumbers("fairy1", {start: 6, end: 10}),
+        frameRate: 12,
+        repeat: 0,
+    });
 
-  this.anims.create({
-    key: "fairy2_idle",
-    frames: this.anims.generateFrameNumbers("fairy2", { start: 10, end: 19 }),
-    frameRate: 8,
-    repeat: -1,
-  });
+    this.anims.create({
+        key: "fairy2_idle",
+        frames: this.anims.generateFrameNumbers("fairy2", {start: 10, end: 19}),
+        frameRate: 8,
+        repeat: -1,
+    });
 
-  this.anims.create({
-    key: "fairy2_attack",
-    frames: this.anims.generateFrameNumbers("fairy2", { start: 0, end: 8 }),
-    frameRate: 14,
-    repeat: 0,
-  });
+    this.anims.create({
+        key: "fairy2_attack",
+        frames: this.anims.generateFrameNumbers("fairy2", {start: 0, end: 8}),
+        frameRate: 14,
+        repeat: 0,
+    });
 
-  this.anims.create({
-    key: "fairy3_idle",
-    frames: this.anims.generateFrameNumbers("fairy3", { start: 11, end: 19 }),
-    frameRate: 8,
-    repeat: -1,
-  });
+    this.anims.create({
+        key: "fairy3_idle",
+        frames: this.anims.generateFrameNumbers("fairy3", {start: 11, end: 19}),
+        frameRate: 8,
+        repeat: -1,
+    });
 
-  this.anims.create({
-    key: "fairy3_attack",
-    frames: this.anims.generateFrameNumbers("fairy3", { start: 0, end: 9 }),
-    frameRate: 14,
-    repeat: 0,
-  });
+    this.anims.create({
+        key: "fairy3_attack",
+        frames: this.anims.generateFrameNumbers("fairy3", {start: 0, end: 9}),
+        frameRate: 14,
+        repeat: 0,
+    });
 
-  this.anims.create({
-    key: "fairy4_idle",
-    frames: this.anims.generateFrameNumbers("fairy4", { start: 7, end: 14 }),
-    frameRate: 8,
-    repeat: -1,
-  });
+    this.anims.create({
+        key: "fairy4_idle",
+        frames: this.anims.generateFrameNumbers("fairy4", {start: 7, end: 14}),
+        frameRate: 8,
+        repeat: -1,
+    });
 
-  this.anims.create({
-    key: "fairy4_attack",
-    frames: this.anims.generateFrameNumbers("fairy4", { start: 0, end: 5 }),
-    frameRate: 10,
-    repeat: 0,
-  });
+    this.anims.create({
+        key: "fairy4_attack",
+        frames: this.anims.generateFrameNumbers("fairy4", {start: 0, end: 5}),
+        frameRate: 10,
+        repeat: 0,
+    });
 
-  this.anims.create({
-    key: "fairy5_idle",
-    frames: this.anims.generateFrameNumbers("fairy5", { start: 15, end: 24 }),
-    frameRate: 8,
-    repeat: -1,
-  });
+    this.anims.create({
+        key: "fairy5_idle",
+        frames: this.anims.generateFrameNumbers("fairy5", {start: 15, end: 24}),
+        frameRate: 8,
+        repeat: -1,
+    });
 
-  this.anims.create({
-    key: "fairy5_attack",
-    frames: this.anims.generateFrameNumbers("fairy5", { start: 0, end: 13 }),
-    frameRate: 17,
-    repeat: 0,
-  });
+    this.anims.create({
+        key: "fairy5_attack",
+        frames: this.anims.generateFrameNumbers("fairy5", {start: 0, end: 13}),
+        frameRate: 17,
+        repeat: 0,
+    });
 
-  // 공격 애니메이션
-  this.anims.create({
-    key: "magic1",
-    frames: this.anims.generateFrameNumbers("magic1", {
-      start: 0,
-      end: 60,
-      first: 0,
-    }),
-    frameRate: 200,
-    repeat: -1,
-  });
-  this.anims.create({
-    key: "magic2",
-    frames: this.anims.generateFrameNumbers("magic2", {
-      start: 0,
-      end: 60,
-      first: 0,
-    }),
-    frameRate: 200,
-    repeat: -1,
-  });
-  this.anims.create({
-    key: "magic3",
-    frames: this.anims.generateFrameNumbers("magic3", {
-      start: 0,
-      end: 60,
-      first: 0,
-    }),
-    frameRate: 200,
-    repeat: -1,
-  });
-  this.anims.create({
-    key: "magic4",
-    frames: this.anims.generateFrameNumbers("magic4", {
-      start: 0,
-      end: 60,
-      first: 0,
-    }),
-    frameRate: 200,
-    repeat: -1,
-  });
-  this.anims.create({
-    key: "magic5",
-    frames: this.anims.generateFrameNumbers("magic5", {
-      start: 0,
-      end: 60,
-      first: 0,
-    }),
-    frameRate: 200,
-    repeat: -1,
-  });
-  this.anims.create({
-    key: "magic5_1",
-    frames: this.anims.generateFrameNumbers("magic5_1", {
-      start: 0,
-      end: 60,
-      first: 0,
-    }),
-    frameRate: 200,
-    repeat: -1,
-  });
-  fairySet[nowFairy].play("fairy" + (nowFairy + 1) + "_idle", true);
 
-  //player end
+    // 공격 애니메이션
+    this.anims.create({
+        key: "magic1",
+        frames: this.anims.generateFrameNumbers("magic1", {
+            start: 0,
+            end: 60,
+            first: 0,
+        }),
+        frameRate: 200,
+        repeat: -1,
+    });
+    this.anims.create({
+        key: "magic2",
+        frames: this.anims.generateFrameNumbers("magic2", {
+            start: 0,
+            end: 60,
+            first: 0,
+        }),
+        frameRate: 200,
+        repeat: -1,
+    });
+    this.anims.create({
+        key: "magic3",
+        frames: this.anims.generateFrameNumbers("magic3", {
+            start: 0,
+            end: 60,
+            first: 0,
+        }),
+        frameRate: 200,
+        repeat: -1,
+    });
+    this.anims.create({
+        key: "magic4",
+        frames: this.anims.generateFrameNumbers("magic4", {
+            start: 0,
+            end: 60,
+            first: 0,
+        }),
+        frameRate: 200,
+        repeat: -1,
+    });
+    this.anims.create({
+        key: "magic5",
+        frames: this.anims.generateFrameNumbers("magic5", {
+            start: 0,
+            end: 60,
+            first: 0,
+        }),
+        frameRate: 200,
+        repeat: -1,
+    });
+    this.anims.create({
+        key: "magic5_1",
+        frames: this.anims.generateFrameNumbers("magic5_1", {
+            start: 0,
+            end: 60,
+            first: 0,
+        }),
+        frameRate: 200,
+        repeat: -1,
+    });
+    fairySet[nowFairy].play("fairy" + (nowFairy + 1) + "_idle", true);
 
-  //cointext start
-  cointext = this.add
-    .text(500, 10, "coin: 0", { font: "10px Arial Black", fill: "#000" })
-    .setScrollFactor(0);
-  cointext.setStroke("#fff", 1);
-  cointext.setDepth(2);
-  //cointext end
+    //player end
 
-  //enemy start
+    //cointext start
+    // cointext = this.add.text(500, 20, 'coin: 0', {font: 'Bold 15px Arial', fill: '#fff', fontStyle: "strong"}).setScrollFactor(0);
+    // cointext.setStroke('#000', 2);
+    // cointext.setDepth(2);
+    //cointext end
 
-  monsterSet = this.physics.add.group();
-  magics = this.physics.add.group();
-  towerAttacks = this.physics.add.group();
-  towerSkillAttacks = this.physics.add.group();
-  mines = this.physics.add.group();
+    //enemy start
 
-  // 임시 구멍
-  hole = this.physics.add.sprite(0, 0, "fairy4");
-  hole.hp = 100;
-  hole.setDepth(1);
+    monsterSet = this.physics.add.group();
+    magics = this.physics.add.group();
+    towerAttacks = this.physics.add.group();
+    towerSkillAttacks = this.physics.add.group();
+    mines = this.physics.add.group();
 
-  // 그룹셋
-  monsterSet = this.physics.add.group();
-  bossSet = this.physics.add.group();
-  magics = this.physics.add.group();
+    // 임시 구멍
+    hole = this.physics.add.sprite(0, 0, 'fairy4')
+    hole.hp = 100;
+    hole.setDepth(1);
 
-  this.physics.add.collider(player, bossSet, player.hitPlayer);
-  this.physics.add.collider(bossSet, monsterSet);
-  thisScene.physics.add.overlap(magics, bossSet, attack);
+    // 그룹셋
+    monsterSet = this.physics.add.group();
+    bossSet = this.physics.add.group();
+    magics = this.physics.add.group();
 
-  // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
-  this.physics.add.collider(player, monsterSet, player.hitPlayer);
-  thisScene.physics.add.overlap(magics, monsterSet, attack);
-  // 만약 몬스터와 구멍이 닿았다면 (hithole 함수 실행)
-  thisScene.physics.add.overlap(hole, monsterSet, hithole);
 
-  //map start
-  var snappedChunkX =
-    this.chunkSize *
-    this.tileSize *
-    Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
-  var snappedChunkY =
-    this.chunkSize *
-    this.tileSize *
-    Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
+    this.physics.add.collider(player, bossSet, player.hitPlayer);
+    this.physics.add.collider(bossSet, monsterSet);
+    thisScene.physics.add.overlap(magics, bossSet, attack);
 
-  snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
-  snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
+    // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
+    this.physics.add.collider(player, monsterSet, player.hitPlayer);
+    thisScene.physics.add.overlap(magics, monsterSet, attack);
+    // 만약 몬스터와 구멍이 닿았다면 (hithole 함수 실행)
+    thisScene.physics.add.overlap(hole, monsterSet, hithole)
 
-  for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
-    for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
-      var existingChunk = getChunk(x, y);
+    //map start
+    var snappedChunkX =
+        this.chunkSize *
+        this.tileSize *
+        Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
+    var snappedChunkY =
+        this.chunkSize *
+        this.tileSize *
+        Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
 
-      if (existingChunk == null) {
-        var newChunk = new Chunk(this, x, y);
-        chunks.push(newChunk);
-      }
+    snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
+    snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
+
+    for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
+        for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
+            var existingChunk = getChunk(x, y);
+
+            if (existingChunk == null) {
+                var newChunk = new Chunk(this, x, y);
+                chunks.push(newChunk);
+            }
+        }
+    }
+    for (var i = 0; i < chunks.length; i++) {
+        var chunk = chunks[i];
+
+        if (
+            Phaser.Math.Distance.Between(
+                snappedChunkX,
+                snappedChunkY,
+                chunk.x,
+                chunk.y
+            ) < 3
+        ) {
+            if (chunk !== null) {
+                chunk.load();
+            }
+        } else {
+            if (chunk !== null) {
+                chunk.unload();
+            }
+        }
     }
   }
   for (var i = 0; i < chunks.length; i++) {
@@ -1064,11 +1148,29 @@ function changeSlot() {
 }
 
 function attack(magic, monster) {
-  if (!monster.invincible) {
-    if (magic.pierceCount > 0) {
-      magic.pierceCount--;
-    } else {
-      magic.destroy();
+    if (!monster.invincible) {
+        if (magic.pierceCount > 0) {
+            magic.pierceCount--;
+        } else {
+            magic.destroy();
+        }
+    
+    if (nowFairy === 3){
+      if(monsterSet.children.entries.length !== 0){
+        if(magic.bounceCount <= 0){
+          magic.destroy();
+        }else{
+          let monNum = Math.floor(Math.random() * monsterSet.children.entries.length);
+
+          thisScene.physics.moveTo(
+            magic,
+            monsterSet.children.entries[monNum].x,
+            monsterSet.children.entries[monNum].y,
+            magic.fairy.velo
+          );
+          magic.bounceCount--;
+        }
+      }
     }
 
     if (nowFairy === 2) {
@@ -1077,7 +1179,7 @@ function attack(magic, monster) {
       if (num <= fairySet[nowFairy].deathCount && monster.type != "boss") {
         monster.die_anim();
         monster.destroy();
-        player.levelUp();
+        player.expUp();
 
         monsterCount -= 1;
       }
@@ -1108,7 +1210,7 @@ function hithole(hole, monster) {
   }
 }
 
-// // 임시 구멍 구현
+// 임시 구멍 구현
 // function hithole(hole, monster) {
 //   hole.hp -= 1;
 //   monster.destroy();
