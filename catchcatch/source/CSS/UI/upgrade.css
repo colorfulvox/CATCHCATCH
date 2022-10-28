@@ -17,18 +17,18 @@ body {
   transform: translateX(-50%) translateY(-50%);
   width: 150vmin;
   height: 80vmin;
-  border: 6px solid black;
-  justify-content: space-between;
+  /* border: 6px solid black; */
+  justify-content: center;
   z-index: 101;
 }
 
 .upgradeType {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-  width: 20vmin;
-  border: 6px solid red;
+  width: 20vmin; */
+  /* border: 6px solid red; */
 }
 
 .upgradeContent {
@@ -37,29 +37,39 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: 6px solid yellow;
+  /* border: 6px solid yellow; */
 }
 .playerType {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40vmin;
-  border: 6px solid orange;
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: center; */
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border: 6px solid red;
+  top: 80px;
+  right: 20px;
+  /* border: 6px solid orange; */
 }
 .weaponType {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40vmin;
+  position: relative;
+  /* display: flex; */
+  /* align-items: center;
+  justify-content: center; */
+  width: 30px;
+  height: 30px;
   border: 6px solid blue;
+  top: 40px;
+  right: 20px;
 }
 
 .towerType {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40vmin;
-  border: 6px solid green;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border: 6px solid red;
+  top: 55px;
+  right: 20px;
 }
 
 .towerIcons {
@@ -68,16 +78,31 @@ body {
   height: 15%;
   justify-content: space-evenly;
   align-items: center;
-  border: 6px solid purple;
+  /* border: 6px solid purple; */
 }
 
 .weaponIcons {
   display: flex;
   width: 100vmin;
-  height: 15%;
+  height: 64px;
+  /* height: 15%; */
   justify-content: space-evenly;
   align-items: center;
-  border: 6px solid purple;
+  /* border: 6px solid purple; */
+}
+
+.weaponicon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid black; */
+}
+
+.weaponImg {
+  width: 50px;
+  height: 50px;
 }
 
 .tower1234 {
@@ -114,5 +139,18 @@ body {
   height: 15%;
   justify-content: space-evenly;
   align-items: center;
-  border: 6px solid purple;
+  /* border: 6px solid purple; */
+}
+.level {
+  font-family: "KenneyBlocks";
+  font-weight: bold;
+  width: 60px;
+  text-align: center;
+  color: white;
+}
+.fairyicon {
+  width: 120px;
+  height: 55px;
+  border-radius: 5%;
+  border: 4px solid rgb(213, 243, 255);
 }
