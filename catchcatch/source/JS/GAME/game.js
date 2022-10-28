@@ -156,6 +156,11 @@ global.mines = "";
 
 //mine end
 
+//exp bar start
+var expbar;
+var expbarBG;
+//exp bar end
+
 
 function preload() {
     //map start
@@ -336,285 +341,289 @@ function preload() {
 }
 
 function create() {
-    thisScene = this;
-    //map start
-    this.chunkSize = 8;
-    this.tileSize = 300;
-    this.cameraSpeed = 1;
+  thisScene = this;
+  //map start
+  this.chunkSize = 8;
+  this.tileSize = 300;
+  this.cameraSpeed = 1;
 
-    this.cameras.main.setZoom(1);
-    this.followPoint = new Phaser.Math.Vector2(
-        this.cameras.main.worldView.x + this.cameras.main.worldView.width * 0.5,
-        this.cameras.main.worldView.y + this.cameras.main.worldView.height * 0.5
-    );
-    // this.cameras.main.setBounds(0, 0, mapSize, mapSize);
-    // this.physics.world.setBounds(0, 0, mapSize, mapSize);
+  this.cameras.main.setZoom(1);
+  this.followPoint = new Phaser.Math.Vector2(
+    this.cameras.main.worldView.x + this.cameras.main.worldView.width * 0.5,
+    this.cameras.main.worldView.y + this.cameras.main.worldView.height * 0.5
+  );
+  // this.cameras.main.setBounds(0, 0, mapSize, mapSize);
+  // this.physics.world.setBounds(0, 0, mapSize, mapSize);
 
-    cursors = this.input.keyboard.addKeys({
-        up: Phaser.Input.Keyboard.KeyCodes.W,
-        down: Phaser.Input.Keyboard.KeyCodes.S,
-        left: Phaser.Input.Keyboard.KeyCodes.A,
-        right: Phaser.Input.Keyboard.KeyCodes.D,
-        slot1: Phaser.Input.Keyboard.KeyCodes.ONE,
-        slot2: Phaser.Input.Keyboard.KeyCodes.TWO,
-        slot3: Phaser.Input.Keyboard.KeyCodes.THREE,
-        slot4: Phaser.Input.Keyboard.KeyCodes.FOUR,
-        slot5: Phaser.Input.Keyboard.KeyCodes.FIVE,
-        skill: Phaser.Input.Keyboard.KeyCodes.SPACE,
-    });
-    // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true);
-    global.$this = this.scene;
-    this.input.keyboard.on("keydown-" + "SHIFT", function (event) {
-        initUpgrade();
-    });
-    //map end
+  cursors = this.input.keyboard.addKeys({
+    up: Phaser.Input.Keyboard.KeyCodes.W,
+    down: Phaser.Input.Keyboard.KeyCodes.S,
+    left: Phaser.Input.Keyboard.KeyCodes.A,
+    right: Phaser.Input.Keyboard.KeyCodes.D,
+    slot1: Phaser.Input.Keyboard.KeyCodes.ONE,
+    slot2: Phaser.Input.Keyboard.KeyCodes.TWO,
+    slot3: Phaser.Input.Keyboard.KeyCodes.THREE,
+    slot4: Phaser.Input.Keyboard.KeyCodes.FOUR,
+    slot5: Phaser.Input.Keyboard.KeyCodes.FIVE,
+    skill: Phaser.Input.Keyboard.KeyCodes.SPACE,
+  });
+  // camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels, true);
+  global.$this = this.scene;
+  this.input.keyboard.on("keydown-" + "SHIFT", function (event) {
+    initUpgrade();
+  });
+  //map end
 
-    //player start
-    cats = require("./jsons/cats.json");
-    fairySet = require("./jsons/fairys.json");
+  //player start
+  cats = require("./jsons/cats.json");
+  fairySet = require("./jsons/fairys.json");
+  
 
-    player = cats[catNumber];
-    player = new Player(this, 1, 100, 100, "cat" + (ChoiceCat + 1));
-    player.setDepth(2);
-    inGameUI();
+  player = cats[catNumber];
+  player = new Player(this, 1, 100, 100, "cat"+(ChoiceCat+1));
+  player.setDepth(2);
+  inGameUI();
 
-    camera = this.cameras.main;
-    input = this.input;
-    mouse = input.mousePointer;
-    this.input.on(
-        "pointermove",
-        function (pointer) {
-            let cursor = pointer;
-            let angle = Phaser.Math.Angle.Between(
-                player.x,
-                player.y,
-                cursor.x + this.cameras.main.scrollX,
-                cursor.y + this.cameras.main.scrollY
-            );
-        },
-        this
-    );
+  camera = this.cameras.main;
+  input = this.input;
+  mouse = input.mousePointer;
+  this.input.on(
+    "pointermove",
+    function (pointer) {
+      let cursor = pointer;
+      let angle = Phaser.Math.Angle.Between(
+        player.x,
+        player.y,
+        cursor.x + this.cameras.main.scrollX,
+        cursor.y + this.cameras.main.scrollY
+      );
+    },
+    this
+  );
 
-    // 플레이어, 요정 로딩
-    global.wizard = fairySet[0] = new Fairy(
-        this,
-        100,
-        4,
-        1,
-        1,
-        140,
-        40,
-        500,
-        1,
-        player
-    );
-    fairySet[0].initFairy1(0, 0);
-    global.reaper = fairySet[1] = new Fairy(
-        this,
-        100,
-        10,
-        1,
-        1,
-        70,
-        10,
-        160,
-        2,
-        player
-    );
-    global.ninja = fairySet[2] = new Fairy(
-        this,
-        100,
-        0,
-        1,
-        3,
-        80,
-        10,
-        300,
-        3,
-        player
-    );
-    fairySet[2].initFairy3(0, 10);
-    global.slime = fairySet[3] = new Fairy(
-        this,
-        7200,
-        10,
-        1,
-        3,
-        90,
-        10,
-        400,
-        4,
-        player
-    );
+  // 플레이어, 요정 로딩
+  global.wizard = fairySet[0] = new Fairy(
+    this,
+    100,
+    4,
+    1,
+    1,
+    140,
+    40,
+    500,
+    1,
+    player
+  );
+  fairySet[0].initFairy1(0, 0);
+  global.reaper = fairySet[1] = new Fairy(
+    this,
+    100,
+    10,
+    1,
+    1,
+    70,
+    10,
+    160,
+    2,
+    player
+  );
+  global.ninja = fairySet[2] = new Fairy(
+    this,
+    100,
+    0,
+    1,
+    3,
+    80,
+    10,
+    300,
+    3,
+    player
+  );
+  fairySet[2].initFairy3(0, 10);
+  global.slime = fairySet[3] = new Fairy(
+    this,
+    7200,
+    10,
+    1,
+    3,
+    90,
+    10,
+    400,
+    4,
+    player
+  );
 
-    global.witch = fairySet[4] = new Fairy(
-        this,
-        100,
-        10,
-        1,
-        5,
-        40,
-        10,
-        500,
-        5,
-        player
-    );
-    fairySet[4].initFairy5(1, 1)
-    for (let i = 0; i < 5; i++) {
-        fairySet[i].setDepth(1);
-    }
-    player.changeFairy(fairySet[0]);
-    normalAttackAS = fairySet[0].as;
-    // animation
-    this.anims.create({
-        key: "fairy1_idle",
-        frames: this.anims.generateFrameNumbers("fairy1", {start: 12, end: 21}),
-        frameRate: 8,
-        repeat: -1,
-    });
+  
 
-    this.anims.create({
-        key: "fairy1_attack",
-        frames: this.anims.generateFrameNumbers("fairy1", {start: 6, end: 10}),
-        frameRate: 12,
-        repeat: 0,
-    });
+  global.witch = fairySet[4] = new Fairy(
+    this,
+    100,
+    10,
+    1,
+    5,
+    40,
+    10,
+    500,
+    5,
+    player
+  );
+  fairySet[4].initFairy5(1, 1)
+  for (let i = 0; i < 5; i++) {
+    fairySet[i].setDepth(2);
+  }
+  player.changeFairy(fairySet[0]);
+  normalAttackAS = fairySet[0].as;
+  // animation
+  this.anims.create({
+    key: "fairy1_idle",
+    frames: this.anims.generateFrameNumbers("fairy1", { start: 12, end: 21 }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
-    this.anims.create({
-        key: "fairy2_idle",
-        frames: this.anims.generateFrameNumbers("fairy2", {start: 10, end: 19}),
-        frameRate: 8,
-        repeat: -1,
-    });
+  this.anims.create({
+    key: "fairy1_attack",
+    frames: this.anims.generateFrameNumbers("fairy1", { start: 6, end: 10 }),
+    frameRate: 12,
+    repeat: 0,
+  });
 
-    this.anims.create({
-        key: "fairy2_attack",
-        frames: this.anims.generateFrameNumbers("fairy2", {start: 0, end: 8}),
-        frameRate: 14,
-        repeat: 0,
-    });
+  this.anims.create({
+    key: "fairy2_idle",
+    frames: this.anims.generateFrameNumbers("fairy2", { start: 10, end: 19 }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
-    this.anims.create({
-        key: "fairy3_idle",
-        frames: this.anims.generateFrameNumbers("fairy3", {start: 11, end: 19}),
-        frameRate: 8,
-        repeat: -1,
-    });
+  this.anims.create({
+    key: "fairy2_attack",
+    frames: this.anims.generateFrameNumbers("fairy2", { start: 0, end: 8 }),
+    frameRate: 14,
+    repeat: 0,
+  });
 
-    this.anims.create({
-        key: "fairy3_attack",
-        frames: this.anims.generateFrameNumbers("fairy3", {start: 0, end: 9}),
-        frameRate: 14,
-        repeat: 0,
-    });
+  this.anims.create({
+    key: "fairy3_idle",
+    frames: this.anims.generateFrameNumbers("fairy3", { start: 11, end: 19 }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
-    this.anims.create({
-        key: "fairy4_idle",
-        frames: this.anims.generateFrameNumbers("fairy4", {start: 7, end: 14}),
-        frameRate: 8,
-        repeat: -1,
-    });
+  this.anims.create({
+    key: "fairy3_attack",
+    frames: this.anims.generateFrameNumbers("fairy3", { start: 0, end: 9 }),
+    frameRate: 14,
+    repeat: 0,
+  });
 
-    this.anims.create({
-        key: "fairy4_attack",
-        frames: this.anims.generateFrameNumbers("fairy4", {start: 0, end: 5}),
-        frameRate: 10,
-        repeat: 0,
-    });
+  this.anims.create({
+    key: "fairy4_idle",
+    frames: this.anims.generateFrameNumbers("fairy4", { start: 7, end: 14 }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
-    this.anims.create({
-        key: "fairy5_idle",
-        frames: this.anims.generateFrameNumbers("fairy5", {start: 15, end: 24}),
-        frameRate: 8,
-        repeat: -1,
-    });
+  this.anims.create({
+    key: "fairy4_attack",
+    frames: this.anims.generateFrameNumbers("fairy4", { start: 0, end: 5 }),
+    frameRate: 10,
+    repeat: 0,
+  });
 
-    this.anims.create({
-        key: "fairy5_attack",
-        frames: this.anims.generateFrameNumbers("fairy5", {start: 0, end: 13}),
-        frameRate: 17,
-        repeat: 0,
-    });
+  this.anims.create({
+    key: "fairy5_idle",
+    frames: this.anims.generateFrameNumbers("fairy5", { start: 15, end: 24 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy5_attack",
+    frames: this.anims.generateFrameNumbers("fairy5", { start: 0, end: 13 }),
+    frameRate: 17,
+    repeat: 0,
+  });
 
 
-    // 공격 애니메이션
-    this.anims.create({
-        key: "magic1",
-        frames: this.anims.generateFrameNumbers("magic1", {
-            start: 0,
-            end: 60,
-            first: 0,
-        }),
-        frameRate: 200,
-        repeat: -1,
-    });
-    this.anims.create({
-        key: "magic2",
-        frames: this.anims.generateFrameNumbers("magic2", {
-            start: 0,
-            end: 60,
-            first: 0,
-        }),
-        frameRate: 200,
-        repeat: -1,
-    });
-    this.anims.create({
-        key: "magic3",
-        frames: this.anims.generateFrameNumbers("magic3", {
-            start: 0,
-            end: 60,
-            first: 0,
-        }),
-        frameRate: 200,
-        repeat: -1,
-    });
-    this.anims.create({
-        key: "magic4",
-        frames: this.anims.generateFrameNumbers("magic4", {
-            start: 0,
-            end: 60,
-            first: 0,
-        }),
-        frameRate: 200,
-        repeat: -1,
-    });
-    this.anims.create({
-        key: "magic5",
-        frames: this.anims.generateFrameNumbers("magic5", {
-            start: 0,
-            end: 60,
-            first: 0,
-        }),
-        frameRate: 200,
-        repeat: -1,
-    });
-    this.anims.create({
-        key: "magic5_1",
-        frames: this.anims.generateFrameNumbers("magic5_1", {
-            start: 0,
-            end: 60,
-            first: 0,
-        }),
-        frameRate: 200,
-        repeat: -1,
-    });
-    fairySet[nowFairy].play("fairy" + (nowFairy + 1) + "_idle", true);
 
-    //player end
+  // 공격 애니메이션
+  this.anims.create({
+    key: "magic1",
+    frames: this.anims.generateFrameNumbers("magic1", {
+      start: 0,
+      end: 60,
+      first: 0,
+    }),
+    frameRate: 200,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "magic2",
+    frames: this.anims.generateFrameNumbers("magic2", {
+      start: 0,
+      end: 60,
+      first: 0,
+    }),
+    frameRate: 200,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "magic3",
+    frames: this.anims.generateFrameNumbers("magic3", {
+      start: 0,
+      end: 60,
+      first: 0,
+    }),
+    frameRate: 200,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "magic4",
+    frames: this.anims.generateFrameNumbers("magic4", {
+      start: 0,
+      end: 60,
+      first: 0,
+    }),
+    frameRate: 200,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "magic5",
+    frames: this.anims.generateFrameNumbers("magic5", {
+      start: 0,
+      end: 60,
+      first: 0,
+    }),
+    frameRate: 200,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "magic5_1",
+    frames: this.anims.generateFrameNumbers("magic5_1", {
+      start: 0,
+      end: 60,
+      first: 0,
+    }),
+    frameRate: 200,
+    repeat: -1,
+  });
+  fairySet[nowFairy].play("fairy" + (nowFairy + 1) + "_idle", true);
 
-    //cointext start
-    cointext = this.add.text(500, 10, 'coin: 0', {font: '10px Arial Black', fill: '#000'}).setScrollFactor(0);
-    cointext.setStroke('#fff', 1);
-    cointext.setDepth(2);
-    //cointext end
+  //player end
 
-    //enemy start
+  //cointext start
+  cointext = this.add.text(500, 10, 'coin: 0', { font: '10px Arial Black', fill: '#000' }).setScrollFactor(0);
+  cointext.setStroke('#fff', 1);
+  cointext.setDepth(2);
+  //cointext end
 
-    monsterSet = this.physics.add.group();
-    magics = this.physics.add.group();
-    towerAttacks = this.physics.add.group();
-    towerSkillAttacks = this.physics.add.group();
-    mines = this.physics.add.group();
+  //enemy start
+
+  monsterSet = this.physics.add.group();
+  magics = this.physics.add.group();
+  towerAttacks = this.physics.add.group();
+  towerSkillAttacks = this.physics.add.group();
+  mines = this.physics.add.group();
 
     // 임시 구멍
     hole = this.physics.add.sprite(0, 0, 'fairy4')
@@ -741,6 +750,13 @@ function create() {
     navi = this.add.image(50, 50, 'navi').setScrollFactor(0).setScale(0.1);
     navi.setDepth(2)
     //navi end
+
+    //exp bar start
+    expbar = this.add.graphics().setScrollFactor(0);
+    expbarBG = this.add.graphics().setScrollFactor(0);
+    expbar.setDepth(3);
+    expbarBG.setDepth(2);
+    //exp bar end
 }
 
 function update(time, delta) {
@@ -946,6 +962,19 @@ function update(time, delta) {
     towerRD.towerSkillAttackTimer++;
     //tower end
 
+
+  //exp bar start
+  expbar.clear();
+
+  //  BG
+  expbarBG.fillStyle(0x000000);
+  expbarBG.fillRect(0, 0, this.cameras.main.worldView.width, 16); // x y 가로길이, 세로길이
+
+  //  Health
+
+  expbar.fillStyle(0xff0000);
+  expbar.fillRect(0, 0, this.cameras.main.worldView.width*(player.exp/player.maxExp), 16);
+  //exp bar end
 }
 
 //player start
