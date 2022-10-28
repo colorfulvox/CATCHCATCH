@@ -90,7 +90,16 @@ export default function levelup() {
   for (let i = 0; i < 3; i++) {
     const randomNum = Math.floor(Math.random() * 6);
     if (randomIndexArray.indexOf(randomNum) === -1) {
-      randomIndexArray.push(randomNum);
+      if (
+        propertyArr[randomNum] !== "common" &&
+        (property[propertyArr[randomNum]].fairy.level === 4 ||
+          property[propertyArr[randomNum]].fairy.level === 8)
+      ) {
+        i--;
+        console.log(123213, property[propertyArr[randomNum]].fairy.level);
+      } else {
+        randomIndexArray.push(randomNum);
+      }
     } else {
       i--;
     }

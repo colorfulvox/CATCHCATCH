@@ -89,32 +89,35 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     this.pierceCount = 99999;
   }
 
-  levelUp(){
-    switch(this.level){
+  levelUp() {
+    switch (this.level) {
       case 1:
-        this.levelUp2()
+        this.levelUp2();
         break;
       case 2:
-        this.levelUp3()
+        this.levelUp3();
         break;
       case 3:
-        this.levelUp4()
+        this.levelUp4();
+        break;
+      case 4:
+        this.levelUp5();
         break;
       case 5:
-        this.levelUp6()
+        this.levelUp6();
         break;
       case 6:
-        this.levelUp7()
+        this.levelUp7();
         break;
       case 7:
-        this.levelUp8()
+        this.levelUp8();
         break;
     }
   }
 
-  levelUp2(){
+  levelUp2() {
     this.level = 2;
-    switch(this.fairyNum){
+    switch (this.fairyNum) {
       case 1:
         this.maxAttackCount++;
         break;
@@ -122,7 +125,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.size += 0.2;
         break;
       case 3:
-        this.range +=2;
+        this.range += 2;
         break;
       case 4:
         this.as -= this.as_bonus;
@@ -134,9 +137,9 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  levelUp3(){
+  levelUp3() {
     this.level = 3;
-    switch(this.fairyNum){
+    switch (this.fairyNum) {
       case 1:
         this.as -= this.as_bonus;
         break;
@@ -155,11 +158,11 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  levelUp4(){
+  levelUp4() {
     this.level = 4;
-    switch(this.fairyNum){
+    switch (this.fairyNum) {
       case 1:
-        this.maxPierceCount+=2;
+        this.maxPierceCount += 2;
         break;
       case 2:
         this.vampire++;
@@ -177,14 +180,14 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  levelUp5(){
+  levelUp5() {
     this.level = 5;
     this.evo1 = true;
   }
 
-  levelUp6(){
+  levelUp6() {
     this.level = 6;
-    switch(this.fairyNum){
+    switch (this.fairyNum) {
       case 1:
         this.maxAttackCount++;
         break;
@@ -192,7 +195,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.size += 0.2;
         break;
       case 3:
-        this.range +=2;
+        this.range += 2;
         break;
       case 4:
         this.as -= this.as_bonus;
@@ -204,9 +207,9 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  levelUp7(){
+  levelUp7() {
     this.level = 7;
-    switch(this.fairyNum){
+    switch (this.fairyNum) {
       case 1:
         this.as -= this.as_bonus;
         break;
@@ -225,11 +228,11 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  levelUp8(){
+  levelUp8() {
     this.level = 8;
-    switch(this.fairyNum){
+    switch (this.fairyNum) {
       case 1:
-        this.maxPierceCount+=2;
+        this.maxPierceCount += 2;
         break;
       case 2:
         this.vampire++;
@@ -246,7 +249,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         break;
     }
   }
-  levelUp9(){
+  levelUp9() {
     this.level = 9;
     this.evo2 = true;
   }
@@ -296,7 +299,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         normalAttackTimer = 0;
         break;
       case 4:
-        // 
+        //
         normalAttackTimer = 0;
         break;
       case 5:
