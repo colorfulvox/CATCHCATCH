@@ -31,7 +31,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
   scale_Circle() {
     this.setScale(0.1);
-    console.log(this);
     let hw = this.body.halfWidth;
     let hh = this.body.halfHeight;
     this.setCircle(hw * 5, hh - hw * 5, hh - hw * 5);
@@ -44,7 +43,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
     let magicright = new TMagic(game, tower);
     if (mouse.type !== "boss" || (mouse.type === "boss" && mouse.bossSpiece !=="slime_king")) {
-      console.log(mouse)
       if (this.isthree === false) {
         towerAttacks.add(magic);
       } else {
