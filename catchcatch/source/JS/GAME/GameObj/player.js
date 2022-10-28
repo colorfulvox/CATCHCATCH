@@ -16,10 +16,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   dmgmulLevel = 1;
   speed = 160;
   speedLevel = 1;
-  maxExp = 3;
+  maxExp = 5;
   exp = 0;
   level = 1;
-  maxExpBonus = 0;
+  maxExpBonus = 5;
   coin = 1000;
   // 캐릭터 특수능력 일단 보류
   ablity;
@@ -54,17 +54,25 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       repeat: -1,
     });
   }
-  levelUp() {
+
+  expUp() {
     this.exp++;
+    this.expUpdate();
     updateExp();
-    console.log("levelup");
-    if (this.exp === this.maxExp) {
-      this.level++;
-      this.exp = 0;
-      levelup();
-      updateExp();
-      this.maxExp = this.maxExp + this.maxExpBonus;
+  }
+
+  expUpdate() {
+    if (this.exp >= this.maxExp) {
+      if (!isLevelup) {
+        this.exp -= this.maxExp;
+        this.maxExp += this.maxExpBonus;
+        this.level++;
+        isLevelup = true;
+        levelup();
+        updateExp();
+      }
     }
+    updateExp();
   }
 
   changeFairy(fairy) {

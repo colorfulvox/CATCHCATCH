@@ -16,7 +16,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   maxPierceCount = 99999;
   pierceCount = 99999;
   velo;
-  size;
+  size = 0.5;
+  spriteScale = 1;
   vampire;
   stun;
   deathCount;
@@ -28,7 +29,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   level = 1;
   evo1 = false;
   evo2 = false;
-
+  hh;
+  hw;
   constructor(
     scene,
     skillCD,
@@ -39,7 +41,9 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     as_bonus,
     velo,
     fairyNum,
-    player
+    player,
+    size,
+    spriteScale
   ) {
     super(scene, -10000, -10000, "fairy" + fairyNum);
     this.fairyNum = fairyNum;
@@ -53,7 +57,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     this.as = as;
     this.as_bonus = as_bonus;
     this.velo = velo;
-
+    this.size = size;
+    this.spriteScale = spriteScale;
     scene.add.existing(this);
     scene.physics.add.existing(this);
   }
@@ -90,6 +95,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   }
 
   levelUp() {
+    this.dmg += this.dmg_bonus;
     switch (this.level) {
       case 1:
         this.levelUp2();
@@ -112,6 +118,9 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       case 7:
         this.levelUp8();
         break;
+      case 8:
+        this.levelUp9();
+        break;
     }
   }
 
@@ -122,7 +131,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.maxAttackCount++;
         break;
       case 2:
-        this.size += 0.2;
+        this.spriteScale += 0.5;
         break;
       case 3:
         this.range += 2;
@@ -150,10 +159,10 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.as -= this.as_bonus;
         break;
       case 4:
-        this.bounceCount += 1;
+        this.bounceCount += 3;
         break;
       case 5:
-        this.size += 0.2;
+        this.spriteScale += 0.5;
         break;
     }
   }
@@ -192,7 +201,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.maxAttackCount++;
         break;
       case 2:
-        this.size += 0.2;
+        this.spriteScale += 0.5;
         break;
       case 3:
         this.range += 2;
@@ -220,10 +229,10 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.as -= this.as_bonus;
         break;
       case 4:
-        this.bounceCount += 1;
+        this.bounceCount += 3;
         break;
       case 5:
-        this.size += 0.2;
+        this.spriteScale += 0.5;
         break;
     }
   }
@@ -262,6 +271,15 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     // magic.body.offset.x = 25;
     // magic.body.offset.y = 25;
 
+    magic.setScale(this.spriteScale);
+
+    this.hw =  magic.body.halfWidth;
+    this.hh = magic.body.halfHeight;
+
+    magic.setCircle(this.hw*this.size, this.hh - this.hw*this.size, this.hh - this.hw*this.size);
+
+
+
     let angle = Phaser.Math.Angle.Between(
       this.x,
       this.y,
@@ -288,7 +306,6 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         magic.setVisible(false);
         this.maxPierceCount = 99999;
         this.pierceCount = 99999;
-        magic.setScale(2);
         magic.body.checkCollision.none = true;
         normalAttackTimer = 0;
         break;
@@ -301,9 +318,9 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       case 4:
         //
         normalAttackTimer = 0;
+        magic.setBounce(this.bounceCount);
         break;
       case 5:
-        // 폭탄 때문에 새로운 매커니즘 적용시키기에는 효율이 안좋음
         magic.body.checkCollision.none = true;
         this.bombcount--;
         this.maxPierceCount = 99999;
