@@ -112,6 +112,9 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       case 7:
         this.levelUp8();
         break;
+      case 8:
+        this.levelUp9();
+        break;
     }
   }
 
