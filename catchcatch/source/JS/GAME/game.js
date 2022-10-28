@@ -1056,7 +1056,6 @@ function attack(magic, monster) {
             magic.destroy();
         }
 
-<<<<<<< HEAD
     if (nowFairy === 2 ) {
       //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
       let num = Math.floor(Math.random() * 100 + 1);
@@ -1064,21 +1063,11 @@ function attack(magic, monster) {
         monster.die_anim();
         monster.destroy();
         player.levelUp();
-=======
-        if (nowFairy === 2) {
-            //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
-            let num = Math.floor(Math.random() * 100 + 1);
-            if (num <= fairySet[nowFairy].deathCount && monster.type != 'boss') {
-                monster.die_anim();
-                monster.destroy();
-                player.levelUp();
->>>>>>> a5df55aa7ca8ef1ff5f872a9db9d0eb6921d2d14
 
                 monsterCount -= 1;
             }
         }
 
-<<<<<<< HEAD
     monster.health -= fairySet[nowFairy].dmg;
     monster.invincible = true;
     if (monster.health <= 0 && monster.type !='boss') {
@@ -1086,16 +1075,6 @@ function attack(magic, monster) {
       monster.destroy();
       player.levelUp();
       monsterCount -= 1;
-=======
-        monster.health -= fairySet[nowFairy].dmg;
-        monster.invincible = true;
-        if (monster.health <= 0 && monster.type != 'boss') {
-            monster.die_anim();
-            monster.destroy();
-            player.levelUp();
-            monsterCount -= 1;
-        }
->>>>>>> a5df55aa7ca8ef1ff5f872a9db9d0eb6921d2d14
     }
   }
 }
@@ -1150,12 +1129,9 @@ function slime_pattern(scene, pt, x, y) {
             } else {
                 slime_king = new Boss(scene, 25, 100, x + i * 25, y, 'slime_king', 'swarm', 0.5, pt, 'boss')
             }
-<<<<<<< HEAD
             slime_king.anime();
             scene.physics.add.collider(bossSet, slime_king);
             bossSet.add(slime_king);
-=======
->>>>>>> a5df55aa7ca8ef1ff5f872a9db9d0eb6921d2d14
         }
     }
 }

@@ -1,4 +1,4 @@
-const propertyArr = ["common", "wizard", "reaper", "ninja", "slime", "witch"];
+const propertyArr = ["common", "wizard", "reaper", "ninja", "slime", "witch", "common","common"];
 const commonArr = ["health", "dmgmul", "heal", "speed"];
 export default function levelup() {
   const property = {
@@ -88,7 +88,7 @@ export default function levelup() {
   };
   let randomIndexArray = [];
   for (let i = 0; i < 3; i++) {
-    const randomNum = Math.floor(Math.random() * 6);
+    const randomNum = Math.floor(Math.random() * 8);
     if (randomIndexArray.indexOf(randomNum) === -1) {
       if (
         propertyArr[randomNum] !== "common" &&
@@ -96,6 +96,7 @@ export default function levelup() {
           property[propertyArr[randomNum]].fairy.level === 8)
       ) {
         i--;
+        console.log(i);
         console.log(123213, property[propertyArr[randomNum]].fairy.level);
       } else {
         randomIndexArray.push(randomNum);
