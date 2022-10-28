@@ -26,14 +26,74 @@
   flex-direction: column;
   justify-content: space-evenly;
   position: absolute;
-  top: 10%;
-  right: 3%;
+  top: 2%;
+  right: 0%;
   width: 10%;
   height: 20%;
-  border: blue solid 6px;
+  /* border: blue solid 6px; */
 }
 
 .stat {
-  border: red solid 6px;
+  /* border: red solid 6px; */
   height: 5%;
+  color: white;
+  font-family: "KenneyBlocks";
+  font-weight: bold;
+}
+
+.catcoin {
+  width: 100%;
+  font-family: "KenneyBlocks";
+  font-weight: bold;
+  font-size: x-large;
+  /* text-align: center; */
+  color: white;
+  /* border: black solid 2px; */
+}
+.stats #heal {
+  position: relative;
+  width: 20px;
+  height: 20px;
+
+  /* text-align: end; */
+  border: 2px solid white;
+  border-radius: 6px;
+}
+
+.stats #dmgmul {
+  position: relative;
+  width: 20px;
+  height: 20px;
+
+  /* text-align: end; */
+  border: 2px solid white;
+  border-radius: 6px;
+}
+
+.stats #speed {
+  position: relative;
+  width: 20px;
+  height: 20px;
+
+  /* text-align: end; */
+  border: 2px solid white;
+  border-radius: 6px;
+}
+
+.healtxt {
+  position: absolute;
+  left: 28px;
+  top: 4px;
+}
+
+.dmgmultxt {
+  position: absolute;
+  left: 28px;
+  top: 4px;
+}
+
+.speedtxt {
+  position: absolute;
+  left: 28px;
+  top: 4px;
 }

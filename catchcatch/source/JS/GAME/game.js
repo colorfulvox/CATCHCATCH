@@ -456,6 +456,57 @@ function create() {
         1
   );
 
+  // 플레이어, 요정 로딩
+  global.wizard = fairySet[0] = new Fairy(
+    this,
+    100,
+    4,
+    1,
+    1,
+    140,
+    40,
+    500,
+    1,
+    player
+  );
+  fairySet[0].initFairy1(0, 0);
+  global.reaper = fairySet[1] = new Fairy(
+    this,
+    100,
+    10,
+    1,
+    1,
+    70,
+    10,
+    160,
+    2,
+    player
+  );
+  global.ninja = fairySet[2] = new Fairy(
+    this,
+    100,
+    0,
+    1,
+    3,
+    80,
+    10,
+    300,
+    3,
+    player
+  );
+  fairySet[2].initFairy3(0, 10);
+  global.slime = fairySet[3] = new Fairy(
+    this,
+    7200,
+    10,
+    1,
+    3,
+    90,
+    10,
+    400,
+    4,
+    player
+  );
 
     global.witch = fairySet[4] = new Fairy(
         this,
@@ -1137,7 +1188,7 @@ function attack(magic, monster) {
     if (monster.health <= 0 && monster.type != "boss") {
       monster.die_anim();
       monster.destroy();
-      player.expUp();
+      player.levelUp();
       monsterCount -= 1;
     }
   }

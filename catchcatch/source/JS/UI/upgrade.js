@@ -11,7 +11,14 @@ export default function initUpgrade() {
   const weaponType = document.createElement("div");
   const towerType = document.createElement("div");
   upgradeContainer.setAttribute("class", "upgradeContainer");
+
   upgradeContent.setAttribute("class", "upgradeContent");
+
+  upgradeContent.style.backgroundImage = 'url("../images/ui/upgradebase.png")';
+  upgradeContent.style.backgroundPosition = "center";
+  upgradeContent.style.backgroundRepeat = "no-repeat";
+  upgradeContent.style.backgroundSize = "contain";
+
   upgradeType.setAttribute("class", "upgradeType");
   weaponType.setAttribute("class", "weaponType");
   towerType.setAttribute("class", "towerType");
