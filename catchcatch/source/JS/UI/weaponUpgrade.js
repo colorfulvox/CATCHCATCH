@@ -23,6 +23,7 @@ export default function weapon() {
     }
   });
   weaponContent.appendChild(levelContent);
+  let iconidx = 1;
   fairy.map((el, idx) => {
     const weaponIcons = document.createElement("div");
     weaponIcons.setAttribute("class", "weaponIcons");
@@ -31,7 +32,7 @@ export default function weapon() {
       const img = document.createElement("img");
       if (idx2 === 0) {
         div.setAttribute("class", "fairyicon");
-        div.style.backgroundImage = `url("../images/ui/Icon/Samplecharicon.png")`;
+        div.style.backgroundImage = `url("../images/ui/Icon/char/fairy${iconidx++}.png")`;
         div.style.backgroundPosition = "center";
         div.style.backgroundRepeat = "no-repeat";
         div.style.backgroundSize = "contain";
