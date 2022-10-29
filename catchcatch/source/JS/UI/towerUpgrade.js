@@ -81,6 +81,20 @@ export default function tower() {
     });
     towerIcons1.appendChild(con);
   }
+  for (let i = 0; i < 4; i++) {
+    const div = document.createElement("div");
+    if (towers[towerNum].towerEvelop1[i]) {
+      div.innerText = "완료";
+    } else {
+      div.innerText = "그림";
+    }
+    div.addEventListener("click", () => {
+      if (!towers[towerNum].isTowerEvelop1) {
+        towers[towerNum].changeEvelop(i);
+      }
+    });
+    towerIcons2.appendChild(div);
+  }
   for (let i = 0; i < 2; i++) {
     const con = document.createElement("div");
     con.setAttribute("class", "con");
@@ -95,20 +109,6 @@ export default function tower() {
       count.innerText = `${tier3[i].current} / ${tier3[i].max}`;
     });
     towerIcons3.appendChild(con);
-  }
-  for (let i = 0; i < 4; i++) {
-    const div = document.createElement("div");
-    if (towers[towerNum].towerEvelop1[i]) {
-      div.innerText = "완료";
-    } else {
-      div.innerText = "그림";
-    }
-    div.addEventListener("click", () => {
-      if (!towers[towerNum].isTowerEvelop1) {
-        towers[towerNum].changeEvelop(i);
-      }
-    });
-    towerIcons2.appendChild(div);
   }
   for (let i = 0; i < 4; i++) {
     const div = document.createElement("div");

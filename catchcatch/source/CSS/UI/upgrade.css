@@ -35,7 +35,7 @@ body {
   display: flex;
   width: 130vmin;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   /* border: 6px solid yellow; */
 }
