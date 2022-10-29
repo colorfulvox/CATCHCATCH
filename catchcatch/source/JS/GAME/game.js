@@ -17,6 +17,7 @@ export const config = {
   height: 600,
   parent: "game-container",
   backgroundColor: "black",
+  resolution: window.devicePixelRatio,
   pixelArt: true,
   roundPixels: true,
   scene: {
@@ -79,7 +80,6 @@ var navi;
 
 //coin start
 global.coin = 0;
-global.cointext = "";
 //coin end
 
 //enemy start
@@ -407,6 +407,66 @@ function create() {
     40,
     500,
     1,
+    player,
+    0.5,
+    1
+  );
+  fairySet[0].initFairy1(0, 0);
+  global.reaper = fairySet[1] = new Fairy(
+    this,
+    100,
+    10,
+    1,
+    1,
+    70,
+    10,
+    160,
+    2,
+    player,
+    0.4,
+    2
+  );
+  global.ninja = fairySet[2] = new Fairy(
+    this,
+    100,
+    0,
+    1,
+    3,
+    80,
+    10,
+    300,
+    3,
+    player,
+    0.5,
+    1
+  );
+  fairySet[2].initFairy3(0, 10);
+  global.slime = fairySet[3] = new Fairy(
+    this,
+    7200,
+    10,
+    1,
+    99999,
+    90,
+    10,
+    400,
+    4,
+    player,
+    0.5,
+    1
+  );
+
+  // 플레이어, 요정 로딩
+  global.wizard = fairySet[0] = new Fairy(
+    this,
+    100,
+    4,
+    1,
+    1,
+    140,
+    40,
+    500,
+    1,
     player
   );
   fairySet[0].initFairy1(0, 0);
@@ -458,7 +518,9 @@ function create() {
     10,
     500,
     5,
-    player
+    player,
+    0.5,
+    1
   );
   fairySet[4].initFairy5(1, 1);
   for (let i = 0; i < 5; i++) {
@@ -603,11 +665,9 @@ function create() {
   //player end
 
   //cointext start
-  cointext = this.add
-    .text(500, 10, "coin: 0", { font: "10px Arial Black", fill: "#000" })
-    .setScrollFactor(0);
-  cointext.setStroke("#fff", 1);
-  cointext.setDepth(2);
+  // cointext = this.add.text(500, 20, 'coin: 0', {font: 'Bold 15px Arial', fill: '#fff', fontStyle: "strong"}).setScrollFactor(0);
+  // cointext.setStroke('#000', 2);
+  // cointext.setDepth(2);
   //cointext end
 
   //enemy start
@@ -661,6 +721,27 @@ function create() {
       }
     }
   }
+  for (var i = 0; i < chunks.length; i++) {
+    var chunk = chunks[i];
+
+    if (
+      Phaser.Math.Distance.Between(
+        snappedChunkX,
+        snappedChunkY,
+        chunk.x,
+        chunk.y
+      ) < 3
+    ) {
+      if (chunk !== null) {
+        chunk.load();
+      }
+    } else {
+      if (chunk !== null) {
+        chunk.unload();
+      }
+    }
+  }
+
   for (var i = 0; i < chunks.length; i++) {
     var chunk = chunks[i];
 
@@ -753,7 +834,6 @@ function create() {
   expbarBG.setDepth(2);
   //exp bar end
 }
-
 function update(time, delta) {
   var snappedChunkX =
     this.chunkSize *
@@ -897,6 +977,11 @@ function update(time, delta) {
   if (gameTimer > 1800 && gameTimer % 900 == 0) {
     enemySpawn(randomLocation);
     addMonster(this, "turtle", "swarm", 100, 30, monX, monY, "siege");
+  }
+
+  if (gameTimer > 0 && gameTimer % 300 == 0) {
+    enemySpawn(randomLocation);
+    addMonster(this, "slime", "swarm", 10, 75, monX, monY, "follower");
   }
   // 몬스터 빅웨이브
   if (gameTimer > 600 && gameTimer < 1200 && gameTimer % 3 == 0) {
@@ -1071,25 +1156,79 @@ function attack(magic, monster) {
       magic.destroy();
     }
 
+    if (nowFairy === 3) {
+      if (monsterSet.children.entries.length !== 0) {
+        if (magic.bounceCount <= 0) {
+          magic.destroy();
+        } else {
+          let monNum = Math.floor(
+            Math.random() * monsterSet.children.entries.length
+          );
+
+          thisScene.physics.moveTo(
+            magic,
+            monsterSet.children.entries[monNum].x,
+            monsterSet.children.entries[monNum].y,
+            magic.fairy.velo
+          );
+          magic.bounceCount--;
+        }
+      }
+    }
+
     if (nowFairy === 2) {
       //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
       let num = Math.floor(Math.random() * 100 + 1);
       if (num <= fairySet[nowFairy].deathCount && monster.type != "boss") {
-        monster.die_anim();
-        monster.destroy();
-        player.expUp();
-
-        monsterCount -= 1;
+        if (monster.monSpiece != "slime") {
+          monster.die_anim();
+          monster.destroy();
+          player.expUp();
+          monsterCount -= 1;
+        } else if (monster.monSpiece == "slime") {
+          for (let i = 0; i < 2; i++) {
+            console.log("동작");
+            addMonster(
+              thisScene,
+              "baby_slime",
+              "swarm",
+              50,
+              125,
+              monster.x + i * 10,
+              monster.y,
+              "follower"
+            );
+          }
+          monster.destroy();
+          monsterCount -= 1;
+        }
       }
     }
 
     monster.health -= fairySet[nowFairy].dmg;
     monster.invincible = true;
     if (monster.health <= 0 && monster.type != "boss") {
-      monster.die_anim();
-      monster.destroy();
-      player.expUp();
-      monsterCount -= 1;
+      if (monster.monSpiece != "slime") {
+        monster.die_anim();
+        monster.destroy();
+        player.expUp();
+        monsterCount -= 1;
+      } else if (monster.monSpiece == "slime") {
+        for (let i = 0; i < 2; i++) {
+          addMonster(
+            thisScene,
+            "baby_slime",
+            "swarm",
+            50,
+            125,
+            monster.x + i * 20,
+            monster.y,
+            "follower"
+          );
+        }
+        monster.destroy();
+        monsterCount -= 1;
+      }
     }
   }
 }
@@ -1120,6 +1259,9 @@ function hithole(hole, monster) {
 
 function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
   monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime, type);
+  if (monster.monSpiece == "baby_slime") {
+    monster.scale = 0.5;
+  }
   monster.setDepth(2);
   monsterCount += 1;
   monsterSet.add(monster);

@@ -7,14 +7,21 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   skillsprite;
   towerAttackTimer = 0;
   towerSkillAttackTimer = 0;
-  towerAS = 50;
-  towerSkillAS = 50;
-  towerDmg = 1;
-  towerSkillDmg = 5;
-  towerweaponspeed = 500;
-  towerskillspeed = 500;
+  towerAS = [55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]; //연사속도
+  towerASLevel = 0; //연사속도
+  towerSkillAS = 50; //연사속도
+  towerDmg = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]; //기본 대미지 
+  towerDmgLevel = 0;
+  towerSkillDmg = 6; //스킬 기본 대미지
+  towerweaponspeed = 500; //발사속도
+  towerskillspeed = 500; //발사속도
   isAttack = false;
-  isthree = true;
+  istwo = false; //2연발
+  isthree = false;//3연발
+  bulletLevel = 0;
+  towerEvelop =[true, false, false, false]; //전기, 불, 물, 땅
+  circlesize = 0.1;
+
   timedEvent;
   constructor(scene, towerX, towerY, towersprite, weaponsprite, skillsprite) {
     super(scene, towerX, towerY, towersprite);
@@ -30,7 +37,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   }
 
   scale_Circle() {
-    this.setScale(0.1);
+    this.setScale(this.circlesize);
     console.log(this);
     let hw = this.body.halfWidth;
     let hh = this.body.halfHeight;
@@ -45,9 +52,13 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     let magicright = new TMagic(game, tower);
     if (mouse.type !== "boss" || (mouse.type === "boss" && mouse.bossSpiece !=="slime_king")) {
       console.log(mouse)
-      if (this.isthree === false) {
+      if (this.isthree === false && this.istwo === false) {
         towerAttacks.add(magic);
-      } else {
+      } else if(this.isthree === false && this.istwo === true) {
+        towerAttacks.add(magic);
+        towerAttacks.add(magicleft);
+      }
+      else{
         towerAttacks.add(magic);
         towerAttacks.add(magicleft);
         towerAttacks.add(magicright);
@@ -102,21 +113,48 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
         tower.y - d * Math.sin(((180 - (angle_mouse - 30)) * Math.PI) / 180);
     }
     if (mouse.type !== "boss" || (mouse.type === "boss" && mouse.bossSpiece !=="slime_king")) {
-    if (tower.isthree === false) {
-      game.physics.moveTo(magic, mouse.x, mouse.y, speed);
-    } else {
-      game.physics.moveTo(magicleft, vxm, vym, speed);
-      game.physics.moveTo(magic, mouse.x, mouse.y, speed);
-      game.physics.moveTo(magicright, vxp, vyp, speed);
+      if (tower.isthree === false && tower.istwo === false) {
+        game.physics.moveTo(magic, mouse.x, mouse.y, speed);
+      } else if(tower.isthree === false && tower.istwo === true) {
+        game.physics.moveTo(magicleft, vxm, vym, speed);
+        game.physics.moveTo(magic, mouse.x, mouse.y, speed);
+      }
+      else{
+        game.physics.moveTo(magicleft, vxm, vym, speed);
+        game.physics.moveTo(magic, mouse.x, mouse.y, speed);
+        game.physics.moveTo(magicright, vxp, vyp, speed);
+      }
     }
-  }
     // control = true;
+  }
+
+  damageFunc(){
+    towerDmgLevel +=1;
+  }
+
+  bulletFunc(){
+if(this.istwo === false && this.isthree === false){
+  this.istwo === true
+  this.bulletLevel += 1;
+}
+else if(this.istwo === true && this.isthree === false){
+  this.three === true
+  this.bulletLevel += 1;
+}
+  }
+
+  rangeFunc(){
+    this.circlesize += 0.01;
+  }
+
+  speedFunc(){
+    this.towerASLevel += 1;
   }
 
   attack(magic, alien) {
     if (!alien.invincible) {
       magic.destroy();
-
+      
       alien.health -= magic.dmg;
       //   console.log(alien.health);
       alien.invincible = true;
@@ -129,8 +167,25 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
   skillattack(skill, alien) {
     if (!alien.invincible) {
-      alien.health -= skill.dmg;
-      //   console.log(alien.health);
+      if(skill.tower.towerEvelop[0] === true){
+        if(Math.floor(Math.random() * (10 - 1) + 1) === 1){
+          console.log("즉사")
+        alien.health -= skill.dmg * 9999;
+        }
+        else{
+          alien.health -= 0;
+        }
+      }
+      else if(skill.tower.towerEvelop[1] === true){
+        alien.health -= skill.dmg/2;
+      }
+      else if(skill.tower.towerEvelop[2] === true){
+        alien.CC = 'water';
+      }
+      else if(skill.tower.towerEvelop[3] === true){
+        alien.CC = 'earth';
+      }
+
       alien.invincible = true;
       if (alien.health <= 0) {
         alien.destroy();
@@ -140,7 +195,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   }
 
   overlaphit(tower, enemy) {
-    if (tower.towerAttackTimer > tower.towerAS) {
+    if (tower.towerAttackTimer > tower.towerAS[tower.towerASLevel]) {
       tower.magicFire(tower.scene, tower, enemy, tower.towerweaponspeed);
       tower.towerAttackTimer = 0;
     }
@@ -154,7 +209,23 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   skillFire(game, tower, mouse, speed) {
     // console.log(1234)
     if (mouse.type !== "boss" || (mouse.type === "boss" && mouse.bossSpiece !=="slime_king")) {
-    let skill = new TSkill(game, tower);
+      let skill;
+      if(tower.towerEvelop[0] === true){
+        skill = new TSkill(game, tower, 1000, 3000, 0.01);
+      }
+      else if(tower.towerEvelop[1] === true){
+        skill = new TSkill(game, tower, 1000, 10000, 0.05);
+        skill.dmg = skill.dmg/2;
+      }
+      else if(tower.towerEvelop[2] === true){
+        skill = new TSkill(game, tower, 1000, 3000, 0.01);
+
+      }
+      else if(tower.towerEvelop[3] === true){
+        skill = new TSkill(game, tower, 1000, 3000, 0.01);
+
+      }
+    
     skill.body.checkCollision.none = true;
     var hw = skill.body.halfWidth;2
     var hh = skill.body.halfHeight;
