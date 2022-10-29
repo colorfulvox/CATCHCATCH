@@ -116,7 +116,7 @@ var cursors;
 
 // 보스
 var slime_king;
-
+var golem;
 // 보스 패턴
 var pt;
 // 보스 활성 확인
@@ -892,7 +892,7 @@ function update(time, delta) {
           monsterSet.children.entries[i].velo
         );
       }
-      // #홀에 따라가게 하는 코드 작성하기#
+      // 몬스터가 홀에 도달하게 함
       else if (monsterSet.children.entries[i].type == "siege") {
         this.physics.moveToObject(
           monsterSet.children.entries[i],
@@ -968,6 +968,16 @@ function update(time, delta) {
     bossSet.add(slime_king);
   }
 
+  // 골렘
+  if (gameTimer == 300){
+    golem = new Boss(this, 50, 300, player.x + 300, player.y + 300, 'golem','swarm',10,10,'boss')
+    golem.setDepth(2);
+    golem.anime();
+    boss_active = true;
+    bossSet.add(golem);
+  }
+
+  // 보스 이동 및 사망 체크
   if (boss_active) {
     for (let i = 0; i < bossSet.children.entries.length; i++) {
       this.physics.moveToObject(
@@ -976,13 +986,17 @@ function update(time, delta) {
         bossSet.children.entries[i].velo
       );
       if (bossSet.children.entries[i].health <= 0) {
+        if (bossSet.children.entries[i].bossSpiece == 'slime_king'){
         slime_pattern(
           this,
           bossSet.children.entries[i].pt,
           bossSet.children.entries[i].x,
           bossSet.children.entries[i].y
-        );
+        );}
         bossSet.children.entries[i].destroy();
+        if (bossSet.children.entries.length == 0){
+          boss_active = false
+        }
       }
     }
   }
