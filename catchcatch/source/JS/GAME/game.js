@@ -1113,7 +1113,6 @@ function attack(magic, monster) {
           magic.destroy();
         } else {
 
-
           thisScene.physics.moveTo(
             magic,
             monsterSet.children.entries[monNum].x,
@@ -1122,7 +1121,12 @@ function attack(magic, monster) {
           );
           magic.bounceCount--;
         }
-        if (magic.isFirst) {
+
+        let copy = Math.floor(
+          Math.random() * 100+1
+        );
+
+        if (magic.isFirst && copy <= fairySet[3].copyCount) {
           // magic.isFirst = false;
           let copyMagic = new Magic(thisScene, fairySet[nowFairy]);
           copyMagic.isFirst = false;
@@ -1135,7 +1139,7 @@ function attack(magic, monster) {
             -monsterSet.children.entries[monNum].y,
             copyMagic.fairy.velo
           );
-          copyMagic.bounceCount = magic.bounceCountdd ;
+          copyMagic.bounceCount = magic.bounceCount;
         }
       }
     }

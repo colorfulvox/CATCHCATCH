@@ -18,17 +18,32 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   velo;
   size = 0.5;
   spriteScale = 1;
+  
+  // 사신 특성
   vampire;
+  swordaura = false;
+  // 닌자 특성
   stun;
   deathCount;
+
+  // 슬라임 특성
   bounceCount = 0;
   copyCount = 0;
+
+  // 마녀 특성
   maxBombCount;
   bombcount = 999999;
   bombtime = 3;
+  
+  // 레벨
   level = 1;
+  
+  // 진화 여부
   evo1 = false;
   evo2 = false;
+
+
+  skillSprite = 1;
   hh;
   hw;
   constructor(
@@ -192,6 +207,23 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   levelUp5() {
     this.level = 5;
     this.evo1 = true;
+    switch (this.fairyNum) {
+      case 1:
+        this.skillSprite = 1;
+      case 2:
+        this.skillSprite = 1;
+        break;
+      case 3:
+        this.range += 2;
+        break;
+      case 4:
+        this.as -= this.as_bonus;
+        break;
+      case 5:
+        this.maxBombCount++;
+        this.bombcount++;
+        break;
+    }
   }
 
   levelUp6() {
@@ -250,7 +282,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.stun += 0.5;
         break;
       case 4:
-        this.copyCount = 5;
+        this.copyCount = 10;
         break;
       case 5:
         this.maxBombCount++;
@@ -344,7 +376,9 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       case 1:
         skill = new Skill(thisScene, this);
         magics.add(skill);
-        skill.dmg = skill.dmg * 2;
+        skill.setDepth(2);
+        skill.setScale(2);
+        skillSprite = 1;
         skill.setPosition(input.x + camera.scrollX, input.y + camera.scrollY);
         this.skillUse = true;
         this.timer = 0;

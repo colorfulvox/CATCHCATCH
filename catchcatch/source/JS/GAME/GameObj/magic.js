@@ -14,7 +14,7 @@ export default class Magic extends Phaser.Physics.Arcade.Sprite {
       scene.time.addEvent({ delay: 300, callback: () => { this.body.checkCollision.none = false; this.setVisible(true); this.setVelocity(0, 0); }, loop: false });
     }
     if (fairy.fairyNum === 5) {
-      scene.time.addEvent({ delay: 1000 * fairy.bombtime, callback: () => { this.body.checkCollision.none = false; this.setScale(2); fairy.bombcount++; this.anims.play("magic5_1", true); }, loop: false });
+      scene.time.addEvent({ delay: 1000 * fairy.bombtime, callback: () => { this.body.checkCollision.none = false; this.setScale(fairy.spriteScale*2); fairy.bombcount++; this.anims.play("magic5_1", true); }, loop: false });
     }
     this.pierceCount = fairy.maxPierceCount;
     scene.add.existing(this);
