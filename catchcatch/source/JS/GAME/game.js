@@ -41,6 +41,11 @@ export const config = {
 let cats;
 // 플레이어 객체
 global.player = "";
+// 타워
+global.towerLU = "";
+global.towerRU = "";
+global.towerLD = "";
+global.towerRD = "";
 // 캐릭터 선택 시 변경될 변수
 let catNumber = 0;
 // 요정
@@ -132,10 +137,10 @@ var hole;
 //enemy end
 
 //tower start
-var towerLU;
-var towerRU;
-var towerLD;
-var towerRD;
+// var towerLU;
+// var towerRU;
+// var towerLD;
+// var towerRD;
 global.towerAttacks = "";
 global.towerSkillAttacks = "";
 //tower end

@@ -1,4 +1,39 @@
+let towerNum = 0;
 export default function tower() {
+  const towers = [towerLU, towerRU, towerLD, towerRD];
+  const tier1 = [
+    {
+      click: () => {
+        towers[towerNum].damageFunc();
+      },
+      current: towers[towerNum].towerDmgLevel,
+      max: towers[towerNum].towerDmgMax,
+    },
+    {
+      click: () => {
+        towers[towerNum].bulletFunc();
+      },
+      current: towers[towerNum].bulletLevel,
+      max: towers[towerNum].bulletMax,
+    },
+  ];
+  const tier3 = [
+    {
+      click: () => {
+        towers[towerNum].rangeFunc();
+      },
+      current: towers[towerNum].circlesizeLevel,
+      max: towers[towerNum].circlesizeMax,
+    },
+    {
+      click: () => {
+        towers[towerNum].speedFunc();
+      },
+      current: towers[towerNum].towerASLevel,
+      max: towers[towerNum].towerASMax,
+    },
+  ];
+
   const upgradeContent = document.querySelector(".upgradeContent");
   upgradeContent.innerHTML = "";
   const tower13 = document.createElement("div");
@@ -32,23 +67,62 @@ export default function tower() {
   towerIcons3.setAttribute("class", "towerIcons");
   towerIcons4.setAttribute("class", "towerIcons");
   for (let i = 0; i < 2; i++) {
+    const con = document.createElement("div");
+    con.setAttribute("class", "con");
     const div = document.createElement("div");
     div.innerText = "그림";
-    towerIcons1.appendChild(div);
+    const count = document.createElement("div");
+    count.innerText = `${tier1[i].current} / ${tier1[i].max}`;
+    con.appendChild(div);
+    con.appendChild(count);
+    div.addEventListener("click", tier1[i].click);
+    div.addEventListener("click", () => {
+      count.innerText = `${tier1[i].current} / ${tier1[i].max}`;
+    });
+    towerIcons1.appendChild(con);
   }
   for (let i = 0; i < 2; i++) {
+    const con = document.createElement("div");
+    con.setAttribute("class", "con");
     const div = document.createElement("div");
     div.innerText = "그림";
-    towerIcons3.appendChild(div);
+    const count = document.createElement("div");
+    count.innerText = `${tier3[i].current} / ${tier3[i].max}`;
+    con.appendChild(div);
+    con.appendChild(count);
+    div.addEventListener("click", tier3[i].click);
+    div.addEventListener("click", () => {
+      count.innerText = `${tier3[i].current} / ${tier3[i].max}`;
+    });
+    towerIcons3.appendChild(con);
   }
   for (let i = 0; i < 4; i++) {
     const div = document.createElement("div");
-    div.innerText = "그림";
+    if (towers[towerNum].towerEvelop1[i]) {
+      div.innerText = "완료";
+    } else {
+      div.innerText = "그림";
+    }
+    div.addEventListener("click", () => {
+      if (!towers[towerNum].isTowerEvelop1) {
+        towers[towerNum].changeEvelop(i);
+      }
+    });
     towerIcons2.appendChild(div);
   }
   for (let i = 0; i < 4; i++) {
     const div = document.createElement("div");
-    div.innerText = "그림";
+    if (towers[towerNum].towerEvelop2[i]) {
+      div.innerText = "완료";
+    } else {
+      div.innerText = "그림";
+    }
+    div.addEventListener("click", () => {
+      console.log(towers[towerNum].isTowerEvelop2);
+      if (!towers[towerNum].isTowerEvelop2) {
+        towers[towerNum].changeEvelop(i);
+      }
+    });
     towerIcons4.appendChild(div);
   }
   towerContent.appendChild(towerIcons1);
@@ -81,7 +155,7 @@ export default function tower() {
   for (let i = 1; i < 5; i++) {
     const btn = document.querySelector(`.tower${i}`);
     btn.addEventListener("click", () => {
-      towerNum = i;
+      towerNum = i - 1;
       tower();
     });
   }
