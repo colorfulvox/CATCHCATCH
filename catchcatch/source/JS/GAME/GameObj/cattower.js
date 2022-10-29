@@ -268,7 +268,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       mouse.type !== "boss" ||
       (mouse.type === "boss" && mouse.bossSpiece !== "slime_king")
     ) {
-      let skill;
+      let skill = new TSkill(game, tower, 1000, 3000, 0.01);;
       if (tower.towerEvelop[0] === true) {
         skill = new TSkill(game, tower, 1000, 3000, 0.01);
       } else if (tower.towerEvelop[1] === true) {
