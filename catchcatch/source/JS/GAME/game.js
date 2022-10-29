@@ -650,7 +650,7 @@ function create() {
   thisScene.physics.add.overlap(magics, monsterSet, attack);
   // 만약 몬스터와 구멍이 닿았다면 (hithole 함수 실행)
   thisScene.physics.add.overlap(hole, monsterSet, hithole);
-
+  thisScene.physics.add.overlap(hole, bossSet, destroyhole);
   //map start
   var snappedChunkX =
     this.chunkSize *
@@ -969,8 +969,8 @@ function update(time, delta) {
   }
 
   // 골렘
-  if (gameTimer == 300){
-    golem = new Boss(this, 50, 300, player.x + 300, player.y + 300, 'golem','swarm',10,10,'boss')
+  if (gameTimer == 100){
+    golem = new Boss(this, 500, 100, player.x + 600, player.y - 600, 'golem','swarm',10,10,'boss')
     golem.setDepth(2);
     golem.anime();
     boss_active = true;
@@ -980,11 +980,19 @@ function update(time, delta) {
   // 보스 이동 및 사망 체크
   if (boss_active) {
     for (let i = 0; i < bossSet.children.entries.length; i++) {
+      if (bossSet.children.entries[i].bossSpiece != 'golem'){
       this.physics.moveToObject(
         bossSet.children.entries[i],
         player,
         bossSet.children.entries[i].velo
-      );
+      )}
+      else if (bossSet.children.entries[i].bossSpiece == 'golem'){
+        this.physics.moveToObject(
+          bossSet.children.entries[i],
+          hole,
+          bossSet.children.entries[i].velo
+        )
+      };
       if (bossSet.children.entries[i].health <= 0) {
         if (bossSet.children.entries[i].bossSpiece == 'slime_king'){
         slime_pattern(
@@ -1154,7 +1162,6 @@ function attack(magic, monster) {
           monsterCount -= 1;
         } else if (monster.monSpiece == "slime") {
           for (let i = 0; i < 2; i++) {
-            console.log("동작");
             addMonster(
               thisScene,
               "baby_slime",
@@ -1204,15 +1211,13 @@ function attack(magic, monster) {
 function hithole(hole, monster) {
   hole.hp -= 1;
   monster.destroy();
-
-  monster.health -= fairySet[nowFairy].dmg;
-  monster.invincible = true;
-  if (monster.health <= 0 && monster.type != "boss") {
-    monster.destroy();
-    player.expUp();
-    monsterCount -= 1;
+  monsterCount -= 1;
+  if (hole.lhp <= 0){
+    console.log("game over")
   }
-}
+  }
+
+
 
 // 임시 구멍 구현
 // function hithole(hole, monster) {
@@ -1234,6 +1239,13 @@ function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
   monster.anime();
+}
+
+function destroyhole(hole,golem){
+  console.log('작동')
+  if(golem.bossSpiece == 'golem'){
+    hole.hp -= 9999
+  golem.destroy()}
 }
 
 function enemySpawn(scene) {
