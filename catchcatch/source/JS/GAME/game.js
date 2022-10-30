@@ -2,7 +2,7 @@ import Fairy from "./GameObj/fairy.js";
 import Magic from "./GameObj/magic.js";
 import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
-import inGameUI, { updateExp } from "../UI/inGameUI.js";
+import inGameUI, { gameover, updateExp, updateHP } from "../UI/inGameUI.js";
 import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
@@ -132,7 +132,7 @@ var timer;
 var random_monster = 0;
 
 // 임시 구멍
-var hole;
+global.hole = "";
 
 // 몬스터 이미지
 
@@ -393,7 +393,6 @@ function create() {
   player = cats[catNumber];
   player = new Player(this, 1, 100, 100, "cat" + (ChoiceCat + 1));
   player.setDepth(2);
-  inGameUI();
 
   camera = this.cameras.main;
   input = this.input;
@@ -657,9 +656,9 @@ function create() {
 
   // 임시 구멍
   hole = this.physics.add.sprite(0, 0, "fairy4");
-  hole.hp = 100;
+  hole.hp = 5;
   hole.setDepth(1);
-
+  inGameUI();
   // 그룹셋
   monsterSet = this.physics.add.group();
   bossSet = this.physics.add.group();
@@ -926,6 +925,11 @@ function update(time, delta) {
         );
       }
     }
+  }
+
+  if (hole.hp <= 0) {
+    $this.pause();
+    gameover();
   }
 
   gameTimer++;
@@ -1265,6 +1269,7 @@ function attack(magic, monster) {
 // 임시 구멍 구현
 function hithole(hole, monster) {
   hole.hp -= 1;
+  updateHP();
   monster.destroy();
   monsterCount -= 1;
   if (hole.lhp <= 0) {

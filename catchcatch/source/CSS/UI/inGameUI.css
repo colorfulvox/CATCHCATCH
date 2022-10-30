@@ -98,6 +98,41 @@
   top: 4px;
 }
 
+.holeHP {
+  display: flex;
+  position: absolute;
+  top: 2%;
+  right: 8%;
+  /* transform: translateX(-50%) translateY(-50%); */
+  width: 8%;
+  height: 20%;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+}
+
+.gameoverContainer {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 50%;
+  height: 50%;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.gameover {
+  font-size: 100px;
+}
+
+.again {
+  width: 50%;
+  height: 50%;
+}
 .Timer {
   position: absolute;
   top: 50px;
