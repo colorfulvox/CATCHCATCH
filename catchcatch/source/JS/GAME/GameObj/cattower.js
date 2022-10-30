@@ -125,6 +125,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       vyp =
         tower.y - d * Math.sin(((180 - (angle_mouse - 30)) * Math.PI) / 180);
     }
+    console.log(tower.istwo, tower.isthree);
     if (
       mouse.type !== "boss" ||
       (mouse.type === "boss" && mouse.bossSpiece !== "slime_king")
@@ -151,16 +152,17 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     }
   }
 
-  bulletFunc() {
-    if (this.bulletLevel < 2) {
-      if (this.istwo === false && this.isthree === false) {
-        this.istwo === true;
-        this.bulletLevel += 1;
-      } else if (this.istwo === true && this.isthree === false) {
-        this.three === true;
-        this.bulletLevel += 1;
+  bulletFunc(thtower) {
+    if (thtower.bulletLevel < 2) {
+      if (thtower.istwo === false && thtower.isthree === false) {
+        thtower.istwo = true;
+        thtower.bulletLevel += 1;
+      } else if (thtower.istwo === true && thtower.isthree === false) {
+        thtower.isthree = true;
+        thtower.bulletLevel += 1;
       }
-      this.level++;
+      thtower.level++;
+      console.log(thtower);
       tower();
     }
   }
@@ -268,7 +270,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       mouse.type !== "boss" ||
       (mouse.type === "boss" && mouse.bossSpiece !== "slime_king")
     ) {
-      let skill = new TSkill(game, tower, 1000, 3000, 0.01);;
+      let skill;
       if (tower.towerEvelop[0] === true) {
         skill = new TSkill(game, tower, 1000, 3000, 0.01);
       } else if (tower.towerEvelop[1] === true) {
@@ -276,34 +278,39 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
         skill.dmg = skill.dmg / 2;
       } else if (tower.towerEvelop[2] === true) {
         skill = new TSkill(game, tower, 1000, 3000, 0.01);
+        mouse.CC = "water"
       } else if (tower.towerEvelop[3] === true) {
         skill = new TSkill(game, tower, 1000, 3000, 0.01);
+        mouse.CC = "earth"
       }
 
-      skill.body.checkCollision.none = true;
-      var hw = skill.body.halfWidth;
-      2;
-      var hh = skill.body.halfHeight;
-      skill.setCircle(hw * 1000, hh - hw * 1000, hh - hw * 1000);
+      if (skill) {
+        console.log(skill)
+        skill.body.checkCollision.none = true;
+        var hw = skill.body.halfWidth;
+        var hh = skill.body.halfHeight;
+        skill.setCircle(hw * 1000, hh - hw * 1000, hh - hw * 1000);
 
-      towerSkillAttacks.add(skill);
-      // console.log(towerSkillAttacks)
-      game.physics.add.overlap(
-        towerSkillAttacks,
-        monsterSet,
-        tower.skillattack
-      );
+        towerSkillAttacks.add(skill);
+        // console.log(towerSkillAttacks)
+        game.physics.add.overlap(
+          towerSkillAttacks,
+          monsterSet,
+          tower.skillattack
+        );
 
-      tower.towerSkillAttackTimer = 0;
+        tower.towerSkillAttackTimer = 0;
 
-      game.tweens.add({
-        targets: skill,
-        x: mouse.x,
-        y: mouse.y,
-        duration: speed,
-        ease: "Linear",
-        completeDelay: speed,
-      });
+        game.tweens.add({
+          targets: skill,
+          x: mouse.x,
+          y: mouse.y,
+          duration: speed,
+          ease: "Linear",
+          completeDelay: speed,
+        });
+      }
     }
   }
+
 }
