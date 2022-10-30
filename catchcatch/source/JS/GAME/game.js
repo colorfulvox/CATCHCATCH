@@ -240,6 +240,15 @@ function preload() {
   );
 
   this.load.spritesheet(
+    "magic2_1",
+    "images/attack/weapon/19_freezing_spritesheet.png",
+    {
+      frameWidth: 100,
+      frameHeight: 100,
+    }
+  );
+
+  this.load.spritesheet(
     "magic3",
     "images/attack/weapon/18_midnight_spritesheet.png",
     {
@@ -463,10 +472,10 @@ function create() {
 
   global.witch = fairySet[4] = new Fairy(
     this,
-    100,
+    720,
     10,
     1,
-    5,
+    3,
     40,
     10,
     500,
@@ -475,6 +484,7 @@ function create() {
     0.5,
     1
   );
+  global.bombs = this.physics.add.group();
   fairySet[4].initFairy5(1, 1);
   for (let i = 0; i < 5; i++) {
     fairySet[i].setDepth(2);
@@ -573,6 +583,18 @@ function create() {
     frameRate: 200,
     repeat: -1,
   });
+
+  this.anims.create({
+    key: "magic2_1",
+    frames: this.anims.generateFrameNumbers("magic2_1", {
+      start: 0,
+      end: 60,
+      first: 0,
+    }),
+    frameRate: 200,
+    repeat: -1,
+  });
+
   this.anims.create({
     key: "magic3",
     frames: this.anims.generateFrameNumbers("magic3", {
@@ -626,7 +648,7 @@ function create() {
   //enemy start
 
   monsterSet = this.physics.add.group();
-  magics = this.physics.add.group();
+  magics = this.physics.add.group()
   towerAttacks = this.physics.add.group();
   towerSkillAttacks = this.physics.add.group();
   mines = this.physics.add.group();
@@ -1133,12 +1155,12 @@ function attack(magic, monster) {
 
     if (nowFairy === 3) {
       if (monsterSet.children.entries.length !== 0) {
-        if (magic.bounceCount <= 0) {
-          magic.destroy();
-        } else {
           let monNum = Math.floor(
             Math.random() * monsterSet.children.entries.length
           );
+        if (magic.bounceCount <= 0) {
+          magic.destroy();
+        } else {
 
           thisScene.physics.moveTo(
             magic,
@@ -1147,6 +1169,26 @@ function attack(magic, monster) {
             magic.fairy.velo
           );
           magic.bounceCount--;
+        }
+
+        let copy = Math.floor(
+          Math.random() * 100+1
+        );
+
+        if (magic.isFirst && copy <= fairySet[3].copyCount) {
+          // magic.isFirst = false;
+          let copyMagic = new Magic(thisScene, fairySet[nowFairy]);
+          copyMagic.isFirst = false;
+          magics.add(copyMagic)
+          copyMagic.setPosition(magic.x, magic.y);
+
+          thisScene.physics.moveTo(
+            copyMagic,
+            -monsterSet.children.entries[monNum].x,
+            -monsterSet.children.entries[monNum].y,
+            copyMagic.fairy.velo
+          );
+          copyMagic.bounceCount = magic.bounceCount;
         }
       }
     }
@@ -1179,7 +1221,7 @@ function attack(magic, monster) {
       }
     }
 
-    monster.health -= fairySet[nowFairy].dmg;
+    monster.health -= (fairySet[nowFairy].dmg*player.dmgmul);
     monster.invincible = true;
     if (monster.health <= 0 && monster.type != "boss") {
       if (monster.monSpiece != "slime") {
@@ -1211,10 +1253,6 @@ function attack(magic, monster) {
 function hithole(hole, monster) {
   hole.hp -= 1;
   monster.destroy();
-  monsterCount -= 1;
-  if (hole.lhp <= 0){
-    console.log("game over")
-  }
   }
 
 

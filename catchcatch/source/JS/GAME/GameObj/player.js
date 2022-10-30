@@ -14,7 +14,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   healthLevel = 1;
   dmgmul = 1;
   dmgmulLevel = 1;
-  speed = 160;
+  speed = 100;
   speedLevel = 1;
   maxExp = 5;
   exp = 0;
@@ -61,6 +61,29 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     updateExp();
   }
 
+  commonLevelUp(id) {
+    switch (id) {
+      case "dmgmul":
+        this.dmgmulLevel++;
+        this.dmgmul += 0.1;
+        break;
+      case "health":
+        this.healthLevel++;
+        this.maxHealth += 5;
+        this.health += 5;
+        break;
+      case "heal":
+        this.healLevel++;
+        this.heal += 1;
+        break;
+      case "speed":
+        this.speedLevel++;
+        this.speed += 10;
+        break;
+    }
+    
+  }
+
   expUpdate() {
     if (this.exp >= this.maxExp) {
       if (!isLevelup) {
@@ -83,11 +106,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.fairy.x = this.x - 20;
     this.fairy.y = this.y - 50;
     if (cursors.left.isDown) {
-      this.setVelocityX(-160);
+      this.setVelocityX(-this.speed);
       this.anims.play("left", true);
       this.flipX = true;
     } else if (cursors.right.isDown) {
-      this.setVelocityX(160);
+      this.setVelocityX(this.speed);
       this.flipX = false;
       this.anims.play("right", true);
     } else {
@@ -95,7 +118,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (cursors.up.isDown) {
-      this.setVelocityY(-160);
+      this.setVelocityY(-this.speed);
 
       if (cursors.left.isDown) {
         this.anims.play("left", true);
@@ -103,7 +126,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.anims.play("right", true);
       }
     } else if (cursors.down.isDown) {
-      this.setVelocityY(+160);
+      this.setVelocityY(this.speed);
 
       if (cursors.left.isDown) {
         this.anims.play("left", true);
