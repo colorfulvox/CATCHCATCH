@@ -11,6 +11,8 @@ import CatTower from "./GameObj/cattower.js";
 import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
+import { Updatetimer } from "../UI/inGameUI.js";
+
 export const config = {
   type: Phaser.AUTO,
   width: 600,
@@ -69,7 +71,7 @@ var mouse;
 //player end
 
 //gametimer
-let gameTimer = 0;
+global.gameTimer = 0;
 
 //map start
 var map;
@@ -931,6 +933,7 @@ function update(time, delta) {
   }
 
   gameTimer++;
+  Updatetimer();
 
   // 플레이어 기준랜덤 위치에 몬스터 생성
   // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
