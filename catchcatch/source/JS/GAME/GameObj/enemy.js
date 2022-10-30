@@ -50,7 +50,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   anime(){
     if (this.monSpiece == 'alien'){
       this
-      .setTint(0xff0000)
+      .setTint(0x000000)
     }
     else if (this.monSpiece == 'worm'){
       this

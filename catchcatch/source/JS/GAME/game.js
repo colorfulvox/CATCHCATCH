@@ -1002,7 +1002,7 @@ function update(time, delta) {
   }
 
   // 골렘
-  if (gameTimer == 100) {
+  if (gameTimer == 3600) {
     golem = new Boss(
       this,
       500,
@@ -1061,6 +1061,7 @@ function update(time, delta) {
       magics.splice(i, 1);
     }
   }
+
 
   //enemy end
 
@@ -1266,7 +1267,11 @@ function attack(magic, monster) {
         monsterCount -= 1;
       }
     }
+    else if (monster.health > 0){
+      hit_anime(monster)
+    }
   }
+
 }
 
 // 임시 구멍 구현
@@ -1280,15 +1285,6 @@ function hithole(hole, monster) {
   }
 }
 
-// 임시 구멍 구현
-// function hithole(hole, monster) {
-//   hole.hp -= 1;
-//   monster.destroy();
-
-//   if (hole.hp <= 0) {
-//     console.log("game over");
-//   }
-// }
 
 function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
   monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime, type);
@@ -1378,7 +1374,12 @@ function slime_pattern(scene, pt, x, y) {
     }
   }
 }
+function hit_anime(monster){
+  monster
+  .setTint(0xff0000)
+  thisScene.time.addEvent({ delay : 150, callback: () => {if(monster.active == true){monster.anime()}}, loop: false});
 
+}
 //enemy end
 
 //map start
