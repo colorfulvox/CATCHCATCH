@@ -19,7 +19,6 @@ export default function inGameUI() {
   holeHP.appendChild(hp);
   gameContainer.appendChild(holeHP);
 
-
   _catcoin = document.createElement("div");
   _catcoin.setAttribute("class", "catcoin");
   _catcoin.setAttribute("id", "catcoin");
@@ -101,11 +100,9 @@ export function updateExp() {
 
 export function updateHP() {
   // console.log(hole.hp);
-  if (hole.hp >= 0) {
-    const holeHP = document.querySelector(".holeHP");
-    const hp = document.querySelector(".hp");
-    hp.innerText = hole.hp;
-  }
+  const holeHP = document.querySelector(".holeHP");
+  const hp = document.querySelector(".hp");
+  hp.innerText = hole.hp;
 }
 
 export function gameover() {

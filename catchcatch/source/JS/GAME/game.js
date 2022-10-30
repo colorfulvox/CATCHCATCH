@@ -929,6 +929,7 @@ function update(time, delta) {
 
   if (hole.hp <= 0) {
     $this.pause();
+    updateHP();
     gameover();
   }
 
