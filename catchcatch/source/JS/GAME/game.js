@@ -1330,7 +1330,7 @@ function enemySpawn(scene) {
 function slime_pattern(scene, pt, x, y) {
   if (pt != 16) {
     pt *= 2;
-    for (let i = 0; i < pt; i++) {
+    for (let i = 0; i < 2; i++) {
       // 분열될 때마다 체력 감소 구현하기
       if (pt < 4) {
         slime_king = new Boss(
