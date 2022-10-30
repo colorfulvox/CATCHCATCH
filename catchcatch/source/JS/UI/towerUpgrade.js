@@ -68,21 +68,28 @@ export default function tower() {
   towerIcons4.setAttribute("class", "towerIcons");
   for (let i = 0; i < 2; i++) {
     const con = document.createElement("div");
+    con.style.backgroundImage = `url("../images/ui/towericonslot.png")`;
+    con.style.backgroundPosition = "center";
+    con.style.backgroundRepeat = "no-repeat";
+    con.style.backgroundSize = "cover";
     con.setAttribute("class", "con");
-    const div = document.createElement("div");
-    div.innerText = "그림";
+
     const count = document.createElement("div");
-    count.innerText = `${tier1[i].current} / ${tier1[i].max}`;
-    con.appendChild(div);
+    count.innerText = `${tier1[i].current}/${tier1[i].max}`;
     con.appendChild(count);
-    div.addEventListener("click", tier1[i].click);
-    div.addEventListener("click", () => {
-      count.innerText = `${tier1[i].current} / ${tier1[i].max}`;
+    count.addEventListener("click", tier1[i].click);
+    count.addEventListener("click", () => {
+      count.innerText = `${tier1[i].current}/${tier1[i].max}`;
     });
     towerIcons1.appendChild(con);
   }
   for (let i = 0; i < 4; i++) {
     const div = document.createElement("div");
+    div.setAttribute("class", "property");
+    div.style.backgroundImage = `url("../images/ui/towericonslot.png")`;
+    div.style.backgroundPosition = "center";
+    div.style.backgroundRepeat = "no-repeat";
+    div.style.backgroundSize = "cover";
     if (towers[towerNum].towerEvelop1[i]) {
       div.innerText = "완료";
     } else {
@@ -98,20 +105,28 @@ export default function tower() {
   for (let i = 0; i < 2; i++) {
     const con = document.createElement("div");
     con.setAttribute("class", "con");
-    const div = document.createElement("div");
-    div.innerText = "그림";
+    con.style.backgroundImage = `url("../images/ui/towericonslot.png")`;
+    con.style.backgroundPosition = "center";
+    con.style.backgroundRepeat = "no-repeat";
+    con.style.backgroundSize = "cover";
+
+    // div.innerText = "그림";
     const count = document.createElement("div");
-    count.innerText = `${tier3[i].current} / ${tier3[i].max}`;
-    con.appendChild(div);
+    count.innerText = `${tier3[i].current}/${tier3[i].max}`;
     con.appendChild(count);
-    div.addEventListener("click", tier3[i].click);
-    div.addEventListener("click", () => {
-      count.innerText = `${tier3[i].current} / ${tier3[i].max}`;
+    count.addEventListener("click", tier3[i].click);
+    count.addEventListener("click", () => {
+      count.innerText = `${tier3[i].current}/${tier3[i].max}`;
     });
     towerIcons3.appendChild(con);
   }
   for (let i = 0; i < 4; i++) {
     const div = document.createElement("div");
+    div.setAttribute("class", "property");
+    div.style.backgroundImage = `url("../images/ui/towericonslot.png")`;
+    div.style.backgroundPosition = "center";
+    div.style.backgroundRepeat = "no-repeat";
+    div.style.backgroundSize = "cover";
     if (towers[towerNum].towerEvelop2[i]) {
       div.innerText = "완료";
     } else {
