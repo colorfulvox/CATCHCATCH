@@ -25,7 +25,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   // 닌자 특성
   stun;
   deathCount;
-
+  isTriple = false;
   // 슬라임 특성
   bounceCount = 0;
   copyCount = 0;
@@ -210,18 +210,21 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     switch (this.fairyNum) {
       case 1:
         this.skillSprite = 1;
+        this.skillCD = 300;
       case 2:
         this.skillSprite = 1;
+        this.skillCD = 300;
         break;
       case 3:
-        this.range += 2;
+        this.isTriple = true;
         break;
+      // 집으로 귀환 가능
       case 4:
-        this.as -= this.as_bonus;
+        this.skillCD = 7200;
         break;
+      // 스페이스바로 즉시 폭발 가능
       case 5:
-        this.maxBombCount++;
-        this.bombcount++;
+        this.skillCD = 720;
         break;
     }
   }
@@ -293,6 +296,24 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   levelUp9() {
     this.level = 9;
     this.evo2 = true;
+    switch (this.fairyNum) {
+      case 1:
+        this.skillSprite = 2;
+      case 2:
+        this.skillSprite = 2;
+        break;
+      case 3:
+        this.isTriple = true;
+        break;
+      // 집으로 귀환 가능
+      case 4:
+        this.skillCD = 7200;
+        break;
+      // 스페이스바로 즉시 폭발 가능
+      case 5:
+        this.skillCD = 720;
+        break;
+    }
   }
   normalAttack(magic) {
     magics.add(magic);
@@ -305,10 +326,10 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
     magic.setScale(this.spriteScale);
 
-    this.hw =  magic.body.halfWidth;
+    this.hw = magic.body.halfWidth;
     this.hh = magic.body.halfHeight;
 
-    magic.setCircle(this.hw*this.size, this.hh - this.hw*this.size, this.hh - this.hw*this.size);
+    magic.setCircle(this.hw * this.size, this.hh - this.hw * this.size, this.hh - this.hw * this.size);
 
 
 
@@ -340,6 +361,32 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.pierceCount = 99999;
         magic.body.checkCollision.none = true;
         normalAttackTimer = 0;
+        if (this.evo2) {
+          let magic2 = new Magic(thisScene, this);
+          magic2.setScale(this.spriteScale / 2);
+          let hhw = magic2.body.halfWidth;
+          let hhh = magic2.body.halfHeight;
+          magic.setCircle(hhw * this.size, hhh - hhw * this.size, hhh - hhw * this.size);
+          magics.add(magic2);
+          let angle = Phaser.Math.Angle.Between(
+            this.x,
+            this.y,
+            input.x + camera.scrollX,
+            input.y + camera.scrollY
+          );
+          angle = ((angle + Math.PI / 2) * 180) / Math.PI + 90;
+          magic2.rotation += (angle - 180) / 60 - 1.5;
+          magic2.setVisible(false);
+          magic2.body.checkCollision.none = true;
+          magic2.anims.play("magic" + this.fairyNum + "_1", true);
+          let auraSpeed = 400;
+          thisScene.physics.moveTo(
+            magic2,
+            input.x + camera.scrollX,
+            input.y + camera.scrollY,
+            auraSpeed
+          );
+        }
         break;
       case 3:
         // 3갈래는 영선님 알고리즘 사용하기
@@ -361,50 +408,66 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         normalAttackTimer = 0;
         break;
     }
+    let speed = this.velo;
+    console.log(this.player.x);
+    console.log(input.x + camera.scrollX);
+    if (this.velo !== 0) {
+      if (this.player.body.velocity.x < 0 && this.player.x > (input.x + camera.scrollX)) {
+        speed += this.player.speed;
+      } else if (this.player.body.velocity.x > 0 && this.player.x < (input.x + camera.scrollX)) {
+        speed += this.player.speed;
+      }
+    }
     thisScene.physics.moveTo(
       magic,
       input.x + camera.scrollX,
       input.y + camera.scrollY,
-      this.velo
+      speed
     );
     control = true;
   }
 
   skillFire() {
     let skill;
-    switch (this.fairyNum) {
-      case 1:
-        skill = new Skill(thisScene, this);
-        magics.add(skill);
-        skill.setDepth(2);
-        skill.setScale(2);
-        skillSprite = 1;
-        skill.setPosition(input.x + camera.scrollX, input.y + camera.scrollY);
-        this.skillUse = true;
-        this.timer = 0;
-        break;
-      case 2:
-        skill = new Skill(thisScene, this);
-        skill.setDepth(2);
-        skill.setScale(2);
-        magics.add(skill);
-        skill.dmg = skill.dmg * 2;
-        skill.setPosition(this.x, this.y);
-        this.skillUse = true;
-        this.timer = 0;
-        break;
-      case 3:
-        break;
-      case 4:
-        this.player.x = 0;
-        this.player.y = 0;
-        thisScene.followPoint.x = 0;
-        thisScene.followPoint.y = 0;
-        this.skillUse = true;
-        this.timer = 0;
-        break;
-      case 5:
-        break;
+    if(this.evo1){
+      switch (this.fairyNum) {
+        case 1:
+          skill = new Skill(thisScene, this);
+          magics.add(skill);
+          skill.setDepth(2);
+          skill.setScale(2);
+          skill.setPosition(input.x + camera.scrollX, input.y + camera.scrollY);
+          this.skillUse = true;
+          this.timer = 0;
+          break;
+        case 2:
+          skill = new Skill(thisScene, this);
+          skill.setDepth(2);
+          skill.setScale(2);
+          magics.add(skill);
+          skill.setPosition(this.x, this.y);
+          this.skillUse = true;
+          this.timer = 0;
+          break;
+        case 3:
+          break;
+        case 4:
+          this.player.x = 0;
+          this.player.y = 0;
+          thisScene.followPoint.x = 0;
+          thisScene.followPoint.y = 0;
+          this.skillUse = true;
+          this.timer = 0;
+          break;
+        case 5:
+          console.log(this.skillCD);
+          for (let i = 0; i < bombs.children.entries.length; i++){
+            bombs.children.entries[i].bomb();
+          }
+          this.skillUse = true;
+          this.timer = 0;
+          break;
+      }
     }
   }
 }

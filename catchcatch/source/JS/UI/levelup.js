@@ -206,7 +206,7 @@ export default function levelup() {
         witch.levelUp();
         console.log(witch);
       } else {
-        player[`${contents[i].id}Level`] += 1;
+        player.commonLevelUp(contents[i].id);
       }
       player.expUpdate();
       console.log(player.exp, player.maxExp);
