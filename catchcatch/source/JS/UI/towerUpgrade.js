@@ -11,7 +11,7 @@ export default function tower() {
     },
     {
       click: () => {
-        towers[towerNum].bulletFunc();
+        towers[towerNum].bulletFunc(towers[towerNum]);
       },
       current: towers[towerNum].bulletLevel,
       max: towers[towerNum].bulletMax,
