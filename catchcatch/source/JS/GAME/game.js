@@ -2,7 +2,7 @@ import Fairy from "./GameObj/fairy.js";
 import Magic from "./GameObj/magic.js";
 import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
-import inGameUI, { updateExp } from "../UI/inGameUI.js";
+import inGameUI, { gameover, updateExp, updateHP } from "../UI/inGameUI.js";
 import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
@@ -130,7 +130,7 @@ var timer;
 var random_monster = 0;
 
 // 임시 구멍
-var hole;
+global.hole = "";
 
 // 몬스터 이미지
 
@@ -391,7 +391,6 @@ function create() {
   player = cats[catNumber];
   player = new Player(this, 1, 100, 100, "cat" + (ChoiceCat + 1));
   player.setDepth(2);
-  inGameUI();
 
   camera = this.cameras.main;
   input = this.input;
@@ -648,16 +647,16 @@ function create() {
   //enemy start
 
   monsterSet = this.physics.add.group();
-  magics = this.physics.add.group()
+  magics = this.physics.add.group();
   towerAttacks = this.physics.add.group();
   towerSkillAttacks = this.physics.add.group();
   mines = this.physics.add.group();
 
   // 임시 구멍
   hole = this.physics.add.sprite(0, 0, "fairy4");
-  hole.hp = 100;
+  hole.hp = 5;
   hole.setDepth(1);
-
+  inGameUI();
   // 그룹셋
   monsterSet = this.physics.add.group();
   bossSet = this.physics.add.group();
@@ -926,6 +925,11 @@ function update(time, delta) {
     }
   }
 
+  if (hole.hp <= 0) {
+    $this.pause();
+    gameover();
+  }
+
   gameTimer++;
 
   // 플레이어 기준랜덤 위치에 몬스터 생성
@@ -993,7 +997,18 @@ function update(time, delta) {
 
   // 골렘
   if (gameTimer == 100) {
-    golem = new Boss(this, 500, 100, player.x + 600, player.y - 600, 'golem', 'swarm', 10, 10, 'boss')
+    golem = new Boss(
+      this,
+      500,
+      100,
+      player.x + 600,
+      player.y - 600,
+      "golem",
+      "swarm",
+      10,
+      10,
+      "boss"
+    );
     golem.setDepth(2);
     golem.anime();
     boss_active = true;
@@ -1003,22 +1018,21 @@ function update(time, delta) {
   // 보스 이동 및 사망 체크
   if (boss_active) {
     for (let i = 0; i < bossSet.children.entries.length; i++) {
-      if (bossSet.children.entries[i].bossSpiece != 'golem') {
+      if (bossSet.children.entries[i].bossSpiece != "golem") {
         this.physics.moveToObject(
           bossSet.children.entries[i],
           player,
           bossSet.children.entries[i].velo
-        )
-      }
-      else if (bossSet.children.entries[i].bossSpiece == 'golem') {
+        );
+      } else if (bossSet.children.entries[i].bossSpiece == "golem") {
         this.physics.moveToObject(
           bossSet.children.entries[i],
           hole,
           bossSet.children.entries[i].velo
-        )
-      };
+        );
+      }
       if (bossSet.children.entries[i].health <= 0) {
-        if (bossSet.children.entries[i].bossSpiece == 'slime_king') {
+        if (bossSet.children.entries[i].bossSpiece == "slime_king") {
           slime_pattern(
             this,
             bossSet.children.entries[i].pt,
@@ -1028,7 +1042,7 @@ function update(time, delta) {
         }
         bossSet.children.entries[i].destroy();
         if (bossSet.children.entries.length == 0) {
-          boss_active = false
+          boss_active = false;
         }
       }
     }
@@ -1158,13 +1172,12 @@ function attack(magic, monster) {
 
     if (nowFairy === 3) {
       if (monsterSet.children.entries.length !== 0) {
-          let monNum = Math.floor(
-            Math.random() * monsterSet.children.entries.length
-          );
+        let monNum = Math.floor(
+          Math.random() * monsterSet.children.entries.length
+        );
         if (magic.bounceCount <= 0) {
           magic.destroy();
         } else {
-
           thisScene.physics.moveTo(
             magic,
             monsterSet.children.entries[monNum].x,
@@ -1174,15 +1187,13 @@ function attack(magic, monster) {
           magic.bounceCount--;
         }
 
-        let copy = Math.floor(
-          Math.random() * 100+1
-        );
+        let copy = Math.floor(Math.random() * 100 + 1);
 
         if (magic.isFirst && copy <= fairySet[3].copyCount) {
           // magic.isFirst = false;
           let copyMagic = new Magic(thisScene, fairySet[nowFairy]);
           copyMagic.isFirst = false;
-          magics.add(copyMagic)
+          magics.add(copyMagic);
           copyMagic.setPosition(magic.x, magic.y);
 
           thisScene.physics.moveTo(
@@ -1224,7 +1235,7 @@ function attack(magic, monster) {
       }
     }
 
-    monster.health -= (fairySet[nowFairy].dmg*player.dmgmul);
+    monster.health -= fairySet[nowFairy].dmg * player.dmgmul;
     monster.invincible = true;
     if (monster.health <= 0 && monster.type != "boss") {
       if (monster.monSpiece != "slime") {
@@ -1255,14 +1266,13 @@ function attack(magic, monster) {
 // 임시 구멍 구현
 function hithole(hole, monster) {
   hole.hp -= 1;
+  updateHP();
   monster.destroy();
   monsterCount -= 1;
   if (hole.lhp <= 0) {
-    console.log("game over")
+    console.log("game over");
   }
 }
-
-
 
 // 임시 구멍 구현
 // function hithole(hole, monster) {
@@ -1287,10 +1297,10 @@ function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
 }
 
 function destroyhole(hole, golem) {
-  console.log('작동')
-  if (golem.bossSpiece == 'golem') {
-    hole.hp -= 9999
-    golem.destroy()
+  console.log("작동");
+  if (golem.bossSpiece == "golem") {
+    hole.hp -= 9999;
+    golem.destroy();
   }
 }
 

@@ -1,9 +1,16 @@
 import "../../CSS/UI/inGameUI.css";
+import { CharSpaceOn } from "./CharSpace.js";
 
 export default function inGameUI() {
   const gameContainer = document.querySelector("#game-container");
   // const progress = document.createElement("progress");
-
+  const holeHP = document.createElement("div");
+  holeHP.setAttribute("class", "holeHP");
+  const hp = document.createElement("div");
+  hp.setAttribute("class", "hp");
+  hp.innerText = hole.hp;
+  holeHP.appendChild(hp);
+  gameContainer.appendChild(holeHP);
   const _catcoin = document.createElement("div");
   _catcoin.setAttribute("class", "catcoin");
   _catcoin.setAttribute("id", "catcoin");
@@ -73,4 +80,38 @@ export function updateExp() {
   dmgmul.innerText = `Lv.${player.dmgmulLevel}`;
   speed.innerText = `Lv.${player.speedLevel} `;
   // progress.setAttribute("value", player.exp);
+}
+
+export function updateHP() {
+  // console.log(hole.hp);
+  if (hole.hp >= 0) {
+    const holeHP = document.querySelector(".holeHP");
+    const hp = document.querySelector(".hp");
+    hp.innerText = hole.hp;
+  }
+}
+
+export function gameover() {
+  const gameContainer = document.querySelector("#game-container");
+  const gameoverContainer = document.createElement("div");
+  gameoverContainer.setAttribute("class", "gameoverContainer");
+  const gameover = document.createElement("div");
+  gameover.setAttribute("class", "gameover");
+  gameover.innerText = "GAME OVER";
+  const again = document.createElement("div");
+  again.innerText = "다시하기";
+  again.setAttribute("class", "again");
+  again.addEventListener("click", () => {
+    // gameContainer.innerHTML = "";
+    // gameContainer.style.display = "none";
+    // const startPage = document.querySelector(".StartPage");
+    // startPage.style.display = "flex";
+    // gameContainer.removeChild(gameoverContainer);
+    // CharSpaceOn();
+    // $this.restart();
+    window.location.reload();
+  });
+  gameoverContainer.appendChild(gameover);
+  gameoverContainer.appendChild(again);
+  gameContainer.appendChild(gameoverContainer);
 }
