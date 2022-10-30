@@ -809,7 +809,6 @@ function create() {
   //exp bar start
   expbar = this.add.graphics().setScrollFactor(0);
   expbarBG = this.add.graphics().setScrollFactor(0);
-  expbar.setDepth(3);
   expbarBG.setDepth(2);
   //exp bar end
 }
