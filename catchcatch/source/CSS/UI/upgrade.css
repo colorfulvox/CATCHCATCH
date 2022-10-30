@@ -79,7 +79,7 @@ body {
 
 .towerIcons {
   display: flex;
-  width: 80vmin;
+  width: 60vmin;
   height: 15%;
   justify-content: space-evenly;
   align-items: center;
@@ -113,7 +113,10 @@ body {
 .tower1234 {
   display: flex;
   /* width: 19vmin; */
-  height: 50%;
+  margin-left: 20px;
+
+  height: 55%;
+  width: 20%;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -127,7 +130,11 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  height: 70%;
+  text-align: center;
+  position: relative;
+  right: 70px;
+  width: 40%;
+  height: 50%;
 }
 
 .weaponContent {
@@ -166,14 +173,61 @@ body {
 
 .levels {
   display: flex;
-  height: 70%;
+  height: 50%;
   flex-direction: column;
   justify-content: space-evenly;
   text-align: center;
 }
 
 .levelss {
-  height: 15%;
-  border: blue solid 6px;
-  line-height: 71.35px;
+  height: 10%;
+  width: 60%;
+  font-family: "KenneyBlocks";
+  font-weight: bold;
+  /* font-size: small; */
+  /* color: wh; */
+  /* border: white solid 5px; */
+  line-height: 40px;
+}
+
+.tower1 {
+  width: 60px;
+  height: 60px;
+  border: 2px solid black;
+}
+
+.tower2 {
+  width: 60px;
+  height: 60px;
+  border: 2px solid black;
+}
+
+.tower3 {
+  width: 60px;
+  height: 60px;
+  border: 2px solid black;
+}
+
+.tower4 {
+  width: 60px;
+  height: 60px;
+  border: 2px solid black;
+}
+
+.con {
+  /* text-align: center; */
+  display: flex;
+  font-family: "KenneyBlocks";
+  font-weight: bold;
+  font-size: small;
+  line-height: 50px;
+  width: 50px;
+  height: 50px;
+  /* border: 2px solid black; */
+}
+
+.property {
+  width: 50px;
+  height: 50px;
+  /* border: 2px solid black; */
 }
