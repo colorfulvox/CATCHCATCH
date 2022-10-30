@@ -59,6 +59,8 @@ global.normalAttackTimer = 0;
 var normalAttackAS = 20;
 var magic;
 global.magics = "";
+let hitTimer = 0;
+let hitVisible = true;
 
 export var cursors;
 var gameOver = false;
@@ -162,6 +164,11 @@ var expbar;
 var expbarBG;
 
 //exp bar end
+
+//hp bar start
+var hpbar;
+var hpbarBG;
+//hp bar end
 
 function preload() {
   //map start
@@ -314,14 +321,44 @@ function preload() {
     frameHeight: 142,
   });
 
+  this.load.spritesheet("fairy1_1", "images/fairy/fairy1_yellow.png", {
+    frameWidth: 150,
+    frameHeight: 142,
+  });
+
+  this.load.spritesheet("fairy1_2", "images/fairy/fairy1_red.png", {
+    frameWidth: 150,
+    frameHeight: 142,
+  });
+
   this.load.spritesheet("fairy2", "images/fairy/fairy2.png", {
     frameWidth: 230,
     frameHeight: 210,
   });
 
+  this.load.spritesheet("fairy2_1", "images/fairy/fairy2_Red.png", {
+    frameWidth: 230,
+    frameHeight: 210,
+  });
+
+  this.load.spritesheet("fairy2_2", "images/fairy/fairy2_black.png", {
+    frameWidth: 230,
+    frameHeight: 210,
+  });
+
   this.load.spritesheet("fairy3", "images/fairy/fairy3.png", {
-    frameWidth: 134,
-    frameHeight: 158,
+    frameWidth: 140,
+    frameHeight: 140,
+  });
+
+  this.load.spritesheet("fairy3_1", "images/fairy/fairy3.png", {
+    frameWidth: 140,
+    frameHeight: 140,
+  });
+
+  this.load.spritesheet("fairy3_2", "images/fairy/fairy3.png", {
+    frameWidth: 140,
+    frameHeight: 140,
   });
 
   this.load.spritesheet("fairy4", "images/fairy/fairy4.png", {
@@ -329,7 +366,27 @@ function preload() {
     frameHeight: 170,
   });
 
+  this.load.spritesheet("fairy4_1", "images/fairy/fairy4_blue.png", {
+    frameWidth: 136,
+    frameHeight: 170,
+  });
+
+  this.load.spritesheet("fairy4_2", "images/fairy/fairy4_green.png", {
+    frameWidth: 136,
+    frameHeight: 170,
+  });
+
   this.load.spritesheet("fairy5", "images/fairy/fairy5.png", {
+    frameWidth: 160,
+    frameHeight: 190,
+  });
+
+  this.load.spritesheet("fairy5_1", "images/fairy/fairy5_red.png", {
+    frameWidth: 160,
+    frameHeight: 190,
+  });
+
+  this.load.spritesheet("fairy5_2", "images/fairy/fairy5_black.png", {
     frameWidth: 160,
     frameHeight: 190,
   });
@@ -389,8 +446,14 @@ function create() {
   fairySet = require("./jsons/fairys.json");
 
   player = cats[catNumber];
-  player = new Player(this, 1, 100, 100, "cat" + (ChoiceCat + 1));
+  player = new Player(this, 1, 20, 20, "cat" + (ChoiceCat + 1));
+  player.setScale(0.7)
   player.setDepth(2);
+  let hw = player.body.halfWidth;
+  let hh = player.body.halfHeight;
+
+  player.setCircle(hw, hh - hw, hh - hw);
+
   inGameUI();
 
   camera = this.cameras.main;
@@ -507,6 +570,34 @@ function create() {
   });
 
   this.anims.create({
+    key: "fairy1_1_idle",
+    frames: this.anims.generateFrameNumbers("fairy1_1", { start: 12, end: 21 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy1_1_attack",
+    frames: this.anims.generateFrameNumbers("fairy1_1", { start: 6, end: 10 }),
+    frameRate: 12,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "fairy1_2_idle",
+    frames: this.anims.generateFrameNumbers("fairy1_2", { start: 12, end: 21 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy1_2_attack",
+    frames: this.anims.generateFrameNumbers("fairy1_2", { start: 6, end: 10 }),
+    frameRate: 12,
+    repeat: 0,
+  });
+
+  this.anims.create({
     key: "fairy2_idle",
     frames: this.anims.generateFrameNumbers("fairy2", { start: 10, end: 19 }),
     frameRate: 8,
@@ -521,18 +612,75 @@ function create() {
   });
 
   this.anims.create({
+    key: "fairy2_1_idle",
+    frames: this.anims.generateFrameNumbers("fairy2_1", { start: 10, end: 19 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy2_1_attack",
+    frames: this.anims.generateFrameNumbers("fairy2_1", { start: 0, end: 8 }),
+    frameRate: 14,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "fairy2_2_idle",
+    frames: this.anims.generateFrameNumbers("fairy2_2", { start: 10, end: 19 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy2_2_attack",
+    frames: this.anims.generateFrameNumbers("fairy2_2", { start: 0, end: 8 }),
+    frameRate: 14,
+    repeat: 0,
+  });
+
+  this.anims.create({
     key: "fairy3_idle",
-    frames: this.anims.generateFrameNumbers("fairy3", { start: 11, end: 19 }),
+    frames: this.anims.generateFrameNumbers("fairy3", { start: 9, end: 18 }),
     frameRate: 8,
     repeat: -1,
   });
 
   this.anims.create({
     key: "fairy3_attack",
-    frames: this.anims.generateFrameNumbers("fairy3", { start: 0, end: 9 }),
+    frames: this.anims.generateFrameNumbers("fairy3", { start: 0, end: 7 }),
     frameRate: 14,
     repeat: 0,
   });
+
+  this.anims.create({
+    key: "fairy3_1_idle",
+    frames: this.anims.generateFrameNumbers("fairy3_1", { start: 9, end: 18 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy3_1_attack",
+    frames: this.anims.generateFrameNumbers("fairy3_1", { start: 0, end: 7 }),
+    frameRate: 14,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "fairy3_2_idle",
+    frames: this.anims.generateFrameNumbers("fairy3_2", { start: 9, end: 18 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy3_2_attack",
+    frames: this.anims.generateFrameNumbers("fairy3_2", { start: 0, end: 7 }),
+    frameRate: 14,
+    repeat: 0,
+  });
+
 
   this.anims.create({
     key: "fairy4_idle",
@@ -549,6 +697,34 @@ function create() {
   });
 
   this.anims.create({
+    key: "fairy4_1_idle",
+    frames: this.anims.generateFrameNumbers("fairy4_1", { start: 7, end: 14 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy4_1_attack",
+    frames: this.anims.generateFrameNumbers("fairy4_1", { start: 0, end: 5 }),
+    frameRate: 10,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "fairy4_2_idle",
+    frames: this.anims.generateFrameNumbers("fairy4_2", { start: 7, end: 14 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy4_2_attack",
+    frames: this.anims.generateFrameNumbers("fairy4_2", { start: 0, end: 5 }),
+    frameRate: 10,
+    repeat: 0,
+  });
+
+  this.anims.create({
     key: "fairy5_idle",
     frames: this.anims.generateFrameNumbers("fairy5", { start: 15, end: 24 }),
     frameRate: 8,
@@ -558,6 +734,34 @@ function create() {
   this.anims.create({
     key: "fairy5_attack",
     frames: this.anims.generateFrameNumbers("fairy5", { start: 0, end: 13 }),
+    frameRate: 17,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "fairy5_1_idle",
+    frames: this.anims.generateFrameNumbers("fairy5_1", { start: 15, end: 24 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy5_1_attack",
+    frames: this.anims.generateFrameNumbers("fairy5_1", { start: 0, end: 13 }),
+    frameRate: 17,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "fairy5_2_idle",
+    frames: this.anims.generateFrameNumbers("fairy5_2", { start: 15, end: 24 }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fairy5_2_attack",
+    frames: this.anims.generateFrameNumbers("fairy5_2", { start: 0, end: 13 }),
     frameRate: 17,
     repeat: 0,
   });
@@ -635,7 +839,7 @@ function create() {
     frameRate: 200,
     repeat: -1,
   });
-  fairySet[nowFairy].play("fairy" + (nowFairy + 1) + "_idle", true);
+  fairySet[nowFairy].play(fairySet[nowFairy].idleKey, true);
 
   //player end
 
@@ -654,7 +858,11 @@ function create() {
   mines = this.physics.add.group();
 
   // 임시 구멍
-  hole = this.physics.add.sprite(0, 0, "fairy4");
+  hole = this.physics.add.sprite(0, 0, "magic1");
+  hole.setScale(2.3);
+  hw = hole.body.halfWidth;
+  hh = hole.body.halfHeight;
+  hole.setCircle(hw*0.7, hh - hw*0.7, hh - hw*0.7);
   hole.hp = 100;
   hole.setDepth(1);
 
@@ -752,6 +960,8 @@ function create() {
     delay: 2000,
     callback: () => {
       player.invincible = false;
+      player.body.checkCollision.none = false
+      player.setVisible(true);
     },
     loop: true,
   });
@@ -809,8 +1019,18 @@ function create() {
   expbar.setDepth(3);
   expbarBG.setDepth(2);
   //exp bar end
+
+  // hp bar start
+  hpbar = this.add.graphics();
+  hpbarBG = this.add.graphics();
+  hpbar.setDepth(5);
+  hpbarBG.setDepth(4);
+  // hp bar end
+
 }
 function update(time, delta) {
+
+
   var snappedChunkX =
     this.chunkSize *
     this.tileSize *
@@ -901,6 +1121,31 @@ function update(time, delta) {
   }
 
   player.move();
+  player.healCount++;
+  if (player.healCount > player.maxHealCount) {
+    player.healCount = 0;
+    player.health += player.heal;
+    if (player.health > player.maxHealth) {
+      player.health = player.maxHealth;
+    }
+    console.log(player.health);
+  }
+
+  if (player.invincible) {
+    hitTimer++;
+    if (hitTimer >= 15) {
+      hitTimer = 0;
+
+      if (hitVisible) {
+        hitVisible = false;
+      } else {
+        hitVisible = true;
+      }
+
+      player.setVisible(hitVisible);
+    }
+  }
+
   //player end
 
   //enemy start
@@ -1057,6 +1302,19 @@ function update(time, delta) {
   towerRD.towerSkillAttackTimer++;
   //tower end
 
+  //  Health bar start
+  hpbar.clear();
+
+  hpbarBG.fillStyle(0xff0000);
+  hpbarBG.fillRect(0, 0, 60, 10);
+
+  hpbar.fillStyle(0x2ff40a);
+  hpbar.fillRect(0, 0, 60*(player.health / player.maxHealth), 10);
+
+  hpbar.setPosition(player.x-30, player.y + 40);
+  hpbarBG.setPosition(player.x-30, player.y + 40);
+  // Health bar end
+
   //exp bar start
   expbar.clear();
 
@@ -1064,7 +1322,7 @@ function update(time, delta) {
   expbarBG.fillStyle(0x000000);
   expbarBG.fillRect(0, 0, this.cameras.main.worldView.width, 16); // x y 가로길이, 세로길이
 
-  //  Health
+
 
   expbar.fillStyle(0xff0000);
   expbar.fillRect(
@@ -1088,7 +1346,7 @@ function changeSlot() {
     nowFairy = 0;
     player.changeFairy(fairySet[nowFairy]);
     normalAttackAS = fairySet[nowFairy].as;
-    fairySet[nowFairy].anims.play("fairy" + (nowFairy + 1) + "_idle", true);
+    fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
   if (
@@ -1101,7 +1359,7 @@ function changeSlot() {
     nowFairy = 1;
     player.changeFairy(fairySet[nowFairy]);
     normalAttackAS = fairySet[nowFairy].as;
-    fairySet[nowFairy].anims.play("fairy" + (nowFairy + 1) + "_idle", true);
+    fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
   if (
@@ -1114,7 +1372,7 @@ function changeSlot() {
     nowFairy = 2;
     player.changeFairy(fairySet[nowFairy]);
     normalAttackAS = fairySet[nowFairy].as;
-    fairySet[nowFairy].anims.play("fairy" + (nowFairy + 1) + "_idle", true);
+    fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
   if (
@@ -1127,7 +1385,7 @@ function changeSlot() {
     nowFairy = 3;
     player.changeFairy(fairySet[nowFairy]);
     normalAttackAS = fairySet[nowFairy].as;
-    fairySet[nowFairy].anims.play("fairy" + (nowFairy + 1) + "_idle", true);
+    fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
   if (
@@ -1140,11 +1398,11 @@ function changeSlot() {
     nowFairy = 4;
     player.changeFairy(fairySet[nowFairy]);
     normalAttackAS = fairySet[nowFairy].as;
-    fairySet[nowFairy].anims.play("fairy" + (nowFairy + 1) + "_idle", true);
+    fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
   if (!fairySet[nowFairy].anims.isPlaying) {
-    fairySet[nowFairy].anims.play("fairy" + (nowFairy + 1) + "_idle", true);
+    fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 }
 
@@ -1231,6 +1489,15 @@ function attack(magic, monster) {
         monster.die_anim();
         monster.destroy();
         player.expUp();
+        if (magic.fairy.fairyNum === 2) {
+          let vampireNum = Math.floor(Math.random() * 100 + 1);
+          if (vampireNum < 6) {
+            player.health += magic.fairy.vampire;
+            if (player.health > player.maxHealth) {
+              player.health = player.maxHealth;
+            }
+          }
+        }
         monsterCount -= 1;
       } else if (monster.monSpiece == "slime") {
         for (let i = 0; i < 2; i++) {

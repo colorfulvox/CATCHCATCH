@@ -19,8 +19,11 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   size = 0.5;
   spriteScale = 1;
   
+  // 요정 애니매이션 및 스프라이트 관련
+ 
+
   // 사신 특성
-  vampire;
+  vampire = 0;
   swordaura = false;
   // 닌자 특성
   stun;
@@ -76,6 +79,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     this.spriteScale = spriteScale;
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    this.idleKey = `fairy${this.fairyNum}_idle`;
+    this.attackKey = `fairy${this.fairyNum}_attack`;
   }
   // 마법사
   initFairy1(attackCount, pierceCount) {
@@ -207,6 +212,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   levelUp5() {
     this.level = 5;
     this.evo1 = true;
+    this.idleKey = `fairy${this.fairyNum}_1_idle`;
+    this.attackKey = `fairy${this.fairyNum}_1_attack`;
     switch (this.fairyNum) {
       case 1:
         this.skillSprite = 1;
@@ -296,6 +303,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   levelUp9() {
     this.level = 9;
     this.evo2 = true;
+    this.idleKey = `fairy${this.fairyNum}_2_idle`;
+    this.attackKey = `fairy${this.fairyNum}_2_attack`;
     switch (this.fairyNum) {
       case 1:
         this.skillSprite = 2;
@@ -318,7 +327,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   normalAttack(magic) {
     magics.add(magic);
 
-    this.anims.play("fairy" + this.fairyNum + "_attack", true);
+    this.anims.play(this.attackKey, true);
     // magic.body.width = 50;
     // magic.body.height = 50;
     // magic.body.offset.x = 25;
