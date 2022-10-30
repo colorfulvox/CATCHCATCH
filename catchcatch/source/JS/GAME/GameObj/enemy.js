@@ -5,11 +5,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   maxHealth;
   health;
   velo;
+  original_velo;
   invincible = false;
   monSpiece;
   cc;
   constructor(scene, maxHealth, velo, randomX, randomY, monSpiece, anim,type) {
-    scene.time.addEvent({delay:400, callback:()=>{this.invincible=false}, loop: true});
+    scene.time.addEvent({ delay: 400, callback: () => { this.invincible = false }, loop: true });
     super(scene, randomX, randomY, monSpiece);
     this.maxHealth = maxHealth;
     this.health = maxHealth;
@@ -20,6 +21,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.type = type;
     this.cc = '';
     this.scale = 1;
+    this.original_velo = this.velo;
+    thisScene.time.addEvent({ delay: 1200, callback: () => { this.velo = this.original_velo; this.cc = ""; }, loop: true });
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
@@ -35,15 +38,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     if (this.body.velocity.x > 0) this.flipX = true;
     else this.flipX = false;
-    if (this.cc == 'earth'){
-      let original_velo = this.velo;
+    if (this.cc === 'earth'){
       this.velo = 0;
-      scene.time.addEvent({ delay: 1200, callback: () => { this.velo = original_velo; }, loop: false });
     }
-    else if (this.cc == 'water'){
-      let original_velo = this.velo;
+    else if (this.cc === 'water'){
       this.velo = 10;
-      scene.time.addEvent({ delay: 6000, callback: () => { this.velo = original_velo; }, loop: false });
     }
   }
 

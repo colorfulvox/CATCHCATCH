@@ -26,7 +26,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   vampire = 0;
   swordaura = false;
   // 닌자 특성
-  stun;
+  stun = 0;
   deathCount;
   isTriple = false;
   // 슬라임 특성
@@ -402,6 +402,55 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.maxPierceCount = 99999;
         this.pierceCount = 99999;
         normalAttackTimer = 0;
+        if (this.isTriple) {
+          var magic2 = new Magic(thisScene, this);
+          var magic3 = new Magic(thisScene, this);
+          magic2.anims.play("magic" + this.fairyNum, true);
+          magic3.anims.play("magic" + this.fairyNum, true);
+          var num = (this.x - (input.x + camera.scrollX)) ** 2 + (this.y - (input.y + camera.scrollY)) ** 2;
+          var d = 145;
+          var angle_dis = Math.sqrt(num);
+          var angle_mouse = Math.asin(-((input.y + camera.scrollY) - this.y) / angle_dis);
+      
+          angle_mouse = (angle_mouse * 180) / Math.PI;
+          if ((input.x + camera.scrollX) - this.x < 0 && angle_mouse > 0) {
+            angle_mouse = 180 - angle_mouse;
+          } else if ((input.x + camera.scrollX) - this.x < 0 && angle_mouse < 0) {
+            angle_mouse = -angle_mouse - 180;
+          } else if (angle_mouse === -0) {
+            angle_mouse = -180;
+          }
+      
+          var vxm;
+          var vym;
+          var vxp;
+          var vyp;
+      
+          if (angle_mouse >= 0) {
+            if (0 <= angle_mouse - 30 <= 90) {
+              vxm = this.x + d * Math.cos(((angle_mouse - 30) * Math.PI) / 180);
+              vym = this.y - d * Math.sin(((angle_mouse - 30) * Math.PI) / 180);
+            }
+      
+            if (0 <= angle_mouse + 30 <= 90) {
+              vxp = this.x + d * Math.cos(((angle_mouse + 30) * Math.PI) / 180);
+              vyp = this.y - d * Math.sin(((angle_mouse + 30) * Math.PI) / 180);
+            }
+          } else {
+            if (0 <= angle_mouse + 30) {
+              vxm = this.x + d * Math.cos(((angle_mouse + 30) * Math.PI) / 180);
+              vym = this.y - d * Math.sin(((angle_mouse + 30) * Math.PI) / 180);
+            } else if (-180 < angle_mouse + 30) {
+              vxm = this.x + d * Math.cos((-(angle_mouse + 30) * Math.PI) / 180);
+              vym = this.y + d * Math.sin((-(angle_mouse + 30) * Math.PI) / 180);
+            }
+            vxp =
+            this.x - d * Math.cos(((180 - (angle_mouse - 30)) * Math.PI) / 180);
+            vyp =
+            this.y - d * Math.sin(((180 - (angle_mouse - 30)) * Math.PI) / 180);
+          }
+
+        }
         break;
       case 4:
         //
@@ -418,8 +467,6 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         break;
     }
     let speed = this.velo;
-    console.log(this.player.x);
-    console.log(input.x + camera.scrollX);
     if (this.velo !== 0) {
       if (this.player.body.velocity.x < 0 && this.player.x > (input.x + camera.scrollX)) {
         speed += this.player.speed;
@@ -433,6 +480,27 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       input.y + camera.scrollY,
       speed
     );
+    if (this.isTriple) {
+      let angle2 = Phaser.Math.Angle.Between(
+        this.x,
+        this.y,
+        vxp,
+        vyp
+      );
+      let angle3 = Phaser.Math.Angle.Between(
+        this.x,
+        this.y,
+        vxm,
+        vym
+      );
+  
+      angle2 = ((angle2 + Math.PI / 2) * 180) / Math.PI + 90;
+      magic2.rotation += (angle2 - 180) / 60 - 1.5;
+      angle3 = ((angle3 + Math.PI / 2) * 180) / Math.PI + 90;
+      magic3.rotation += (angle3 - 180) / 60 - 1.5;
+      thisScene.physics.moveTo(magic2, vxp, vyp, speed);
+      thisScene.physics.moveTo(magic3, vxm, vym, speed);
+    }
     control = true;
   }
 

@@ -351,12 +351,12 @@ function preload() {
     frameHeight: 140,
   });
 
-  this.load.spritesheet("fairy3_1", "images/fairy/fairy3.png", {
+  this.load.spritesheet("fairy3_1", "images/fairy/fairy3_Red.png", {
     frameWidth: 140,
     frameHeight: 140,
   });
 
-  this.load.spritesheet("fairy3_2", "images/fairy/fairy3.png", {
+  this.load.spritesheet("fairy3_2", "images/fairy/fairy3_master.png", {
     frameWidth: 140,
     frameHeight: 140,
   });
@@ -1479,6 +1479,9 @@ function attack(magic, monster) {
           monster.destroy();
           monsterCount -= 1;
         }
+      }
+      if (magic.fairy.stun > 0) {
+        monster.cc = 'earth';
       }
     }
 
