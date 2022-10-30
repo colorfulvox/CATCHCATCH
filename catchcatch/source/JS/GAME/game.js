@@ -185,6 +185,7 @@ function preload() {
   //navi end
 
   //mine start
+  this.load.image("minearrow", "images/mine/boxarrow.png");
   this.load.image("mine", "images/mine/mine.png");
   //mine end
 
@@ -652,6 +653,7 @@ function create() {
   towerAttacks = this.physics.add.group();
   towerSkillAttacks = this.physics.add.group();
   mines = this.physics.add.group();
+
 
   // 임시 구멍
   hole = this.physics.add.sprite(0, 0, "fairy4");
@@ -1158,9 +1160,9 @@ function attack(magic, monster) {
 
     if (nowFairy === 3) {
       if (monsterSet.children.entries.length !== 0) {
-          let monNum = Math.floor(
-            Math.random() * monsterSet.children.entries.length
-          );
+        let monNum = Math.floor(
+          Math.random() * monsterSet.children.entries.length
+        );
         if (magic.bounceCount <= 0) {
           magic.destroy();
         } else {
@@ -1175,7 +1177,7 @@ function attack(magic, monster) {
         }
 
         let copy = Math.floor(
-          Math.random() * 100+1
+          Math.random() * 100 + 1
         );
 
         if (magic.isFirst && copy <= fairySet[3].copyCount) {
@@ -1224,7 +1226,7 @@ function attack(magic, monster) {
       }
     }
 
-    monster.health -= (fairySet[nowFairy].dmg*player.dmgmul);
+    monster.health -= (fairySet[nowFairy].dmg * player.dmgmul);
     monster.invincible = true;
     if (monster.health <= 0 && monster.type != "boss") {
       if (monster.monSpiece != "slime") {
