@@ -4,7 +4,7 @@ export default function tower() {
   const tier1 = [
     {
       click: () => {
-        towers[towerNum].damageFunc();
+        towers[towerNum].damageFunc(towers[towerNum]);
       },
       current: towers[towerNum].towerDmgLevel,
       max: towers[towerNum].towerDmgMax,
@@ -20,14 +20,14 @@ export default function tower() {
   const tier3 = [
     {
       click: () => {
-        towers[towerNum].rangeFunc();
+        towers[towerNum].rangeFunc(towers[towerNum]);
       },
       current: towers[towerNum].circlesizeLevel,
       max: towers[towerNum].circlesizeMax,
     },
     {
       click: () => {
-        towers[towerNum].speedFunc();
+        towers[towerNum].speedFunc(towers[towerNum]);
       },
       current: towers[towerNum].towerASLevel,
       max: towers[towerNum].towerASMax,

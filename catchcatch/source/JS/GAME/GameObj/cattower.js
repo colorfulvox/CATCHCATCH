@@ -144,10 +144,10 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     // control = true;
   }
 
-  damageFunc() {
-    if (this.towerDmgLevel < 10) {
-      this.towerDmgLevel += 1;
-      this.level++;
+  damageFunc(thtower) {
+    if (thtower.towerDmgLevel < 10) {
+      thtower.towerDmgLevel += 1;
+      thtower.level++;
       tower();
     }
   }
@@ -167,22 +167,22 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     }
   }
 
-  rangeFunc() {
-    if (this.level >= 10) {
-      if (this.circlesizeLevel < 10) {
-        this.circlesize += 0.01;
-        this.circlesizeLevel++;
-        this.level++;
+  rangeFunc(thtower) {
+    if (thtower.level >= 10) {
+      if (thtower.circlesizeLevel < 10) {
+        thtower.circlesize += 0.01;
+        thtower.circlesizeLevel++;
+        thtower.level++;
       }
       tower();
     }
   }
 
-  speedFunc() {
-    if (this.level >= 10) {
-      if (this.towerASLevel < 10) {
-        this.towerASLevel += 1;
-        this.level++;
+  speedFunc(thtower) {
+    if (thtower.level >= 10) {
+      if (thtower.towerASLevel < 10) {
+        thtower.towerASLevel += 1;
+        thtower.level++;
       }
       tower();
     }

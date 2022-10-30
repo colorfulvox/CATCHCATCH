@@ -17,7 +17,7 @@ export default class Mine extends Phaser.Physics.Arcade.Image {
   }
 
   scale_Circle() {
-    this.setScale(0.1);
+    this.setScale(1);
     let hw = this.body.halfWidth;
     let hh = this.body.halfHeight;
     this.setCircle(hw * 1, hh - hw * 1, hh - hw * 1);

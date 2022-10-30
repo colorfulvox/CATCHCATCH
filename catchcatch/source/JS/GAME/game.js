@@ -187,6 +187,7 @@ function preload() {
   //navi end
 
   //mine start
+  this.load.image("minearrow", "images/mine/boxarrow.png");
   this.load.image("mine", "images/mine/mine.png");
   //mine end
 
@@ -653,6 +654,7 @@ function create() {
   towerAttacks = this.physics.add.group();
   towerSkillAttacks = this.physics.add.group();
   mines = this.physics.add.group();
+
 
   // 임시 구멍
   hole = this.physics.add.sprite(0, 0, "fairy4");
@@ -1239,7 +1241,7 @@ function attack(magic, monster) {
       }
     }
 
-    monster.health -= fairySet[nowFairy].dmg * player.dmgmul;
+    monster.health -= (fairySet[nowFairy].dmg * player.dmgmul);
     monster.invincible = true;
     if (monster.health <= 0 && monster.type != "boss") {
       if (monster.monSpiece != "slime") {
