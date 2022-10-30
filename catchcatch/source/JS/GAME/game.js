@@ -936,78 +936,6 @@ function update(time, delta) {
         gameover();
     }
 
-    gameTimer++;
-    Updatetimer();
-
-    // 플레이어 기준랜덤 위치에 몬스터 생성
-    // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
-    if (gameTimer > 300 && gameTimer % 30 == 0) {
-        // 1번 zombie
-        enemySpawn(randomLocation);
-
-        // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
-        addMonster(this, "alien", "swarm", 10, 100, monX, monY, "follower");
-        // addMonster(this, 'alien_plus', 'alien_plus_anim',20,100,monX,monY,'follower')
-    }
-    if (gameTimer > 1200 && gameTimer % 600 == 0) {
-        // 2번 worm
-        enemySpawn(randomLocation);
-        addMonster(this, "worm", "swarm", 10, 70, monX, monY, "siege");
-
-        // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
-        // addMonster(this, 'worm_plus', 'worm_plus_anim',20,100,monX,monY,'follower')
-    }
-    if (gameTimer > 1500 && gameTimer % 300 == 0) {
-        enemySpawn(randomLocation);
-        addMonster(this, "sonic", "swarm", 5, 200, monX, monY, "follower");
-    }
-    if (gameTimer > 1800 && gameTimer % 900 == 0) {
-        enemySpawn(randomLocation);
-        addMonster(this, "turtle", "swarm", 100, 30, monX, monY, "siege");
-    }
-
-    if (gameTimer > 0 && gameTimer % 300 == 0) {
-        enemySpawn(randomLocation);
-        addMonster(this, "slime", "swarm", 10, 75, monX, monY, "follower");
-    }
-    // 몬스터 빅웨이브
-    if (gameTimer > 600 && gameTimer < 1200 && gameTimer % 3 == 0) {
-        // 1번 zombie
-        enemySpawn(randomLocation);
-
-        // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
-        addMonster(this, "alien", "swarm", 10, 100, monX, monY, "follower");
-        // addMonster(this, 'alien_plus', 'alien_plus_anim',20,100,monX,monY,'follower')
-    }
-
-    // 보스
-
-    // 슬라임
-    if (gameTimer == 1800) {
-        slime_king = new Boss(
-            this,
-            200,
-            80,
-            player.x + 300,
-            player.y + 300,
-            "slime_king",
-            "swarm",
-            5,
-            1,
-            "boss"
-        );
-        slime_king.setDepth(2);
-        slime_king.anime();
-        boss_active = true;
-        bossSet.add(slime_king);
-    }
-
-  if (hole.hp <= 0) {
-    $this.pause();
-    updateHP();
-    gameover();
-  }
-
   gameTimer++;
   Updatetimer();
 
@@ -1094,42 +1022,6 @@ function update(time, delta) {
     bossSet.add(golem);
   }
 
-  // 보스 이동 및 사망 체크
-  if (boss_active) {
-    for (let i = 0; i < bossSet.children.entries.length; i++) {
-      if (bossSet.children.entries[i].bossSpiece != "golem") {
-        this.physics.moveToObject(
-          bossSet.children.entries[i],
-          player,
-          bossSet.children.entries[i].velo
-        );
-      } else if (bossSet.children.entries[i].bossSpiece == "golem") {
-        this.physics.moveToObject(
-          bossSet.children.entries[i],
-          hole,
-          bossSet.children.entries[i].velo
-        );
-      }
-      if (bossSet.children.entries[i].health <= 0) {
-        if (bossSet.children.entries[i].bossSpiece == "slime_king") {
-          slime_pattern(
-            this,
-            500,
-            100,
-            player.x + 600,
-            player.y - 600,
-            "golem",
-            "swarm",
-            10,
-            10,
-            "boss"
-        );
-        golem.setDepth(2);
-        golem.anime();
-        boss_active = true;
-        bossSet.add(golem);
-    }
-
     // 보스 이동 및 사망 체크
     if (boss_active) {
         for (let i = 0; i < bossSet.children.entries.length; i++) {
@@ -1205,6 +1097,9 @@ function update(time, delta) {
     );
     //exp bar end
 }
+
+
+
 
 //player start
 function changeSlot() {
@@ -1382,7 +1277,6 @@ function attack(magic, monster) {
     }
   }
 
-}
 
 // 임시 구멍 구현
 function hithole(hole, monster) {
@@ -1504,3 +1398,4 @@ function getChunk(x, y) {
 }
 
 //map end
+  
