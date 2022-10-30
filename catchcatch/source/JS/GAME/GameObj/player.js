@@ -1,5 +1,5 @@
 import { cursors, mapSize } from "../game.js";
-import { updateExp } from "../../UI/inGameUI.js";
+import { gameover, updateExp } from "../../UI/inGameUI.js";
 import levelup from "../../UI/levelup.js";
 export const Direction = Object.freeze({
   Up: "Up",
@@ -81,7 +81,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.speed += 10;
         break;
     }
-    
   }
 
   expUpdate() {
@@ -152,7 +151,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       // 피해 1 줌
       // stop_game -= 1;
       if (player.health <= 0) {
-        console.log("Game Over!");
+        gameover();
       }
     }
   }
