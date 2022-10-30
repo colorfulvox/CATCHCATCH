@@ -1297,11 +1297,13 @@ function update(time, delta) {
                     player,
                     bossSet.children.entries[i].velo
                 );
-                this.physics.moveToObject(
-                    bossMagicSet.children.entries[0],
-                    player,
-                    bossMagicSet.children.entries[0].velo
-                );
+                if(boss_fire_giant_active) {
+                    this.physics.moveToObject(
+                        bossMagicSet.children.entries[0],
+                        player,
+                        bossMagicSet.children.entries[0].velo
+                    );
+                }
             } else if (bossSet.children.entries[i].bossSpiece == "golem") {
                 this.physics.moveToObject(
                     bossSet.children.entries[i],
