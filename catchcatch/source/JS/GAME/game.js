@@ -1202,8 +1202,8 @@ function update(time, delta) {
     if (gameTimer > 7200 && gameTimer % 600 == 0) {
         // 2번 worm
         enemySpawn(randomLocation);
-        if (gameTimer > 21000){addMonster(this, 'worm_plus', 'swarm',90,50,monX,monY,'siege')}
-        else {addMonster(this, "worm", "swarm", 60, 100, monX, monY, "siege")};
+        if (gameTimer > 21000){addMonster(this, 'worm_plus', 'swarm',90,60,monX,monY,'siege')}
+        else {addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege")};
 
     }
     if (gameTimer > 18000 && gameTimer % 900 == 0) {
@@ -1266,8 +1266,8 @@ function update(time, delta) {
             this,
             500,
             30,
-            player.x + 600,
-            player.y - 600,
+            player.x + 1500,
+            player.y - 1500,
             "golem",
             "swarm",
             10,
