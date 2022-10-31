@@ -1170,6 +1170,11 @@ function update(time, delta) {
     // 몬스터가 유저 따라가게함
     if (monsterCount !== 0) {
         for (let i = 0; i < monsterSet.children.entries.length; i++) {
+            if (monsterSet.children.entries[i].invincible){
+                monsterSet.children.entries[i]
+                .setTint(0xff0000)
+            }
+            else(monsterSet.children.entries[i].anime())
             if (monsterSet.children.entries[i].type == "follower" || monsterSet.children.entries[i].type == "wave") {
                 this.physics.moveToObject(
                     monsterSet.children.entries[i],
@@ -1601,8 +1606,6 @@ function attack(magic, monster) {
                 monsterCount -= 1;
             }
         }
-    } else if (monster.health > 0) {
-        hit_anime(monster)
     }
 }
 
@@ -1711,18 +1714,6 @@ function slime_pattern(scene, pt, x, y) {
     }
 }
 
-function hit_anime(monster) {
-    monster
-        .setTint(0xff0000)
-    thisScene.time.addEvent({
-        delay: 150, callback: () => {
-            if (monster.active == true) {
-                monster.anime()
-            }
-        }, loop: false
-    });
-
-}
 
 //enemy end
 
