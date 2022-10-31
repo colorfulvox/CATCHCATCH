@@ -1306,7 +1306,7 @@ function update(time, delta) {
                     player,
                     bossSet.children.entries[i].velo
                 );
-                if(boss_fire_giant_active) {
+                if (boss_fire_giant_active) {
                     this.physics.moveToObject(
                         bossMagicSet.children.entries[0],
                         player,
@@ -1329,6 +1329,11 @@ function update(time, delta) {
                         bossSet.children.entries[i].y
                     );
                 }
+
+                if (bossSet.children.entries[i].bossSpiece == "fire_giant"){
+                    bossMagicSet.children.entries[0].destroy();
+                }
+
                 bossSet.children.entries[i].destroy();
                 if (bossSet.children.entries.length == 0) {
                     boss_active = false;
