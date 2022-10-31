@@ -1533,7 +1533,7 @@ function attack(magic, monster) {
             }
         }
 
-        if (nowFairy === 2) {
+        if (nowFairy === 2 && magic.fairy.evo2) {
             //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
             let num = Math.floor(Math.random() * 100 + 1);
             if (num <= fairySet[nowFairy].deathCount && monster.type != "boss") {
