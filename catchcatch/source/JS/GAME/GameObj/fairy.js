@@ -358,7 +358,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       case 1:
         if (this.attackCount > 0) {
           this.attackCount--;
-          normalAttackTimer = this.as - 20;
+          normalAttackTimer = this.as - 10;
         } else {
           this.attackCount = this.maxAttackCount;
           normalAttackTimer = 0;
