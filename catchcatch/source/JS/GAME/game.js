@@ -96,9 +96,10 @@ global.coin = 0;
 // 몬스터 변수 선언
 export var monsterSet;
 var monster;
-
 export var bossSet;
 export var bossMagicSet;
+
+var monsterSpawn = 300;
 // 1번 몬스터: alien
 var alien;
 
@@ -1190,49 +1191,57 @@ function update(time, delta) {
 
     // 플레이어 기준랜덤 위치에 몬스터 생성
     // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
-    if (gameTimer > 300 && gameTimer % 300 == 0) {
+    // monsterSpawn 초기값은 300
+    if (gameTimer > 300 && gameTimer % monsterSpawn == 0) {
         // 1번 zombie
         enemySpawn(randomLocation);
-
-        // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
-        addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");
-        // addMonster(this, 'alien_plus', 'alien_plus_anim',20,100,monX,monY,'follower')
+        if (gameTimer > 21000){addMonster(this, 'alien_plus', 'swarm',60,65,monX,monY,'follower')}
+        else {
+        addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");}
     }
-    if (gameTimer > 3000 && gameTimer % 600 == 0) {
+    if (gameTimer > 7200 && gameTimer % 600 == 0) {
         // 2번 worm
         enemySpawn(randomLocation);
-        addMonster(this, "worm", "swarm", 30, 70, monX, monY, "siege");
+        if (gameTimer > 21000){addMonster(this, 'worm_plus', 'swarm',90,50,monX,monY,'siege')}
+        else {addMonster(this, "worm", "swarm", 60, 100, monX, monY, "siege")};
 
-        // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
-        // addMonster(this, 'worm_plus', 'worm_plus_anim',20,100,monX,monY,'follower')
     }
-    if (gameTimer > 9000 && gameTimer % 300 == 0) {
+    if (gameTimer > 18000 && gameTimer % 900 == 0) {
         enemySpawn(randomLocation);
         addMonster(this, "sonic", "swarm", 50, 80, monX, monY, "follower");
     }
-    if (gameTimer > 20000 && gameTimer % 900 == 0) {
+    if (gameTimer > 21000 && gameTimer % 1500 == 0) {
         enemySpawn(randomLocation);
         addMonster(this, "turtle", "swarm", 150, 30, monX, monY, "siege");
     }
 
-    if (gameTimer > 15000 && gameTimer % 300 == 0) {
+    if (gameTimer > 24000 && gameTimer % 1200 == 0) {
         enemySpawn(randomLocation);
         addMonster(this, "slime", "swarm", 60, 75, monX, monY, "follower");
     }
-    // 몬스터 빅웨이브
-    // if (gameTimer > 600 && gameTimer < 1200 && gameTimer % 3 == 0) {
-    //     // 1번 zombie
-    //     enemySpawn(randomLocation);
+    // 몬스터 스폰 타이머 및 빅웨이브
 
-    //     // #### if문으로 특정 시간 이후면 강화몹 소환으로 변경하기 ###
-    //     addMonster(this, "alien", "swarm", 10, 100, monX, monY, "follower");
-    //     // addMonster(this, 'alien_plus', 'alien_plus_anim',20,100,monX,monY,'follower')
-    // }
+    if (gameTimer < 10800){
+        monsterSpawn = 300
+    }
+    else if (gameTimer >  10800 && gameTimer < 11000 && gameTimer % 3 == 0) {
+        monsterSpawn = 2
+    }
+    else if (11000 < gameTimer && gameTimer < 20000){
+        monsterSpawn = 200
+    }
+    else if (20000<gameTimer && gameTimer < 20200 && gameTimer % 3 == 0){
+        monsterSpawn = 2
+    }
+    else if (gameTimer > 20200){
+        monsterSpawn = 100
+    }
+    
 
     // 보스
 
     // 슬라임
-    if (gameTimer == 15000) {
+    if (gameTimer == 10800) {
         slime_king = new Boss(
             this,
             200,
@@ -1252,11 +1261,11 @@ function update(time, delta) {
     }
 
     // 골렘
-    if (gameTimer == 30000) {
+    if (gameTimer == 21000) {
         golem = new Boss(
             this,
             500,
-            100,
+            30,
             player.x + 600,
             player.y - 600,
             "golem",
@@ -1272,14 +1281,14 @@ function update(time, delta) {
     }
 
     // 불거인
-    if (gameTimer == 60000) {
+    if (gameTimer == 28000) {
         fire_giant_aura = new Boss(this, 10000, 30, player.x - 600, player.y - 600, 'fire_giant_aura', 'swarm', 5, 10, 'boss')
         fire_giant_aura.setDepth(1);
         fire_giant_aura.anime();
         boss_fire_giant_active = true;
         bossMagicSet.add(fire_giant_aura);
     }
-    if (gameTimer == 60000) {
+    if (gameTimer == 28000) {
         fire_giant = new Boss(this, 500, 30, player.x - 600, player.y - 600, 'fire_giant', 'swarm', 1, 10, 'boss')
         fire_giant.setDepth(2);
         fire_giant.anime();
