@@ -544,7 +544,7 @@ function create() {
     global.witch = fairySet[4] = new Fairy(
         this,
         720,
-        6,
+        5,
         1,
         3,
         40,
@@ -1044,6 +1044,19 @@ function update(time, delta) {
 
     frameTime += delta
     player.move();
+
+    //  Health bar start
+    hpbar.clear();
+
+    hpbarBG.fillStyle(0xff0000);
+    hpbarBG.fillRect(0, 0, 60, 10);
+
+    hpbar.fillStyle(0x2ff40a);
+    hpbar.fillRect(0, 0, 60 * (player.health / player.maxHealth), 10);
+
+    hpbar.setPosition(player.x - 30, player.y + 40);
+    hpbarBG.setPosition(player.x - 30, player.y + 40);
+    // Health bar end
     if (frameTime > 16.5) {  
         frameTime = 0;
     
@@ -1390,18 +1403,7 @@ function update(time, delta) {
     towerRD.towerSkillAttackTimer++;
     //tower end
 
-    //  Health bar start
-    hpbar.clear();
 
-    hpbarBG.fillStyle(0xff0000);
-    hpbarBG.fillRect(0, 0, 60, 10);
-
-    hpbar.fillStyle(0x2ff40a);
-    hpbar.fillRect(0, 0, 60 * (player.health / player.maxHealth), 10);
-
-    hpbar.setPosition(player.x - 30, player.y + 40);
-    hpbarBG.setPosition(player.x - 30, player.y + 40);
-    // Health bar end
 
     //exp bar start
     expbar.clear();
@@ -1565,9 +1567,9 @@ function attack(magic, monster) {
                     monsterCount -= 1;
                 }
             }
-            if (magic.fairy.stun > 0) {
-                monster.cc = 'earth';
-            }
+        }
+        if (magic.fairy.stun > 0) {
+            monster.cc = 'earth';
         }
 
         monster.invincible = true;
@@ -1580,7 +1582,7 @@ function attack(magic, monster) {
                 player.expUp();
                 if (magic.fairy.fairyNum === 2) {
                     let vampireNum = Math.floor(Math.random() * 100 + 1);
-                    if (vampireNum < 6) {
+                    if (vampireNum < 20) {
                         player.health += magic.fairy.vampire;
                         if (player.health > player.maxHealth) {
                             player.health = player.maxHealth;

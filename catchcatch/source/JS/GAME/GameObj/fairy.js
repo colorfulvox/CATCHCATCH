@@ -320,6 +320,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         break;
       // 스페이스바로 즉시 폭발 가능
       case 5:
+        this.bombtime = 99999;
         this.skillCD = 720;
         break;
     }
@@ -405,6 +406,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         if (this.isTriple) {
           var magic2 = new Magic(thisScene, this);
           var magic3 = new Magic(thisScene, this);
+          magics.add(magic2);
+          magics.add(magic3);
           magic2.anims.play("magic" + this.fairyNum, true);
           magic3.anims.play("magic" + this.fairyNum, true);
           var num = (this.x - (input.x + camera.scrollX)) ** 2 + (this.y - (input.y + camera.scrollY)) ** 2;
