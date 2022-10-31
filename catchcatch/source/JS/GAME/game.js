@@ -525,7 +525,7 @@ function create() {
         0.5,
         1
     );
-    fairySet[2].initFairy3(0, 10);
+    fairySet[2].initFairy3(0, 0);
     global.slime = fairySet[3] = new Fairy(
         this,
         7200,
@@ -1535,10 +1535,10 @@ function attack(magic, monster) {
             }
         }
 
-        if (nowFairy === 2 && magic.fairy.evo2) {
+        if (magic.fairy.fairyNum === 3 && magic.fairy.evo2) {
             //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
             let num = Math.floor(Math.random() * 100 + 1);
-            if (num <= fairySet[nowFairy].deathCount && monster.type != "boss") {
+            if (num <= magic.fairy.deathCount && monster.type != "boss") {
                 if (monster.monSpiece != "slime") {
                     monster.die_anim();
                     monster.destroy();
@@ -1566,7 +1566,7 @@ function attack(magic, monster) {
             }
         }
 
-        monster.health -= (fairySet[nowFairy].dmg * player.dmgmul);
+        monster.health -= (magic.fairy.dmg * player.dmgmul);
 
         if (monster.health <= 0 && monster.type != "boss") {
             if (monster.monSpiece != "slime") {
