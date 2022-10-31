@@ -82,7 +82,7 @@ export var mapSize = 16000;
 export var camera;
 let controls;
 //map end
-
+let frameTime = 0;
 //navi start
 var navi;
 //navi end
@@ -1040,6 +1040,13 @@ function create() {
 }
 
 function update(time, delta) {
+
+    frameTime += delta
+
+    if (frameTime > 16.5) {  
+        frameTime = 0;
+    
+
     var snappedChunkX =
         this.chunkSize *
         this.tileSize *
@@ -1396,7 +1403,7 @@ function update(time, delta) {
         this.cameras.main.worldView.width * (player.exp / player.maxExp),
         16
     );
-    //exp bar end
+    }    //exp bar end
 }
 
 
