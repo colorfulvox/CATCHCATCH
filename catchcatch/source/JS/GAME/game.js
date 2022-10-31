@@ -31,7 +31,7 @@ export const config = {
     physics: {
         default: "arcade",
         arcade: {
-            fps: 60,
+            fps: 20,
             debug: false,
             fixedStep: false,
         },
@@ -1043,7 +1043,7 @@ function create() {
 function update(time, delta) {
 
     frameTime += delta
-
+    player.move();
     if (frameTime > 16.5) {  
         frameTime = 0;
     
@@ -1137,7 +1137,6 @@ function update(time, delta) {
         fairySet[nowFairy].skillFire();
     }
 
-    player.move();
     player.healCount++;
     if (player.healCount > player.maxHealCount) {
         player.healCount = 0;
