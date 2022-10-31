@@ -1178,6 +1178,102 @@ function update(time, delta) {
                 );
             }
         }
+
+  }
+
+  this.cameras.main.centerOn(this.followPoint.x, this.followPoint.y);
+  //map enderlap(magics, monsterSet, attack);
+  this.anims.create({
+    key: "swarm",
+    frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 1 }),
+    frameRate: 2,
+    repeat: -1,
+  });
+
+  // 공격 맞은 후 일시 무적에 사용
+  timer = this.time.addEvent({
+    delay: 2000,
+    callback: () => {
+      player.invincible = false;
+    },
+    loop: true,
+  });
+
+  // ============== 몬스터 스프라이트 애니메이션 목록 ==================
+  this.anims.create({
+    key: "swarm",
+    frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 1 }),
+    frameRate: 2,
+    repeat: -1,
+  });
+  //enemy end
+
+  //tower start
+
+  towerLU = new CatTower(this, -100, -100, "cat", "can", "skill");
+  towerRU = new CatTower(this, 100, -100, "cat", "can", "skill");
+  towerLD = new CatTower(this, -100, 100, "cat", "can", "skill");
+  towerRD = new CatTower(this, 100, 100, "cat", "can", "skill");
+  console.log(towerLU);
+  towerLU.scale_Circle();
+  towerRU.scale_Circle();
+  towerLD.scale_Circle();
+  towerRD.scale_Circle();
+  towerLU.setDepth(1);
+  towerRU.setDepth(1);
+  towerLD.setDepth(1);
+  towerRD.setDepth(1);
+
+  //tower end
+
+  //mine start
+  for (let i = 0; i < minecount; i++) {
+    mine = new Mine(
+      this,
+      Math.random() * (EndMineRangeX - StartMineRangeX) + StartMineRangeX,
+      Math.random() * (EndMineRangeY - StartMineRangeY) + StartMineRangeY,
+      "mine"
+    );
+    mine.scale_Circle();
+    mines.add(mine);
+  }
+  //mine end
+
+  // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
+
+  //navi start
+  navi = this.add.image(50, 50, "navi").setScrollFactor(0).setScale(0.1);
+  navi.setDepth(2);
+  //navi end
+
+  //exp bar start
+  expbar = this.add.graphics().setScrollFactor(0);
+  expbarBG = this.add.graphics().setScrollFactor(0);
+  expbarBG.setDepth(2);
+  //exp bar end
+}
+function update(time, delta) {
+  var snappedChunkX =
+    this.chunkSize *
+    this.tileSize *
+    Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
+  var snappedChunkY =
+    this.chunkSize *
+    this.tileSize *
+    Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
+
+  snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
+  snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
+
+  for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
+    for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
+      var existingChunk = getChunk(x, y);
+
+      if (existingChunk == null) {
+        var newChunk = new Chunk(this, x, y);
+        chunks.push(newChunk);
+      }
+
     }
 
     if (hole.hp <= 0) {
