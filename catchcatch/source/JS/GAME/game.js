@@ -1210,24 +1210,24 @@ function update(time, delta) {
         else {
         addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");}
     }
-    if (gameTimer > 7200 && gameTimer % 600 == 0) {
+    if (gameTimer > 3600 && gameTimer % 120 == 0) {
         // 2번 worm
         enemySpawn(randomLocation);
-        if (21000 <gameTimer <= 42000 ){addMonster(this, 'worm_plus', 'swarm',90,50,monX,monY,'siege')}
+        if (21000 <gameTimer && gameTimer <= 42000 ){addMonster(this, 'worm_plus', 'swarm',90,50,monX,monY,'siege')}
         else if (42000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 150, 60, monX,monY, 'siege')}
-        else {addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege")};
+        else if (gameTimer <= 21000){addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege")};
 
     }
-    if (gameTimer > 18000 && gameTimer % 900 == 0) {
+    if (gameTimer > 7200 && gameTimer % 300 == 0) {
         enemySpawn(randomLocation);
         addMonster(this, "sonic", "swarm", 50, 80, monX, monY, "follower");
     }
-    if (gameTimer > 21000 && gameTimer % 1500 == 0) {
+    if (gameTimer > 12000 && gameTimer % 600 == 0) {
         enemySpawn(randomLocation);
         addMonster(this, "turtle", "swarm", 150, 30, monX, monY, "siege");
     }
 
-    if (gameTimer > 24000 && gameTimer % 1200 == 0) {
+    if (gameTimer > 16000 && gameTimer % 400 == 0) {
         enemySpawn(randomLocation);
         addMonster(this, "slime", "swarm", 120, 75, monX, monY, "follower");
     }
@@ -1242,15 +1242,17 @@ function update(time, delta) {
     }
 
     // 스폰 주기 
-    if (gameTimer < 10800){
-        monsterSpawn = 200
+    if (gameTimer < 3600){
+        monsterSpawn = 90
     }
-    else if (11000 < gameTimer && gameTimer < 20000){
-        monsterSpawn = 100
+    else if (3600 <=gameTimer && gameTimer < 7200){
+        monsterSpawn = 60
     }
-
-    else if (gameTimer > 20200){
-        monsterSpawn = 50
+    else if (7200 <= gameTimer && gameTimer < 10800){
+        monsterSpawn = 30
+    }
+    else if (10800 <= gameTimer){
+        monsterSpawn = 15
     }
     
 
@@ -1606,7 +1608,7 @@ function attack(magic, monster) {
 
 // 임시 구멍 구현
 function hithole(hole, monster) {
-    if (monster.type = 'wave'){
+    if (monster.type === 'wave'){
         return
     }
     hole.hp -= 1;
