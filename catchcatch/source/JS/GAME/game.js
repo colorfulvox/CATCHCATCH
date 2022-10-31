@@ -1282,7 +1282,7 @@ function update(time, delta) {
 
     // 불거인
     if (gameTimer == 28000) {
-        fire_giant_aura = new Boss(this, 10000, 30, player.x - 600, player.y - 600, 'fire_giant_aura', 'swarm', 5, 10, 'boss')
+        fire_giant_aura = new Boss(this, 10000, 100, player.x - 600, player.y - 600, 'fire_giant_aura', 'swarm', 5, 10, 'boss')
         fire_giant_aura.setDepth(1);
         fire_giant_aura.anime();
         boss_fire_giant_active = true;
@@ -1306,12 +1306,14 @@ function update(time, delta) {
                     player,
                     bossSet.children.entries[i].velo
                 );
-                if (boss_fire_giant_active) {
-                    this.physics.moveToObject(
-                        bossMagicSet.children.entries[0],
-                        player,
-                        bossMagicSet.children.entries[0].velo
-                    );
+                if (bossSet.children.entries[i].bossSpiece == "fire_giant") {
+                    if (boss_fire_giant_active) {
+                        this.physics.moveToObject(
+                            bossMagicSet.children.entries[0],
+                            bossSet.children.entries[i],
+                            bossMagicSet.children.entries[0].velo
+                        );
+                    }
                 }
             } else if (bossSet.children.entries[i].bossSpiece == "golem") {
                 this.physics.moveToObject(
