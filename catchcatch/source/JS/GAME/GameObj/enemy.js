@@ -82,6 +82,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       this
       .setTint(0x000000)  // 검정
     }
+
+    else if (this.monSpiece == 'fly'){
+      this
+      .setTint(0x00EBFF)  // 시안블루
+    }
     this
     .play(this.anim);
     // .setTint(Phaser.Display.Color.RandomRGB().color)
