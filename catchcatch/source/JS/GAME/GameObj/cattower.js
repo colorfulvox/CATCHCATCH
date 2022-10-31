@@ -12,7 +12,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   towerASLevel = 0; //연사속도
   towerASMax = 10;
   towerSkillAS = 50; //연사속도
-  towerDmg = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]; //기본 대미지
+  towerDmg = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]; //기본 대미지
   towerDmgLevel = 0;
   towerDmgMax = 10;
   towerSkillDmg = 6; //스킬 기본 대미지

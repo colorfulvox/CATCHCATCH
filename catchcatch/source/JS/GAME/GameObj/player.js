@@ -16,10 +16,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   dmgmulLevel = 1;
   speed = 100;
   speedLevel = 1;
-  maxExp = 5;
+  maxExp = 3;
   exp = 0;
   level = 1;
-  maxExpBonus = 5;
+  maxExpBonus = 1;
   coin = 1000;
   // 캐릭터 특수능력 일단 보류
   ablity;
