@@ -1534,7 +1534,7 @@ function attack(magic, monster) {
                 if (magic.isFirst && copy <= fairySet[3].copyCount) {
                     // magic.isFirst = false;
                     let copyMagic = new Magic(thisScene, fairySet[nowFairy]);
-                    copyMagic.isFirst = false;
+                    // copyMagic.isFirst = false;
                     magics.add(copyMagic);
                     copyMagic.setPosition(magic.x, magic.y);
 
