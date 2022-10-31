@@ -130,7 +130,7 @@ export function gameover() {
   gameContainer.appendChild(gameoverContainer);
 }
 export function Updatetimer() {
-  if (global.gameTimer != 0 && global.gameTimer % 60 === 0) {
+  if (global.gameTimer != 0 && global.gameTimer % 95 === 0) {
     ++Second;
     if (Second === 60) {
       ++Minute;

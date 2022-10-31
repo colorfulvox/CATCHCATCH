@@ -5,11 +5,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   maxHealth;
   health;
   velo;
+  original_velo;
   invincible = false;
   monSpiece;
   cc;
   constructor(scene, maxHealth, velo, randomX, randomY, monSpiece, anim,type) {
-    scene.time.addEvent({delay:400, callback:()=>{this.invincible=false}, loop: true});
+    scene.time.addEvent({ delay: 400, callback: () => { this.invincible = false }, loop: true });
     super(scene, randomX, randomY, monSpiece);
     this.maxHealth = maxHealth;
     this.health = maxHealth;
@@ -20,6 +21,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.type = type;
     this.cc = '';
     this.scale = 1;
+    this.original_velo = this.velo;
+    thisScene.time.addEvent({ delay: 1200, callback: () => { this.velo = this.original_velo; this.cc = ""; }, loop: true });
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
@@ -35,45 +38,49 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     if (this.body.velocity.x > 0) this.flipX = true;
     else this.flipX = false;
-    if (this.cc == 'earth'){
-      let original_velo = this.velo;
+    if (this.cc === 'earth'){
       this.velo = 0;
-      scene.time.addEvent({ delay: 1200, callback: () => { this.velo = original_velo; }, loop: false });
     }
-    else if (this.cc == 'water'){
-      let original_velo = this.velo;
+    else if (this.cc === 'water'){
       this.velo = 10;
-      scene.time.addEvent({ delay: 6000, callback: () => { this.velo = original_velo; }, loop: false });
     }
   }
 
   anime(){
     if (this.monSpiece == 'alien'){
       this
-      .setTint(0xff0000)
+      .setTint(0xFFFA00) // 노랑
+    }
+    else if (this.monSpiece == 'alien_plus'){
+      this
+      .setTint(0xC29F6D)  // 갈색
     }
     else if (this.monSpiece == 'worm'){
       this
-      .setTint(0x00ff00);}
+      .setTint(0x00ff00);} // 연두
+
+    else if (this.monSpiece == 'worm_plus'){
+      this  
+      .setTint(0xFFAAFF)}  // 핑크
 
     else if (this.monSpiece == 'sonic'){
       this
-      .setTint(0x0000ff)
+      .setTint(0x0000ff)  // 파랑
     }
 
     else if (this.monSpiece == 'turtle'){
       this
-      .setTint(0xac28f6)
+      .setTint(0xac28f6) // 보라
     }
 
     else if (this.monSpiece == 'slime'){
       this
-      .setTint(0x000000)
+      .setTint(0x000000)  // 검정
     }
 
     else if (this.monSpiece == 'baby_slime'){
       this
-      .setTint(0x000000)
+      .setTint(0x000000)  // 검정
     }
     this
     .play(this.anim);
@@ -82,7 +89,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   die_anim(){
-    new Explosion(this.scene, this.x, this.y);
+    new Explosion(thisScene, this.x, this.y);
     // this.scene.m_explosionSound.play();  몬스터 폭발 사운드
   }
 }
