@@ -1566,6 +1566,7 @@ function attack(magic, monster) {
             }
         }
 
+        monster.invincible = true;
         monster.health -= (magic.fairy.dmg * player.dmgmul);
 
         if (monster.health <= 0 && monster.type != "boss") {
