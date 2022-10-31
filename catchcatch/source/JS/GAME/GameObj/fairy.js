@@ -512,7 +512,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           skill = new Skill(thisScene, this);
           magics.add(skill);
           skill.setDepth(2);
-          skill.setScale(2);
+          skill.setScale(this.skillSprite);
           skill.setPosition(input.x + camera.scrollX, input.y + camera.scrollY);
           this.skillUse = true;
           this.timer = 0;
@@ -520,7 +520,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         case 2:
           skill = new Skill(thisScene, this);
           skill.setDepth(2);
-          skill.setScale(2);
+          skill.setScale(this.skillSprite);
           magics.add(skill);
           skill.setPosition(this.x, this.y);
           this.skillUse = true;
