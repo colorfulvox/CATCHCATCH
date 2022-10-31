@@ -100,6 +100,7 @@ export var bossSet;
 export var bossMagicSet;
 
 var monsterSpawn = 300;
+
 // 1번 몬스터: alien
 var alien;
 
@@ -1169,7 +1170,7 @@ function update(time, delta) {
     // 몬스터가 유저 따라가게함
     if (monsterCount !== 0) {
         for (let i = 0; i < monsterSet.children.entries.length; i++) {
-            if (monsterSet.children.entries[i].type == "follower") {
+            if (monsterSet.children.entries[i].type == "follower" || monsterSet.children.entries[i].type == "wave") {
                 this.physics.moveToObject(
                     monsterSet.children.entries[i],
                     player,
@@ -1202,14 +1203,18 @@ function update(time, delta) {
     if (gameTimer > 300 && gameTimer % monsterSpawn == 0) {
         // 1번 zombie
         enemySpawn(randomLocation);
-        if (gameTimer > 21000){addMonster(this, 'alien_plus', 'swarm',60,65,monX,monY,'follower')}
+        if (21000 < gameTimer &&  gameTimer <= 42000)
+        {addMonster(this, 'alien_plus', 'swarm',60,65,monX,monY,'follower')}
+        else if (42000 < gameTimer){
+            addMonster(this, 'alien_plus','swarm', 90, 75, monX,monY,'follower')}
         else {
         addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");}
     }
     if (gameTimer > 7200 && gameTimer % 600 == 0) {
         // 2번 worm
         enemySpawn(randomLocation);
-        if (gameTimer > 21000){addMonster(this, 'worm_plus', 'swarm',90,60,monX,monY,'siege')}
+        if (21000 <gameTimer <= 42000 ){addMonster(this, 'worm_plus', 'swarm',90,50,monX,monY,'siege')}
+        else if (42000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 150, 60, monX,monY, 'siege')}
         else {addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege")};
 
     }
@@ -1224,24 +1229,28 @@ function update(time, delta) {
 
     if (gameTimer > 24000 && gameTimer % 1200 == 0) {
         enemySpawn(randomLocation);
-        addMonster(this, "slime", "swarm", 60, 75, monX, monY, "follower");
+        addMonster(this, "slime", "swarm", 120, 75, monX, monY, "follower");
     }
-    // 몬스터 스폰 타이머 및 빅웨이브
+    // 몬스터 빅 웨이브
+    if (gameTimer >  8000 && gameTimer < 8200 && gameTimer % 3 == 0) {
+        enemySpawn(randomLocation);
+        addMonster(this, "fly", "swarm", 10, 50, monX, monY, "wave");
+    }
+    else if (20000<gameTimer && gameTimer < 21000 && gameTimer % 3 == 0){
+        enemySpawn(randomLocation);
+        addMonster(this, "fly", "swarm", 50, 50, monX, monY, "wave");
+    }
 
+    // 스폰 주기 
     if (gameTimer < 10800){
-        monsterSpawn = 300
-    }
-    else if (gameTimer >  10800 && gameTimer < 11000 && gameTimer % 3 == 0) {
-        monsterSpawn = 2
-    }
-    else if (11000 < gameTimer && gameTimer < 20000){
         monsterSpawn = 200
     }
-    else if (20000<gameTimer && gameTimer < 20200 && gameTimer % 3 == 0){
-        monsterSpawn = 2
-    }
-    else if (gameTimer > 20200){
+    else if (11000 < gameTimer && gameTimer < 20000){
         monsterSpawn = 100
+    }
+
+    else if (gameTimer > 20200){
+        monsterSpawn = 50
     }
     
 
@@ -1271,7 +1280,7 @@ function update(time, delta) {
     if (gameTimer == 21000) {
         golem = new Boss(
             this,
-            500,
+            10,
             30,
             player.x + 1500,
             player.y - 1500,
@@ -1556,7 +1565,7 @@ function attack(magic, monster) {
         }
 
         monster.health -= (fairySet[nowFairy].dmg * player.dmgmul);
-        monster.invincible = true;
+
         if (monster.health <= 0 && monster.type != "boss") {
             if (monster.monSpiece != "slime") {
                 monster.die_anim();
@@ -1597,6 +1606,9 @@ function attack(magic, monster) {
 
 // 임시 구멍 구현
 function hithole(hole, monster) {
+    if (monster.type = 'wave'){
+        return
+    }
     hole.hp -= 1;
     updateHP();
     monster.destroy();
