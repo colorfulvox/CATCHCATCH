@@ -1208,23 +1208,23 @@ function update(time, delta) {
         // 1번 zombie
         enemySpawn(randomLocation);
         if (10800 < gameTimer &&  gameTimer <= 18000)
-        {addMonster(this, 'alien_plus', 'swarm',120,65,monX,monY,'follower')}
+        {addMonster(this, 'alien_plus', 'swarm',90,65,monX,monY,'follower')}
         else if (18000 < gameTimer){
-            addMonster(this, 'alien_plus','swarm', 240, 75, monX,monY,'follower')}
+            addMonster(this, 'alien_plus','swarm', 160, 75, monX,monY,'follower')}
         else {
         addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");}
     }
     if (gameTimer > 3600 && gameTimer % 120 == 0) {
         // 2번 worm
         enemySpawn(randomLocation);
-        if (21000 <gameTimer && gameTimer <= 34000 ){addMonster(this, 'worm_plus', 'swarm',150,50,monX,monY,'siege')}
-        else if (34000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 300, 60, monX,monY, 'siege')}
+        if (21000 <gameTimer && gameTimer <= 34000 ){addMonster(this, 'worm_plus', 'swarm',100,50,monX,monY,'siege')}
+        else if (34000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 160, 60, monX,monY, 'siege')}
         else if (gameTimer <= 21000){addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege")};
 
     }
     if (gameTimer > 7200 && gameTimer % 300 == 0) {
         enemySpawn(randomLocation);
-        addMonster(this, "sonic", "swarm", 200, 80, monX, monY, "follower");
+        addMonster(this, "sonic", "swarm", 150, 80, monX, monY, "follower");
     }
     if (gameTimer > 12000 && gameTimer % 600 == 0) {
         enemySpawn(randomLocation);
@@ -1322,11 +1322,11 @@ function update(time, delta) {
     // 보스 이동 및 사망 체크
     if (boss_active) {
         for (let i = 0; i < bossSet.children.entries.length; i++) {
-            if (monsterSet.children.entries[i].invincible){
-                monsterSet.children.entries[i]
+            if (bossSet.children.entries[i].invincible){
+                bossSet.children.entries[i]
                 .setTint(0xff0000)
             }
-            else(monsterSet.children.entries[i].anime())
+            else(bossSet.children.entries[i].anime())
 
             if (bossSet.children.entries[i].bossSpiece != "golem") {
                 this.physics.moveToObject(
@@ -1351,6 +1351,8 @@ function update(time, delta) {
                 );
             }
             if (bossSet.children.entries[i].health <= 0) {
+                player.expUp()
+                player.coin += 5;
                 if (bossSet.children.entries[i].bossSpiece == "slime_king") {
                     slime_pattern(
                         this,
