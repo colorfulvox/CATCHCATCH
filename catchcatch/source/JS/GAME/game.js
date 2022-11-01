@@ -98,6 +98,7 @@ export var monsterSet;
 var monster;
 export var bossSet;
 export var bossMagicSet;
+var fireGiantIndex;
 
 var monsterSpawn = 300;
 
@@ -1212,19 +1213,25 @@ function update(time, delta) {
         if (gameTimer > 300 && gameTimer % monsterSpawn == 0) {
             // 1번 zombie
             enemySpawn(randomLocation);
-            if (10800 < gameTimer &&  gameTimer <= 18000)
-            {addMonster(this, 'alien_plus', 'swarm',90,65,monX,monY,'follower')}
-            else if (18000 < gameTimer){
-                addMonster(this, 'alien_plus','swarm', 160, 75, monX,monY,'follower')}
-            else {
-            addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");}
+            if (10800 < gameTimer && gameTimer <= 18000) {
+                addMonster(this, 'alien_plus', 'swarm', 90, 65, monX, monY, 'follower')
+            } else if (18000 < gameTimer) {
+                addMonster(this, 'alien_plus', 'swarm', 160, 75, monX, monY, 'follower')
+            } else {
+                addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");
+            }
         }
         if (gameTimer > 3600 && gameTimer % 180 == 0) {
             // 2번 worm
             enemySpawn(randomLocation);
-            if (21000 <gameTimer && gameTimer <= 34000 ){addMonster(this, 'worm_plus', 'swarm',100,50,monX,monY,'siege')}
-            else if (34000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 160, 60, monX,monY, 'siege')}
-            else if (gameTimer <= 21000){addMonster(this, "worm", "swarm", 45, 40, monX, monY, "siege")};
+            if (21000 < gameTimer && gameTimer <= 34000) {
+                addMonster(this, 'worm_plus', 'swarm', 100, 50, monX, monY, 'siege')
+            } else if (34000 < gameTimer) {
+                addMonster(this, 'worm_plus', 'swarm', 160, 60, monX, monY, 'siege')
+            } else if (gameTimer <= 21000) {
+                addMonster(this, "worm", "swarm", 45, 40, monX, monY, "siege")
+            }
+            ;
 
         }
         if (gameTimer > 7200 && gameTimer % 300 == 0) {
@@ -1241,11 +1248,10 @@ function update(time, delta) {
             addMonster(this, "slime", "swarm", 240, 75, monX, monY, "follower");
         }
         // 몬스터 빅 웨이브
-        if (gameTimer >  8000 && gameTimer < 8200 && gameTimer % 3 == 0) {
+        if (gameTimer > 8000 && gameTimer < 8200 && gameTimer % 3 == 0) {
             enemySpawn(randomLocation);
             addMonster(this, "fly", "swarm", 10, 50, monX, monY, "wave");
-        }
-        else if (20000<gameTimer && gameTimer < 21000 && gameTimer % 3 == 0){
+        } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 == 0) {
             enemySpawn(randomLocation);
             addMonster(this, "fly", "swarm", 100, 50, monX, monY, "wave");
         }
@@ -1307,31 +1313,30 @@ function update(time, delta) {
         // 불거인
         if (gameTimer == 28000) {
             fire_giant = new Boss(this, 500, 30, player.x - 60, player.y - 60, 'fire_giant', 'swarm', 1, 10, 'boss')
-            fire_giant.setDepth(2);
+            fire_giant.setDepth(6);
             fire_giant.anime();
             boss_active = true;
             boss_fire_giant_active = true;
             bossSet.add(fire_giant);
+            fireGiantIndex = bossSet.children.entries.length - 1;
         }
 
         if (gameTimer == 28000) {
             fire_giant_aura = new Boss(this, 10000, 100, player.x - 60, player.y - 60, 'fire_giant_aura', 'swarm', 1, 10, 'boss')
-            fire_giant_aura.setDepth(1);
+            fire_giant_aura.setDepth(5);
             fire_giant_aura.anime();
             bossMagicSet.add(fire_giant_aura);
         }
 
         if (boss_fire_giant_active) {
-            for (let i = 0; i < bossSet.children.entries.length; i++) {
-                var x = bossSet.children.entries[0].x;
-                var y = bossSet.children.entries[0].y;
+            var x = bossSet.children.entries[fireGiantIndex].x;
+            var y = bossSet.children.entries[fireGiantIndex].y;
 
-                var aura = new Boss(this, 10000, 100, x, y, 'fire_giant_aura', 'swarm', 1 + gameTimer / 600, 10, 'boss')
-                bossMagicSet.children.entries[0].destroy();
-                aura.setDepth(1);
-                aura.anime();
-                bossMagicSet.add(aura);
-            }
+            var aura = new Boss(this, 10000, 100, x, y, 'fire_giant_aura', 'swarm', 1 + gameTimer / 600, 10, 'boss')
+            bossMagicSet.children.entries[0].destroy();
+            aura.setDepth(5);
+            aura.anime();
+            bossMagicSet.add(aura);
         }
 
 
