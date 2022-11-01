@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development",
-    "start": "webpack-dev-server --mode development --open"
-  },
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack build"
+   },
   "repository": {
     "type": "git",
     "url": "https://lab.ssafy.com/s07-final/S07P31C106.git"

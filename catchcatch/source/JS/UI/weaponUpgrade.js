@@ -32,21 +32,21 @@ export default function weapon() {
       const img = document.createElement("img");
       if (idx2 === 0) {
         div.setAttribute("class", "fairyicon");
-        div.style.backgroundImage = `url("../images/ui/Icon/char/fairy${iconidx++}.png")`;
+        div.style.backgroundImage = `url("images/ui/Icon/char/fairy${iconidx++}.png")`;
         div.style.backgroundPosition = "center";
         div.style.backgroundRepeat = "no-repeat";
         div.style.backgroundSize = "contain";
       } else {
         div.setAttribute("class", "weaponicon");
         img.setAttribute("class", "weaponImg");
-        div.style.backgroundImage = `url("../images/ui/upgradeicon.png")`;
+        div.style.backgroundImage = `url("images/ui/upgradeicon.png")`;
         div.style.backgroundPosition = "center";
         div.style.backgroundRepeat = "no-repeat";
         div.style.backgroundSize = "contain";
         if (idx2 < el.level) {
-          img.src = "/images/ui/Icon/sample.png";
+          img.src = "images/ui/Icon/sample.png";
         } else {
-          img.src = "/images/ui/Icon/sample.png";
+          img.src = "images/ui/Icon/sample.png";
 
           if (idx2 === 4 || idx2 === 8) {
             div.addEventListener("click", () => {

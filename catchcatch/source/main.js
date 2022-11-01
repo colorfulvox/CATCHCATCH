@@ -10,10 +10,12 @@ import initUpgrade from "./JS/UI/upgrade.js";
 import levelup from "./JS/UI/levelup.js";
 import inGameUI from "./JS/UI/inGameUI.js";
 
+console.log(1);
+
 global.noise = {};
 perlin();
 // localStorage.clear();
-
+console.log(2);
 // 로컬 데이터
 global.LocalData = localStorage.getItem("data");
 if (global.LocalData === null) {
@@ -29,7 +31,7 @@ global.LocalData = JSON.parse(localStorage.getItem("data"));
 // 게임 시작 전 데이터
 global.ChoiceCat = 0;
 global.ChoiceLevel = 0;
-
+console.log(3);
 //경험치
 global.exp = 0;
 global.level = 0;
@@ -57,7 +59,7 @@ function Init() {
   StartPageInit(); //스타트 페이지 init
   CharPageInit(); // 캐릭터 페이지 init
 }
-
+console.log(4);
 function SaveData() {
   localStorage.setItem("data", JSON.stringify(LocalData));
 }

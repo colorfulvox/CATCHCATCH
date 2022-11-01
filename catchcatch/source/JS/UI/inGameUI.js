@@ -55,19 +55,19 @@ export default function inGameUI() {
   speedtxt.setAttribute("class", "speedtxt");
 
   heal.setAttribute("id", "heal");
-  heal.style.backgroundImage = "url('../images/ui/Icon/sample.png')";
+  heal.style.backgroundImage = "url('images/ui/Icon/sample.png')";
   heal.style.backgroundPosition = "center";
   heal.style.backgroundRepeat = "no-repeat";
   heal.style.backgroundSize = "contain";
 
   dmgmul.setAttribute("id", "dmgmul");
-  dmgmul.style.backgroundImage = "url('../images/ui/Icon/sample.png')";
+  dmgmul.style.backgroundImage = "url('images/ui/Icon/sample.png')";
   dmgmul.style.backgroundPosition = "center";
   dmgmul.style.backgroundRepeat = "no-repeat";
   dmgmul.style.backgroundSize = "contain";
 
   speed.setAttribute("id", "speed");
-  speed.style.backgroundImage = "url('../images/ui/Icon/sample.png')";
+  speed.style.backgroundImage = "url('images/ui/Icon/sample.png')";
   speed.style.backgroundPosition = "center";
   speed.style.backgroundRepeat = "no-repeat";
   speed.style.backgroundSize = "contain";
