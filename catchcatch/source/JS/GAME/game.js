@@ -1224,9 +1224,14 @@ function update(time, delta) {
         if (gameTimer > 3600 && gameTimer % 180 == 0) {
             // 2번 worm
             siegeSpawn(randomLocation);
-            if (21000 <gameTimer && gameTimer <= 34000 ){addMonster(this, 'worm_plus', 'swarm',100,50,monX,monY,'siege')}
-            else if (34000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 160, 60, monX,monY, 'siege')}
-            else if (gameTimer <= 21000){addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege")};
+            if (21000 < gameTimer && gameTimer <= 34000) {
+                addMonster(this, 'worm_plus', 'swarm', 100, 50, monX, monY, 'siege')
+            } else if (34000 < gameTimer) {
+                addMonster(this, 'worm_plus', 'swarm', 160, 60, monX, monY, 'siege')
+            } else if (gameTimer <= 21000) {
+                addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege")
+            }
+            ;
 
         }
         if (gameTimer > 7200 && gameTimer % 300 == 0) {
@@ -1327,7 +1332,7 @@ function update(time, delta) {
             var x = bossSet.children.entries[fireGiantIndex].x;
             var y = bossSet.children.entries[fireGiantIndex].y;
 
-            var aura = new Boss(this, 10000, 100, x, y, 'fire_giant_aura', 'swarm', 1 + gameTimer / 600, 10, 'boss')
+            var aura = new Boss(this, 10000, 100, x, y, 'fire_giant_aura', 'swarm', 1 + (28000 - gameTimer) / 600, 10, 'boss')
             bossMagicSet.children.entries[0].destroy();
             aura.setDepth(5);
             aura.anime();
@@ -1365,9 +1370,12 @@ function update(time, delta) {
                     );
                 }
                 if (bossSet.children.entries[i].health <= 0) {
-                    for (let i = 0 ; i< 5; i++){player.expUp()}
-                    if(bossSet.children.entries[i].bossSpiece != 'slime_king'){global.coin += 10}
-                    else (global.coin += 2)
+                    for (let i = 0; i < 5; i++) {
+                        player.expUp()
+                    }
+                    if (bossSet.children.entries[i].bossSpiece != 'slime_king') {
+                        global.coin += 10
+                    } else (global.coin += 2)
                     if (bossSet.children.entries[i].bossSpiece == "slime_king") {
                         slime_pattern(
                             this,
@@ -1379,6 +1387,7 @@ function update(time, delta) {
 
                     if (bossSet.children.entries[i].bossSpiece == "fire_giant") {
                         bossMagicSet.children.entries[0].destroy();
+                        boss_fire_giant_active = false;
                     }
 
                     bossSet.children.entries[i].destroy();
@@ -1447,7 +1456,7 @@ function changeSlot() {
         normalAttackAS = fairySet[nowFairy].as;
         fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
     }
-    
+
     if (
         cursors.slot2.isDown &&
         nowFairy !== 1 &&
@@ -1654,7 +1663,7 @@ function destroyhole(hole, golem) {
     }
 }
 
-function siegeSpawn(){
+function siegeSpawn() {
     randomLocation = Math.floor(Math.random() * 4) + 1;
     if (randomLocation === 1) {
         monX = Phaser.Math.Between(hole.x - 1500, hole.x + 1500);
