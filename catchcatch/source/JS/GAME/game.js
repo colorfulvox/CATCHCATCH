@@ -1226,12 +1226,12 @@ function update(time, delta) {
         else {
         addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");}
     }
-    if (gameTimer > 3600 && gameTimer % 120 == 0) {
+    if (gameTimer > 3600 && gameTimer % 180 == 0) {
         // 2번 worm
         enemySpawn(randomLocation);
         if (21000 <gameTimer && gameTimer <= 34000 ){addMonster(this, 'worm_plus', 'swarm',100,50,monX,monY,'siege')}
         else if (34000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 160, 60, monX,monY, 'siege')}
-        else if (gameTimer <= 21000){addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege")};
+        else if (gameTimer <= 21000){addMonster(this, "worm", "swarm", 45, 40, monX, monY, "siege")};
 
     }
     if (gameTimer > 7200 && gameTimer % 300 == 0) {
@@ -1337,9 +1337,14 @@ function update(time, delta) {
             if (bossSet.children.entries[i].invincible){
                 bossSet.children.entries[i]
                 .setTint(0xff0000)
-            }
-            else(bossSet.children.entries[i].anime())
 
+                this.time.addEvent({
+                    delay: 150,
+                    callback: () => {
+                        if (bossSet.children.entries[i].active = true)
+                        bossSet.children.entries[i].invincible = false;
+                    }});
+            }
             if (bossSet.children.entries[i].bossSpiece != "golem") {
                 this.physics.moveToObject(
                     bossSet.children.entries[i],
@@ -1364,7 +1369,7 @@ function update(time, delta) {
             }
             if (bossSet.children.entries[i].health <= 0) {
                 player.expUp()
-                player.coin += 5;
+                player.coin += 10;
                 if (bossSet.children.entries[i].bossSpiece == "slime_king") {
                     slime_pattern(
                         this,
