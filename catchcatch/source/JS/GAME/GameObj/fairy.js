@@ -112,6 +112,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     this.bombcount = maxBombCount;
     this.maxPierceCount = 99999;
     this.pierceCount = 99999;
+    this.bombtime = 99999;
+    this.evo1 = true;
   }
 
   levelUp() {
@@ -231,7 +233,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         break;
       // 스페이스바로 즉시 폭발 가능
       case 5:
-        this.skillCD = 720;
+        this.skillCD = 300;
         break;
     }
   }
@@ -468,6 +470,9 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.pierceCount = 99999;
         this.velo = 0;
         normalAttackTimer = 0;
+        if(this.evo2){
+          magic.setPosition(input.x + camera.scrollX, input.y + camera.scrollY);
+        }
         break;
     }
     let speed = this.velo;
