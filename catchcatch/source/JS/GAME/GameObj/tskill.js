@@ -9,6 +9,7 @@ export default class TSkill extends Phaser.Physics.Arcade.Image {
     scene.time.addEvent({ delay: enddelaytime, callback: () => { this.destroy(); }, loop: false, startAt: delaytime });
     this.dmg = tower.towerSkillDmg
     this.scale = scalesize;
+
     scene.add.existing(this);
     scene.physics.add.existing(this);
   }

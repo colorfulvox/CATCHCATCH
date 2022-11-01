@@ -32,7 +32,7 @@ export const config = {
         default: "arcade",
         arcade: {
             fps: 20,
-            debug: false,
+            debug: true,
             fixedStep: false,
         },
     },

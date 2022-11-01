@@ -8,11 +8,11 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   skillsprite;
   towerAttackTimer = 0;
   towerSkillAttackTimer = 0;
-  towerAS = [55, 50, 45, 40, 35, 30, 25, 20, 15, 10, 5]; //연사속도
+  towerAS = [50, 47, 44, 41, 38, 35, 32, 29, 26, 23, 20]; //연사속도
   towerASLevel = 0; //연사속도
   towerASMax = 10;
   towerSkillAS = 50; //연사속도
-  towerDmg = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60]; //기본 대미지
+  towerDmg = [20, 23, 26, 29, 32, 35, 38, 41, 44, 47, 50]; //기본 대미지
   towerDmgLevel = 0;
   towerDmgMax = 10;
   towerSkillDmg = 6; //스킬 기본 대미지
@@ -270,14 +270,18 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       let skill;
       if (tower.towerEvelop[0] === true) {
         skill = new TSkill(game, tower, 1000, 3000, 0.01);
+
       } else if (tower.towerEvelop[1] === true) {
-        skill = new TSkill(game, tower, 1000, 10000, 0.05);
+        skill = new TSkill(game, tower, 1000, 10000, 0.01);
+
         skill.dmg = skill.dmg / 2;
       } else if (tower.towerEvelop[2] === true) {
         skill = new TSkill(game, tower, 1000, 3000, 0.01);
+
         mouse.CC = "water"
       } else if (tower.towerEvelop[3] === true) {
         skill = new TSkill(game, tower, 1000, 3000, 0.01);
+
         mouse.CC = "earth"
       }
 
@@ -286,7 +290,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
         skill.body.checkCollision.none = true;
         var hw = skill.body.halfWidth;
         var hh = skill.body.halfHeight;
-        skill.setCircle(hw * 1000, hh - hw * 1000, hh - hw * 1000);
+        skill.setCircle(hw*100, hh - hw*100, hh - hw*100);
 
         towerSkillAttacks.add(skill);
         // console.log(towerSkillAttacks)
