@@ -322,7 +322,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       // 스페이스바로 즉시 폭발 가능
       case 5:
         this.bombtime = 99999;
-        this.skillCD = 720;
+        this.skillCD = 240;
         break;
     }
   }
