@@ -1214,9 +1214,9 @@ function update(time, delta) {
             // 1번 zombie
             enemySpawn(randomLocation);
             if (10800 < gameTimer && gameTimer <= 18000) {
-                addMonster(this, 'alien_plus', 'swarm', 90, 65, monX, monY, 'follower')
+                addMonster(this, 'alien_plus', 'swarm', 60, 60, monX, monY, 'follower')
             } else if (18000 < gameTimer) {
-                addMonster(this, 'alien_plus', 'swarm', 160, 75, monX, monY, 'follower')
+                addMonster(this, 'alien_plus', 'swarm', 120, 75, monX, monY, 'follower')
             } else {
                 addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");
             }
@@ -1255,11 +1255,11 @@ function update(time, delta) {
         if (gameTimer < 3600) {
             monsterSpawn = 90
         } else if (3600 <= gameTimer && gameTimer < 7200) {
-            monsterSpawn = 60
+            monsterSpawn = 70
         } else if (7200 <= gameTimer && gameTimer < 10800) {
-            monsterSpawn = 30
+            monsterSpawn = 50
         } else if (10800 <= gameTimer) {
-            monsterSpawn = 15
+            monsterSpawn = 30
         }
 
 
