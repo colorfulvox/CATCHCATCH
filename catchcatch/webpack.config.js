@@ -3,7 +3,7 @@ const path = require("path");
 
 module.exports = {
   entry: "./source/main.js",
-  output: { path: path.resolve(__dirname, "source"), filename: "main.js" },
+  output: { path: path.resolve(__dirname, "dist"), filename: "main.js" },
   plugins: [
     new HTMLWebpackPlugin({
       template: path.resolve(__dirname, "source", "index.html"),

@@ -309,7 +309,7 @@ function preload() {
     );
     this.load.spritesheet(
         "skill2",
-        "images/attack/weapon/15_loading_spritesheet.png",
+        "m[images/attack/weapon/15_loading_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,

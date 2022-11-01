@@ -14,7 +14,7 @@ export default function initUpgrade() {
 
   upgradeContent.setAttribute("class", "upgradeContent");
 
-  upgradeContent.style.backgroundImage = 'url("../images/ui/upgradebase.png")';
+  upgradeContent.style.backgroundImage = 'url("images/ui/upgradebase.png")';
   upgradeContent.style.backgroundPosition = "center";
   upgradeContent.style.backgroundRepeat = "no-repeat";
   upgradeContent.style.backgroundSize = "contain";

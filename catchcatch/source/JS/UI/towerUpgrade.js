@@ -68,7 +68,7 @@ export default function tower() {
   towerIcons4.setAttribute("class", "towerIcons");
   for (let i = 0; i < 2; i++) {
     const con = document.createElement("div");
-    con.style.backgroundImage = `url("../images/ui/towericonslot.png")`;
+    con.style.backgroundImage = `url("images/ui/towericonslot.png")`;
     con.style.backgroundPosition = "center";
     con.style.backgroundRepeat = "no-repeat";
     con.style.backgroundSize = "cover";
@@ -86,7 +86,7 @@ export default function tower() {
   for (let i = 0; i < 4; i++) {
     const div = document.createElement("div");
     div.setAttribute("class", "property");
-    div.style.backgroundImage = `url("../images/ui/towericonslot.png")`;
+    div.style.backgroundImage = `url("images/ui/towericonslot.png")`;
     div.style.backgroundPosition = "center";
     div.style.backgroundRepeat = "no-repeat";
     div.style.backgroundSize = "cover";
@@ -105,7 +105,7 @@ export default function tower() {
   for (let i = 0; i < 2; i++) {
     const con = document.createElement("div");
     con.setAttribute("class", "con");
-    con.style.backgroundImage = `url("../images/ui/towericonslot.png")`;
+    con.style.backgroundImage = `url("images/ui/towericonslot.png")`;
     con.style.backgroundPosition = "center";
     con.style.backgroundRepeat = "no-repeat";
     con.style.backgroundSize = "cover";
@@ -123,7 +123,7 @@ export default function tower() {
   for (let i = 0; i < 4; i++) {
     const div = document.createElement("div");
     div.setAttribute("class", "property");
-    div.style.backgroundImage = `url("../images/ui/towericonslot.png")`;
+    div.style.backgroundImage = `url("images/ui/towericonslot.png")`;
     div.style.backgroundPosition = "center";
     div.style.backgroundRepeat = "no-repeat";
     div.style.backgroundSize = "cover";
