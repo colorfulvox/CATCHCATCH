@@ -310,7 +310,7 @@ function preload() {
     );
     this.load.spritesheet(
         "skill2",
-        "m[images/attack/weapon/15_loading_spritesheet.png",
+        "images/attack/weapon/15_loading_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
@@ -1223,15 +1223,10 @@ function update(time, delta) {
         }
         if (gameTimer > 3600 && gameTimer % 180 == 0) {
             // 2번 worm
-            enemySpawn(randomLocation);
-            if (21000 < gameTimer && gameTimer <= 34000) {
-                addMonster(this, 'worm_plus', 'swarm', 100, 50, monX, monY, 'siege')
-            } else if (34000 < gameTimer) {
-                addMonster(this, 'worm_plus', 'swarm', 160, 60, monX, monY, 'siege')
-            } else if (gameTimer <= 21000) {
-                addMonster(this, "worm", "swarm", 45, 40, monX, monY, "siege")
-            }
-            ;
+            siegeSpawn(randomLocation);
+            if (21000 <gameTimer && gameTimer <= 34000 ){addMonster(this, 'worm_plus', 'swarm',100,50,monX,monY,'siege')}
+            else if (34000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 160, 60, monX,monY, 'siege')}
+            else if (gameTimer <= 21000){addMonster(this, "worm", "swarm", 45, 40, monX, monY, "siege")};
 
         }
         if (gameTimer > 7200 && gameTimer % 300 == 0) {
@@ -1239,7 +1234,7 @@ function update(time, delta) {
             addMonster(this, "sonic", "swarm", 150, 80, monX, monY, "follower");
         }
         if (gameTimer > 12000 && gameTimer % 600 == 0) {
-            enemySpawn(randomLocation);
+            siegeSpawn(randomLocation);
             addMonster(this, "turtle", "swarm", 300, 30, monX, monY, "siege");
         }
 
@@ -1296,8 +1291,8 @@ function update(time, delta) {
                 this,
                 500,
                 30,
-                player.x + 2000,
-                player.y - 2000,
+                hole.x + 2000,
+                hole.y - 2000,
                 "golem",
                 "swarm",
                 8,
@@ -1370,8 +1365,9 @@ function update(time, delta) {
                     );
                 }
                 if (bossSet.children.entries[i].health <= 0) {
-                    player.expUp()
-                    player.coin += 10;
+                    for (let i = 0 ; i< 5; i++){player.expUp()}
+                    if(bossSet.children.entries[i].bossSpiece != 'slime_king'){global.coin += 10}
+                    else (global.coin += 2)
                     if (bossSet.children.entries[i].bossSpiece == "slime_king") {
                         slime_pattern(
                             this,
@@ -1451,7 +1447,7 @@ function changeSlot() {
         normalAttackAS = fairySet[nowFairy].as;
         fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
     }
-
+    
     if (
         cursors.slot2.isDown &&
         nowFairy !== 1 &&
@@ -1657,6 +1653,24 @@ function destroyhole(hole, golem) {
         golem.destroy();
     }
 }
+
+function siegeSpawn(){
+    randomLocation = Math.floor(Math.random() * 4) + 1;
+    if (randomLocation === 1) {
+        monX = Phaser.Math.Between(hole.x - 500, hole.x + 500);
+        monY = Phaser.Math.Between(hole.y + 500, hole.y + 510);
+    } else if (randomLocation === 2) {
+        monX = Phaser.Math.Between(hole.x - 500, hole.x + 500);
+        monY = Phaser.Math.Between(hole.y - 500, hole.y - 510);
+    } else if (randomLocation === 3) {
+        monX = Phaser.Math.Between(hole.x - 500, hole.x - 500);
+        monY = Phaser.Math.Between(hole.y - 500, hole.y + 500);
+    } else if (randomLocation === 4) {
+        monX = Phaser.Math.Between(hole.x + 500, hole.x + 500);
+        monY = Phaser.Math.Between(hole.y - 500, hole.y + 500);
+    }
+}
+
 
 function enemySpawn(scene) {
     randomLocation = Math.floor(Math.random() * 4) + 1;
