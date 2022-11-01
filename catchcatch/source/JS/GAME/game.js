@@ -32,7 +32,7 @@ export const config = {
         default: "arcade",
         arcade: {
             fps: 20,
-            debug: true,
+            debug: false,
             fixedStep: false,
         },
     },
@@ -1015,14 +1015,14 @@ function create() {
 
     //navi start
     navi = this.add.image(50, 50, "navi").setScrollFactor(0).setScale(0.1);
-    navi.setDepth(2);
+    navi.setDepth(4);
     //navi end
 
     //exp bar start
     expbar = this.add.graphics().setScrollFactor(0);
     expbarBG = this.add.graphics().setScrollFactor(0);
-    expbar.setDepth(3);
-    expbarBG.setDepth(2);
+    expbar.setDepth(4);
+    expbarBG.setDepth(3);
     //exp bar end
 
     // hp bar start
