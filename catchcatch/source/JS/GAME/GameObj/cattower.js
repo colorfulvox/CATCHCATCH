@@ -63,7 +63,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     let magicright = new TMagic(game, tower);
     if (
       mouse.type !== "boss" ||
-      (mouse.type === "boss" && mouse.bossSpiece !== "slime_king")
+      (mouse.type === "boss" && mouse.bossSpiece !== "golem")
     ) {
       console.log(mouse);
       if (this.isthree === false && this.istwo === false) {
@@ -128,7 +128,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     console.log(tower.istwo, tower.isthree);
     if (
       mouse.type !== "boss" ||
-      (mouse.type === "boss" && mouse.bossSpiece !== "slime_king")
+      (mouse.type === "boss" && mouse.bossSpiece !== "golem")
     ) {
       if (tower.isthree === false && tower.istwo === false) {
         game.physics.moveTo(magic, mouse.x, mouse.y, speed);
@@ -269,7 +269,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     // console.log(1234)
     if (
       mouse.type !== "boss" ||
-      (mouse.type === "boss" && mouse.bossSpiece !== "slime_king")
+      (mouse.type === "boss" && mouse.bossSpiece !== "golem")
     ) {
       let skill;
       if (tower.towerEvelop[0] === true) {
