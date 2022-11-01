@@ -1622,7 +1622,7 @@ function attack(magic, monster) {
 
 // 임시 구멍 구현
 function hithole(hole, monster) {
-    if (monster.type === 'wave') {
+    if (monster.type === 'wave' && monster.type === 'follower') {
         return
     }
     hole.hp -= 1;
