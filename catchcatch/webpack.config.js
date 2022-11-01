@@ -13,7 +13,7 @@ module.exports = {
     rules: [
       {
         resourceQuery: /raw/,
-        type: 'asset/source'
+        type: "asset/source",
       },
       {
         test: /\.(jpe?g|gif|png|svg)$/i,
