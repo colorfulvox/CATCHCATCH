@@ -49,7 +49,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
   scale_Circle() {
     this.setScale(this.circlesize);
-    console.log(this);
     let hw = this.body.halfWidth;
     let hh = this.body.halfHeight;
     this.setCircle(hw * 5, hh - hw * 5, hh - hw * 5);
@@ -65,7 +64,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       mouse.type !== "boss" ||
       (mouse.type === "boss" && mouse.bossSpiece !== "golem")
     ) {
-      console.log(mouse);
       if (this.isthree === false && this.istwo === false) {
         towerAttacks.add(magic);
       } else if (this.isthree === false && this.istwo === true) {
@@ -125,7 +123,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       vyp =
         tower.y - d * Math.sin(((180 - (angle_mouse - 30)) * Math.PI) / 180);
     }
-    console.log(tower.istwo, tower.isthree);
     if (
       mouse.type !== "boss" ||
       (mouse.type === "boss" && mouse.bossSpiece !== "golem")
@@ -162,7 +159,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
         thtower.bulletLevel += 1;
       }
       thtower.level++;
-      console.log(thtower);
       tower();
     }
   }
