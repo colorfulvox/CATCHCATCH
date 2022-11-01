@@ -1177,14 +1177,7 @@ function update(time, delta) {
         for (let i = 0; i < monsterSet.children.entries.length; i++) {
             if (monsterSet.children.entries[i].invincible){
                 monsterSet.children.entries[i]
-                .setTint(0xff0000)
-                this.time.addEvent({
-                    delay: 150,
-                    callback: () => {if (monsterSet.children.entries[i].active == true){
-                        monsterSet.children.entries[i].invincible = false;
-                        monsterSet.children.entries[i].anime()
-                    }}
-            })}
+                .setTint(0xff0000)}
 
             if (monsterSet.children.entries[i].type == "follower" || monsterSet.children.entries[i].type == "wave") {
                 this.physics.moveToObject(
@@ -1337,13 +1330,6 @@ function update(time, delta) {
             if (bossSet.children.entries[i].invincible){
                 bossSet.children.entries[i]
                 .setTint(0xff0000)
-
-                this.time.addEvent({
-                    delay: 150,
-                    callback: () => {
-                        if (bossSet.children.entries[i].active = true)
-                        bossSet.children.entries[i].invincible = false;
-                    }});
             }
             if (bossSet.children.entries[i].bossSpiece != "golem") {
                 this.physics.moveToObject(

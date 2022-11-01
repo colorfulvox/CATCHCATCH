@@ -219,11 +219,12 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
       alien.health -= magic.dmg;
       //   console.log(alien.health);
-      alien.invincible = true;
+      
       if (alien.health <= 0) {
         alien.destroy();
         monsterCount -= 1;
       }
+      alien.invincible = true;
     }
   }
 
