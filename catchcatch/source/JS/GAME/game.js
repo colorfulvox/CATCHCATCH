@@ -1050,374 +1050,384 @@ function update(time, delta) {
     hpbar.setPosition(player.x - 30, player.y + 40);
     hpbarBG.setPosition(player.x - 30, player.y + 40);
     // Health bar end
-    if (frameTime > 16.5) {  
+    if (frameTime > 16.5) {
         frameTime = 0;
-    
-
-    var snappedChunkX =
-        this.chunkSize *
-        this.tileSize *
-        Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
-    var snappedChunkY =
-        this.chunkSize *
-        this.tileSize *
-        Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
-
-    snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
-    snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
-
-    for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
-        for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
-            var existingChunk = getChunk(x, y);
-
-            if (existingChunk == null) {
-                var newChunk = new Chunk(this, x, y);
-                chunks.push(newChunk);
-            }
-        }
-    }
-    for (var i = 0; i < chunks.length; i++) {
-        var chunk = chunks[i];
-
-        if (
-            Phaser.Math.Distance.Between(
-                snappedChunkX,
-                snappedChunkY,
-                chunk.x,
-                chunk.y
-            ) < 3
-        ) {
-            if (chunk !== null) {
-                chunk.load();
-            }
-        } else {
-            if (chunk !== null) {
-                chunk.unload();
-            }
-        }
-    }
-
-    this.followPoint.x = player.x;
-    this.followPoint.y = player.y;
-
-    this.cameras.main.startFollow(player, false);
-    //map end
-
-    //navi start
-
-    navi.rotation = Phaser.Math.Angle.Between(hole.x, hole.y, player.x, player.y);
-
-    //navi end
-
-    //player start
-    changeSlot();
-    normalAttackAS = fairySet[nowFairy].as;
-    if (normalAttackTimer > normalAttackAS) {
-        control = false;
-    } else {
-        normalAttackTimer++;
-    }
-    //mouse clicked
-    if (mouse.leftButtonDown() && !control && fairySet[nowFairy].bombcount > 0) {
-        magic = new Magic(this, fairySet[nowFairy]);
-        magic.setDepth(2);
-        this.physics.add.overlap(
-            magic,
-            monsterSet,
-            fairySet[nowFairy].attack,
-            null,
-            this
-        );
-        fairySet[nowFairy].normalAttack(magic);
-    }
-
-    for (let i = 0; i < 5; i++) {
-        if (fairySet[i].timer < fairySet[i].skillCD) {
-            fairySet[i].timer++;
-        } else {
-            fairySet[i].skillUse = false;
-        }
-    }
-
-    if (cursors.skill.isDown && !fairySet[nowFairy].skillUse) {
-        fairySet[nowFairy].skillFire();
-    }
-
-    player.healCount++;
-    if (player.healCount > player.maxHealCount) {
-        player.healCount = 0;
-        player.health += player.heal;
-        if (player.health > player.maxHealth) {
-            player.health = player.maxHealth;
-        }
-        console.log(player.health);
-    }
-
-    if (player.invincible) {
-        hitTimer++;
-        if (hitTimer >= 15) {
-            hitTimer = 0;
-
-            if (hitVisible) {
-                hitVisible = false;
-            } else {
-                hitVisible = true;
-            }
-
-            player.setVisible(hitVisible);
-        }
-    }
-
-    //player end
-
-    //enemy start
-
-    // 몬스터가 유저 따라가게함
-    if (monsterCount !== 0) {
-        for (let i = 0; i < monsterSet.children.entries.length; i++) {
-            if (monsterSet.children.entries[i].invincible){
-                monsterSet.children.entries[i]
-                .setTint(0xff0000)}
-
-            if (monsterSet.children.entries[i].type == "follower" || monsterSet.children.entries[i].type == "wave") {
-                this.physics.moveToObject(
-                    monsterSet.children.entries[i],
-                    player,
-                    monsterSet.children.entries[i].velo
-                );
-            }
-            // 몬스터가 홀에 도달하게 함
-            else if (monsterSet.children.entries[i].type == "siege") {
-                this.physics.moveToObject(
-                    monsterSet.children.entries[i],
-                    hole,
-                    monsterSet.children.entries[i].velo
-                );
-            }
-        }
-    }
-
-    if (hole.hp <= 0) {
-        $this.pause();
-        updateHP();
-        gameover();
-    }
-
-    gameTimer++;
-    Updatetimer();
-
-    // 플레이어 기준랜덤 위치에 몬스터 생성
-    // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
-    // monsterSpawn 초기값은 300
-    if (gameTimer > 300 && gameTimer % monsterSpawn == 0) {
-        // 1번 zombie
-        enemySpawn(randomLocation);
-        if (10800 < gameTimer &&  gameTimer <= 18000)
-        {addMonster(this, 'alien_plus', 'swarm',90,65,monX,monY,'follower')}
-        else if (18000 < gameTimer){
-            addMonster(this, 'alien_plus','swarm', 160, 75, monX,monY,'follower')}
-        else {
-        addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");}
-    }
-    if (gameTimer > 3600 && gameTimer % 180 == 0) {
-        // 2번 worm
-        enemySpawn(randomLocation);
-        if (21000 <gameTimer && gameTimer <= 34000 ){addMonster(this, 'worm_plus', 'swarm',100,50,monX,monY,'siege')}
-        else if (34000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 160, 60, monX,monY, 'siege')}
-        else if (gameTimer <= 21000){addMonster(this, "worm", "swarm", 45, 40, monX, monY, "siege")};
-
-    }
-    if (gameTimer > 7200 && gameTimer % 300 == 0) {
-        enemySpawn(randomLocation);
-        addMonster(this, "sonic", "swarm", 150, 80, monX, monY, "follower");
-    }
-    if (gameTimer > 12000 && gameTimer % 600 == 0) {
-        enemySpawn(randomLocation);
-        addMonster(this, "turtle", "swarm", 300, 30, monX, monY, "siege");
-    }
-
-    if (gameTimer > 16000 && gameTimer % 400 == 0) {
-        enemySpawn(randomLocation);
-        addMonster(this, "slime", "swarm", 240, 75, monX, monY, "follower");
-    }
-    // 몬스터 빅 웨이브
-    if (gameTimer >  8000 && gameTimer < 8200 && gameTimer % 3 == 0) {
-        enemySpawn(randomLocation);
-        addMonster(this, "fly", "swarm", 10, 50, monX, monY, "wave");
-    }
-    else if (20000<gameTimer && gameTimer < 21000 && gameTimer % 3 == 0){
-        enemySpawn(randomLocation);
-        addMonster(this, "fly", "swarm", 100, 50, monX, monY, "wave");
-    }
-
-    // 스폰 주기 
-    if (gameTimer < 3600){
-        monsterSpawn = 90
-    }
-    else if (3600 <=gameTimer && gameTimer < 7200){
-        monsterSpawn = 60
-    }
-    else if (7200 <= gameTimer && gameTimer < 10800){
-        monsterSpawn = 30
-    }
-    else if (10800 <= gameTimer){
-        monsterSpawn = 15
-    }
-    
-
-    // 보스
-
-    // 슬라임
-    if (gameTimer == 10800) {
-        slime_king = new Boss(
-            this,
-            400,
-            80,
-            player.x + 300,
-            player.y + 300,
-            "slime_king",
-            "swarm",
-            5,
-            1,
-            "boss"
-        );
-        slime_king.setDepth(2);
-        slime_king.anime();
-        boss_active = true;
-        bossSet.add(slime_king);
-    }
-
-    // 골렘
-    if (gameTimer == 21000) {
-        golem = new Boss(
-            this,
-            500,
-            30,
-            player.x + 2000,
-            player.y - 2000,
-            "golem",
-            "swarm",
-            8,
-            10,
-            "boss"
-        );
-        golem.setDepth(2);
-        golem.anime();
-        boss_active = true;
-        bossSet.add(golem);
-    }
-
-    // 불거인
-    if (gameTimer == 28000) {
-        fire_giant_aura = new Boss(this, 10000, 100, player.x - 600, player.y - 600, 'fire_giant_aura', 'swarm', 5, 10, 'boss')
-        fire_giant_aura.setDepth(1);
-        fire_giant_aura.anime();
-        boss_fire_giant_active = true;
-        bossMagicSet.add(fire_giant_aura);
-    }
-    if (gameTimer == 28000) {
-        fire_giant = new Boss(this, 500, 30, player.x - 600, player.y - 600, 'fire_giant', 'swarm', 1, 10, 'boss')
-        fire_giant.setDepth(2);
-        fire_giant.anime();
-        boss_active = true;
-        bossSet.add(fire_giant);
-    }
 
 
-    // 보스 이동 및 사망 체크
-    if (boss_active) {
-        for (let i = 0; i < bossSet.children.entries.length; i++) {
-            if (bossSet.children.entries[i].invincible){
-                bossSet.children.entries[i]
-                .setTint(0xff0000)
-            }
-            if (bossSet.children.entries[i].bossSpiece != "golem") {
-                this.physics.moveToObject(
-                    bossSet.children.entries[i],
-                    player,
-                    bossSet.children.entries[i].velo
-                );
-                if (bossSet.children.entries[i].bossSpiece == "fire_giant") {
-                    if (boss_fire_giant_active) {
-                        this.physics.moveToObject(
-                            bossMagicSet.children.entries[0],
-                            bossSet.children.entries[i],
-                            bossMagicSet.children.entries[0].velo
-                        );
-                    }
+        var snappedChunkX =
+            this.chunkSize *
+            this.tileSize *
+            Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
+        var snappedChunkY =
+            this.chunkSize *
+            this.tileSize *
+            Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
+
+        snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
+        snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
+
+        for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
+            for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
+                var existingChunk = getChunk(x, y);
+
+                if (existingChunk == null) {
+                    var newChunk = new Chunk(this, x, y);
+                    chunks.push(newChunk);
                 }
-            } else if (bossSet.children.entries[i].bossSpiece == "golem") {
-                this.physics.moveToObject(
-                    bossSet.children.entries[i],
-                    hole,
-                    bossSet.children.entries[i].velo
-                );
             }
-            if (bossSet.children.entries[i].health <= 0) {
-                player.expUp()
-                player.coin += 10;
-                if (bossSet.children.entries[i].bossSpiece == "slime_king") {
-                    slime_pattern(
-                        this,
-                        bossSet.children.entries[i].pt,
-                        bossSet.children.entries[i].x,
-                        bossSet.children.entries[i].y
+        }
+        for (var i = 0; i < chunks.length; i++) {
+            var chunk = chunks[i];
+
+            if (
+                Phaser.Math.Distance.Between(
+                    snappedChunkX,
+                    snappedChunkY,
+                    chunk.x,
+                    chunk.y
+                ) < 3
+            ) {
+                if (chunk !== null) {
+                    chunk.load();
+                }
+            } else {
+                if (chunk !== null) {
+                    chunk.unload();
+                }
+            }
+        }
+
+        this.followPoint.x = player.x;
+        this.followPoint.y = player.y;
+
+        this.cameras.main.startFollow(player, false);
+        //map end
+
+        //navi start
+
+        navi.rotation = Phaser.Math.Angle.Between(hole.x, hole.y, player.x, player.y);
+
+        //navi end
+
+        //player start
+        changeSlot();
+        normalAttackAS = fairySet[nowFairy].as;
+        if (normalAttackTimer > normalAttackAS) {
+            control = false;
+        } else {
+            normalAttackTimer++;
+        }
+        //mouse clicked
+        if (mouse.leftButtonDown() && !control && fairySet[nowFairy].bombcount > 0) {
+            magic = new Magic(this, fairySet[nowFairy]);
+            magic.setDepth(2);
+            this.physics.add.overlap(
+                magic,
+                monsterSet,
+                fairySet[nowFairy].attack,
+                null,
+                this
+            );
+            fairySet[nowFairy].normalAttack(magic);
+        }
+
+        for (let i = 0; i < 5; i++) {
+            if (fairySet[i].timer < fairySet[i].skillCD) {
+                fairySet[i].timer++;
+            } else {
+                fairySet[i].skillUse = false;
+            }
+        }
+
+        if (cursors.skill.isDown && !fairySet[nowFairy].skillUse) {
+            fairySet[nowFairy].skillFire();
+        }
+
+        player.healCount++;
+        if (player.healCount > player.maxHealCount) {
+            player.healCount = 0;
+            player.health += player.heal;
+            if (player.health > player.maxHealth) {
+                player.health = player.maxHealth;
+            }
+        }
+
+        if (player.invincible) {
+            hitTimer++;
+            if (hitTimer >= 15) {
+                hitTimer = 0;
+
+                if (hitVisible) {
+                    hitVisible = false;
+                } else {
+                    hitVisible = true;
+                }
+
+                player.setVisible(hitVisible);
+            }
+        }
+
+        //player end
+
+        //enemy start
+
+        // 몬스터가 유저 따라가게함
+        if (monsterCount !== 0) {
+            for (let i = 0; i < monsterSet.children.entries.length; i++) {
+                if (monsterSet.children.entries[i].invincible) {
+                    monsterSet.children.entries[i]
+                        .setTint(0xff0000)
+                }
+
+                if (monsterSet.children.entries[i].type == "follower" || monsterSet.children.entries[i].type == "wave") {
+                    this.physics.moveToObject(
+                        monsterSet.children.entries[i],
+                        player,
+                        monsterSet.children.entries[i].velo
                     );
                 }
-
-                if (bossSet.children.entries[i].bossSpiece == "fire_giant"){
-                    bossMagicSet.children.entries[0].destroy();
-                }
-
-                bossSet.children.entries[i].destroy();
-                if (bossSet.children.entries.length == 0) {
-                    boss_active = false;
+                // 몬스터가 홀에 도달하게 함
+                else if (monsterSet.children.entries[i].type == "siege") {
+                    this.physics.moveToObject(
+                        monsterSet.children.entries[i],
+                        hole,
+                        monsterSet.children.entries[i].velo
+                    );
                 }
             }
         }
-    }
 
-    for (let i = magics.length - 1; i >= 0; i--) {
-        magics[i].timer++;
-        if (magics[i].timer == magics[i].lifetime) {
-            magics[i].destroy();
-            magics.splice(i, 1);
+        if (hole.hp <= 0) {
+            $this.pause();
+            updateHP();
+            gameover();
         }
-    }
+
+        gameTimer++;
+        Updatetimer();
+
+        // 플레이어 기준랜덤 위치에 몬스터 생성
+        // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
+        // monsterSpawn 초기값은 300
+        if (gameTimer > 300 && gameTimer % monsterSpawn == 0) {
+            // 1번 zombie
+            enemySpawn(randomLocation);
+            if (10800 < gameTimer &&  gameTimer <= 18000)
+            {addMonster(this, 'alien_plus', 'swarm',90,65,monX,monY,'follower')}
+            else if (18000 < gameTimer){
+                addMonster(this, 'alien_plus','swarm', 160, 75, monX,monY,'follower')}
+            else {
+            addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");}
+        }
+        if (gameTimer > 3600 && gameTimer % 180 == 0) {
+            // 2번 worm
+            enemySpawn(randomLocation);
+            if (21000 <gameTimer && gameTimer <= 34000 ){addMonster(this, 'worm_plus', 'swarm',100,50,monX,monY,'siege')}
+            else if (34000 < gameTimer){addMonster(this,'worm_plus', 'swarm', 160, 60, monX,monY, 'siege')}
+            else if (gameTimer <= 21000){addMonster(this, "worm", "swarm", 45, 40, monX, monY, "siege")};
+
+        }
+        if (gameTimer > 7200 && gameTimer % 300 == 0) {
+            enemySpawn(randomLocation);
+            addMonster(this, "sonic", "swarm", 150, 80, monX, monY, "follower");
+        }
+        if (gameTimer > 12000 && gameTimer % 600 == 0) {
+            enemySpawn(randomLocation);
+            addMonster(this, "turtle", "swarm", 300, 30, monX, monY, "siege");
+        }
+
+        if (gameTimer > 16000 && gameTimer % 400 == 0) {
+            enemySpawn(randomLocation);
+            addMonster(this, "slime", "swarm", 240, 75, monX, monY, "follower");
+        }
+        // 몬스터 빅 웨이브
+        if (gameTimer >  8000 && gameTimer < 8200 && gameTimer % 3 == 0) {
+            enemySpawn(randomLocation);
+            addMonster(this, "fly", "swarm", 10, 50, monX, monY, "wave");
+        }
+        else if (20000<gameTimer && gameTimer < 21000 && gameTimer % 3 == 0){
+            enemySpawn(randomLocation);
+            addMonster(this, "fly", "swarm", 100, 50, monX, monY, "wave");
+        }
+
+        // 스폰 주기
+        if (gameTimer < 3600) {
+            monsterSpawn = 90
+        } else if (3600 <= gameTimer && gameTimer < 7200) {
+            monsterSpawn = 60
+        } else if (7200 <= gameTimer && gameTimer < 10800) {
+            monsterSpawn = 30
+        } else if (10800 <= gameTimer) {
+            monsterSpawn = 15
+        }
 
 
-    //enemy end
+        // 보스
 
-    //tower start
+        // 슬라임
+        if (gameTimer == 10800) {
+            slime_king = new Boss(
+                this,
+                400,
+                80,
+                player.x + 300,
+                player.y + 300,
+                "slime_king",
+                "swarm",
+                5,
+                1,
+                "boss"
+            );
+            slime_king.setDepth(2);
+            slime_king.anime();
+            boss_active = true;
+            bossSet.add(slime_king);
+        }
 
-    towerLU.towerAttackTimer++;
-    towerRU.towerAttackTimer++;
-    towerLD.towerAttackTimer++;
-    towerRD.towerAttackTimer++;
+        // 골렘
+        if (gameTimer == 21000) {
+            golem = new Boss(
+                this,
+                500,
+                30,
+                player.x + 2000,
+                player.y - 2000,
+                "golem",
+                "swarm",
+                8,
+                10,
+                "boss"
+            );
+            golem.setDepth(2);
+            golem.anime();
+            boss_active = true;
+            bossSet.add(golem);
+        }
 
-    towerLU.towerSkillAttackTimer++;
-    towerRU.towerSkillAttackTimer++;
-    towerLD.towerSkillAttackTimer++;
-    towerRD.towerSkillAttackTimer++;
-    //tower end
+        // 불거인
+        if (gameTimer == 28000) {
+            fire_giant = new Boss(this, 500, 30, player.x - 60, player.y - 60, 'fire_giant', 'swarm', 1, 10, 'boss')
+            fire_giant.setDepth(2);
+            fire_giant.anime();
+            boss_active = true;
+            boss_fire_giant_active = true;
+            bossSet.add(fire_giant);
+        }
+
+        if (gameTimer == 28000) {
+            fire_giant_aura = new Boss(this, 10000, 100, player.x - 60, player.y - 60, 'fire_giant_aura', 'swarm', 1, 10, 'boss')
+            fire_giant_aura.setDepth(1);
+            fire_giant_aura.anime();
+            bossMagicSet.add(fire_giant_aura);
+        }
+
+        if (boss_fire_giant_active) {
+            for (let i = 0; i < bossSet.children.entries.length; i++) {
+                var x = bossSet.children.entries[0].x;
+                var y = bossSet.children.entries[0].y;
+
+                var aura = new Boss(this, 10000, 100, x, y, 'fire_giant_aura', 'swarm', 1 + gameTimer / 600, 10, 'boss')
+                bossMagicSet.children.entries[0].destroy();
+                aura.setDepth(1);
+                aura.anime();
+                bossMagicSet.add(aura);
+            }
+        }
 
 
+        // 보스 이동 및 사망 체크
+        if (boss_active) {
+            for (let i = 0; i < bossSet.children.entries.length; i++) {
+                if (bossSet.children.entries[i].invincible) {
+                    bossSet.children.entries[i]
+                        .setTint(0xff0000)
+                }
+                if (bossSet.children.entries[i].bossSpiece != "golem") {
+                    this.physics.moveToObject(
+                        bossSet.children.entries[i],
+                        player,
+                        bossSet.children.entries[i].velo
+                    );
+                    if (bossSet.children.entries[i].bossSpiece == "fire_giant") {
+                        if (boss_fire_giant_active) {
+                            this.physics.moveToObject(
+                                bossMagicSet.children.entries[0],
+                                bossSet.children.entries[i],
+                                bossMagicSet.children.entries[0].velo
+                            );
+                        }
+                    }
+                } else if (bossSet.children.entries[i].bossSpiece == "golem") {
+                    this.physics.moveToObject(
+                        bossSet.children.entries[i],
+                        hole,
+                        bossSet.children.entries[i].velo
+                    );
+                }
+                if (bossSet.children.entries[i].health <= 0) {
+                    player.expUp()
+                    player.coin += 10;
+                    if (bossSet.children.entries[i].bossSpiece == "slime_king") {
+                        slime_pattern(
+                            this,
+                            bossSet.children.entries[i].pt,
+                            bossSet.children.entries[i].x,
+                            bossSet.children.entries[i].y
+                        );
+                    }
 
-    //exp bar start
-    expbar.clear();
+                    if (bossSet.children.entries[i].bossSpiece == "fire_giant") {
+                        bossMagicSet.children.entries[0].destroy();
+                    }
 
-    //  BG
-    expbarBG.fillStyle(0x000000);
-    expbarBG.fillRect(0, 0, this.cameras.main.worldView.width, 16); // x y 가로길이, 세로길이
+                    bossSet.children.entries[i].destroy();
+                    if (bossSet.children.entries.length == 0) {
+                        boss_active = false;
+                    }
+                }
+            }
+        }
+
+        for (let i = magics.length - 1; i >= 0; i--) {
+            magics[i].timer++;
+            if (magics[i].timer == magics[i].lifetime) {
+                magics[i].destroy();
+                magics.splice(i, 1);
+            }
+        }
 
 
-    expbar.fillStyle(0xff0000);
-    expbar.fillRect(
-        0,
-        0,
-        this.cameras.main.worldView.width * (player.exp / player.maxExp),
-        16
-    );
+        //enemy end
+
+        //tower start
+
+        towerLU.towerAttackTimer++;
+        towerRU.towerAttackTimer++;
+        towerLD.towerAttackTimer++;
+        towerRD.towerAttackTimer++;
+
+        towerLU.towerSkillAttackTimer++;
+        towerRU.towerSkillAttackTimer++;
+        towerLD.towerSkillAttackTimer++;
+        towerRD.towerSkillAttackTimer++;
+        //tower end
+
+
+        //exp bar start
+        expbar.clear();
+
+        //  BG
+        expbarBG.fillStyle(0x000000);
+        expbarBG.fillRect(0, 0, this.cameras.main.worldView.width, 16); // x y 가로길이, 세로길이
+
+
+        expbar.fillStyle(0xff0000);
+        expbar.fillRect(
+            0,
+            0,
+            this.cameras.main.worldView.width * (player.exp / player.maxExp),
+            16
+        );
     }    //exp bar end
 }
 
@@ -1611,7 +1621,7 @@ function attack(magic, monster) {
 
 // 임시 구멍 구현
 function hithole(hole, monster) {
-    if (monster.type === 'wave'){
+    if (monster.type === 'wave') {
         return
     }
     hole.hp -= 1;
@@ -1637,7 +1647,6 @@ function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
 }
 
 function destroyhole(hole, golem) {
-    console.log("작동");
     if (golem.bossSpiece == "golem") {
         hole.hp -= 9999;
         golem.destroy();
