@@ -9,15 +9,15 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   invincible = false;
   monSpecie;
   cc;
-  constructor(scene, maxHealth, velo, randomX, randomY, monSpiece, anim,type) {
+  constructor(scene, maxHealth, velo, randomX, randomY, monSpecie, anim,type) {
     scene.time.addEvent({ delay: 400, callback: () => { if(this.active===true){this.invincible = false; this.anime()}}, loop: true });
-    super(scene, randomX, randomY, monSpiece);
+    super(scene, randomX, randomY, monSpecie);
     this.maxHealth = maxHealth;
     this.health = maxHealth;
     this.velocity = velo;
     this.alpha = 1;
     this.anim = anim;
-    this.monSpecie = monSpiece;
+    this.monSpecie = monSpecie;
     this.type = type;
     this.cc = '';
     this.scale = 1;

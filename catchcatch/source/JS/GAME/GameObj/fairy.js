@@ -62,8 +62,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         dmg_bonus,
         range,
         as,
-        as_bonus,
-        velo,
+        asBonus,
+        velocity,
         fairyNum,
         player,
         size,
@@ -79,8 +79,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.dmg_bonus = dmg_bonus;
         this.range = range;
         this.as = as;
-        this.as_bonus = as_bonus;
-        this.velocity = velo;
+        this.asBonus = asBonus;
+        this.velocity = velocity;
         this.size = size;
         this.spriteScale = spriteScale;
         scene.add.existing(this);
@@ -171,7 +171,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
                 this.range += 2;
                 break;
             case 4:
-                this.as -= this.as_bonus;
+                this.as -= this.asBonus;
                 break;
             case 5:
                 this.maxBombCount++;
@@ -184,13 +184,13 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.level = 3;
         switch (this.fairyNum) {
             case 1:
-                this.as -= this.as_bonus;
+                this.as -= this.asBonus;
                 break;
             case 2:
-                this.as -= this.as_bonus;
+                this.as -= this.asBonus;
                 break;
             case 3:
-                this.as -= this.as_bonus;
+                this.as -= this.asBonus;
                 break;
             case 4:
                 this.bounceCount += 3;
@@ -264,7 +264,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
                 this.range += 2;
                 break;
             case 4:
-                this.as -= this.as_bonus;
+                this.as -= this.asBonus;
                 break;
             case 5:
                 this.maxBombCount++;
@@ -277,13 +277,13 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.level = 7;
         switch (this.fairyNum) {
             case 1:
-                this.as -= this.as_bonus;
+                this.as -= this.asBonus;
                 break;
             case 2:
-                this.as -= this.as_bonus;
+                this.as -= this.asBonus;
                 break;
             case 3:
-                this.as -= this.as_bonus;
+                this.as -= this.asBonus;
                 break;
             case 4:
                 this.bounceCount += 3;
@@ -373,8 +373,6 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
         magic.anims.play("magic" + this.fairyNum, true);
 
-        let normalAttackTimer;
-
         switch (this.fairyNum) {
             case 1:
                 if (this.attackCount > 0) {
@@ -446,25 +444,25 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
                     if (angle_mouse >= 0) {
                         if (0 <= angle_mouse - 30 <= 90) {
-                            vxm = this.x + d * Math.cos(((angle_mouse - 30) * Math.PI) / 180);
-                            vym = this.y - d * Math.sin(((angle_mouse - 30) * Math.PI) / 180);
+                            this.vxm = this.x + d * Math.cos(((angle_mouse - 30) * Math.PI) / 180);
+                            this.vym = this.y - d * Math.sin(((angle_mouse - 30) * Math.PI) / 180);
                         }
 
                         if (0 <= angle_mouse + 30 <= 90) {
-                            vxp = this.x + d * Math.cos(((angle_mouse + 30) * Math.PI) / 180);
-                            vyp = this.y - d * Math.sin(((angle_mouse + 30) * Math.PI) / 180);
+                            this.vxp = this.x + d * Math.cos(((angle_mouse + 30) * Math.PI) / 180);
+                            this.vyp = this.y - d * Math.sin(((angle_mouse + 30) * Math.PI) / 180);
                         }
                     } else {
                         if (0 <= angle_mouse + 30) {
-                            vxm = this.x + d * Math.cos(((angle_mouse + 30) * Math.PI) / 180);
-                            vym = this.y - d * Math.sin(((angle_mouse + 30) * Math.PI) / 180);
+                            this.vxm = this.x + d * Math.cos(((angle_mouse + 30) * Math.PI) / 180);
+                            this.vym = this.y - d * Math.sin(((angle_mouse + 30) * Math.PI) / 180);
                         } else if (-180 < angle_mouse + 30) {
-                            vxm = this.x + d * Math.cos((-(angle_mouse + 30) * Math.PI) / 180);
-                            vym = this.y + d * Math.sin((-(angle_mouse + 30) * Math.PI) / 180);
+                            this.vxm = this.x + d * Math.cos((-(angle_mouse + 30) * Math.PI) / 180);
+                            this.vym = this.y + d * Math.sin((-(angle_mouse + 30) * Math.PI) / 180);
                         }
-                        vxp =
+                        this.vxp =
                             this.x - d * Math.cos(((180 - (angle_mouse - 30)) * Math.PI) / 180);
-                        vyp =
+                        this.vyp =
                             this.y - d * Math.sin(((180 - (angle_mouse - 30)) * Math.PI) / 180);
                     }
 
@@ -505,14 +503,14 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
             let angle2 = Phaser.Math.Angle.Between(
                 this.x,
                 this.y,
-                vxp,
-                vyp
+                this.vxp,
+                this.vyp
             );
             let angle3 = Phaser.Math.Angle.Between(
                 this.x,
                 this.y,
-                vxm,
-                vym
+                this.vxm,
+                this.vym
             );
 
             angle2 = ((angle2 + Math.PI / 2) * 180) / Math.PI + 90;

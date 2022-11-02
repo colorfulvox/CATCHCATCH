@@ -80,7 +80,6 @@ let map;
 let chunks = [];
 export let mapSize = 16000;
 export let camera;
-let controls;
 //map end
 let frameTime = 0;
 //navi start
