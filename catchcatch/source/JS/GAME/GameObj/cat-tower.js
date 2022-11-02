@@ -194,9 +194,9 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     if (thTower.level >= 10) {
       if (
         thTower.circleSizeLevel < 10 &&
-        player.coin >= thTower.circleSizeCost[thTower.circleSizeLevel]
+        player.coin >= thTower.circleSizeCost[thTower.circleSizeLevel + 1]
       ) {
-        player.coin -= thTower.circleSizeCost[thTower.circleSizeLevel];
+        player.coin -= thTower.circleSizeCost[thTower.circleSizeLevel + 1];
         thTower.circlesize += 0.01;
         thTower.circleSizeLevel++;
         thTower.level++;
@@ -210,9 +210,9 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     if (thTower.level >= 10) {
       if (
         thTower.towerASLevel < 10 &&
-        player.coin >= thTower.towerASCost[thTower.towerASLevel]
+        player.coin >= thTower.towerASCost[thTower.towerASLevel + 1]
       ) {
-        player.coin -= thTower.towerASCost[thTower.towerASLevel];
+        player.coin -= thTower.towerASCost[thTower.towerASLevel + 1];
         thTower.towerASLevel += 1;
         thTower.level++;
       }
