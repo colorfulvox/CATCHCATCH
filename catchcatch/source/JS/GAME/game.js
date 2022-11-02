@@ -247,7 +247,7 @@ function preload() {
 
     this.load.spritesheet(
         "magic2",
-        "images/attack/weapon/7Firespin_spritesheet.png",
+        "images/attack/weapon/7_firespin_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
@@ -256,7 +256,7 @@ function preload() {
 
     this.load.spritesheet(
         "magic2_1",
-        "images/attack/weapon/19Freezing_spritesheet.png",
+        "images/attack/weapon/19_freezing_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
@@ -298,7 +298,7 @@ function preload() {
     // 스킬 스프라이트
     this.load.spritesheet(
         "skill1",
-        "images/attack/weapon/17Felspell_spritesheet.png",
+        "images/attack/weapon/17_felspell_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
@@ -421,7 +421,7 @@ function create() {
     this.chunkSize = 8;
     this.tileSize = 300;
     this.cameraSpeed = 1;
-
+    UICam = this.cameras.add(player.x, player.y, this.cameras.main.worldView.width, this.cameras.main.worldView.height);
     this.followPoint = new Phaser.Math.Vector2(
         this.cameras.main.worldView.x + this.cameras.main.worldView.width * 0.5,
         this.cameras.main.worldView.y + this.cameras.main.worldView.height * 0.5
@@ -1019,11 +1019,10 @@ function create() {
     expBarBG = this.add.graphics().setScrollFactor(0);
     expBar.setDepth(4);
     expBarBG.setDepth(3);
-    UICam = this.cameras.add(player.x, player.y, this.cameras.main.worldView.width, this.cameras.main.worldView.height);
+
     this.cameras.main.ignore([expBar, expBarBG, navi]);
 
     //exp bar end
-    console.log(UICam);
     // hp bar start
     hpBar = this.add.graphics();
     hpBarBG = this.add.graphics();
@@ -1443,11 +1442,7 @@ function update(time, delta) {
             16
         );
     }    //exp bar end
-    console.log(chunks);
-    UICam.ignore([player, bossSet, fairySet, monsterSet, hpBar, hpBarBG, hole, towerLD, towerLU, towerRD, towerRU, magics,
-        chunks[0].tiles, chunks[1].tiles, chunks[2].tiles, chunks[3].tiles, chunks[4].tiles, chunks[5].tiles, chunks[6].tiles,
-        chunks[7].tiles, chunks[8].tiles, chunks[9].tiles, chunks[10].tiles, chunks[11].tiles, chunks[12].tiles, chunks[13].tiles,
-        chunks[14].tiles, chunks[15].tiles, mines, towerAttacks, towerSkillAttacks]);
+    UICam.ignore([player, bossSet, fairySet, monsterSet, hpBar, hpBarBG, hole, towerLD, towerLU, towerRD, towerRU, magics, mines, towerAttacks, towerSkillAttacks]);
 }
 
 
