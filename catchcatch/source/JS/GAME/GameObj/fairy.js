@@ -221,7 +221,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.skillSprite = 1;
         this.skillCD = 300;
       case 2:
-        this.skillSprite = 1;
+        this.skillSprite = 1.5;
         this.skillCD = 300;
         break;
       case 3:
@@ -311,7 +311,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       case 1:
         this.skillSprite = 2;
       case 2:
-        this.skillSprite = 2;
+        this.skillSprite = 3;
         break;
       case 3:
         this.isTriple = true;
