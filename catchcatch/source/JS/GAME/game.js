@@ -425,7 +425,6 @@ function create() {
     this.tileSize = 300;
     this.cameraSpeed = 1;
 
-    this.cameras.main.setZoom(0.8);
     this.followPoint = new Phaser.Math.Vector2(
         this.cameras.main.worldView.x + this.cameras.main.worldView.width * 0.5,
         this.cameras.main.worldView.y + this.cameras.main.worldView.height * 0.5
@@ -1025,9 +1024,9 @@ function create() {
     expbarBG.setDepth(3);
     UICam = this.cameras.add(player.x, player.y, this.cameras.main.worldView.width, this.cameras.main.worldView.height);
     this.cameras.main.ignore([expbar, expbarBG, navi]);
-    // UICam.ignore([plater]);  
+    
     //exp bar end
-
+    console.log(UICam);
     // hp bar start
     hpbar = this.add.graphics();
     hpbarBG = this.add.graphics();
@@ -1035,6 +1034,8 @@ function create() {
     hpbarBG.setDepth(4);
     // hp bar end
 
+    this.cameras.main.setZoom(0.8);
+    UICam.setZoom(1);
 }
 
 function update(time, delta) {
@@ -1445,6 +1446,11 @@ function update(time, delta) {
             16
         );
     }    //exp bar end
+    console.log(chunks);
+    UICam.ignore([player, bossSet, fairySet, monsterSet, hpbar, hpbarBG, hole, towerLD, towerLU, towerRD, towerRU, magics, 
+        chunks[0].tiles, chunks[1].tiles, chunks[2].tiles, chunks[3].tiles, chunks[4].tiles, chunks[5].tiles, chunks[6].tiles, 
+        chunks[7].tiles, chunks[8].tiles, chunks[9].tiles, chunks[10].tiles, chunks[11].tiles, chunks[12].tiles, chunks[13].tiles, 
+        chunks[14].tiles, chunks[15].tiles, mines, towerAttacks, towerSkillAttacks]);  
 }
 
 

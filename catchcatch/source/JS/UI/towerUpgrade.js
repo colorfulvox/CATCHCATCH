@@ -22,8 +22,8 @@ export default function tower() {
       click: () => {
         towers[towerNum].rangeFunc(towers[towerNum]);
       },
-      current: towers[towerNum].circlesizeLevel,
-      max: towers[towerNum].circlesizeMax,
+      current: towers[towerNum].circleSizeLevel,
+      max: towers[towerNum].circleSizeMax,
     },
     {
       click: () => {

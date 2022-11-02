@@ -181,7 +181,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       // stop_game -= 1;
       if (player.health <= 0) {
         gameover();
-        $this.pause();
       }
     }
   }
