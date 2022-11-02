@@ -96,6 +96,7 @@ export default function levelup() {
     },
   };
   let randomIndexArray = [];
+  const randomCommons = [0, 0, 0, 0];
   for (let i = 0; i < 3; i++) {
     const randomNum = Math.floor(Math.random() * 8);
     if (randomIndexArray.indexOf(randomNum) === -1) {
@@ -127,7 +128,11 @@ export default function levelup() {
   levelupContainer.style.backgroundSize = "cotain";
   levelupContainer.setAttribute("class", "levelupContainer");
   for (let i = 0; i < 3; i++) {
-    const randomCommon = Math.floor(Math.random() * 4);
+    let randomCommon = Math.floor(Math.random() * 4);
+    while (randomCommons[randomCommon - 1] === 1) {
+      randomCommon = Math.floor(Math.random() * 4);
+    }
+    randomCommons[randomCommon - 1] = 1;
     const levelupContent = document.createElement("div");
     const levelupImg = document.createElement("div");
     const levelupText = document.createElement("div");
