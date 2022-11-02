@@ -37,7 +37,6 @@ export default class Magic extends Phaser.Physics.Arcade.Sprite {
       scene.time.addEvent({
         delay: fairy.range * 1000,
         callback: () => {
-          console.log(this);
           this.destroy();
         },
         loop: false,
@@ -60,7 +59,6 @@ export default class Magic extends Phaser.Physics.Arcade.Sprite {
     thisScene.time.addEvent({
       delay: this.fairy.range * 1000,
       callback: () => {
-        console.log(this);
         this.destroy();
       },
       loop: false,

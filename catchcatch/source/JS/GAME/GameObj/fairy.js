@@ -1,3 +1,4 @@
+import { UpdateCatCoin } from "../../UI/ingame-ui.js";
 import { input, camera, aliens } from "../game.js";
 import Magic from "./magic.js";
 import Skill from "./skill.js";
@@ -222,31 +223,35 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   }
 
   levelUp5() {
-    this.level = 5;
-    this.evo1 = true;
-    this.idleKey = `fairy${this.fairyNum}_1_idle`;
-    this.attackKey = `fairy${this.fairyNum}_1_attack`;
-    switch (this.fairyNum) {
-      case 1:
-        this.skillSprite = 1;
-        this.skillCD = 300;
-        break;
-      case 2:
-        this.skillSprite = 1.5;
-        this.skillCD = 300;
-        break;
-      case 3:
-        this.isTriple = true;
-        break;
-      // 집으로 귀환 가능
-      case 4:
-        this.skillCD = 7200;
-        break;
-      // 스페이스바로 즉시 폭발 가능
-      case 5:
-        this.skillCD = 300;
-        break;
+    if (player.coin >= 200) {
+      player.coin -= 200;
+      this.level = 5;
+      this.evo1 = true;
+      this.idleKey = `fairy${this.fairyNum}_1_idle`;
+      this.attackKey = `fairy${this.fairyNum}_1_attack`;
+      switch (this.fairyNum) {
+        case 1:
+          this.skillSprite = 1;
+          this.skillCD = 300;
+          break;
+        case 2:
+          this.skillSprite = 1.5;
+          this.skillCD = 300;
+          break;
+        case 3:
+          this.isTriple = true;
+          break;
+        // 집으로 귀환 가능
+        case 4:
+          this.skillCD = 7200;
+          break;
+        // 스페이스바로 즉시 폭발 가능
+        case 5:
+          this.skillCD = 300;
+          break;
+      }
     }
+    UpdateCatCoin();
   }
 
   levelUp6() {
@@ -315,31 +320,35 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   }
 
   levelUp9() {
-    this.level = 9;
-    this.evo2 = true;
-    this.idleKey = `fairy${this.fairyNum}_2_idle`;
-    this.attackKey = `fairy${this.fairyNum}_2_attack`;
-    switch (this.fairyNum) {
-      case 1:
-        this.skillSprite = 2;
-        break;
-      case 2:
-        this.skillSprite = 3;
-        break;
-      case 3:
-        this.isTriple = true;
-        break;
-      // 집으로 귀환 가능
-      case 4:
-        this.copyCount = 60;
-        this.skillCD = 3600;
-        break;
-      // 스페이스바로 즉시 폭발 가능
-      case 5:
-        this.bombTime = 99999;
-        this.skillCD = 240;
-        break;
+    if (player.coin >= 500) {
+      player.coin -= 500;
+      this.level = 9;
+      this.evo2 = true;
+      this.idleKey = `fairy${this.fairyNum}_2_idle`;
+      this.attackKey = `fairy${this.fairyNum}_2_attack`;
+      switch (this.fairyNum) {
+        case 1:
+          this.skillSprite = 2;
+          break;
+        case 2:
+          this.skillSprite = 3;
+          break;
+        case 3:
+          this.isTriple = true;
+          break;
+        // 집으로 귀환 가능
+        case 4:
+          this.copyCount = 60;
+          this.skillCD = 3600;
+          break;
+        // 스페이스바로 즉시 폭발 가능
+        case 5:
+          this.bombTime = 99999;
+          this.skillCD = 240;
+          break;
+      }
     }
+    UpdateCatCoin();
   }
 
   normalAttack(magic) {
