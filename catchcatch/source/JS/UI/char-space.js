@@ -2,6 +2,7 @@ import "../../CSS/UI/CharSpace.css";
 import {StartBtnOn} from "./start-page";
 import {SaveData} from "../../main.js";
 import {config} from "../GAME/game.js";
+import {codeConfig} from "../GAME/code.js";
 
 let _settingSpace;
 
@@ -168,6 +169,16 @@ function GameStart() {
     const gameContainer = document.querySelector("#game-container");
     gameContainer.style.display = "block";
 }
+
+export function CodeStart() {
+    //app 자체를 false해야되나?
+    const StartPage = document.querySelector(".StartPage");
+    StartPage.style.display = "none";
+    let game = new Phaser.Game(codeConfig);
+    const gameContainer = document.querySelector("#game-container");
+    gameContainer.style.display = "block";
+}
+
 
 let CharIndex = 0;
 
