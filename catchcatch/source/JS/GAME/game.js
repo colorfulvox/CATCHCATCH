@@ -120,15 +120,15 @@ let alien_plus;
 let worm_plus;
 
 // 보스
-let slime_king;
+let slimeKing;
 let golem;
-let fire_giant;
-let fire_giant_aura;
+let fireGiant;
+let fireGiantAura;
 // 보스 패턴
 let pt;
 // 보스 활성 확인
 let boss_active;
-let boss_fire_giant_active;
+let boss_fireGiant_active;
 
 let monX;
 let monY;
@@ -1452,7 +1452,7 @@ function update(time, delta) {
 
     for (let i = magics.length - 1; i >= 0; i--) {
       magics[i].timer++;
-      if (magics[i].timer == magics[i].lifetime) {
+      if (magics[i].timer === magics[i].lifetime) {
         magics[i].destroy();
         magics.splice(i, 1);
       }
@@ -1720,7 +1720,7 @@ function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
 }
 
 function destroyHole(hole, golem) {
-  if (golem.bossSpiece === "golem") {
+  if (golem.bossSpecie === "golem") {
     hole.hp -= 9999;
     golem.destroy();
   }
@@ -1760,54 +1760,54 @@ function enemySpawn(scene) {
   }
 }
 
-function slime_pattern(scene, pt, x, y) {
+function slimePattern(scene, pt, x, y) {
   if (pt !== 16) {
     pt *= 2;
     for (let i = 0; i < 2; i++) {
       // 분열될 때마다 체력 감소 구현하기
       if (pt < 4) {
-        slime_king = new Boss(
+        slimeKing = new Boss(
           scene,
           200,
           100,
           x + i * 100,
           y,
-          "slime_king",
+          "slimeKing",
           "swarm",
           2.5,
           pt,
           "boss"
         );
       } else if (pt < 8) {
-        slime_king = new Boss(
+        slimeKing = new Boss(
           scene,
           100,
           100,
           x + i * 50,
           y,
-          "slime_king",
+          "slimeKing",
           "swarm",
           1.25,
           pt,
           "boss"
         );
       } else {
-        slime_king = new Boss(
+        slimeKing = new Boss(
           scene,
           50,
           100,
           x + i * 25,
           y,
-          "slime_king",
+          "slimeKing",
           "swarm",
           0.5,
           pt,
           "boss"
         );
       }
-      slime_king.anime();
-      scene.physics.add.collider(bossSet, slime_king);
-      bossSet.add(slime_king);
+      slimeKing.anime();
+      scene.physics.add.collider(bossSet, slimeKing);
+      bossSet.add(slimeKing);
     }
   }
 }
