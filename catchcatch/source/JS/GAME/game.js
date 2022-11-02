@@ -1603,7 +1603,7 @@ function attack(magic, monster) {
         }
 
         monster.invincible = true;
-        monster.health -= (magic.fairy.dmg * player.dmgmul);
+        monster.health -= (magic.fairy.dmg * player.dmgMul);
 
         if (monster.health <= 0 && monster.type != "boss") {
             if (monster.monSpiece != "slime") {
