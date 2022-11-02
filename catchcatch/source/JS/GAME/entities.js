@@ -21,9 +21,12 @@ export class Chunk {
     if (!this.isLoaded) {
       for (let x = 0; x < this.scene.chunkSize; x++) {
         for (let y = 0; y < this.scene.chunkSize; y++) {
-
-          let tileX = (this.x * (this.scene.chunkSize * this.scene.tileSize)) + (x * this.scene.tileSize);
-          let tileY = (this.y * (this.scene.chunkSize * this.scene.tileSize)) + (y * this.scene.tileSize);
+          let tileX =
+            this.x * (this.scene.chunkSize * this.scene.tileSize) +
+            x * this.scene.tileSize;
+          let tileY =
+            this.y * (this.scene.chunkSize * this.scene.tileSize) +
+            y * this.scene.tileSize;
 
           let perlinValue = noise.perlin2(tileX / 100, tileY / 100);
 
@@ -31,20 +34,17 @@ export class Chunk {
 
           if (perlinValue < 0.2) {
             key = "sprWater";
-          }
-          else if (perlinValue >= 0.2 && perlinValue < 0.3) {
+          } else if (perlinValue >= 0.2 && perlinValue < 0.3) {
             key = "sprSand";
-          }
-          else if (perlinValue >= 0.3) {
+          } else if (perlinValue >= 0.3) {
             key = "sprGrass";
           }
-
 
           let tile = new Tile(this.scene, tileX, tileY, key);
           this.tiles.add(tile);
         }
       }
-
+      UICam.ignore(this.tiles);
       this.isLoaded = true;
     }
   }
