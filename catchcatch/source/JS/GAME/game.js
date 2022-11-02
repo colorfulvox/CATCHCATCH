@@ -2,16 +2,16 @@ import Fairy from "./GameObj/fairy.js";
 import Magic from "./GameObj/magic.js";
 import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
-import inGameUI, {gameover, updateExp, updateHP} from "../UI/inGameUI.js";
+import ingameUi, {GameOver, updateExp, updateHP} from "../UI/ingame-ui.js";
 import levelup from "../UI/levelup.js";
 import initUpgrade, {closeUpgrade} from "../UI/upgrade.js";
 
-import {Chunk, Tile} from "./Entities.js";
-import CatTower from "./GameObj/catTower.js";
+import {Chunk, Tile} from "./entities.js";
+import CatTower from "./GameObj/cat-tower.js";
 import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
-import {Updatetimer} from "../UI/inGameUI.js";
+import {UpdateTimer} from "../UI/ingame-ui.js";
 
 export const config = {
     type: Phaser.AUTO,
@@ -171,7 +171,7 @@ global.mines = "";
 //exp bar start
 var expbar;
 var expbarBG;
-
+global.UICam = "";
 //exp bar end
 
 //hp bar start
@@ -425,7 +425,6 @@ function create() {
     this.tileSize = 300;
     this.cameraSpeed = 1;
 
-    this.cameras.main.setZoom(1);
     this.followPoint = new Phaser.Math.Vector2(
         this.cameras.main.worldView.x + this.cameras.main.worldView.width * 0.5,
         this.cameras.main.worldView.y + this.cameras.main.worldView.height * 0.5
@@ -874,7 +873,7 @@ function create() {
     hole.setCircle(hw * 0.7, hh - hw * 0.7, hh - hw * 0.7);
     hole.hp = 500;
     hole.setDepth(1);
-    inGameUI();
+    ingameUi();
 
     // 그룹셋
     monsterSet = this.physics.add.group();
@@ -1014,7 +1013,7 @@ function create() {
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
 
     //navi start
-    navi = this.add.image(50, 50, "navi").setScrollFactor(0).setScale(0.1);
+    navi = this.add.image(64, 80, "navi").setScrollFactor(0).setScale(0.8);
     navi.setDepth(4);
     //navi end
 
@@ -1023,8 +1022,11 @@ function create() {
     expbarBG = this.add.graphics().setScrollFactor(0);
     expbar.setDepth(4);
     expbarBG.setDepth(3);
+    UICam = this.cameras.add(player.x, player.y, this.cameras.main.worldView.width, this.cameras.main.worldView.height);
+    this.cameras.main.ignore([expbar, expbarBG, navi]);
+    
     //exp bar end
-
+    console.log(UICam);
     // hp bar start
     hpbar = this.add.graphics();
     hpbarBG = this.add.graphics();
@@ -1032,6 +1034,8 @@ function create() {
     hpbarBG.setDepth(4);
     // hp bar end
 
+    this.cameras.main.setZoom(0.8);
+    UICam.setZoom(1);
 }
 
 function update(time, delta) {
@@ -1048,8 +1052,10 @@ function update(time, delta) {
     hpbar.fillStyle(0x2ff40a);
     hpbar.fillRect(0, 0, 60 * (player.health / player.maxHealth), 10);
 
-    hpbar.setPosition(player.x - 30, player.y + 40);
-    hpbarBG.setPosition(player.x - 30, player.y + 40);
+    hpbar.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
+    hpbarBG.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
+    // expbar.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
+    // expbarBG.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
     // Health bar end
     if (frameTime > 16.5) {
         frameTime = 0;
@@ -1102,6 +1108,7 @@ function update(time, delta) {
         this.followPoint.y = player.y;
 
         this.cameras.main.startFollow(player, false);
+        UICam.startFollow(player,false);
         //map end
 
         //navi start
@@ -1201,11 +1208,11 @@ function update(time, delta) {
         if (hole.hp <= 0) {
             $this.pause();
             updateHP();
-            gameover();
+            GameOver();
         }
 
         gameTimer++;
-        Updatetimer();
+        UpdateTimer();
 
         // 플레이어 기준랜덤 위치에 몬스터 생성
         // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
@@ -1428,17 +1435,22 @@ function update(time, delta) {
 
         //  BG
         expbarBG.fillStyle(0x000000);
-        expbarBG.fillRect(0, 0, this.cameras.main.worldView.width, 16); // x y 가로길이, 세로길이
+        expbarBG.fillRect(0, 0, UICam.worldView.width, 16); // x y 가로길이, 세로길이
 
 
         expbar.fillStyle(0xff0000);
         expbar.fillRect(
             0,
             0,
-            this.cameras.main.worldView.width * (player.exp / player.maxExp),
+            UICam.worldView.width * (player.exp / player.maxExp),
             16
         );
     }    //exp bar end
+    console.log(chunks);
+    UICam.ignore([player, bossSet, fairySet, monsterSet, hpbar, hpbarBG, hole, towerLD, towerLU, towerRD, towerRU, magics, 
+        chunks[0].tiles, chunks[1].tiles, chunks[2].tiles, chunks[3].tiles, chunks[4].tiles, chunks[5].tiles, chunks[6].tiles, 
+        chunks[7].tiles, chunks[8].tiles, chunks[9].tiles, chunks[10].tiles, chunks[11].tiles, chunks[12].tiles, chunks[13].tiles, 
+        chunks[14].tiles, chunks[15].tiles, mines, towerAttacks, towerSkillAttacks]);  
 }
 
 
@@ -1591,7 +1603,7 @@ function attack(magic, monster) {
         }
 
         monster.invincible = true;
-        monster.health -= (magic.fairy.dmg * player.dmgmul);
+        monster.health -= (magic.fairy.dmg * player.dmgMul);
 
         if (monster.health <= 0 && monster.type != "boss") {
             if (monster.monSpiece != "slime") {
