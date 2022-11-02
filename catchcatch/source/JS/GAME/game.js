@@ -113,11 +113,11 @@ let sonic;
 // 4번 몬스터: turtle
 let turtle;
 
-// 5번 몬스터: alien_plus
-let alien_plus;
+// 5번 몬스터: alienPlus
+let alienPlus;
 
-// 6번 몬스터: worm_plus
-let worm_plus;
+// 6번 몬스터: wormPlus
+let wormPlus;
 
 // 보스
 let slimeKing;
@@ -135,7 +135,7 @@ let monY;
 global.monsterCount = 0;
 let randomLocation = 0;
 let timer;
-let random_monster = 0;
+let randomMonster = 0;
 
 // 임시 구멍
 global.hole = "";
@@ -1217,9 +1217,9 @@ function update(time, delta) {
             // 1번 zombie
             enemySpawn(randomLocation);
             if (10800 < gameTimer && gameTimer <= 18000) {
-                addMonster(this, 'alien_plus', 'swarm', 60, 60, monX, monY, 'follower')
+                addMonster(this, 'alienPlus', 'swarm', 60, 60, monX, monY, 'follower')
             } else if (18000 < gameTimer) {
-                addMonster(this, 'alien_plus', 'swarm', 120, 75, monX, monY, 'follower')
+                addMonster(this, 'alienPlus', 'swarm', 120, 75, monX, monY, 'follower')
             } else {
                 addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");
             }
@@ -1228,9 +1228,9 @@ function update(time, delta) {
             // 2번 worm
             siegeSpawn(randomLocation);
             if (21000 < gameTimer && gameTimer <= 34000) {
-                addMonster(this, 'worm_plus', 'swarm', 100, 50, monX, monY, 'siege')
+                addMonster(this, 'wormPlus', 'swarm', 100, 50, monX, monY, 'siege')
             } else if (34000 < gameTimer) {
-                addMonster(this, 'worm_plus', 'swarm', 160, 60, monX, monY, 'siege')
+                addMonster(this, 'wormPlus', 'swarm', 160, 60, monX, monY, 'siege')
             } else if (gameTimer <= 21000) {
                 addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege")
             }
@@ -1274,7 +1274,7 @@ function update(time, delta) {
         // 보스
 
         // 슬라임
-        if (gameTimer === 108) {
+        if (gameTimer === 10800) {
             slimeKing = new Boss(
                 this,
                 400,
@@ -1568,7 +1568,7 @@ function attack(magic, monster) {
             let num = Math.floor(Math.random() * 100 + 1);
             if (num <= magic.fairy.deathCount && monster.type !== "boss") {
                 if (monster.monSpecie !== "slime") {
-                    monster.die_anim();
+                    monster.dieAnim();
                     monster.destroy();
                     player.expUp();
                     monsterCount -= 1;
@@ -1576,7 +1576,7 @@ function attack(magic, monster) {
                     for (let i = 0; i < 2; i++) {
                         addMonster(
                             thisScene,
-                            "baby_slime",
+                            "babySlime",
                             "swarm",
                             150,
                             125,
@@ -1599,7 +1599,7 @@ function attack(magic, monster) {
 
         if (monster.health <= 0 && monster.type !== "boss") {
             if (monster.monSpecie !== "slime") {
-                monster.die_anim();
+                monster.dieAnim();
                 monster.destroy();
                 player.expUp();
                 if (magic.fairy.fairyNum === 2) {
@@ -1616,7 +1616,7 @@ function attack(magic, monster) {
                 for (let i = 0; i < 2; i++) {
                     addMonster(
                         thisScene,
-                        "baby_slime",
+                        "babySlime",
                         "swarm",
                         150,
                         125,
@@ -1648,9 +1648,9 @@ function hitHole(hole, monster) {
 }
 
 
-function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
-    monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime, type);
-    if (monster.monSpecie === "baby_slime") {
+function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
+    monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime, type);
+    if (monster.monSpecie === "babySlime") {
         monster.scale = 0.5;
     }
     monster.setDepth(2);

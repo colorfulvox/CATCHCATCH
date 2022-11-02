@@ -51,7 +51,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       this
       .setTint(0xFFFA00) // 노랑
     }
-    else if (this.monSpecie === 'alien_plus'){
+    else if (this.monSpecie === 'alienPlus'){
       this
       .setTint(0xC29F6D)  // 갈색
     }
@@ -59,7 +59,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       this
       .setTint(0x00ff00);} // 연두
 
-    else if (this.monSpecie === 'worm_plus'){
+    else if (this.monSpecie === 'wormPlus'){
       this  
       .setTint(0xFFAAFF)}  // 핑크
 
@@ -93,7 +93,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   }
 
-  die_anim(){
+  dieAnim(){
     new Explosion(thisScene, this.x, this.y);
     // this.scene.m_explosionSound.play();  몬스터 폭발 사운드
   }
