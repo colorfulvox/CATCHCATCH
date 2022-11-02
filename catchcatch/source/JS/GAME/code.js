@@ -71,16 +71,109 @@ function preload() {
 
   //player start
     // 플레이어 스프라이트
-    this.load.spritesheet("cat1", "images/cat/cat1.png", {
-        frameWidth: 96,
-        frameHeight: 100,
+    this.load.spritesheet("tower1", "images/cattower/normal_tower_38x64.png", {
+        frameWidth: 38,
+        frameHeight: 64,
     });
-  //
+    this.load.spritesheet("tower2", "images/cattower/earth_tower_38x64.png", {
+      frameWidth: 38,
+      frameHeight: 64,
+    });
+    this.load.spritesheet("tower3", "images/cattower/fire_tower_38x64.png", {
+      frameWidth: 38,
+      frameHeight: 64,
+    });
+    this.load.spritesheet("tower4", "images/cattower/thunder_tower_38x64.png", {
+      frameWidth: 38,
+      frameHeight: 64,
+    });
+    this.load.spritesheet("tower5", "images/cattower/water_tower_38x64.png", {
+      frameWidth: 38,
+      frameHeight: 64,
+    });
+  // player end
+
+  //attack sprite start
+  this.load.spritesheet(
+    "magic1",
+    "images/attack/weapon/16_sunburn_spritesheet.png",
+    {
+        frameWidth: 100,
+        frameHeight: 100,
+        endFrame: 61,
+    }
+);
+  //attack sprite end
 }
 
 function create() {
+  // resource load start
+  this.anims.create({
+    key: "tower1_idle",
+    frames: this.anims.generateFrameNumbers("tower1", {start: 0, end: 2}),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "tower1_attack",
+    frames: this.anims.generateFrameNumbers("tower1", {start: 3, end: 8}),
+    frameRate: 16,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "tower2_idle",
+    frames: this.anims.generateFrameNumbers("tower2", {start: 0, end: 2}),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "tower2_attack",
+    frames: this.anims.generateFrameNumbers("tower2", {start: 3, end: 8}),
+    frameRate: 16,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "tower3_idle",
+    frames: this.anims.generateFrameNumbers("tower3", {start: 0, end: 2}),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "tower3_attack",
+    frames: this.anims.generateFrameNumbers("tower3", {start: 3, end: 8}),
+    frameRate: 16,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "tower4_idle",
+    frames: this.anims.generateFrameNumbers("tower4", {start: 0, end: 2}),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "tower4_attack",
+    frames: this.anims.generateFrameNumbers("tower4", {start: 3, end: 8}),
+    frameRate: 16,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "tower5_idle",
+    frames: this.anims.generateFrameNumbers("tower5", {start: 0, end: 2}),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "tower5_attack",
+    frames: this.anims.generateFrameNumbers("tower5", {start: 3, end: 8}),
+    frameRate: 16,
+    repeat: -1,
+  });
+  // resource load end
+
   //player start
-  player = new Player(this,10,10,"cat1");
+  player = new Player(this,10,10,"tower1");
+  player.play("tower1_attack");
+  player.setScale(2);
   player.setDepth(3);
   //player end
   thisScene = this;
