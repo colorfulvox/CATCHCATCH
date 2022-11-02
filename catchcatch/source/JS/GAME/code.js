@@ -1,6 +1,6 @@
 import Player from "./CodeObj/player.js";
 import {Chunk, Tile} from "./entities.js";
-
+import { sockConnect } from "./CodeObj/Execlient.js";
 export const codeConfig = {
   type: Phaser.AUTO,
   width: 600,
@@ -26,6 +26,24 @@ export const codeConfig = {
   },
 };
 
+
+let socket;
+
+let IsStarted = false;
+let PinNumber;
+
+let IsRunning = false;
+
+// 우리가 전달할 정보 --------------------------
+let monsterpos = [
+  [1, 2],
+  [0, 2],
+  [4, 5],
+  [6, 2],
+  [1, 2],
+];
+// ----------------------------------------
+
 let cats;
 var player = "";
 global.thisScene = "";
@@ -37,6 +55,7 @@ var map;
 var chunks = [];
 export var camera;
 let frameTime = 0;
+let timer = 0;
 // 몬스터 변수 선언
 export var monsterSet;
 var monster;
@@ -47,6 +66,8 @@ function preload() {
   this.load.image("sprSand", "images/map/sprSand.png");
   this.load.image("sprGrass", "images/map/sprGrass.png");
   //map end
+
+  let frameTime = 0;
 
   //player start
     // 플레이어 스프라이트
@@ -68,7 +89,7 @@ function create() {
   this.tileSize = 300;
   this.cameraSpeed = 1;
 
-  this.cameras.main.setZoom(1);
+
   this.followPoint = new Phaser.Math.Vector2(
     this.cameras.main.worldView.x + this.cameras.main.worldView.width * 0.5,
     this.cameras.main.worldView.y + this.cameras.main.worldView.height * 0.5
@@ -194,14 +215,62 @@ function create() {
     //map end
 
 
-this.cameras.main.setZoom(1);
+this.cameras.main.setZoom(0.7);
 this.cameras.main.startFollow(player, false);
 console.log(this.cameras);
+
+socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
+
+socket.onopen = function () {
+  IsStarted = false;
+  PinNumber = null;
+
+  var Data = {
+    action: "exeClientInit",
+  };
+  socket.send(JSON.stringify(Data));
+};
+
+socket.onmessage = function (data) {
+  var msg = JSON.parse(data.data.toString());
+
+  if (msg.action === "PinNumber") {
+    PinNumber = msg.pinnumber;
+    console.log(`당신의 Pin번호는 "${PinNumber}" 입니다.`);
+  }
+  // 게임 시작시 1초 마다 서버에게 데이터를 보내는걸 시작한다.
+  else if (msg.action === "StartGame") {
+    IsStarted = true;
+    IsRunning = false;
+  }
+  // 1번의 cycle이 끝나면 보낸다.
+  else if (msg.action === "codeData") {
+    //여기서 바뀐 정보를 전달 받는다.
+    monster = msg.monster;
+    monsterpos = msg.monsterpos;
+
+    testshow();
+    IsRunning = false;
+  }
+};
+
 }
 
 
-function update(){
+function update(time, delta){
+  frameTime += delta;
 
+  if (frameTime > 16.5) {
+    frameTime = 0;
+    timer++;
+    if(timer > 60){
+      timer = 0;
+      if(IsStarted){
+        dataSend();
+      }
+    }
+  
+  }
 }
 
 //map start
@@ -216,3 +285,35 @@ function getChunk(x, y) {
 }
 
 //map end
+
+//sock start
+function dataSend(){
+  const tempMonster = [true, true, true, true, true];
+  if (socket.bufferedAmount == 0) {
+    if (IsStarted != false && IsRunning != true) {
+      var Data = {
+        action: "exeData",
+        pinnumber: PinNumber,
+        monster: tempMonster,
+        monsterpos: monsterpos,
+      };
+      IsRunning = true;
+      socket.send(JSON.stringify(Data));
+    }
+  }
+}
+
+function testshow() {
+  monster[0] = false;
+  for (let i = 0; i < monster.length; ++i) {
+  console.log(monster[i] + " ");
+  }
+  console.log("");
+  for (let i = 0; i < monster.length; ++i) {
+    console.log("[" + monsterpos[i][0] + "," + monsterpos[i][1] + "]");
+  }
+  console.log("");
+  console.log("-------------------------------");
+}
+
+// sock end
