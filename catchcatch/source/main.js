@@ -3,12 +3,12 @@ import "./CSS/UI/index.css";
 import "./CSS/GAME/style.css";
 import "./CSS/UI/levelup.css";
 // import initUpgrade from "./JS/upgrade";
-import StartPageInit from "./JS/UI/StartPage.js";
-import CharPageInit from "./JS/UI/CharSpace";
+import StartPageInit from "./JS/UI/start-page.js";
+import CharPageInit from "./JS/UI/char-space";
 import perlin from "./JS/GAME/perlin.js";
 import initUpgrade from "./JS/UI/upgrade.js";
 import levelup from "./JS/UI/levelup.js";
-import inGameUI from "./JS/UI/inGameUI.js";
+import ingameUi from "./JS/UI/ingame-ui.js";
 
 console.log(1);
 

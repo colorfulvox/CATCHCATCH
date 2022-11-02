@@ -1,6 +1,6 @@
 import "../../CSS/UI/StartPage.css";
-import "./CharSpace.js";
-import CharPageInit, {CharSpaceOn} from "./CharSpace.js";
+import "./char-space.js";
+import CharPageInit, {CharSpaceOn} from "./char-space.js";
 
 let mode = true;
 const _StartPage = document.createElement("div");

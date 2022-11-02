@@ -1,5 +1,5 @@
 import {cursors, mapSize} from "../game.js";
-import {GameOver, updateExp} from "../../UI/inGameUI.js";
+import {GameOver, updateExp} from "../../UI/ingame-ui.js";
 import levelup from "../../UI/levelup.js";
 
 export const Direction = Object.freeze({

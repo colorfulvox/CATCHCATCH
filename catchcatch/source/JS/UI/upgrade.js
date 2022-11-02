@@ -1,5 +1,5 @@
-import weapon from "./weaponUpgrade.js";
-import tower from "./towerUpgrade.js";
+import weapon from "./weapon-upgrade.js";
+import tower from "./tower-upgrade.js";
 export default function initUpgrade() {
   // console.log(this.)
 

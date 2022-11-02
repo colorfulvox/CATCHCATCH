@@ -1,5 +1,5 @@
 import { mines } from "../game";
-import { UpdateCatCoin } from "../../UI/inGameUI";
+import { UpdateCatCoin } from "../../UI/ingame-ui";
 
 export default class Mine extends Phaser.Physics.Arcade.Image {
   mineSprite;
