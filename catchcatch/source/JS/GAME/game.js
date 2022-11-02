@@ -51,40 +51,40 @@ global.towerRD = "";
 // 캐릭터 선택 시 변경될 변수
 let catNumber = 0;
 // 요정
-var nowFairy = 0;
-var fairySet = [, , , , ,];
-var fairy;
+let nowFairy = 0;
+let fairySet = [, , , , ,];
+let fairy;
 global.thisScene = "";
 // 공격 및 공격 딜레이 관련
 global.control = false;
 global.normalAttackTimer = 0;
-var normalAttackAS = 20;
-var magic;
+let normalAttackAS = 20;
+let magic;
 global.magics = "";
 let hitTimer = 0;
 let hitVisible = true;
 
-export var cursors;
-var gameOver = false;
-var scoreText;
+export let cursors;
+let gameOver = false;
+let scoreText;
 // 마우스 포인터 관련
-export var input;
-var mouse;
+export let input;
+let mouse;
 //player end
 
 //gametimer
 global.gameTimer = 0;
 
 //map start
-var map;
-var chunks = [];
-export var mapSize = 16000;
-export var camera;
+let map;
+let chunks = [];
+export let mapSize = 16000;
+export let camera;
 let controls;
 //map end
 let frameTime = 0;
 //navi start
-var navi;
+let navi;
 //navi end
 
 //coin start
@@ -94,51 +94,49 @@ global.coin = 0;
 //enemy start
 
 // 몬스터 변수 선언
-export var monsterSet;
-var monster;
-export var bossSet;
-export var bossMagicSet;
-var fireGiantIndex;
+export let monsterSet;
+let monster;
+export let bossSet;
+export let bossMagicSet;
+let fireGiantIndex;
 
-var monsterSpawn = 300;
+let monsterSpawn = 300;
 
 // 1번 몬스터: alien
-var alien;
+let alien;
 
 // 2번 몬스터: worm
-var worm;
+let worm;
 
 // 3번 몬스터: sonic
-var sonic;
+let sonic;
 
 // 4번 몬스터: turtle
-var turtle;
+let turtle;
 
 // 5번 몬스터: alien_plus
-var alien_plus;
+let alien_plus;
 
 // 6번 몬스터: worm_plus
-var worm_plus;
-
-var cursors;
+let worm_plus;
 
 // 보스
-var slime_king;
-var golem;
-var fire_giant;
-var fire_giant_aura;
+let slime_king;
+let golem;
+let fire_giant;
+let fire_giant_aura;
 // 보스 패턴
-var pt;
+let pt;
 // 보스 활성 확인
-var boss_active;
-var boss_fire_giant_active;
+let boss_active;
+let boss_fire_giant_active;
 
-var monX;
-var monY;
+let monX;
+let monY;
 global.monsterCount = 0;
-var randomLocation = 0;
-var timer;
-var random_monster = 0;
+let randomLocation = 0;
+let timer;
+let random_monster = 0;
 
 // 임시 구멍
 global.hole = "";
@@ -148,35 +146,35 @@ global.hole = "";
 //enemy end
 
 //tower start
-// var towerLU;
-// var towerRU;
-// var towerLD;
-// var towerRD;
+// let towerLU;
+// let towerRU;
+// let towerLD;
+// let towerRD;
 global.towerAttacks = "";
 global.towerSkillAttacks = "";
 //tower end
 
 //mine start
-var mine;
-var minecount = 10;
-var StartMineRangeX = -1000;
-var StartMineRangeY = -1000;
-var EndMineRangeX = 1000;
-var EndMineRangeY = 1000;
+let mine;
+let mineCount = 10;
+let StartMineRangeX = -1000;
+let StartMineRangeY = -1000;
+let EndMineRangeX = 1000;
+let EndMineRangeY = 1000;
 
 global.mines = "";
 
 //mine end
 
 //exp bar start
-var expbar;
-var expbarBG;
+let expBar;
+let expBarBG;
 global.UICam = "";
 //exp bar end
 
 //hp bar start
-var hpbar;
-var hpbarBG;
+let hpBar;
+let hpBarBG;
 
 //hp bar end
 
@@ -889,15 +887,15 @@ function create() {
     // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
     this.physics.add.collider(player, monsterSet, player.hitPlayer);
     thisScene.physics.add.overlap(magics, monsterSet, attack);
-    // 만약 몬스터와 구멍이 닿았다면 (hithole 함수 실행)
-    thisScene.physics.add.overlap(hole, monsterSet, hithole);
-    thisScene.physics.add.overlap(hole, bossSet, destroyhole);
+    // 만약 몬스터와 구멍이 닿았다면 (hitHole 함수 실행)
+    thisScene.physics.add.overlap(hole, monsterSet, hitHole);
+    thisScene.physics.add.overlap(hole, bossSet, destroyHole);
     //map start
-    var snappedChunkX =
+    let snappedChunkX =
         this.chunkSize *
         this.tileSize *
         Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
-    var snappedChunkY =
+    let snappedChunkY =
         this.chunkSize *
         this.tileSize *
         Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
@@ -905,18 +903,18 @@ function create() {
     snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
     snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
 
-    for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
-        for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
-            var existingChunk = getChunk(x, y);
+    for (let x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
+        for (let y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
+            let existingChunk = getChunk(x, y);
 
             if (existingChunk == null) {
-                var newChunk = new Chunk(this, x, y);
+                let newChunk = new Chunk(this, x, y);
                 chunks.push(newChunk);
             }
         }
     }
-    for (var i = 0; i < chunks.length; i++) {
-        var chunk = chunks[i];
+    for (let i = 0; i < chunks.length; i++) {
+        let chunk = chunks[i];
 
         if (
             Phaser.Math.Distance.Between(
@@ -936,8 +934,8 @@ function create() {
         }
     }
 
-    for (var i = 0; i < chunks.length; i++) {
-        var chunk = chunks[i];
+    for (let i = 0; i < chunks.length; i++) {
+        let chunk = chunks[i];
 
         if (
             Phaser.Math.Distance.Between(
@@ -998,7 +996,7 @@ function create() {
     //tower end
 
     //mine start
-    for (let i = 0; i < minecount; i++) {
+    for (let i = 0; i < mineCount; i++) {
         mine = new Mine(
             this,
             Math.random() * (EndMineRangeX - StartMineRangeX) + StartMineRangeX,
@@ -1018,20 +1016,20 @@ function create() {
     //navi end
 
     //exp bar start
-    expbar = this.add.graphics().setScrollFactor(0);
-    expbarBG = this.add.graphics().setScrollFactor(0);
-    expbar.setDepth(4);
-    expbarBG.setDepth(3);
+    expBar = this.add.graphics().setScrollFactor(0);
+    expBarBG = this.add.graphics().setScrollFactor(0);
+    expBar.setDepth(4);
+    expBarBG.setDepth(3);
     UICam = this.cameras.add(player.x, player.y, this.cameras.main.worldView.width, this.cameras.main.worldView.height);
-    this.cameras.main.ignore([expbar, expbarBG, navi]);
-    
+    this.cameras.main.ignore([expBar, expBarBG, navi]);
+
     //exp bar end
     console.log(UICam);
     // hp bar start
-    hpbar = this.add.graphics();
-    hpbarBG = this.add.graphics();
-    hpbar.setDepth(5);
-    hpbarBG.setDepth(4);
+    hpBar = this.add.graphics();
+    hpBarBG = this.add.graphics();
+    hpBar.setDepth(5);
+    hpBarBG.setDepth(4);
     // hp bar end
 
     this.cameras.main.setZoom(0.8);
@@ -1044,28 +1042,28 @@ function update(time, delta) {
     player.move();
 
     //  Health bar start
-    hpbar.clear();
+    hpBar.clear();
 
-    hpbarBG.fillStyle(0xff0000);
-    hpbarBG.fillRect(0, 0, 60, 10);
+    hpBarBG.fillStyle(0xff0000);
+    hpBarBG.fillRect(0, 0, 60, 10);
 
-    hpbar.fillStyle(0x2ff40a);
-    hpbar.fillRect(0, 0, 60 * (player.health / player.maxHealth), 10);
+    hpBar.fillStyle(0x2ff40a);
+    hpBar.fillRect(0, 0, 60 * (player.health / player.maxHealth), 10);
 
-    hpbar.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
-    hpbarBG.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
-    // expbar.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
-    // expbarBG.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
+    hpBar.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
+    hpBarBG.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
+    // expBar.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
+    // expBarBG.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
     // Health bar end
     if (frameTime > 16.5) {
         frameTime = 0;
 
 
-        var snappedChunkX =
+        let snappedChunkX =
             this.chunkSize *
             this.tileSize *
             Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
-        var snappedChunkY =
+        let snappedChunkY =
             this.chunkSize *
             this.tileSize *
             Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
@@ -1073,18 +1071,18 @@ function update(time, delta) {
         snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
         snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
 
-        for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
-            for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
-                var existingChunk = getChunk(x, y);
+        for (let x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
+            for (let y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
+                let existingChunk = getChunk(x, y);
 
                 if (existingChunk == null) {
-                    var newChunk = new Chunk(this, x, y);
+                    let newChunk = new Chunk(this, x, y);
                     chunks.push(newChunk);
                 }
             }
         }
-        for (var i = 0; i < chunks.length; i++) {
-            var chunk = chunks[i];
+        for (let i = 0; i < chunks.length; i++) {
+            let chunk = chunks[i];
 
             if (
                 Phaser.Math.Distance.Between(
@@ -1108,7 +1106,7 @@ function update(time, delta) {
         this.followPoint.y = player.y;
 
         this.cameras.main.startFollow(player, false);
-        UICam.startFollow(player,false);
+        UICam.startFollow(player, false);
         //map end
 
         //navi start
@@ -1126,7 +1124,7 @@ function update(time, delta) {
             normalAttackTimer++;
         }
         //mouse clicked
-        if (mouse.leftButtonDown() && !control && fairySet[nowFairy].bombcount > 0) {
+        if (mouse.leftButtonDown() && !control && fairySet[nowFairy].bombCount > 0) {
             magic = new Magic(this, fairySet[nowFairy]);
             magic.setDepth(2);
             this.physics.add.overlap(
@@ -1336,10 +1334,10 @@ function update(time, delta) {
         }
 
         if (boss_fire_giant_active) {
-            var x = bossSet.children.entries[fireGiantIndex].x;
-            var y = bossSet.children.entries[fireGiantIndex].y;
+            let x = bossSet.children.entries[fireGiantIndex].x;
+            let y = bossSet.children.entries[fireGiantIndex].y;
 
-            var aura = new Boss(this, 10000, 100, x, y, 'fire_giant_aura', 'swarm', 1 + (28000 - gameTimer) / 600, 10, 'boss')
+            let aura = new Boss(this, 10000, 100, x, y, 'fire_giant_aura', 'swarm', 1 + (28000 - gameTimer) / 600, 10, 'boss')
             bossMagicSet.children.entries[0].destroy();
             aura.setDepth(5);
             aura.anime();
@@ -1431,15 +1429,15 @@ function update(time, delta) {
 
 
         //exp bar start
-        expbar.clear();
+        expBar.clear();
 
         //  BG
-        expbarBG.fillStyle(0x000000);
-        expbarBG.fillRect(0, 0, UICam.worldView.width, 16); // x y 가로길이, 세로길이
+        expBarBG.fillStyle(0x000000);
+        expBarBG.fillRect(0, 0, UICam.worldView.width, 16); // x y 가로길이, 세로길이
 
 
-        expbar.fillStyle(0xff0000);
-        expbar.fillRect(
+        expBar.fillStyle(0xff0000);
+        expBar.fillRect(
             0,
             0,
             UICam.worldView.width * (player.exp / player.maxExp),
@@ -1447,10 +1445,10 @@ function update(time, delta) {
         );
     }    //exp bar end
     console.log(chunks);
-    UICam.ignore([player, bossSet, fairySet, monsterSet, hpbar, hpbarBG, hole, towerLD, towerLU, towerRD, towerRU, magics, 
-        chunks[0].tiles, chunks[1].tiles, chunks[2].tiles, chunks[3].tiles, chunks[4].tiles, chunks[5].tiles, chunks[6].tiles, 
-        chunks[7].tiles, chunks[8].tiles, chunks[9].tiles, chunks[10].tiles, chunks[11].tiles, chunks[12].tiles, chunks[13].tiles, 
-        chunks[14].tiles, chunks[15].tiles, mines, towerAttacks, towerSkillAttacks]);  
+    UICam.ignore([player, bossSet, fairySet, monsterSet, hpBar, hpBarBG, hole, towerLD, towerLU, towerRD, towerRU, magics,
+        chunks[0].tiles, chunks[1].tiles, chunks[2].tiles, chunks[3].tiles, chunks[4].tiles, chunks[5].tiles, chunks[6].tiles,
+        chunks[7].tiles, chunks[8].tiles, chunks[9].tiles, chunks[10].tiles, chunks[11].tiles, chunks[12].tiles, chunks[13].tiles,
+        chunks[14].tiles, chunks[15].tiles, mines, towerAttacks, towerSkillAttacks]);
 }
 
 
@@ -1546,7 +1544,7 @@ function attack(magic, monster) {
                         magic,
                         monsterSet.children.entries[monNum].x,
                         monsterSet.children.entries[monNum].y,
-                        magic.fairy.velo
+                        magic.fairy.velocity
                     );
                     magic.bounceCount--;
                 }
@@ -1564,7 +1562,7 @@ function attack(magic, monster) {
                         copyMagic,
                         -monsterSet.children.entries[monNum].x,
                         -monsterSet.children.entries[monNum].y,
-                        copyMagic.fairy.velo
+                        copyMagic.fairy.velocity
                     );
                     copyMagic.bounceCount = magic.bounceCount;
                 }
@@ -1574,13 +1572,13 @@ function attack(magic, monster) {
         if (magic.fairy.fairyNum === 3 && magic.fairy.evo2) {
             //  && fairySet[nowFairy].level === 9 (추후에 레벨업 생길 때 추가)
             let num = Math.floor(Math.random() * 100 + 1);
-            if (num <= magic.fairy.deathCount && monster.type != "boss") {
-                if (monster.monSpiece != "slime") {
+            if (num <= magic.fairy.deathCount && monster.type !== "boss") {
+                if (monster.monSpecie !== "slime") {
                     monster.die_anim();
                     monster.destroy();
                     player.expUp();
                     monsterCount -= 1;
-                } else if (monster.monSpiece == "slime") {
+                } else if (monster.monSpecie === "slime") {
                     for (let i = 0; i < 2; i++) {
                         addMonster(
                             thisScene,
@@ -1605,8 +1603,8 @@ function attack(magic, monster) {
         monster.invincible = true;
         monster.health -= (magic.fairy.dmg * player.dmgMul);
 
-        if (monster.health <= 0 && monster.type != "boss") {
-            if (monster.monSpiece != "slime") {
+        if (monster.health <= 0 && monster.type !== "boss") {
+            if (monster.monSpecie !== "slime") {
                 monster.die_anim();
                 monster.destroy();
                 player.expUp();
@@ -1620,7 +1618,7 @@ function attack(magic, monster) {
                     }
                 }
                 monsterCount -= 1;
-            } else if (monster.monSpiece == "slime") {
+            } else if (monster.monSpecie === "slime") {
                 for (let i = 0; i < 2; i++) {
                     addMonster(
                         thisScene,
@@ -1642,7 +1640,7 @@ function attack(magic, monster) {
 
 
 // 임시 구멍 구현
-function hithole(hole, monster) {
+function hitHole(hole, monster) {
     if (monster.type === 'wave' || monster.type === 'follower') {
         return
     }
@@ -1658,7 +1656,7 @@ function hithole(hole, monster) {
 
 function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
     monster = new Enemy(scene, hp, velo, x, y, mon_name, mon_anime, type);
-    if (monster.monSpiece == "baby_slime") {
+    if (monster.monSpecie === "baby_slime") {
         monster.scale = 0.5;
     }
     monster.setDepth(2);
@@ -1668,8 +1666,8 @@ function addMonster(scene, mon_name, mon_anime, hp, velo, x, y, type) {
     monster.anime();
 }
 
-function destroyhole(hole, golem) {
-    if (golem.bossSpiece == "golem") {
+function destroyHole(hole, golem) {
+    if (golem.bossSpiece === "golem") {
         hole.hp -= 9999;
         golem.destroy();
     }
@@ -1711,7 +1709,7 @@ function enemySpawn(scene) {
 }
 
 function slime_pattern(scene, pt, x, y) {
-    if (pt != 16) {
+    if (pt !== 16) {
         pt *= 2;
         for (let i = 0; i < 2; i++) {
             // 분열될 때마다 체력 감소 구현하기
@@ -1767,9 +1765,9 @@ function slime_pattern(scene, pt, x, y) {
 
 //map start
 function getChunk(x, y) {
-    var chunk = null;
-    for (var i = 0; i < chunks.length; i++) {
-        if (chunks[i].x == x && chunks[i].y == y) {
+    let chunk = null;
+    for (let i = 0; i < chunks.length; i++) {
+        if (chunks[i].x === x && chunks[i].y === y) {
             chunk = chunks[i];
         }
     }

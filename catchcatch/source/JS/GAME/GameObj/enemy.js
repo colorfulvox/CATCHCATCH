@@ -4,25 +4,25 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   maxHealth;
   health;
-  velo;
-  original_velo;
+  velocity;
+  originalVelocity;
   invincible = false;
-  monSpiece;
+  monSpecie;
   cc;
   constructor(scene, maxHealth, velo, randomX, randomY, monSpiece, anim,type) {
     scene.time.addEvent({ delay: 400, callback: () => { if(this.active===true){this.invincible = false; this.anime()}}, loop: true });
     super(scene, randomX, randomY, monSpiece);
     this.maxHealth = maxHealth;
     this.health = maxHealth;
-    this.velo = velo;
+    this.velocity = velo;
     this.alpha = 1;
     this.anim = anim;
-    this.monSpiece = monSpiece;
+    this.monSpecie = monSpiece;
     this.type = type;
     this.cc = '';
     this.scale = 1;
-    this.original_velo = this.velo;
-    thisScene.time.addEvent({ delay: 1200, callback: () => { this.velo = this.original_velo; this.cc = ""; }, loop: true });
+    this.originalVelocity = this.velocity;
+    thisScene.time.addEvent({ delay: 1200, callback: () => { this.velocity = this.originalVelocity; this.cc = ""; }, loop: true });
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
@@ -39,51 +39,51 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     if (this.body.velocity.x > 0) this.flipX = true;
     else this.flipX = false;
     if (this.cc === 'earth'){
-      this.velo = 0;
+      this.velocity = 0;
     }
     else if (this.cc === 'water'){
-      this.velo = 10;
+      this.velocity = 10;
     }
   }
 
   anime(){
-    if (this.monSpiece == 'alien'){
+    if (this.monSpecie === 'alien'){
       this
       .setTint(0xFFFA00) // 노랑
     }
-    else if (this.monSpiece == 'alien_plus'){
+    else if (this.monSpecie === 'alien_plus'){
       this
       .setTint(0xC29F6D)  // 갈색
     }
-    else if (this.monSpiece == 'worm'){
+    else if (this.monSpecie === 'worm'){
       this
       .setTint(0x00ff00);} // 연두
 
-    else if (this.monSpiece == 'worm_plus'){
+    else if (this.monSpecie === 'worm_plus'){
       this  
       .setTint(0xFFAAFF)}  // 핑크
 
-    else if (this.monSpiece == 'sonic'){
+    else if (this.monSpecie === 'sonic'){
       this
       .setTint(0x0000ff)  // 파랑
     }
 
-    else if (this.monSpiece == 'turtle'){
+    else if (this.monSpecie === 'turtle'){
       this
       .setTint(0xac28f6) // 보라
     }
 
-    else if (this.monSpiece == 'slime'){
+    else if (this.monSpecie === 'slime'){
       this
       .setTint(0x000000)  // 검정
     }
 
-    else if (this.monSpiece == 'baby_slime'){
+    else if (this.monSpecie === 'baby_slime'){
       this
       .setTint(0x000000)  // 검정
     }
 
-    else if (this.monSpiece == 'fly'){
+    else if (this.monSpecie === 'fly'){
       this
       .setTint(0x00EBFF)  // 시안블루
     }
