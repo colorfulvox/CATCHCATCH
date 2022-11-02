@@ -41,7 +41,7 @@
   font-weight: bold;
 }
 
-.catcoin {
+.catCoin {
   width: 100%;
   font-family: "KenneyBlocks";
   font-weight: bold;
@@ -60,7 +60,7 @@
   border-radius: 6px;
 }
 
-.stats #dmgmul {
+.stats #dmgMul {
   position: relative;
   width: 20px;
   height: 20px;
@@ -80,25 +80,25 @@
   border-radius: 6px;
 }
 
-.healtxt {
+.healTxt {
   position: absolute;
   left: 28px;
   top: 4px;
 }
 
-.dmgmultxt {
+.dmgMulTxt {
   position: absolute;
   left: 28px;
   top: 4px;
 }
 
-.speedtxt {
+.speedTxt {
   position: absolute;
   left: 28px;
   top: 4px;
 }
 
-.holeHP {
+.holeHp {
   display: flex;
   position: absolute;
   top: 2%;
@@ -111,7 +111,7 @@
   font-size: 50px;
 }
 
-.gameoverContainer {
+.gameOverContainer {
   display: flex;
   position: absolute;
   flex-direction: column;
@@ -125,7 +125,7 @@
   z-index: 1;
 }
 
-.gameover {
+.gameOver {
   font-size: 100px;
 }
 

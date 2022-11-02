@@ -2,7 +2,7 @@ import Fairy from "./GameObj/fairy.js";
 import Magic from "./GameObj/magic.js";
 import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
-import inGameUI, {gameover, updateExp, updateHP} from "../UI/inGameUI.js";
+import inGameUI, {GameOver, updateExp, updateHP} from "../UI/inGameUI.js";
 import levelup from "../UI/levelup.js";
 import initUpgrade, {closeUpgrade} from "../UI/upgrade.js";
 
@@ -11,7 +11,7 @@ import CatTower from "./GameObj/catTower.js";
 import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
-import {Updatetimer} from "../UI/inGameUI.js";
+import {UpdateTimer} from "../UI/inGameUI.js";
 
 export const config = {
     type: Phaser.AUTO,
@@ -1207,11 +1207,11 @@ function update(time, delta) {
         if (hole.hp <= 0) {
             $this.pause();
             updateHP();
-            gameover();
+            GameOver();
         }
 
         gameTimer++;
-        Updatetimer();
+        UpdateTimer();
 
         // 플레이어 기준랜덤 위치에 몬스터 생성
         // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
