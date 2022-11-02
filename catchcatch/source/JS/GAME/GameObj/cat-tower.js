@@ -209,7 +209,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
         thTower.towerASLevel < 10 &&
         player.coin >= thTower.towerASCost[thTower.towerASLevel]
       ) {
-        player.coin -= thTower.towerSCost[thTower.towerASLevel];
+        player.coin -= thTower.towerASCost[thTower.towerASLevel];
         thTower.towerASLevel += 1;
         thTower.level++;
       }
