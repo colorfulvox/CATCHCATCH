@@ -1,14 +1,7 @@
 import {bossSet} from "../game";
 
 export default class Boss extends Phaser.Physics.Arcade.Sprite {
-
-    maxHealth;
-    health;
-    velocity;
-    invincible = false;
-    bossSpecie;
-
-    constructor(scene, maxHealth, velo, randomX, randomY, bossSpecie, anim, scale, pt, type) {
+    constructor(scene, maxHealth, velocity, randomX, randomY, bossSpecie, anim, scale, pt, type) {
         scene.time.addEvent({
             delay: 400, callback: () => {
                 if (this.active === true) {
@@ -20,7 +13,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
         super(scene, randomX, randomY, bossSpecie);
         this.maxHealth = maxHealth;
         this.health = maxHealth;
-        this.velocity = velo;
+        this.velocity = velocity;
         this.alpha = 1;
         this.anim = anim;
         this.bossSpecie = bossSpecie;
@@ -29,20 +22,19 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
         this.pt = pt;
         this.scale = scale;
         this.type = type;
-
     }
 
     anime() {
-        if (this.bossSpecie == 'slime_king') {
+        if (this.bossSpecie === 'slime_king') {
             this
                 .setTint(0x00ff00)
-        } else if (this.bossSpecie == 'fire_giant') {
+        } else if (this.bossSpecie === 'fire_giant') {
             this
                 .setTint(0xff0000);
-        } else if (this.bossSpecie == 'golem') {
+        } else if (this.bossSpecie === 'golem') {
             this
                 .setTint(0x0000ff)
-        } else if (this.bossSpecie == 'unkown') {
+        } else if (this.bossSpecie === 'unkown') {
             this
                 .setTint(0xac28f6)
         }
