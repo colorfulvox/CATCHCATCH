@@ -127,8 +127,8 @@ let fireGiantAura;
 // 보스 패턴
 let pt;
 // 보스 활성 확인
-let boss_active;
-let boss_fireGiant_active;
+let bossActive;
+let bossFireGiantActive;
 
 let monX;
 let monY;
@@ -247,7 +247,7 @@ function preload() {
 
     this.load.spritesheet(
         "magic2",
-        "images/attack/weapon/7_firespin_spritesheet.png",
+        "images/attack/weapon/7Firespin_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
@@ -256,7 +256,7 @@ function preload() {
 
     this.load.spritesheet(
         "magic2_1",
-        "images/attack/weapon/19_freezing_spritesheet.png",
+        "images/attack/weapon/19Freezing_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
@@ -298,7 +298,7 @@ function preload() {
     // 스킬 스프라이트
     this.load.spritesheet(
         "skill1",
-        "images/attack/weapon/17_felspell_spritesheet.png",
+        "images/attack/weapon/17Felspell_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
@@ -1188,7 +1188,7 @@ function update(time, delta) {
                     this.physics.moveToObject(
                         monsterSet.children.entries[i],
                         player,
-                        monsterSet.children.entries[i].velo
+                        monsterSet.children.entries[i].velocity
                     );
                 }
                 // 몬스터가 홀에 도달하게 함
@@ -1196,7 +1196,7 @@ function update(time, delta) {
                     this.physics.moveToObject(
                         monsterSet.children.entries[i],
                         hole,
-                        monsterSet.children.entries[i].velo
+                        monsterSet.children.entries[i].velocity
                     );
                 }
             }
@@ -1275,7 +1275,7 @@ function update(time, delta) {
         // 보스
 
         // 슬라임
-        if (gameTimer === 10800) {
+        if (gameTimer === 108) {
             slimeKing = new Boss(
                 this,
                 400,
@@ -1290,7 +1290,7 @@ function update(time, delta) {
             );
             slimeKing.setDepth(2);
             slimeKing.anime();
-            boss_active = true;
+            bossActive = true;
             bossSet.add(slimeKing);
         }
 
@@ -1310,7 +1310,7 @@ function update(time, delta) {
             );
             golem.setDepth(2);
             golem.anime();
-            boss_active = true;
+            bossActive = true;
             bossSet.add(golem);
         }
 
@@ -1319,8 +1319,8 @@ function update(time, delta) {
             fireGiant = new Boss(this, 500, 30, player.x - 60, player.y - 60, 'fireGiant', 'swarm', 1, 10, 'boss')
             fireGiant.setDepth(6);
             fireGiant.anime();
-            boss_active = true;
-            boss_fireGiant_active = true;
+            bossActive = true;
+            bossFireGiantActive = true;
             bossSet.add(fireGiant);
             fireGiantIndex = bossSet.children.entries.length - 1;
         }
@@ -1332,7 +1332,7 @@ function update(time, delta) {
             bossMagicSet.add(fireGiantAura);
         }
 
-        if (boss_fireGiant_active) {
+        if (bossFireGiantActive) {
             let x = bossSet.children.entries[fireGiantIndex].x;
             let y = bossSet.children.entries[fireGiantIndex].y;
 
@@ -1345,7 +1345,7 @@ function update(time, delta) {
 
 
         // 보스 이동 및 사망 체크
-        if (boss_active) {
+        if (bossActive) {
             for (let i = 0; i < bossSet.children.entries.length; i++) {
                 if (bossSet.children.entries[i].invincible) {
                     bossSet.children.entries[i]
@@ -1355,14 +1355,14 @@ function update(time, delta) {
                     this.physics.moveToObject(
                         bossSet.children.entries[i],
                         player,
-                        bossSet.children.entries[i].velo
+                        bossSet.children.entries[i].velocity
                     );
                     if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
-                        if (boss_fireGiant_active) {
+                        if (bossFireGiantActive) {
                             this.physics.moveToObject(
                                 bossMagicSet.children.entries[0],
                                 bossSet.children.entries[i],
-                                bossMagicSet.children.entries[0].velo
+                                bossMagicSet.children.entries[0].velocity
                             );
                         }
                     }
@@ -1370,7 +1370,7 @@ function update(time, delta) {
                     this.physics.moveToObject(
                         bossSet.children.entries[i],
                         hole,
-                        bossSet.children.entries[i].velo
+                        bossSet.children.entries[i].velocity
                     );
                 }
                 if (bossSet.children.entries[i].health <= 0) {
@@ -1391,12 +1391,12 @@ function update(time, delta) {
 
                     if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
                         bossMagicSet.children.entries[0].destroy();
-                        boss_fireGiant_active = false;
+                        bossFireGiantActive = false;
                     }
 
                     bossSet.children.entries[i].destroy();
                     if (bossSet.children.entries.length === 0) {
-                        boss_active = false;
+                        bossActive = false;
                     }
                 }
             }
