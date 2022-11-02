@@ -50,7 +50,7 @@ export function closeUpgrade() {
 // initUpgrade();
 
 function sceneHandler(e) {
-  if (e.key == "Shift") {
+  if (e.key === "Shift") {
     $this.resume();
     closeUpgrade();
     window.removeEventListener("keydown", sceneHandler);
