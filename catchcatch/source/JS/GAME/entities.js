@@ -19,15 +19,15 @@ export class Chunk {
 
   load() {
     if (!this.isLoaded) {
-      for (var x = 0; x < this.scene.chunkSize; x++) {
-        for (var y = 0; y < this.scene.chunkSize; y++) {
+      for (let x = 0; x < this.scene.chunkSize; x++) {
+        for (let y = 0; y < this.scene.chunkSize; y++) {
 
-          var tileX = (this.x * (this.scene.chunkSize * this.scene.tileSize)) + (x * this.scene.tileSize);
-          var tileY = (this.y * (this.scene.chunkSize * this.scene.tileSize)) + (y * this.scene.tileSize);
+          let tileX = (this.x * (this.scene.chunkSize * this.scene.tileSize)) + (x * this.scene.tileSize);
+          let tileY = (this.y * (this.scene.chunkSize * this.scene.tileSize)) + (y * this.scene.tileSize);
 
-          var perlinValue = noise.perlin2(tileX / 100, tileY / 100);
+          let perlinValue = noise.perlin2(tileX / 100, tileY / 100);
 
-          var key = "";
+          let key = "";
 
           if (perlinValue < 0.2) {
             key = "sprWater";
@@ -40,7 +40,7 @@ export class Chunk {
           }
 
 
-          var tile = new Tile(this.scene, tileX, tileY, key);
+          let tile = new Tile(this.scene, tileX, tileY, key);
           this.tiles.add(tile);
         }
       }

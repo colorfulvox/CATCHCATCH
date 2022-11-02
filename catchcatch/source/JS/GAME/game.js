@@ -2,16 +2,16 @@ import Fairy from "./GameObj/fairy.js";
 import Magic from "./GameObj/magic.js";
 import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
-import inGameUI, {GameOver, updateExp, updateHP} from "../UI/inGameUI.js";
+import ingameUi, {GameOver, updateExp, updateHP} from "../UI/ingame-ui.js";
 import levelup from "../UI/levelup.js";
 import initUpgrade, {closeUpgrade} from "../UI/upgrade.js";
 
-import {Chunk, Tile} from "./Entities.js";
-import CatTower from "./GameObj/catTower.js";
+import {Chunk, Tile} from "./entities.js";
+import CatTower from "./GameObj/cat-tower.js";
 import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
-import {UpdateTimer} from "../UI/inGameUI.js";
+import {UpdateTimer} from "../UI/ingame-ui.js";
 
 export const config = {
     type: Phaser.AUTO,
@@ -873,7 +873,7 @@ function create() {
     hole.setCircle(hw * 0.7, hh - hw * 0.7, hh - hw * 0.7);
     hole.hp = 500;
     hole.setDepth(1);
-    inGameUI();
+    ingameUi();
 
     // 그룹셋
     monsterSet = this.physics.add.group();

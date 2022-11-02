@@ -1,7 +1,7 @@
 import {bossSet, monsterSet} from "../game";
-import TowerMagic from "./towerMagic";
-import TowerSkill from "./towerSkill";
-import tower from "../../UI/towerUpgrade.js";
+import TowerMagic from "./tower-magic";
+import TowerSkill from "./tower-skill";
+import tower from "../../UI/tower-upgrade.js";
 
 export default class CatTower extends Phaser.Physics.Arcade.Image {
     weaponSprite;

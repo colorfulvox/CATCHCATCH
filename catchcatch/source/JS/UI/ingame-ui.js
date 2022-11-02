@@ -1,5 +1,5 @@
 import "../../CSS/UI/inGameUI.css";
-import {CharSpaceOn} from "./CharSpace.js";
+import {CharSpaceOn} from "./char-space.js";
 
 let timerTxt = document.createElement("div");
 let minute = 0;
@@ -7,7 +7,7 @@ let second = 0;
 
 let catCoin;
 
-export default function inGameUI() {
+export default function ingameUi() {
     const gameContainer = document.querySelector("#game-container");
     // const progress = document.createElement("progress");
 
