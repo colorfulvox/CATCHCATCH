@@ -6,6 +6,7 @@ export default class Explosion extends Phaser.GameObjects.Sprite {
     scene.time.addEvent({ delay: 500, callback: () => { this.destroy(); }, loop: false });
     scene.add.existing(this);
     this.scale = 2;
+    UICam.ignore(this);
     this.play("magic5_1");
   }
 }
