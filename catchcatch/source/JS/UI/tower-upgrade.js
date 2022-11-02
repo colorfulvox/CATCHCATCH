@@ -97,8 +97,8 @@ export default function tower() {
       div.innerText = "그림";
     }
     div.addEventListener("click", () => {
-      if (!towers[towerNum].isTowerEvelop1) {
-        towers[towerNum].changeEvelop(i, towers[towerNum]);
+      if (!towers[_towerNum].isTowerEvelop1) {
+        towers[_towerNum].changeEvelop(i, towers[_towerNum]);
       }
     });
     towerIcons2.appendChild(div);
@@ -135,7 +135,7 @@ export default function tower() {
     }
     div.addEventListener("click", () => {
       if (!towers[_towerNum].isTowerEvelop2) {
-        towers[_towerNum].changeEvelop(i);
+        towers[_towerNum].changeEvelop(i, towers[_towerNum]);
       }
     });
     towerIcons4.appendChild(div);
