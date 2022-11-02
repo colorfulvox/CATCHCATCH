@@ -1,36 +1,36 @@
-let towerNum = 0;
+let _towerNum = 0;
 export default function tower() {
   const towers = [towerLU, towerRU, towerLD, towerRD];
   const tier1 = [
     {
       click: () => {
-        towers[towerNum].damageFunc(towers[towerNum]);
+        towers[_towerNum].damageFunc(towers[_towerNum]);
       },
-      current: towers[towerNum].towerDmgLevel,
-      max: towers[towerNum].towerDmgMax,
+      current: towers[_towerNum].towerDmgLevel,
+      max: towers[_towerNum].towerDmgMax,
     },
     {
       click: () => {
-        towers[towerNum].bulletFunc(towers[towerNum]);
+        towers[_towerNum].bulletFunc(towers[_towerNum]);
       },
-      current: towers[towerNum].bulletLevel,
-      max: towers[towerNum].bulletMax,
+      current: towers[_towerNum].bulletLevel,
+      max: towers[_towerNum].bulletMax,
     },
   ];
   const tier3 = [
     {
       click: () => {
-        towers[towerNum].rangeFunc(towers[towerNum]);
+        towers[_towerNum].rangeFunc(towers[_towerNum]);
       },
-      current: towers[towerNum].circleSizeLevel,
-      max: towers[towerNum].circleSizeMax,
+      current: towers[_towerNum].circleSizeLevel,
+      max: towers[_towerNum].circleSizeMax,
     },
     {
       click: () => {
-        towers[towerNum].speedFunc(towers[towerNum]);
+        towers[_towerNum].speedFunc(towers[_towerNum]);
       },
-      current: towers[towerNum].towerASLevel,
-      max: towers[towerNum].towerASMax,
+      current: towers[_towerNum].towerASLevel,
+      max: towers[_towerNum].towerASMax,
     },
   ];
 
@@ -90,14 +90,14 @@ export default function tower() {
     div.style.backgroundPosition = "center";
     div.style.backgroundRepeat = "no-repeat";
     div.style.backgroundSize = "cover";
-    if (towers[towerNum].towerEvelop1[i]) {
+    if (towers[_towerNum].towerEvelop1[i]) {
       div.innerText = "완료";
     } else {
       div.innerText = "그림";
     }
     div.addEventListener("click", () => {
-      if (!towers[towerNum].isTowerEvelop1) {
-        towers[towerNum].changeEvelop(i);
+      if (!towers[_towerNum].isTowerEvelop1) {
+        towers[_towerNum].changeEvelop(i);
       }
     });
     towerIcons2.appendChild(div);
@@ -127,15 +127,14 @@ export default function tower() {
     div.style.backgroundPosition = "center";
     div.style.backgroundRepeat = "no-repeat";
     div.style.backgroundSize = "cover";
-    if (towers[towerNum].towerEvelop2[i]) {
+    if (towers[_towerNum].towerEvelop2[i]) {
       div.innerText = "완료";
     } else {
       div.innerText = "그림";
     }
     div.addEventListener("click", () => {
-      console.log(towers[towerNum].isTowerEvelop2);
-      if (!towers[towerNum].isTowerEvelop2) {
-        towers[towerNum].changeEvelop(i);
+      if (!towers[_towerNum].isTowerEvelop2) {
+        towers[_towerNum].changeEvelop(i);
       }
     });
     towerIcons4.appendChild(div);
@@ -170,7 +169,7 @@ export default function tower() {
   for (let i = 1; i < 5; i++) {
     const btn = document.querySelector(`.tower${i}`);
     btn.addEventListener("click", () => {
-      towerNum = i - 1;
+      _towerNum = i - 1;
       tower();
     });
   }

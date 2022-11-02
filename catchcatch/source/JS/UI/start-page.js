@@ -2,7 +2,7 @@ import "../../CSS/UI/StartPage.css";
 import "./char-space.js";
 import CharPageInit, {CharSpaceOn} from "./char-space.js";
 
-let mode = true;
+let _mode = true;
 const _StartPage = document.createElement("div");
 const _app = document.getElementById("app");
 _StartPage.className = "StartPage";
@@ -28,7 +28,7 @@ const StartPageInit = () => {
     LogoImg.height = 300;
     _Logo.appendChild(LogoImg);
     _Logo.addEventListener("click", () => {
-        mode = !mode;
+        _mode = !_mode;
         StartPageInit();
     });
 
@@ -54,7 +54,7 @@ const StartPageInit = () => {
     Btn.textContent = "GameStart";
 
     //이벤트 리스너 추가------------
-    if (mode === true) {
+    if (_mode === true) {
         Btn.addEventListener("click", GoSelectChar);
     } else {
         Btn.addEventListener("click", () => {
@@ -69,7 +69,7 @@ const StartPageInit = () => {
     //================================================
 
     // 랭킹 ============================================
-    if (mode === false) {
+    if (_mode === false) {
         const _Ranked = document.createElement("div");
         _Ranked.className = "RankedId";
         let Btn = document.createElement("button");

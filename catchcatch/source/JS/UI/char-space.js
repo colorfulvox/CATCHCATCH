@@ -3,13 +3,13 @@ import {StartBtnOn} from "./start-page";
 import {SaveData} from "../../main.js";
 import {config} from "../GAME/game.js";
 
-let _SettingSpace;
+let _settingSpace;
 
-let _SlideList;
-let _BuyBtn;
-let _GameStartBtn;
-let _CanCount;
-const catnamelist = [
+let _slideList;
+let _buyBtn;
+let _gameStartBtn;
+let _canCount;
+const _catNameList = [
     "캐　츠",
     "용냥이",
     "무냥이",
@@ -23,41 +23,41 @@ const CharPageInit = () => {
     //여기서 미리 서버 정보를 가져온다. ---------------------------
     let _AllBtn = document.getElementById("AllBtnList");
     // StartPage가 생성되면 StartPage에 CharPage를 넣는것으로 하자
-    _SettingSpace = document.createElement("div");
-    _SettingSpace.className = "SettingSpace";
-    _SettingSpace.style.display = "none";
+    _settingSpace = document.createElement("div");
+    _settingSpace.className = "SettingSpace";
+    _settingSpace.style.display = "none";
 
-    _AllBtn.appendChild(_SettingSpace);
+    _AllBtn.appendChild(_settingSpace);
     //--------------------------------------------------
 
     //뒤로가기
     let _BackIcon = document.createElement("button");
     _BackIcon.className = "BackIcon";
-    _SettingSpace.appendChild(_BackIcon);
+    _settingSpace.appendChild(_BackIcon);
     _BackIcon.addEventListener("click", BackStart);
 
     // 캔 갯수 표시
     let _CanIcon = document.createElement("div");
     _CanIcon.className = "CanIcon";
-    _SettingSpace.appendChild(_CanIcon);
+    _settingSpace.appendChild(_CanIcon);
 
-    _CanCount = document.createElement("div");
-    _CanCount.className = "CanCount";
-    _CanCount.textContent = "x" + LocalData.Coin;
-    _CanIcon.appendChild(_CanCount);
+    _canCount = document.createElement("div");
+    _canCount.className = "CanCount";
+    _canCount.textContent = "x" + LocalData.Coin;
+    _CanIcon.appendChild(_canCount);
 
     //고양이 구매
-    _BuyBtn = document.createElement("button");
-    _BuyBtn.className = "BuyBtn";
-    _SettingSpace.appendChild(_BuyBtn);
-    _BuyBtn.textContent = "100 Can!";
-    _BuyBtn.style.display = "none";
-    _BuyBtn.addEventListener("click", BuyChar);
+    _buyBtn = document.createElement("button");
+    _buyBtn.className = "BuyBtn";
+    _settingSpace.appendChild(_buyBtn);
+    _buyBtn.textContent = "100 Can!";
+    _buyBtn.style.display = "none";
+    _buyBtn.addEventListener("click", BuyChar);
 
     // 캐릭터 선택 Space
     let _CharSpace = document.createElement("div");
     _CharSpace.className = "CharSpace";
-    _SettingSpace.appendChild(_CharSpace);
+    _settingSpace.appendChild(_CharSpace);
 
     //컨텐츠 네임 [캐릭터선택]
     let _ContentName = document.createElement("div");
@@ -81,9 +81,9 @@ const CharPageInit = () => {
     _Slide.className = "Slide";
     _ChoiceCharBox.appendChild(_Slide);
 
-    _SlideList = document.createElement("div");
-    _SlideList.className = "SlideList";
-    _Slide.appendChild(_SlideList);
+    _slideList = document.createElement("div");
+    _slideList.className = "SlideList";
+    _Slide.appendChild(_slideList);
 
     for (let i = 0; i < 7; ++i) {
         let _CharTemp = document.createElement("div");
@@ -105,11 +105,11 @@ const CharPageInit = () => {
         _CharName.id = `CharName_${i}`;
 
         if (LocalData.Cat[i] !== false)
-            _CharName.textContent = "[" + catnamelist[i] + "]";
+            _CharName.textContent = "[" + _catNameList[i] + "]";
         else _CharName.textContent = "[" + " ???? " + "]";
         _CharTemp.appendChild(_CharName);
 
-        _SlideList.appendChild(_CharTemp);
+        _slideList.appendChild(_CharTemp);
     }
 
     //RightBtn
@@ -123,7 +123,7 @@ const CharPageInit = () => {
     //난이도 선택 및 게임 시작
     let _OtherBtn = document.createElement("div");
     _OtherBtn.className = "OtherBtn";
-    _SettingSpace.appendChild(_OtherBtn);
+    _settingSpace.appendChild(_OtherBtn);
 
     let _LevelBtn = document.createElement("button");
     _LevelBtn.className = "LevelBtn";
@@ -134,23 +134,23 @@ const CharPageInit = () => {
     _LevelBtn.addEventListener("click", MapLevel);
     _OtherBtn.appendChild(_LevelBtn);
 
-    _GameStartBtn = document.createElement("button");
-    _GameStartBtn.className = "GameStartBtn";
-    _GameStartBtn.id = "GameStartBtn";
-    _GameStartBtn.textContent = "GO!CATCH!";
-    _GameStartBtn.style.textAlign = "center";
-    _GameStartBtn.addEventListener("click", GameStart);
-    _OtherBtn.appendChild(_GameStartBtn);
+    _gameStartBtn = document.createElement("button");
+    _gameStartBtn.className = "GameStartBtn";
+    _gameStartBtn.id = "GameStartBtn";
+    _gameStartBtn.textContent = "GO!CATCH!";
+    _gameStartBtn.style.textAlign = "center";
+    _gameStartBtn.addEventListener("click", GameStart);
+    _OtherBtn.appendChild(_gameStartBtn);
 };
 
 export default CharPageInit;
 
 export const CharSpaceOn = () => {
-    _SettingSpace.style.display = "flex";
+    _settingSpace.style.display = "flex";
 };
 
 export const CharSpaceOff = () => {
-    _SettingSpace.style.display = "none";
+    _settingSpace.style.display = "none";
 };
 
 // 돌아가기
@@ -172,17 +172,17 @@ function GameStart() {
 let CharIndex = 0;
 
 function Slide() {
-    _SlideList.style.left = -CharIndex * 190 + "px";
+    _slideList.style.left = -CharIndex * 190 + "px";
     if (LocalData.Cat[CharIndex] !== false) {
         ChoiceCat = CharIndex;
         const target = document.getElementById("GameStartBtn");
         target.disabled = false;
-        _BuyBtn.style.display = "none";
+        _buyBtn.style.display = "none";
     } else {
         ChoiceCat = -1;
         const target = document.getElementById("GameStartBtn");
         target.disabled = true;
-        _BuyBtn.style.display = "inline-block";
+        _buyBtn.style.display = "inline-block";
     }
 }
 
@@ -206,12 +206,12 @@ function BuyChar() {
         LocalData.Cat[CharIndex] = true;
         ChoiceCat = CharIndex;
 
-        _CanCount.textContent = "x" + LocalData.Coin;
+        _canCount.textContent = "x" + LocalData.Coin;
 
         const ChangeCharImg = document.getElementById(`CharImg_${CharIndex}`);
         ChangeCharImg.src = `images/CharImg/${CharIndex}.png`;
         const ChangeCharName = document.getElementById(`CharName_${CharIndex}`);
-        ChangeCharName.textContent = "[" + catnamelist[CharIndex] + "]";
+        ChangeCharName.textContent = "[" + _catNameList[CharIndex] + "]";
 
         this.style.display = "none";
         const target = document.getElementById("GameStartBtn");

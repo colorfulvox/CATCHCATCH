@@ -1,11 +1,11 @@
 import "../../CSS/UI/inGameUI.css";
 import {CharSpaceOn} from "./char-space.js";
 
-let timerTxt = document.createElement("div");
-let minute = 0;
-let second = 0;
+let _timerTxt = document.createElement("div");
+let _minute = 0;
+let _second = 0;
 
-let catCoin;
+let _catCoin;
 
 export default function ingameUi() {
     const gameContainer = document.querySelector("#game-container");
@@ -19,10 +19,10 @@ export default function ingameUi() {
     holeHp.appendChild(hp);
     gameContainer.appendChild(holeHp);
 
-    catCoin = document.createElement("div");
-    catCoin.setAttribute("class", "catCoin");
-    catCoin.setAttribute("id", "catCoin");
-    catCoin.textContent = global.coin + " Coin";
+    _catCoin = document.createElement("div");
+    _catCoin.setAttribute("class", "catCoin");
+    _catCoin.setAttribute("id", "catCoin");
+    _catCoin.textContent = global.coin + " Coin";
 
     const stats = document.createElement("div");
     const heal = document.createElement("div");
@@ -34,12 +34,12 @@ export default function ingameUi() {
     const speed = document.createElement("div");
     const speedTxt = document.createElement("div");
 
-    timerTxt.setAttribute("class", "Timer");
-    gameContainer.appendChild(timerTxt);
-    minute = 0;
-    second = 0;
+    _timerTxt.setAttribute("class", "Timer");
+    gameContainer.appendChild(_timerTxt);
+    _minute = 0;
+    _second = 0;
 
-    timerTxt.textContent = `${minute}:${second}`;
+    _timerTxt.textContent = `${_minute}:${_second}`;
 
     // progress.setAttribute("id", "progress");
     // progress.setAttribute("value", player.exp);
@@ -79,7 +79,7 @@ export default function ingameUi() {
     speedTxt.innerText = `Lv.${player.speedLevel}`;
     speed.appendChild(speedTxt);
 
-    stats.appendChild(catCoin);
+    stats.appendChild(_catCoin);
     stats.appendChild(heal);
     stats.appendChild(dmgMul);
     stats.appendChild(speed);
@@ -132,21 +132,21 @@ export function GameOver() {
 
 export function UpdateTimer() {
     if (global.gameTimer !== 0 && global.gameTimer % 60 === 0) {
-        ++second;
-        if (second === 60) {
-            ++minute;
-            second = 0;
+        ++_second;
+        if (_second === 60) {
+            ++_minute;
+            _second = 0;
         }
     }
-    if (second < 10) {
-        if (minute < 10) timerTxt.textContent = `0${minute}:0${second}`;
-        else timerTxt.textContent = `${minute}:0${second}`;
-    } else if (minute < 10) {
-        if (second < 10) timerTxt.textContent = `0${minute}:0${second}`;
-        else timerTxt.textContent = `0${minute}:${second}`;
-    } else timerTxt.textContent = `w${minute}:${second}`;
+    if (_second < 10) {
+        if (_minute < 10) _timerTxt.textContent = `0${_minute}:0${_second}`;
+        else _timerTxt.textContent = `${_minute}:0${_second}`;
+    } else if (_minute < 10) {
+        if (_second < 10) _timerTxt.textContent = `0${_minute}:0${_second}`;
+        else _timerTxt.textContent = `0${_minute}:${_second}`;
+    } else _timerTxt.textContent = `w${_minute}:${_second}`;
 
-    if (minute === 20) {
+    if (_minute === 20) {
         $this.pause();
         GameClear();
         //게임클리어
@@ -182,5 +182,5 @@ function GoHome() {
 }
 
 export function UpdateCatCoin() {
-    catCoin.textContent = global.coin + " Coin";
+    _catCoin.textContent = global.coin + " Coin";
 }
