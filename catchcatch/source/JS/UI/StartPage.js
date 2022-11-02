@@ -1,7 +1,8 @@
 import "../../CSS/UI/StartPage.css";
 import "./CharSpace.js";
-import { CharSpaceOn } from "./CharSpace.js";
+import CharPageInit, { CharSpaceOn } from "./CharSpace.js";
 
+let mode = true;
 const _StartPage = document.createElement("div");
 const _app = document.getElementById("app");
 _StartPage.className = "StartPage";
@@ -9,6 +10,9 @@ _StartPage.style.display = "none";
 _app.appendChild(_StartPage);
 
 const StartPageInit = () => {
+  _app.removeChild(_StartPage);
+  _app.appendChild(_StartPage);
+  _StartPage.innerHTML = "";
   _app.style.background = "url('images/ui/Background.gif')";
   _app.style.backgroundPosition = "center";
   _app.style.backgroundRepeat = "no-repeat";
@@ -23,6 +27,10 @@ const StartPageInit = () => {
   LogoImg.width = 1000;
   LogoImg.height = 300;
   _Logo.appendChild(LogoImg);
+  _Logo.addEventListener("click", () => {
+    mode = !mode;
+    StartPageInit();
+  });
 
   _StartPage.appendChild(_Logo); // 로고 추가
   //==============================================
@@ -46,7 +54,13 @@ const StartPageInit = () => {
   Btn.textContent = "GameStart";
 
   //이벤트 리스너 추가------------
-  Btn.addEventListener("click", GoSelectChar);
+  if (mode === true) {
+    Btn.addEventListener("click", GoSelectChar);
+  } else {
+    Btn.addEventListener("click", () => {
+      console.log("코딩모드 시작");
+    });
+  }
   //-------------------------
 
   _GoSelectChar.appendChild(Btn);
@@ -55,25 +69,22 @@ const StartPageInit = () => {
   //================================================
 
   // 랭킹 ============================================
-  const _Ranked = document.createElement("div");
-  _Ranked.className = "RankedId";
-  var Btn = document.createElement("button");
-  Btn.className = "StartBtn";
-  Btn.textContent = "Ranking";
-  _Ranked.appendChild(Btn);
+  if (mode === false) {
+    const _Ranked = document.createElement("div");
+    _Ranked.className = "RankedId";
+    var Btn = document.createElement("button");
+    Btn.className = "StartBtn";
+    Btn.textContent = "Ranking";
+    _Ranked.appendChild(Btn);
 
-  _StartBtn.appendChild(_Ranked); //랭킹 버튼 추가;
-  //=================================================
-
-  // 게임 종료 ===========================================
-  const _QuitGame = document.createElement("div");
-  _QuitGame.className = "QuitGameId";
-  var Btn = document.createElement("button");
-  Btn.className = "StartBtn";
-  Btn.textContent = "Exit";
-  _QuitGame.appendChild(Btn);
-
-  _StartBtn.appendChild(_QuitGame); //게임종료 버튼 추가;
+    _StartBtn.appendChild(_Ranked); //랭킹 버튼 추가;
+  } else {
+    const _Ranked = document.createElement("div");
+    _Ranked.className = "RankedId";
+    _Ranked.style.height = "70px";
+    _StartBtn.appendChild(_Ranked);
+    CharPageInit();
+  }
   //=================================================
   StartPageOn();
 };

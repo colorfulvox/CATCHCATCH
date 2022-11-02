@@ -7,7 +7,7 @@ import levelup from "../UI/levelup.js";
 import initUpgrade, {closeUpgrade} from "../UI/upgrade.js";
 
 import {Chunk, Tile} from "./Entities.js";
-import CatTower from "./GameObj/cattower.js";
+import CatTower from "./GameObj/catTower.js";
 import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
