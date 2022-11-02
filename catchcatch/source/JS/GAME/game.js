@@ -247,7 +247,7 @@ function preload() {
 
     this.load.spritesheet(
         "magic2",
-        "images/attack/weapon/7Firespin_spritesheet.png",
+        "images/attack/weapon/7_firespin_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
@@ -256,7 +256,7 @@ function preload() {
 
     this.load.spritesheet(
         "magic2_1",
-        "images/attack/weapon/19Freezing_spritesheet.png",
+        "images/attack/weapon/19_freezing_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
@@ -298,7 +298,7 @@ function preload() {
     // 스킬 스프라이트
     this.load.spritesheet(
         "skill1",
-        "images/attack/weapon/17Felspell_spritesheet.png",
+        "images/attack/weapon/17_felspell_spritesheet.png",
         {
             frameWidth: 100,
             frameHeight: 100,
