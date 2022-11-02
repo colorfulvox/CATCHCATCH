@@ -171,7 +171,7 @@ global.mines = "";
 //exp bar start
 var expbar;
 var expbarBG;
-
+var UICam;
 //exp bar end
 
 //hp bar start
@@ -1014,15 +1014,18 @@ function create() {
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
 
     //navi start
-    navi = this.add.image(50, 50, "navi").setScrollFactor(0).setScale(0.1);
+    navi = this.add.image(60, 60, "navi").setScrollFactor(0).setScale(0.1);
     navi.setDepth(4);
     //navi end
 
     //exp bar start
-    expbar = this.add.graphics();
-    expbarBG = this.add.graphics();
+    expbar = this.add.graphics().setScrollFactor(0);
+    expbarBG = this.add.graphics().setScrollFactor(0);
     expbar.setDepth(4);
     expbarBG.setDepth(3);
+    UICam = this.cameras.add(player.x, player.y, this.cameras.main.worldView.width, this.cameras.main.worldView.height);
+    this.cameras.main.ignore([expbar, expbarBG, navi]);
+    // UICam.ignore([plater]);  
     //exp bar end
 
     // hp bar start
@@ -1050,8 +1053,8 @@ function update(time, delta) {
 
     hpbar.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
     hpbarBG.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
-    expbar.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
-    expbarBG.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
+    // expbar.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
+    // expbarBG.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
     // Health bar end
     if (frameTime > 16.5) {
         frameTime = 0;
@@ -1104,6 +1107,7 @@ function update(time, delta) {
         this.followPoint.y = player.y;
 
         this.cameras.main.startFollow(player, false);
+        UICam.startFollow(player,false);
         //map end
 
         //navi start
@@ -1430,14 +1434,14 @@ function update(time, delta) {
 
         //  BG
         expbarBG.fillStyle(0x000000);
-        expbarBG.fillRect(0, 0, this.cameras.main.worldView.width, 16); // x y 가로길이, 세로길이
+        expbarBG.fillRect(0, 0, UICam.worldView.width, 16); // x y 가로길이, 세로길이
 
 
         expbar.fillStyle(0xff0000);
         expbar.fillRect(
             0,
             0,
-            this.cameras.main.worldView.width * (player.exp / player.maxExp),
+            UICam.worldView.width * (player.exp / player.maxExp),
             16
         );
     }    //exp bar end
