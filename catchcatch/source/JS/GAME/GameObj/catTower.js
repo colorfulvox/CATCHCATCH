@@ -2,6 +2,8 @@ import { monsterSet, bossSet } from "../game";
 import TowerMagic from "./towerMagic";
 import TowerSkill from "./towerSkill";
 import tower from "../../UI/towerUpgrade.js";
+import Player from "./player";
+import { UpdateCatCoin } from "../../UI/inGameUI.js";
 
 export default class CatTower extends Phaser.Physics.Arcade.Image {
   weaponSprite;
@@ -9,10 +11,12 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   towerAttackTimer = 0;
   towerSkillAttackTimer = 0;
   towerAS = [50, 47, 44, 41, 38, 35, 32, 29, 26, 23, 20]; //연사속도
+  towerASCost = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300];
   towerASLevel = 0; //연사속도
   towerASMax = 10;
   towerSkillAS = 50; //연사속도
   towerDmg = [20, 23, 26, 29, 32, 35, 38, 41, 44, 47, 50]; //기본 대미지
+  towerDmgCost = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   towerDmgLevel = 0;
   towerDmgMax = 10;
   towerSkillDmg = 6; //스킬 기본 대미지
@@ -23,14 +27,17 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   isThree = false; //3연발
   bulletLevel = 0;
   bulletMax = 2;
+  bulletCost = [0, 50, 100];
   towerEvelop = [false, false, false, false]; //전기, 불, 물, 땅
   towerEvelop1 = [false, false, false, false]; //전기, 불, 물, 땅
   towerEvelop2 = [false, false, false, false]; //전기, 불, 물, 땅
+  towerEvelopCost = [200, 1000];
   isTowerEvelop1 = false;
   isTowerEvelop2 = false;
   circleSize = 0.1;
   circleSizeMax = 10;
   circleSizeLevel = 0;
+  circleSizeCost = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200];
   level = 0;
 
   timedEvent;
@@ -142,7 +149,12 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   }
 
   damageFunc(thTower) {
-    if (thTower.towerDmgLevel < 10) {
+    if (
+      thTower.towerDmgLevel < 10 &&
+      player.coin >= thTower.towerDmgCost[thTower.towerDmgLevel + 1]
+    ) {
+      player.coin -= thTower.towerDmgCost[thTower.towerDmgLevel + 1];
+      UpdateCatCoin();
       thTower.towerDmgLevel += 1;
       thTower.level++;
       tower();
@@ -151,61 +163,98 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
   bulletFunc(thTower) {
     if (thTower.bulletLevel < 2) {
-      if (thTower.isTwo === false && thTower.isThree === false) {
+      if (
+        thTower.isTwo === false &&
+        thTower.isThree === false &&
+        player.coin >= thTower.bulletCost[thTower.bulletLevel + 1]
+      ) {
+        player.coin -= thTower.bulletCost[thTower.bulletLevel + 1];
         thTower.isTwo = true;
         thTower.bulletLevel += 1;
-      } else if (thTower.isTwo === true && thTower.isThree === false) {
+      } else if (
+        thTower.isTwo === true &&
+        thTower.isThree === false &&
+        player.coin >= thTower.bulletCost[thTower.bulletLevel + 1]
+      ) {
+        player.coin -= thTower.bulletCost[thTower.bulletLevel + 1];
         thTower.isThree = true;
         thTower.bulletLevel += 1;
       }
+
       thTower.level++;
+      UpdateCatCoin();
       tower();
     }
   }
 
   rangeFunc(thTower) {
     if (thTower.level >= 10) {
-      if (thTower.circleSizeLevel < 10) {
+      if (
+        thTower.circleSizeLevel < 10 &&
+        player.coin >= thTower.circleSizeCost[thTower.circleSizeLevel]
+      ) {
+        player.coin -= thTower.circleSizeCost[thTower.circleSizeLevel];
         thTower.circlesize += 0.01;
         thTower.circleSizeLevel++;
         thTower.level++;
       }
+      UpdateCatCoin();
       tower();
     }
   }
 
   speedFunc(thTower) {
     if (thTower.level >= 10) {
-      if (thTower.towerASLevel < 10) {
+      if (
+        thTower.towerASLevel < 10 &&
+        player.coin >= thTower.towerASCost[thTower.towerASLevel]
+      ) {
+        player.coin -= thTower.towerSCost[thTower.towerASLevel];
         thTower.towerASLevel += 1;
         thTower.level++;
       }
       tower();
+      UpdateCatCoin();
     }
   }
 
-  changeEvelop(num) {
+  changeEvelop(num, thTower) {
     if (this.level >= 9 && !this.isTowerEvelop1) {
-      if (!this.isTowerEvelop1) {
+      if (!this.isTowerEvelop1 && player.coin >= thTower.towerEvelopCost[0]) {
+        player.coin -= thTower.towerEvelopCost[0];
         this.towerEvelop[num] = true;
         this.towerEvelop1[num] = true;
         this.isTowerEvelop1 = true;
         this.level++;
+      } else if (player.coin < thTower.towerEvelopCost[0]) {
+        alert("코인 부족");
       }
     } else if (this.level >= 19) {
       if (!this.isTowerEvelop2) {
-        if (!this.towerEvelop[num]) {
+        if (
+          !this.towerEvelop[num] &&
+          player.coin >= thTower.towerEvelopCost[1]
+        ) {
+          player.coin -= thTower.towerEvelopCost[1];
           this.towerEvelop[num] = true;
           this.towerEvelop2[num] = true;
           this.isTowerEvelop2 = true;
           this.level++;
         } else if (this.towerEvelop[num]) {
           alert("중복");
+        } else {
+          alert("코인 부족");
         }
+      } else if (
+        player.coin < thTower.towerEvelopCost[0] ||
+        player.coin < thTower.towerEvelopCost[1]
+      ) {
+        alert("코인 부족");
       }
     } else {
       alert("레벨 부족");
     }
+    UpdateCatCoin();
     tower();
   }
 
@@ -215,7 +264,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
 
       alien.health -= magic.dmg;
       //   console.log(alien.health);
-      
+
       if (alien.health <= 0) {
         alien.destroy();
         monsterCount -= 1;
@@ -270,7 +319,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       let skill;
       if (tower.towerEvelop[0] === true) {
         skill = new TowerSkill(game, tower, 1000, 3000, 0.01);
-
       } else if (tower.towerEvelop[1] === true) {
         skill = new TowerSkill(game, tower, 1000, 10000, 0.01);
 
@@ -278,19 +326,19 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       } else if (tower.towerEvelop[2] === true) {
         skill = new TowerSkill(game, tower, 1000, 3000, 0.01);
 
-        mouse.CC = "water"
+        mouse.CC = "water";
       } else if (tower.towerEvelop[3] === true) {
         skill = new TowerSkill(game, tower, 1000, 3000, 0.01);
 
-        mouse.CC = "earth"
+        mouse.CC = "earth";
       }
 
       if (skill) {
-        console.log(skill)
+        console.log(skill);
         skill.body.checkCollision.none = true;
         let hw = skill.body.halfWidth;
         let hh = skill.body.halfHeight;
-        skill.setCircle(hw*100, hh - hw*100, hh - hw*100);
+        skill.setCircle(hw * 100, hh - hw * 100, hh - hw * 100);
 
         towerSkillAttacks.add(skill);
         // console.log(towerSkillAttacks)
@@ -313,5 +361,4 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       }
     }
   }
-
 }

@@ -22,8 +22,8 @@ export default function tower() {
       click: () => {
         towers[towerNum].rangeFunc(towers[towerNum]);
       },
-      current: towers[towerNum].circlesizeLevel,
-      max: towers[towerNum].circlesizeMax,
+      current: towers[towerNum].circleSizeLevel,
+      max: towers[towerNum].circleSizeMax,
     },
     {
       click: () => {
@@ -97,7 +97,7 @@ export default function tower() {
     }
     div.addEventListener("click", () => {
       if (!towers[towerNum].isTowerEvelop1) {
-        towers[towerNum].changeEvelop(i);
+        towers[towerNum].changeEvelop(i, towers[towerNum]);
       }
     });
     towerIcons2.appendChild(div);

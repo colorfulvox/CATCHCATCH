@@ -22,7 +22,7 @@ export default function inGameUI() {
   _catcoin = document.createElement("div");
   _catcoin.setAttribute("class", "catcoin");
   _catcoin.setAttribute("id", "catcoin");
-  _catcoin.textContent = global.coin + " Coin";
+  _catcoin.textContent = player.coin + " Coin";
 
   const stats = document.createElement("div");
   const heal = document.createElement("div");
@@ -181,5 +181,5 @@ function GoHome() {
 }
 
 export function UpdateCatCoin() {
-  _catcoin.textContent = global.coin + " Coin";
+  _catcoin.textContent = player.coin + " Coin";
 }
