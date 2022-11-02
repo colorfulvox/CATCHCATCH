@@ -32,8 +32,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
     circleSizeLevel = 0;
     level = 0;
 
-    timedEvent;
-
     constructor(scene, towerX, towerY, towerSprite, weaponSprite, skillSprite) {
         super(scene, towerX, towerY, towerSprite);
 
