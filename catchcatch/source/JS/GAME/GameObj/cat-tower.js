@@ -64,9 +64,9 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
   magicFire(game, tower, mouse, speed) {
     let magic = new TowerMagic(game, tower);
 
-    let magicLeft = new TowerMagic(game, tower);
+    let magicLeft;
 
-    let magicRight = new TowerMagic(game, tower);
+    let magicRight;
     if (
       mouse.type !== "boss" ||
       (mouse.type === "boss" && mouse.bossSpecie !== "golem")
@@ -74,9 +74,12 @@ export default class CatTower extends Phaser.Physics.Arcade.Image {
       if (this.isThree === false && this.isTwo === false) {
         towerAttacks.add(magic);
       } else if (this.isThree === false && this.isTwo === true) {
+        magicLeft = new TowerMagic(game, tower);
         towerAttacks.add(magic);
         towerAttacks.add(magicLeft);
       } else {
+        magicLeft = new TowerMagic(game, tower);
+        magicRight = new TowerMagic(game, tower);
         towerAttacks.add(magic);
         towerAttacks.add(magicLeft);
         towerAttacks.add(magicRight);
