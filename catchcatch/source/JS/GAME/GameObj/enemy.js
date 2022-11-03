@@ -36,8 +36,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     if(!this.body){
       return;
     }
-    if (this.body.velocity.x > 0) this.flipX = true;
-    else this.flipX = false;
+    if (this.body.velocity.x > 0) this.flipX = false;
+    else this.flipX = true;
     if (this.cc === 'earth'){
       this.velocity = 0;
     }
