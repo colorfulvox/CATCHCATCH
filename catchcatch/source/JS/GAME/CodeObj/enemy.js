@@ -6,6 +6,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   health = 3;
   velo;
   invincible = false;
+  type;
   monSpiece;
   constructor(scene, velo, randomX, randomY, monSpiece, anim, type) {
     scene.time.addEvent({ delay: 400, callback: () => { if(this.active===true){this.invincible = false; this.anime()}}, loop: true });

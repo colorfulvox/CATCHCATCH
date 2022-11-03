@@ -53,6 +53,7 @@ var gameOver = false;
 var scoreText;
 global.gameTimer = 0;
 
+global.magicSet = "";
 var map;
 var chunks = [];
 export var camera;
@@ -331,7 +332,9 @@ function create() {
 
     //monster start
     codeMonsterSet = this.physics.add.group();
+    magicSet = this.physics.add.group();
     //monster end
+    
 
 this.cameras.main.setZoom(0.7);
 this.cameras.main.startFollow(player, false);
@@ -369,14 +372,18 @@ socket.onmessage = function (data) {
   }
 };
 for(let i=0;i<5;i++){
-  let enemy = new Enemy(this,60,300*(i+1),-300*(i+1),"alien", "swarm");
+  let enemy = new Enemy(this,60,300*(i+1),-300*(i+1),"alien", "swarm", 1);
+  if(enemy.type === 1){
+    enemy.health = 1;
+  }
   codeMonsterSet.add(enemy);
   this.physics.moveToObject(
     codeMonsterSet.children.entries[i],
     player,
     codeMonsterSet.children.entries[i].velo
   );
-} 
+}
+this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
 }
 
 
@@ -415,24 +422,32 @@ function dataSend(){
   const tempMonster = [true, true, true, true, true];
   if (socket.bufferedAmount == 0) {
     if (IsStarted != false && IsRunning != true) {
+
+      let objList = [[]];
+      let obj = codeMonsterSet.children.entries;
+      for(let i=0;i<codeMonsterSet.children.entries.length;i++){
+        objList.push([obj[i].x,obj[i].y,obj[i].type]);
+      }
+
+
       var Data = {
         action: "exeData",
         pinnumber: PinNumber,
-        catchobj: [[0,1,1],[0,1,2]],
+        catchobj: objList,
       };
       IsRunning = true;
       socket.send(JSON.stringify(Data));
     }
   }
 }
-
+// sock end
 function attack(isAttack, angle, element) {
   if(isAttack){
     let x = Math.cos(angle*(Math.PI/180));
     let y = Math.sin(angle*(Math.PI/180));
 
     let magic = new Magic(codeScene, 1);
-
+    magicSet.add(magic);
     codeScene.physics.moveTo(
       magic,
       x,
@@ -442,4 +457,24 @@ function attack(isAttack, angle, element) {
   }
 }
 
-// sock end
+function monsterHit(magic, monster) {
+
+  if(monster.type === 0){
+    console.log("GameOver!");
+  }
+
+  if (!monster.invincible) {
+    if(monster.type === magic.element){
+      monster.health -= 3;
+    }else{
+      monster.invincible = true;
+      monster.health -= 1;
+    }
+    magic.destroy();
+
+    if(monster.health <= 0){
+      monster.destroy();
+    }
+
+  }
+}
