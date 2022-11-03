@@ -1,0 +1,60 @@
+.stagePage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 750px;
+  height: 500px;
+  position: relative;
+  /* border: 2px solid red; */
+  border: 6px solid blue;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  height: 170px;
+  border: 6px solid red;
+}
+
+.stageText {
+  width: 100%;
+  height: 70%;
+  text-align: center;
+  line-height: 119px;
+  font-size: 100px;
+}
+
+.stageDiff {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+}
+
+.stageDiff > img {
+  width: 20%;
+}
+
+.BackIcon {
+  position: absolute;
+  background: url("../../../public/images/ui/backicon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  width: 30px;
+  height: 30px;
+  left: 2px;
+  top: 2px;
+}
+.BackIcon:active {
+  background: url("../../../public/images/ui/backiconclick.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
