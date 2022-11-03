@@ -1216,7 +1216,7 @@ function create() {
 
 //cattower animation start
 this.anims.create({
-  key: "none_idle",
+  key: "0_idle",
   frames: this.anims.generateFrameNumbers("catNone", {
     start: 0,
     end: 2,
@@ -1226,17 +1226,17 @@ this.anims.create({
 });
 
 this.anims.create({
-  key: "none_attack",
+  key: "0_attack",
   frames: this.anims.generateFrameNumbers("catNone", {
     start: 3,
     end: 8,
   }),
-  frameRate: 8,
-  repeat: -1,
+  frameRate: 16,
+  repeat: 0,
 });
 
 this.anims.create({
-  key: "thunder_idle",
+  key: "1_idle",
   frames: this.anims.generateFrameNumbers("catThunder", {
     start: 0,
     end: 2,
@@ -1246,17 +1246,17 @@ this.anims.create({
 });
 
 this.anims.create({
-  key: "thunder_attack",
+  key: "1_attack",
   frames: this.anims.generateFrameNumbers("catThunder", {
     start: 3,
     end: 8,
   }),
-  frameRate: 8,
-  repeat: -1,
+  frameRate: 16,
+  repeat: 0,
 });
 
 this.anims.create({
-  key: "fire_idle",
+  key: "2_idle",
   frames: this.anims.generateFrameNumbers("catFire", {
     start: 0,
     end: 2,
@@ -1266,17 +1266,17 @@ this.anims.create({
 });
 
 this.anims.create({
-  key: "fire_attack",
+  key: "2_attack",
   frames: this.anims.generateFrameNumbers("catFire", {
     start: 3,
     end: 8,
   }),
-  frameRate: 8,
-  repeat: -1,
+  frameRate: 16,
+  repeat: 0,
 });
 
 this.anims.create({
-  key: "water_idle",
+  key: "3_idle",
   frames: this.anims.generateFrameNumbers("catWater", {
     start: 0,
     end: 2,
@@ -1286,17 +1286,17 @@ this.anims.create({
 });
 
 this.anims.create({
-  key: "water_attack",
+  key: "3_attack",
   frames: this.anims.generateFrameNumbers("catWater", {
     start: 3,
     end: 8,
   }),
-  frameRate: 8,
-  repeat: -1,
+  frameRate: 16,
+  repeat: 0,
 });
 
 this.anims.create({
-  key: "earth_idle",
+  key: "4_idle",
   frames: this.anims.generateFrameNumbers("catEarth", {
     start: 0,
     end: 2,
@@ -1306,20 +1306,20 @@ this.anims.create({
 });
 
 this.anims.create({
-  key: "earth_attack",
+  key: "4_attack",
   frames: this.anims.generateFrameNumbers("catEarth", {
     start: 3,
     end: 8,
   }),
-  frameRate: 8,
-  repeat: -1,
+  frameRate: 16,
+  repeat: 0,
 });
 //cattower animation end
 
-  towerLU = new CatTower(this, -100, -100, "none_idle", "can", "skill");
-  towerRU = new CatTower(this, 100, -100, "none_idle", "can", "skill");
-  towerLD = new CatTower(this, -100, 100, "none_idle", "can", "skill");
-  towerRD = new CatTower(this, 100, 100, "none_idle", "can", "skill");
+  towerLU = new CatTower(this, -100, -100, "0_idle", "can", "skill", 0);
+  towerRU = new CatTower(this, 100, -100, "0_idle", "can", "skill", 0);
+  towerLD = new CatTower(this, -100, 100, "0_idle", "can", "skill", 0);
+  towerRD = new CatTower(this, 100, 100, "0_idle", "can", "skill", 0);
   towerLU.scale_Circle();
   towerRU.scale_Circle();
   towerLD.scale_Circle();
@@ -1853,6 +1853,21 @@ if(gameTimer % 3600 === 0){
   }
   console.log(mines);
 }
+
+if (!towerLU.anims.isPlaying) {
+  console.log(towerLU.stone)
+  towerLU.anims.play(`${towerLU.stone}_idle`, true);
+}
+if (!towerLD.anims.isPlaying) {
+  towerLD.anims.play(`${towerLD.stone}_idle`, true);
+}
+if (!towerRU.anims.isPlaying) {
+  towerRU.anims.play(`${towerRU.stone}_idle`, true);
+}
+if (!towerRD.anims.isPlaying) {
+  towerRD.anims.play(`${towerRD.stone}_idle`, true);
+}
+
 }
 
 //player start
