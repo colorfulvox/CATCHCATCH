@@ -1,6 +1,7 @@
 import "../../CSS/UI/StartPage.css";
 import "./char-space.js";
 import CharPageInit, {CharSpaceOn} from "./char-space.js";
+import {setSound} from "../SOUND/sound";
 
 let _mode = true;
 const _StartPage = document.createElement("div");
@@ -121,6 +122,7 @@ export const StartPageOff = () => {
 
 // 캐릭터 선택 버튼 클릭 이벤트 리스너
 function GoSelectChar() {
+    setSound.setBGM(0);
     StartBtnOff();
     CharSpaceOn();
 }
