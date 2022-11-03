@@ -450,7 +450,7 @@ function preload() {
   this.load.spritesheet(
     "alien",
     "images/monster/alien.png",
-    { frameWidth: 48, frameHeight: 52 }
+    { frameWidth: 20, frameHeight: 20 }
   );
 
   this.load.spritesheet(
@@ -465,24 +465,24 @@ function preload() {
     "sonic",
     "images/monster/sonic.png",
     {
-    frameWidth: 48,
-    frameHeight: 48
+    frameWidth: 32,
+    frameHeight: 32
 })
 
   this.load.spritesheet(
     "turtle",
     "images/monster/turtle.png",
     {
-    frameWidth: 48,
-    frameHeight: 48
+    frameWidth: 32,
+    frameHeight: 32
 })
 
   this.load.spritesheet(
     "slime",
     "images/monster/slime.png",
     {
-    frameWidth: 48,
-    frameHeight: 48
+    frameWidth: 16,
+    frameHeight: 16
 })
 
   this.load.spritesheet(
@@ -497,8 +497,8 @@ function preload() {
     "alienPlus",
     "images/monster/alienPlus.png",
     {
-    frameWidth: 48,
-    frameHeight: 48
+    frameWidth: 20,
+    frameHeight: 20
 })
 
   this.load.spritesheet(
@@ -1124,9 +1124,10 @@ function create() {
   // ============== 몬스터 스프라이트 애니메이션 목록 ==================
   this.anims.create({
     key: "alien",
-    frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 2 }),
+    frames: this.anims.generateFrameNumbers("alien", { start: 9, end: 14 }),
     frameRate: 3,
     repeat: -1, // -1은 무한 반복 의미
+    
   });
 
 
@@ -1139,7 +1140,7 @@ function create() {
 
   this.anims.create({
     key: "alienPlus",
-    frames: this.anims.generateFrameNumbers("alienPlus", { start: 0, end: 2 }),
+    frames: this.anims.generateFrameNumbers("alienPlus", { start: 9, end: 14 }),
     frameRate: 3,
     repeat: -1,
   });
@@ -1153,21 +1154,21 @@ function create() {
 
   this.anims.create({
     key: "sonic",
-    frames: this.anims.generateFrameNumbers("sonic", { start: 0, end: 2 }),
-    frameRate: 3,
+    frames: this.anims.generateFrameNumbers("sonic", { start: 0, end: 1 }),
+    frameRate: 4,
     repeat: -1,
   });
 
   this.anims.create({
     key: "turtle",
-    frames: this.anims.generateFrameNumbers("turtle", { start: 0, end: 2 }),
+    frames: this.anims.generateFrameNumbers("turtle", { start: 0, end: 1 }),
     frameRate: 3,
     repeat: -1,
   });
 
   this.anims.create({
     key: "slime",
-    frames: this.anims.generateFrameNumbers("slime", { start: 0, end: 2 }),
+    frames: this.anims.generateFrameNumbers("slime", { start: 7, end: 14 }),
     frameRate: 3,
     repeat: -1,
   });
@@ -1573,9 +1574,9 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alienPlus", "alienPlus", 60, 60, monX, monY, "follower");
+        addMonster(this, "alienPlus", "alienPlus", 80, 60, monX, monY, "follower");
       } else if (18000 < gameTimer) {
-        addMonster(this, "alienPlus", "alienPlus", 120, 75, monX, monY, "follower");
+        addMonster(this, "alienPlus", "alienPlus", 130, 75, monX, monY, "follower");
       } else {
         addMonster(this, "alien", "alien", 30, 50, monX, monY, "follower");
       }
@@ -1583,11 +1584,11 @@ function update(time, delta) {
     if (gameTimer > 1200 && gameTimer % 120 === 0) {
       // 2번 worm
       siegeSpawn(randomLocation);
-      if (21000 < gameTimer && gameTimer <= 34000) {
+      if (10800 < gameTimer && gameTimer <= 18000) {
         addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY, "siege");
-      } else if (34000 < gameTimer) {
+      } else if (18000 < gameTimer) {
         addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY, "siege");
-      } else if (gameTimer <= 21000) {
+      } else if (gameTimer <= 18000) {
         addMonster(this, "worm", "worm", 40, 40, monX, monY, "siege");
       }
     }
@@ -1595,12 +1596,12 @@ function update(time, delta) {
       enemySpawn(randomLocation);
       addMonster(this, "sonic", "sonic", 150, 80, monX, monY, "follower");
     }
-    if (gameTimer > 12000 && gameTimer % 600 === 0) {
+    if (gameTimer > 20000 && gameTimer % 600 === 0) {
       siegeSpawn(randomLocation);
-      addMonster(this, "turtle", "turtle", 300, 30, monX, monY, "siege");
+      addMonster(this, "turtle", "turtle", 300, 50, monX, monY, "siege");
     }
 
-    if (gameTimer > 16000 && gameTimer % 400 === 0) {
+    if (gameTimer > 16000 && gameTimer % 200 === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
     }
@@ -2088,7 +2089,13 @@ function hitHole(hole, monster) {
 function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
   monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime, type);
   if (monster.monSpecie === "babySlime") {
-    monster.scale = 0.5;
+    monster.scale = 2;
+  }
+  else if (monster.monSpecie === 'alien' || monster.monSpecie === 'alienPlus'){
+    monster.scale = 2.5;
+  }
+  else if (monster.monSpecie === 'turtle' || monster.monSpecie === 'sonic' || monster.monSpecie === 'slime'){
+    monster.scale = 3; 
   }
   monster.setDepth(2);
   monsterCount += 1;
