@@ -31,7 +31,7 @@ export const config = {
   physics: {
     default: "arcade",
     arcade: {
-      fps: 20,
+      fps: 60,
       debug: false,
       fixedStep: false,
     },
@@ -155,11 +155,20 @@ global.towerSkillAttacks = "";
 
 //mine start
 let mine;
-let mineCount = 10;
-let StartMineRangeX = -1000;
-let StartMineRangeY = -1000;
-let EndMineRangeX = 1000;
-let EndMineRangeY = 1000;
+let mineshowtime = 0;
+let mineCount = [3, 15, 60, 120, 400, 500, 500, 550, 800, 1000];
+let StartMineRangeX = [
+  -200, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
+];
+let StartMineRangeY = [
+  -200, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
+];
+let EndMineRangeX = [
+  500, 1200, 5000, 7200, 15000, 32000, 45000, 52000, 72000, 100000,
+];
+let EndMineRangeY = [
+  500, 1200, 5000, 7200, 15000, 32000, 45000, 52000, 72000, 100000,
+];
 
 global.mines = "";
 
@@ -998,16 +1007,20 @@ function create() {
   //tower end
 
   //mine start
-  for (let i = 0; i < mineCount; i++) {
-    mine = new Mine(
-      this,
-      Math.random() * (EndMineRangeX - StartMineRangeX) + StartMineRangeX,
-      Math.random() * (EndMineRangeY - StartMineRangeY) + StartMineRangeY,
-      "mine"
-    );
+  for (let i = 0; i < mineCount[mineshowtime]; i++) {
+    let x =
+      Math.random() *
+        (EndMineRangeX[mineshowtime] - StartMineRangeX[mineshowtime]) +
+      StartMineRangeX[mineshowtime];
+    let y =
+      Math.random() *
+        (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
+      StartMineRangeY[mineshowtime];
+    mine = new Mine(this, x, y, "mine", 0);
     mine.scale_Circle();
     mines.add(mine);
   }
+  console.log(mines);
   //mine end
 
   // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
@@ -1496,6 +1509,24 @@ function update(time, delta) {
     towerAttacks,
     towerSkillAttacks,
   ]);
+
+if(gameTimer % 3600 === 0){
+  ++mineshowtime;
+  for (let i = 0; i < mineCount[mineshowtime]; i++) {
+    let x =
+      Math.random() *
+        (EndMineRangeX[mineshowtime] - StartMineRangeX[mineshowtime]) +
+      StartMineRangeX[mineshowtime];
+    let y =
+      Math.random() *
+        (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
+      StartMineRangeY[mineshowtime];
+    mine = new Mine(this, x, y, "mine", 0);
+    mine.scale_Circle();
+    mines.add(mine);
+  }
+  console.log(mines);
+}
 }
 
 //player start
