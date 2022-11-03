@@ -1,6 +1,8 @@
 import Player from "./CodeObj/player.js";
 import {Chunk, Tile} from "./entities.js";
 import { sockConnect } from "./CodeObj/Execlient.js";
+import Enemy from "./CodeObj/enemy.js";
+import Magic from "./CodeObj/magic.js";
 export const codeConfig = {
   type: Phaser.AUTO,
   width: 600,
@@ -46,19 +48,20 @@ let monsterpos = [
 
 let cats;
 var player = "";
-global.thisScene = "";
+global.codeScene = "";
 var gameOver = false;
 var scoreText;
 global.gameTimer = 0;
 
+global.magicSet = "";
 var map;
 var chunks = [];
 export var camera;
 let frameTime = 0;
 let timer = 0;
 // 몬스터 변수 선언
-export var monsterSet;
 var monster;
+global.codeMonsterSet = "";
 
 function preload() {
   //map start
@@ -104,6 +107,20 @@ function preload() {
     }
 );
   //attack sprite end
+
+  //object sprite start
+  this.load.spritesheet("cat1", "images/cat/cat1.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
+
+      // 몬스터
+  this.load.spritesheet(
+    "alien",
+    "http://labs.phaser.io/assets/tests/invaders/invader1.png",
+    {frameWidth: 32, frameHeight: 32}
+  );
+  //object sprite end
 }
 
 function create() {
@@ -168,15 +185,21 @@ function create() {
     frameRate: 16,
     repeat: -1,
   });
+  this.anims.create({
+    key: "swarm",
+    frames: this.anims.generateFrameNumbers("alien", {start: 0, end: 1}),
+    frameRate: 30,
+    repeat: -1,
+  });
   // resource load end
 
   //player start
   player = new Player(this,10,10,"tower1");
-  player.play("tower1_attack");
+  player.play("tower1_idle");
   player.setScale(2);
   player.setDepth(3);
   //player end
-  thisScene = this;
+  codeScene = this;
   //map start
   this.chunkSize = 8;
   this.tileSize = 300;
@@ -258,7 +281,7 @@ function create() {
   }
 
   this.cameras.main.centerOn(this.followPoint.x, this.followPoint.y);
-  //map enderlap(magics, monsterSet, attack);
+  //map enderlap(magics, codeMonsterSet, attack);
 
     var snappedChunkX =
       this.chunkSize *
@@ -307,6 +330,11 @@ function create() {
     this.followPoint.y = player.y;
     //map end
 
+    //monster start
+    codeMonsterSet = this.physics.add.group();
+    magicSet = this.physics.add.group();
+    //monster end
+    
 
 this.cameras.main.setZoom(0.7);
 this.cameras.main.startFollow(player, false);
@@ -339,14 +367,23 @@ socket.onmessage = function (data) {
   // 1번의 cycle이 끝나면 보낸다.
   else if (msg.action === "codeData") {
     //여기서 바뀐 정보를 전달 받는다.
-    monster = msg.monster;
-    monsterpos = msg.monsterpos;
-
-    testshow();
+    attack(msg.attack,msg.angle,msg.type);
     IsRunning = false;
   }
 };
-
+for(let i=0;i<5;i++){
+  let enemy = new Enemy(this,60,300*(i+1),-300*(i+1),"alien", "swarm", 1);
+  if(enemy.type === 1){
+    enemy.health = 1;
+  }
+  codeMonsterSet.add(enemy);
+  this.physics.moveToObject(
+    codeMonsterSet.children.entries[i],
+    player,
+    codeMonsterSet.children.entries[i].velo
+  );
+}
+this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
 }
 
 
@@ -362,6 +399,7 @@ function update(time, delta){
         dataSend();
       }
     }
+
   
   }
 }
@@ -384,29 +422,59 @@ function dataSend(){
   const tempMonster = [true, true, true, true, true];
   if (socket.bufferedAmount == 0) {
     if (IsStarted != false && IsRunning != true) {
+
+      let objList = [[]];
+      let obj = codeMonsterSet.children.entries;
+      for(let i=0;i<codeMonsterSet.children.entries.length;i++){
+        objList.push([obj[i].x,obj[i].y,obj[i].type]);
+      }
+
+
       var Data = {
         action: "exeData",
         pinnumber: PinNumber,
-        monster: tempMonster,
-        monsterpos: monsterpos,
+        catchobj: objList,
       };
       IsRunning = true;
       socket.send(JSON.stringify(Data));
     }
   }
 }
+// sock end
+function attack(isAttack, angle, element) {
+  if(isAttack){
+    let x = Math.cos(angle*(Math.PI/180));
+    let y = Math.sin(angle*(Math.PI/180));
 
-function testshow() {
-  monster[0] = false;
-  for (let i = 0; i < monster.length; ++i) {
-  console.log(monster[i] + " ");
+    let magic = new Magic(codeScene, 1);
+    magicSet.add(magic);
+    codeScene.physics.moveTo(
+      magic,
+      x,
+      -y,
+      300
+    );
   }
-  console.log("");
-  for (let i = 0; i < monster.length; ++i) {
-    console.log("[" + monsterpos[i][0] + "," + monsterpos[i][1] + "]");
-  }
-  console.log("");
-  console.log("-------------------------------");
 }
 
-// sock end
+function monsterHit(magic, monster) {
+
+  if(monster.type === 0){
+    console.log("GameOver!");
+  }
+
+  if (!monster.invincible) {
+    if(monster.type === magic.element){
+      monster.health -= 3;
+    }else{
+      monster.invincible = true;
+      monster.health -= 1;
+    }
+    magic.destroy();
+
+    if(monster.health <= 0){
+      monster.destroy();
+    }
+
+  }
+}
