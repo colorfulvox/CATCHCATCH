@@ -36,7 +36,7 @@ export const config = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: false,
+      debug: true,
       fixedStep: false,
     },
   },
@@ -2100,6 +2100,10 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
   }
   monster.setDepth(2);
   monsterCount += 1;
+  let mw = monster.body.halfWidth;
+  let mh = monster.body.halfHeight;
+
+  monster.setCircle(mw, mh - mw, mh - mw);
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
   monster.anime();
@@ -2159,7 +2163,7 @@ function slimePattern(scene, pt, x, y) {
           x + i * 100,
           y,
           "slimeKing",
-          "slime",
+          "slimeKing",
           2.5,
           pt,
           "boss"
@@ -2172,7 +2176,7 @@ function slimePattern(scene, pt, x, y) {
           x + i * 50,
           y,
           "slimeKing",
-          "slime",
+          "slimeKing",
           1.25,
           pt,
           "boss"
@@ -2185,7 +2189,7 @@ function slimePattern(scene, pt, x, y) {
           x + i * 25,
           y,
           "slimeKing",
-          "slime",
+          "slimeKing",
           0.5,
           pt,
           "boss"
