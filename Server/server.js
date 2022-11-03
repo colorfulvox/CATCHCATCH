@@ -53,7 +53,7 @@ wss.on("connection", function (ws) {
 
           //CatchCatch에게 데이터 전달 요청 실시----------------
           var Data = { action: "StartGame" };
-          // console.log(msg.pinnumber);
+
           Sockets[msg.pinnumber].exeSocket.send(JSON.stringify(Data));
           //--------------------------------------------
         } else {
@@ -63,18 +63,12 @@ wss.on("connection", function (ws) {
           };
           ws.send(JSON.stringify(Data));
         }
-      }
-      // exe에서 전달 받은 데이터
-      else if (msg.action === "exeData") {
-        // Codeclient에게 전달
+      } else if (msg.action === "exeData") {
+        // CatchCatch에서 보내는 데이터
         Sockets[msg.pinnumber].codeSocket.send(JSON.stringify(msg));
       } else if (msg.action === "codeData") {
-        var Data = {
-          action: "codeData",
-          monster: msg.monster,
-          monsterpos: msg.monsterpos,
-        };
-        Sockets[msg.pinnumber].exeSocket.send(JSON.stringify(Data));
+        //codeCatch에서 보내는 데이터
+        Sockets[msg.pinnumber].exeSocket.send(JSON.stringify(msg));
       }
     } catch (error) {
       console.log("[잘못된 요청] 요청을 무시합니다.");
