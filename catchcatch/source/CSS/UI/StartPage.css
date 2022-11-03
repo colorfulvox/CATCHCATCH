@@ -58,12 +58,14 @@
   height: 70px;
   border: none;
   color: white;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
 .StartBtn:active {
   background: url("../../../public/images/ui/btn_click.png") center no-repeat;
   background-size: contain;
   color: gray;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
 /* 여기서부턴 캐릭터 선택 */
