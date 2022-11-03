@@ -1,6 +1,7 @@
 import Player from "./CodeObj/player.js";
 import { Chunk, Tile } from "./entities.js";
 import { sockConnect } from "./CodeObj/Execlient.js";
+import IncodeUI from "../UI/incode-ui.js";
 export const codeConfig = {
   type: Phaser.AUTO,
   width: 600,
@@ -106,6 +107,7 @@ function preload() {
 
 function create() {
   // resource load start
+  IncodeUI();
   this.anims.create({
     key: "tower1_idle",
     frames: this.anims.generateFrameNumbers("tower1", { start: 0, end: 2 }),
