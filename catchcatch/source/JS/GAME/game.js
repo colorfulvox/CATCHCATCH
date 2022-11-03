@@ -1477,7 +1477,6 @@ function update(time, delta) {
       !control &&
       fairySet[nowFairy].bombCount > 0
     ) {
-      setSound.playSE(1);
       magic = new Magic(this, fairySet[nowFairy]);
       magic.setDepth(2);
       this.physics.add.overlap(

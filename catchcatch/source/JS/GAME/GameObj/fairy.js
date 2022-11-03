@@ -2,6 +2,7 @@ import { UpdateCatCoin } from "../../UI/ingame-ui.js";
 import { input, camera, aliens } from "../game.js";
 import Magic from "./magic.js";
 import Skill from "./skill.js";
+import {setSound} from "../../SOUND/sound";
 
 export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   // 얘는 공격 스프라이트 객체
@@ -354,6 +355,10 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   normalAttack(magic) {
     magics.add(magic);
 
+    if(this.fairyNum !== 2) {
+      setSound.playSE(this.fairyNum - 1);
+    }
+
     this.anims.play(this.attackKey, true);
     // magic.body.width = 50;
     // magic.body.height = 50;
@@ -562,6 +567,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     if (this.evo1) {
       switch (this.fairyNum) {
         case 1:
+          setSound.playSE(5);
           skill = new Skill(thisScene, this);
           magics.add(skill);
           skill.setDepth(2);
@@ -571,6 +577,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           this.timer = 0;
           break;
         case 2:
+          setSound.playSE(6);
           skill = new Skill(thisScene, this);
           skill.setDepth(2);
           skill.setScale(this.skillSprite);
@@ -582,6 +589,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         case 3:
           break;
         case 4:
+          setSound.playSE(7);
           this.player.x = 0;
           this.player.y = 0;
           thisScene.followPoint.x = 0;
@@ -590,6 +598,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           this.timer = 0;
           break;
         case 5:
+          setSound.playSE(8);
           console.log(this.skillCD);
           for (let i = 0; i < bombs.children.entries.length; i++) {
             bombs.children.entries[i].bomb();
