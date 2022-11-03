@@ -15,28 +15,28 @@ export class setSound {
 
     // SE
     static _soundEffectList = [
-        // 0. 버튼 클릭
-        'sounds/se/se_button.wav',
-        // 1. 마법사 공격
+        // 0. 마법사 공격
         'sounds/se/se_magician_attack.wav',
-        // 2. 마법사 스킬
-        'sounds/se/se_magician_skill.wav',
-        // 3. 사신 공격
+        // 1. 사신 공격
         'sounds/se/se_reaper_attack.wav',
-        // 4. 사신 진화 공격
-        'sounds/se/se_reaper_attack_2.wav',
-        // 5. 사신 스킬
-        'sounds/se/se_reaper_skill.wav',
-        // 6. 닌자 공격
+        // 2. 닌자 공격
         'sounds/se/se_ninja_attack.wav',
-        // 7. 슬라임 공격
+        // 3. 슬라임 공격
         'sounds/se/se_slime_attack.wav',
-        // 8. 슬라임 스킬
-        'sounds/se/se_slime_skill.wav',
-        // 9. 마녀 설치
+        // 4. 마녀 설치
         'sounds/se/se_witch_drop.wav',
-        // 10. 마녀 폭발
-        'sounds/se/se_witch_pop.wav.wav',
+        // 5. 마법사 스킬
+        'sounds/se/se_magician_skill.wav',
+        // 6. 사신 스킬
+        'sounds/se/se_reaper_skill.wav',
+        // 7. 슬라임 스킬
+        'sounds/se/se_slime_skill.wav',
+        // 8. 마녀 폭발
+        'sounds/se/se_witch_pop.wav',
+        // 9. 사신 진화 공격
+        'sounds/se/se_reaper_attack_2.wav',
+        // 10. 버튼 클릭
+        'sounds/se/se_button.wav',
         // 11. 플레이어 피격
         'sounds/se/se_player_hit.wav',
         // 12. 일반 몬스터 피격
