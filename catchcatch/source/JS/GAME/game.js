@@ -220,7 +220,13 @@ function preload() {
   //tower end
 
   //hole start
-  this.load.image("hole", "images/hole/hole.png");
+  this.load.spritesheet(
+    "new_hole",
+    "images/hole/new_hole.png",
+    {
+    frameWidth: 100,
+    frameHeight: 100
+})
   //hole end
 
   //navi start
@@ -433,14 +439,105 @@ function preload() {
   //enemy start
 
   // 몬스터
+
+  this.load.spritesheet('monster_die', 'images/monster/monster_die2.png',
+  {frameWidth: 64, frameHeight: 64});
+
   this.load.spritesheet(
     "alien",
-    "http://labs.phaser.io/assets/tests/invaders/invader1.png",
-    { frameWidth: 32, frameHeight: 32 }
+    "images/monster/alien.png",
+    { frameWidth: 48, frameHeight: 52 }
   );
 
-  // 보스
+  this.load.spritesheet(
+    "worm",
+    "images/monster/worm.png",
+    {
+    frameWidth: 48,
+    frameHeight: 48
+})
 
+  this.load.spritesheet(
+    "sonic",
+    "images/monster/sonic.png",
+    {
+    frameWidth: 48,
+    frameHeight: 48
+})
+
+  this.load.spritesheet(
+    "turtle",
+    "images/monster/turtle.png",
+    {
+    frameWidth: 48,
+    frameHeight: 48
+})
+
+  this.load.spritesheet(
+    "slime",
+    "images/monster/slime.png",
+    {
+    frameWidth: 48,
+    frameHeight: 48
+})
+
+  this.load.spritesheet(
+    "fly",
+    "images/monster/fly.png",
+    {
+    frameWidth: 48,
+    frameHeight: 48
+})
+
+  this.load.spritesheet(
+    "alienPlus",
+    "images/monster/alienPlus.png",
+    {
+    frameWidth: 48,
+    frameHeight: 48
+})
+
+  this.load.spritesheet(
+    "wormPlus",
+    "images/monster/wormPlus.png",
+    {
+    frameWidth: 48,
+    frameHeight: 48
+})
+
+//   보스
+  this.load.spritesheet(
+    "slimeKing",
+    "images/boss/slimeKing.png",
+    {
+    frameWidth: 96,
+    frameHeight: 96
+})
+
+  this.load.spritesheet(
+    "golem",
+    "images/boss/golem.png",
+    {
+    frameWidth: 96,
+    frameHeight: 96
+})
+
+  this.load.spritesheet(
+    "fireGiant",
+    "images/boss/fireGiant.png",
+    {
+    frameWidth: 96,
+    frameHeight: 96
+})
+
+
+this.load.spritesheet(
+    "fireGiantAura",
+    "images/boss/fireGiantAura.png",
+    {
+    frameWidth: 96,
+    frameHeight: 96
+})
   //enemy end
 }
 
@@ -804,6 +901,8 @@ function create() {
     repeat: 0,
   });
 
+  
+
   // 공격 애니메이션
   this.anims.create({
     key: "magic1",
@@ -881,6 +980,23 @@ function create() {
 
   //player end
 
+
+  // 홀 애니메이션
+
+  this.anims.create({
+    key: "new_hole",
+    frames: this.anims.generateFrameNumbers("new_hole", { start: 0, end: 2 }),
+    frameRate: 6,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "hole_damage",
+    frames: this.anims.generateFrameNumbers("new_hole", { start: 3, end: 7 }),
+    frameRate: 12,
+    repeat: 0,
+  })
+
   //cointext start
   // cointext = this.add.text(500, 20, 'coin: 0', {font: 'Bold 15px Arial', fill: '#fff', fontStyle: "strong"}).setScrollFactor(0);
   // cointext.setStroke('#000', 2);
@@ -896,7 +1012,7 @@ function create() {
   mines = this.physics.add.group();
 
   // 임시 구멍
-  hole = this.physics.add.sprite(0, 0, "magic1");
+  hole = this.physics.add.sprite(0, 0, "new_hole").play('new_hole');
   hole.setScale(2.3);
   hw = hole.body.halfWidth;
   hh = hole.body.halfHeight;
@@ -1002,9 +1118,96 @@ function create() {
 
   // ============== 몬스터 스프라이트 애니메이션 목록 ==================
   this.anims.create({
-    key: "swarm",
-    frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 1 }),
-    frameRate: 30,
+    key: "alien",
+    frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1, // -1은 무한 반복 의미
+  });
+
+
+  this.anims.create({
+    key: "worm",
+    frames: this.anims.generateFrameNumbers("worm", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "alienPlus",
+    frames: this.anims.generateFrameNumbers("alienPlus", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "wormPlus",
+    frames: this.anims.generateFrameNumbers("wormPlus", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "sonic",
+    frames: this.anims.generateFrameNumbers("sonic", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "turtle",
+    frames: this.anims.generateFrameNumbers("turtle", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "slime",
+    frames: this.anims.generateFrameNumbers("slime", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fly",
+    frames: this.anims.generateFrameNumbers("fly", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+// boss
+
+  this.anims.create({
+    key: "slimeKing",
+    frames: this.anims.generateFrameNumbers("slimeKing", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "golem",
+    frames: this.anims.generateFrameNumbers("golem", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fireGiant",
+    frames: this.anims.generateFrameNumbers("fireGiant", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "monster_die",
+    frames: this.anims.generateFrameNumbers("monster_die", { start: 0, end: 5 }),
+    frameRate: 12,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fireGiantAura",
+    frames: this.anims.generateFrameNumbers("fireGiantAura", { start: 0, end: 7 }),
+    frameRate: 12,
     repeat: -1,
   });
   //enemy end
@@ -1177,7 +1380,6 @@ this.anims.create({
 function update(time, delta) {
   frameTime += delta;
   player.move();
-
   //  Health bar start
   hpBar.clear();
 
@@ -1366,44 +1568,44 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alienPlus", "swarm", 60, 60, monX, monY, "follower");
+        addMonster(this, "alienPlus", "alienPlus", 60, 60, monX, monY, "follower");
       } else if (18000 < gameTimer) {
-        addMonster(this, "alienPlus", "swarm", 120, 75, monX, monY, "follower");
+        addMonster(this, "alienPlus", "alienPlus", 120, 75, monX, monY, "follower");
       } else {
-        addMonster(this, "alien", "swarm", 30, 50, monX, monY, "follower");
+        addMonster(this, "alien", "alien", 30, 50, monX, monY, "follower");
       }
     }
-    if (gameTimer > 3600 && gameTimer % 180 === 0) {
+    if (gameTimer > 1200 && gameTimer % 120 === 0) {
       // 2번 worm
       siegeSpawn(randomLocation);
       if (21000 < gameTimer && gameTimer <= 34000) {
-        addMonster(this, "wormPlus", "swarm", 100, 50, monX, monY, "siege");
+        addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY, "siege");
       } else if (34000 < gameTimer) {
-        addMonster(this, "wormPlus", "swarm", 160, 60, monX, monY, "siege");
+        addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY, "siege");
       } else if (gameTimer <= 21000) {
-        addMonster(this, "worm", "swarm", 40, 40, monX, monY, "siege");
+        addMonster(this, "worm", "worm", 40, 40, monX, monY, "siege");
       }
     }
     if (gameTimer > 7200 && gameTimer % 300 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "sonic", "swarm", 150, 80, monX, monY, "follower");
+      addMonster(this, "sonic", "sonic", 150, 80, monX, monY, "follower");
     }
     if (gameTimer > 12000 && gameTimer % 600 === 0) {
       siegeSpawn(randomLocation);
-      addMonster(this, "turtle", "swarm", 300, 30, monX, monY, "siege");
+      addMonster(this, "turtle", "turtle", 300, 30, monX, monY, "siege");
     }
 
     if (gameTimer > 16000 && gameTimer % 400 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "slime", "swarm", 240, 75, monX, monY, "follower");
+      addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
     }
     // 몬스터 빅 웨이브
     if (gameTimer > 8000 && gameTimer < 8200 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "swarm", 10, 50, monX, monY, "wave");
+      addMonster(this, "fly", "fly", 10, 50, monX, monY, "wave");
     } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "swarm", 100, 50, monX, monY, "wave");
+      addMonster(this, "fly", "fly", 100, 50, monX, monY, "wave");
     }
 
     // 스폰 주기
@@ -1428,8 +1630,8 @@ function update(time, delta) {
         player.x + 300,
         player.y + 300,
         "slimeKing",
-        "swarm",
-        5,
+        "slimeKing",
+        3,
         1,
         "boss"
       );
@@ -1448,8 +1650,8 @@ function update(time, delta) {
         hole.x + 2000,
         hole.y - 2000,
         "golem",
-        "swarm",
-        8,
+        "golem",
+        3,
         10,
         "boss"
       );
@@ -1464,11 +1666,11 @@ function update(time, delta) {
       fireGiant = new Boss(
         this,
         500,
-        30,
+        230,
         player.x - 60,
         player.y - 60,
         "fireGiant",
-        "swarm",
+        "fireGiant",
         1,
         10,
         "boss"
@@ -1489,7 +1691,7 @@ function update(time, delta) {
         player.x - 60,
         player.y - 60,
         "fireGiantAura",
-        "swarm",
+        "fireGiantAura",
         1,
         10,
         "boss"
@@ -1510,7 +1712,7 @@ function update(time, delta) {
         x,
         y,
         "fireGiantAura",
-        "swarm",
+        "fireGiantAura",
         1 + (28000 - gameTimer) / 600,
         10,
         "boss"
@@ -1784,7 +1986,7 @@ function attack(magic, monster) {
             addMonster(
               thisScene,
               "babySlime",
-              "swarm",
+              "slime",
               150,
               125,
               monster.x + i * 10,
@@ -1824,7 +2026,7 @@ function attack(magic, monster) {
           addMonster(
             thisScene,
             "babySlime",
-            "swarm",
+            "slime",
             150,
             125,
             monster.x + i * 20,
@@ -1848,9 +2050,19 @@ function hitHole(hole, monster) {
   updateHP();
   monster.destroy();
   monsterCount -= 1;
+  hole
+  .play('hole_damage')
   if (hole.lhp <= 0) {
     console.log("game over");
   }
+  thisScene.time.addEvent({
+    delay: 600,
+    callback: () => {
+      hole
+      .play('new_hole')
+    },
+    loop: false,
+  });
 }
 
 function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
@@ -1919,7 +2131,7 @@ function slimePattern(scene, pt, x, y) {
           x + i * 100,
           y,
           "slimeKing",
-          "swarm",
+          "slime",
           2.5,
           pt,
           "boss"
@@ -1932,7 +2144,7 @@ function slimePattern(scene, pt, x, y) {
           x + i * 50,
           y,
           "slimeKing",
-          "swarm",
+          "slime",
           1.25,
           pt,
           "boss"
@@ -1945,7 +2157,7 @@ function slimePattern(scene, pt, x, y) {
           x + i * 25,
           y,
           "slimeKing",
-          "swarm",
+          "slime",
           0.5,
           pt,
           "boss"

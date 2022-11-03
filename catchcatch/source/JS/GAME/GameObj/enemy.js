@@ -47,47 +47,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   anime(){
-    if (this.monSpecie === 'alien'){
-      this
-      .setTint(0xFFFA00) // 노랑
-    }
-    else if (this.monSpecie === 'alienPlus'){
-      this
-      .setTint(0xC29F6D)  // 갈색
-    }
-    else if (this.monSpecie === 'worm'){
-      this
-      .setTint(0x00ff00);} // 연두
-
-    else if (this.monSpecie === 'wormPlus'){
-      this  
-      .setTint(0xFFAAFF)}  // 핑크
-
-    else if (this.monSpecie === 'sonic'){
-      this
-      .setTint(0x0000ff)  // 파랑
-    }
-
-    else if (this.monSpecie === 'turtle'){
-      this
-      .setTint(0xac28f6) // 보라
-    }
-
-    else if (this.monSpecie === 'slime'){
-      this
-      .setTint(0x000000)  // 검정
-    }
-
-    else if (this.monSpecie === 'baby_slime'){
-      this
-      .setTint(0x000000)  // 검정
-    }
-
-    else if (this.monSpecie === 'fly'){
-      this
-      .setTint(0x00EBFF)  // 시안블루
-    }
     this
+    .clearTint()
     .play(this.anim);
     // .setTint(Phaser.Display.Color.RandomRGB().color)
 
