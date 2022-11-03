@@ -1,3 +1,5 @@
+import {setSound} from "../../SOUND/sound";
+
 export default class Magic extends Phaser.Physics.Arcade.Sprite {
   collidingEditEnemy = null;
   stun;
@@ -17,6 +19,7 @@ export default class Magic extends Phaser.Physics.Arcade.Sprite {
         callback: () => {
           this.body.checkCollision.none = false;
           this.setVisible(true);
+          setSound.playSE(1);
           if (this.texture.key === "magic2") {
             this.setVelocity(0, 0);
           }
