@@ -1,30 +1,36 @@
 export class setSound {
     // BGM
     static _backGroundMusicList = [
-        // 1. 메인 화면
+        // 0. 메인 화면
         'sounds/bgm/bgm_main.wav',
-        // 2. 게임 내부
+        // 1. 게임 내부
         'sounds/bgm/bgm_game.wav',
-        // 3. 최종 보스
+        // 2. 최종 보스
         'sounds/bgm/bgm_final_boss.wav',
-        // 4. 게임 승리
+        // 3. 게임 승리
         'sounds/bgm/bgm_ending.wav',
-        // 5. 코딩 모드
+        // 4. 코딩 모드
         'sounds/bgm/bgm_codingmode.wav'
     ];
 
     // SE
-    static _soundEffectList =[
+    static _soundEffectList = [
         // 0. 버튼 클릭
         'sounds/se/se_button.wav',
         // 1. 마법사 공격
         'sounds/se/se_magician_attack.wav',
         // 2. 마법사 스킬
+        'sounds/se/se_magician_skill.wav',
         // 3. 사신 공격
+        'sounds/se/se_reaper_attack.wav',
         // 4. 사신 진화 공격
+        'sounds/se/se_reaper_attack_2.wav',
         // 5. 사신 스킬
+        'sounds/se/se_reaper_skill.wav',
         // 6. 닌자 공격
+        'sounds/se/se_ninja_attack.wav',
         // 7. 슬라임 공격
+        'sounds/se/se_slime_attack.wav',
         // 8. 슬라임 스킬
         'sounds/se/se_slime_skill.wav',
         // 9. 마녀 설치
