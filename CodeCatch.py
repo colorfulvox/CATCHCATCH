@@ -1,6 +1,7 @@
-# 웹 소켓 모듈을 선언한다.
-# pip install websockets
-# python CodeCatch.py로 실행
+# 실행 방법 ----------------------------------------
+# 1. pip install websockets : 웹 소켓 모듈을 선언합니다.
+# 2. python CodeCatch.py로 실행
+# -----------------------------------------------
 
 PinNumber = "77751005"  # 화면에 나타난 PinNumber를 입력해 주세요.
 
@@ -25,11 +26,6 @@ async def Attack(websocket, catchobj):
     attack = True
     angle = 45  
     type = 0   
-
-
-
-
-
 
     #---------------------------------------------------------------------------------
 
