@@ -546,7 +546,7 @@ this.load.spritesheet(
 }
 
 function create() {
-  cursor: url("images/aimNone.png"), pointer;
+  this.input.setDefaultCursor("url(/images/cursor/aimNone.png), pointer")
   setSound.setBGM(1);
   thisScene = this;
   //map start
@@ -2087,7 +2087,7 @@ function hitHole(hole, monster) {
 }
 
 function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
-  monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime, type);
+  monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime, type).setInteractive({ cursor: 'url(images/cursor/aimHover.png), pointer' });
   if (monster.monSpecie === "babySlime") {
     monster.scale = 0.5;
   }
