@@ -9,9 +9,9 @@ import perlin from "./JS/GAME/perlin.js";
 import initUpgrade from "./JS/UI/upgrade.js";
 import levelup from "./JS/UI/levelup.js";
 import ingameUi from "./JS/UI/ingame-ui.js";
+import {setSound} from "./JS/SOUND/sound";
 
 console.log(1);
-
 global.noise = {};
 perlin();
 // localStorage.clear();
