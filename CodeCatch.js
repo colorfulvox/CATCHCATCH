@@ -5,7 +5,7 @@
 // 4. node CodeCatch.js 명령어로 실행
 // -----------------------------------------------
 
-const PinNumber = "87756880"; //여기에 핀 번호를 입력해주세요.
+const PinNumber = "________"; //여기에 핀 번호를 입력해주세요.
 
 // 수정가능한 데이터 입니다. ----------
 let attack = false; // boolean : false or true

@@ -21,7 +21,7 @@ using namespace web;
 using namespace web::websockets::client;
 #pragma warning(disable: 4996)
 
-#define PINNUMBER "95514048" //여기에 핀 번호를 입력해주세요
+#define PINNUMBER "________" //여기에 핀 번호를 입력해주세요
 
 websocket_client client;
 class CatchObj {
