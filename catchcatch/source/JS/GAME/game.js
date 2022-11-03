@@ -546,6 +546,7 @@ this.load.spritesheet(
 }
 
 function create() {
+  cursor: url("images/aimNone.png"), pointer;
   setSound.setBGM(1);
   thisScene = this;
   //map start
