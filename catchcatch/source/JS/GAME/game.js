@@ -12,6 +12,7 @@ import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
 import { UpdateTimer } from "../UI/ingame-ui.js";
+import {setSound} from "../SOUND/sound.js";
 
 export const config = {
   type: Phaser.AUTO,
@@ -22,6 +23,9 @@ export const config = {
   resolution: window.devicePixelRatio,
   pixelArt: true,
   roundPixels: true,
+  audio: {
+    disableWebAudio: true
+  },
   scene: {
     //scene 제어에
     preload: preload,
@@ -522,6 +526,7 @@ this.load.spritesheet(
 }
 
 function create() {
+  setSound.setBGM(1);
   thisScene = this;
   //map start
   this.chunkSize = 8;
@@ -1348,6 +1353,7 @@ function update(time, delta) {
       !control &&
       fairySet[nowFairy].bombCount > 0
     ) {
+      setSound.playSE(1);
       magic = new Magic(this, fairySet[nowFairy]);
       magic.setDepth(2);
       this.physics.add.overlap(
