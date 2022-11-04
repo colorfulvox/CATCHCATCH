@@ -1,6 +1,7 @@
 import Player from "./CodeObj/player.js";
-import {Chunk, Tile} from "./entities.js";
+import { Chunk, Tile } from "./entities.js";
 import { sockConnect } from "./CodeObj/Execlient.js";
+import IncodeUI from "../UI/incode-ui.js";
 import Enemy from "./CodeObj/enemy.js";
 import Magic from "./CodeObj/magic.js";
 export const codeConfig = {
@@ -27,7 +28,6 @@ export const codeConfig = {
     },
   },
 };
-
 
 let socket;
 
@@ -69,31 +69,30 @@ function preload() {
   this.load.image("sprSand", "images/map/sprSand.png");
   this.load.image("sprGrass", "images/map/sprGrass.png");
   //map end
-
   let frameTime = 0;
 
   //player start
-    // 플레이어 스프라이트
-    this.load.spritesheet("tower1", "images/cattower/normal_tower_38x64.png", {
-        frameWidth: 38,
-        frameHeight: 64,
-    });
-    this.load.spritesheet("tower2", "images/cattower/earth_tower_38x64.png", {
-      frameWidth: 38,
-      frameHeight: 64,
-    });
-    this.load.spritesheet("tower3", "images/cattower/fire_tower_38x64.png", {
-      frameWidth: 38,
-      frameHeight: 64,
-    });
-    this.load.spritesheet("tower4", "images/cattower/thunder_tower_38x64.png", {
-      frameWidth: 38,
-      frameHeight: 64,
-    });
-    this.load.spritesheet("tower5", "images/cattower/water_tower_38x64.png", {
-      frameWidth: 38,
-      frameHeight: 64,
-    });
+  // 플레이어 스프라이트
+  this.load.spritesheet("tower1", "images/cattower/normal_tower_38x64.png", {
+    frameWidth: 38,
+    frameHeight: 64,
+  });
+  this.load.spritesheet("tower2", "images/cattower/earth_tower_38x64.png", {
+    frameWidth: 38,
+    frameHeight: 64,
+  });
+  this.load.spritesheet("tower3", "images/cattower/fire_tower_38x64.png", {
+    frameWidth: 38,
+    frameHeight: 64,
+  });
+  this.load.spritesheet("tower4", "images/cattower/thunder_tower_38x64.png", {
+    frameWidth: 38,
+    frameHeight: 64,
+  });
+  this.load.spritesheet("tower5", "images/cattower/water_tower_38x64.png", {
+    frameWidth: 38,
+    frameHeight: 64,
+  });
   // player end
 
   //attack sprite start
@@ -101,11 +100,11 @@ function preload() {
     "magic1",
     "images/attack/weapon/16_sunburn_spritesheet.png",
     {
-        frameWidth: 100,
-        frameHeight: 100,
-        endFrame: 61,
+      frameWidth: 100,
+      frameHeight: 100,
+      endFrame: 61,
     }
-);
+  );
   //attack sprite end
 
   //object sprite start
@@ -125,63 +124,64 @@ function preload() {
 
 function create() {
   // resource load start
+  IncodeUI();
   this.anims.create({
     key: "tower1_idle",
-    frames: this.anims.generateFrameNumbers("tower1", {start: 0, end: 2}),
+    frames: this.anims.generateFrameNumbers("tower1", { start: 0, end: 2 }),
     frameRate: 8,
     repeat: -1,
   });
   this.anims.create({
     key: "tower1_attack",
-    frames: this.anims.generateFrameNumbers("tower1", {start: 3, end: 8}),
+    frames: this.anims.generateFrameNumbers("tower1", { start: 3, end: 8 }),
     frameRate: 16,
     repeat: -1,
   });
   this.anims.create({
     key: "tower2_idle",
-    frames: this.anims.generateFrameNumbers("tower2", {start: 0, end: 2}),
+    frames: this.anims.generateFrameNumbers("tower2", { start: 0, end: 2 }),
     frameRate: 8,
     repeat: -1,
   });
   this.anims.create({
     key: "tower2_attack",
-    frames: this.anims.generateFrameNumbers("tower2", {start: 3, end: 8}),
+    frames: this.anims.generateFrameNumbers("tower2", { start: 3, end: 8 }),
     frameRate: 16,
     repeat: -1,
   });
   this.anims.create({
     key: "tower3_idle",
-    frames: this.anims.generateFrameNumbers("tower3", {start: 0, end: 2}),
+    frames: this.anims.generateFrameNumbers("tower3", { start: 0, end: 2 }),
     frameRate: 8,
     repeat: -1,
   });
   this.anims.create({
     key: "tower3_attack",
-    frames: this.anims.generateFrameNumbers("tower3", {start: 3, end: 8}),
+    frames: this.anims.generateFrameNumbers("tower3", { start: 3, end: 8 }),
     frameRate: 16,
     repeat: -1,
   });
   this.anims.create({
     key: "tower4_idle",
-    frames: this.anims.generateFrameNumbers("tower4", {start: 0, end: 2}),
+    frames: this.anims.generateFrameNumbers("tower4", { start: 0, end: 2 }),
     frameRate: 8,
     repeat: -1,
   });
   this.anims.create({
     key: "tower4_attack",
-    frames: this.anims.generateFrameNumbers("tower4", {start: 3, end: 8}),
+    frames: this.anims.generateFrameNumbers("tower4", { start: 3, end: 8 }),
     frameRate: 16,
     repeat: -1,
   });
   this.anims.create({
     key: "tower5_idle",
-    frames: this.anims.generateFrameNumbers("tower5", {start: 0, end: 2}),
+    frames: this.anims.generateFrameNumbers("tower5", { start: 0, end: 2 }),
     frameRate: 8,
     repeat: -1,
   });
   this.anims.create({
     key: "tower5_attack",
-    frames: this.anims.generateFrameNumbers("tower5", {start: 3, end: 8}),
+    frames: this.anims.generateFrameNumbers("tower5", { start: 3, end: 8 }),
     frameRate: 16,
     repeat: -1,
   });
@@ -204,7 +204,6 @@ function create() {
   this.chunkSize = 8;
   this.tileSize = 300;
   this.cameraSpeed = 1;
-
 
   this.followPoint = new Phaser.Math.Vector2(
     this.cameras.main.worldView.x + this.cameras.main.worldView.width * 0.5,
@@ -283,48 +282,48 @@ function create() {
   this.cameras.main.centerOn(this.followPoint.x, this.followPoint.y);
   //map enderlap(magics, codeMonsterSet, attack);
 
-    var snappedChunkX =
-      this.chunkSize *
-      this.tileSize *
-      Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
-    var snappedChunkY =
-      this.chunkSize *
-      this.tileSize *
-      Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
+  var snappedChunkX =
+    this.chunkSize *
+    this.tileSize *
+    Math.round(this.followPoint.x / (this.chunkSize * this.tileSize));
+  var snappedChunkY =
+    this.chunkSize *
+    this.tileSize *
+    Math.round(this.followPoint.y / (this.chunkSize * this.tileSize));
 
-    snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
-    snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
+  snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
+  snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
 
-    for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
-      for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
-        var existingChunk = getChunk(x, y);
+  for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
+    for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
+      var existingChunk = getChunk(x, y);
 
-        if (existingChunk == null) {
-          var newChunk = new Chunk(this, x, y);
-          chunks.push(newChunk);
-        }
+      if (existingChunk == null) {
+        var newChunk = new Chunk(this, x, y);
+        chunks.push(newChunk);
       }
     }
-    for (var i = 0; i < chunks.length; i++) {
-      var chunk = chunks[i];
+  }
+  for (var i = 0; i < chunks.length; i++) {
+    var chunk = chunks[i];
 
-      if (
-        Phaser.Math.Distance.Between(
-          snappedChunkX,
-          snappedChunkY,
-          chunk.x,
-          chunk.y
-        ) < 3
-      ) {
-        if (chunk !== null) {
-          chunk.load();
-        }
-      } else {
-        if (chunk !== null) {
-          chunk.unload();
-        }
+    if (
+      Phaser.Math.Distance.Between(
+        snappedChunkX,
+        snappedChunkY,
+        chunk.x,
+        chunk.y
+      ) < 3
+    ) {
+      if (chunk !== null) {
+        chunk.load();
+      }
+    } else {
+      if (chunk !== null) {
+        chunk.unload();
       }
     }
+  }
 
     this.followPoint.x = player.x;
     this.followPoint.y = player.y;
@@ -336,21 +335,21 @@ function create() {
     //monster end
     
 
-this.cameras.main.setZoom(0.7);
-this.cameras.main.startFollow(player, false);
-console.log(this.cameras);
+  this.cameras.main.setZoom(0.7);
+  this.cameras.main.startFollow(player, false);
+  console.log(this.cameras);
 
-socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
+  socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
 
-socket.onopen = function () {
-  IsStarted = false;
-  PinNumber = null;
+  socket.onopen = function () {
+    IsStarted = false;
+    PinNumber = null;
 
-  var Data = {
-    action: "exeClientInit",
+    var Data = {
+      action: "exeClientInit",
+    };
+    socket.send(JSON.stringify(Data));
   };
-  socket.send(JSON.stringify(Data));
-};
 
 socket.onmessage = function (data) {
   var msg = JSON.parse(data.data.toString());
@@ -386,21 +385,19 @@ for(let i=0;i<5;i++){
 this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
 }
 
-
-function update(time, delta){
+function update(time, delta) {
   frameTime += delta;
 
   if (frameTime > 16.5) {
     frameTime = 0;
     timer++;
-    if(timer > 60){
+    if (timer > 60) {
       timer = 0;
-      if(IsStarted){
+      if (IsStarted) {
         dataSend();
       }
     }
 
-  
   }
 }
 
@@ -418,7 +415,7 @@ function getChunk(x, y) {
 //map end
 
 //sock start
-function dataSend(){
+function dataSend() {
   const tempMonster = [true, true, true, true, true];
   if (socket.bufferedAmount == 0) {
     if (IsStarted != false && IsRunning != true) {
@@ -458,7 +455,6 @@ function attack(isAttack, angle, element) {
 }
 
 function monsterHit(magic, monster) {
-
   if(monster.type === 0){
     console.log("GameOver!");
   }
@@ -478,3 +474,7 @@ function monsterHit(magic, monster) {
 
   }
 }
+
+
+// sock end
+
