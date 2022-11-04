@@ -40,20 +40,25 @@ let monsterpos = [
   [1, 2],
 ];
 // ----------------------------------------
-
+let monX;
+let monY;
+let randomLocation;
 let cats;
+let maxMon;
+let monCount = 0;
 var player = "";
 global.codeScene = "";
 var gameOver = false;
 var scoreText;
 global.gameTimer = 0;
-
+global.score = 0;
 global.magicSet = "";
 var map;
 var chunks = [];
 export var camera;
 let frameTime = 0;
 let timer = 0;
+let monTimer = 30;
 // 몬스터 변수 선언
 var monster;
 global.codeMonsterSet = "";
@@ -108,11 +113,11 @@ function preload() {
     frameHeight: 100,
   });
 
-      // 몬스터
+  // 몬스터
   this.load.spritesheet(
     "alien",
     "http://labs.phaser.io/assets/tests/invaders/invader1.png",
-    {frameWidth: 32, frameHeight: 32}
+    { frameWidth: 32, frameHeight: 32 }
   );
   //object sprite end
 }
@@ -182,14 +187,14 @@ function create() {
   });
   this.anims.create({
     key: "swarm",
-    frames: this.anims.generateFrameNumbers("alien", {start: 0, end: 1}),
+    frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 1 }),
     frameRate: 30,
     repeat: -1,
   });
   // resource load end
 
   //player start
-  player = new Player(this,10,10,"tower1");
+  player = new Player(this, 10, 10, "tower1");
   player.play("tower1_idle");
   player.setScale(2);
   player.setDepth(3);
@@ -320,36 +325,56 @@ function create() {
     }
   }
 
-    this.followPoint.x = player.x;
-    this.followPoint.y = player.y;
-    //map end
+  this.followPoint.x = player.x;
+  this.followPoint.y = player.y;
+  //map end
 
-    //monster start
-    codeMonsterSet = this.physics.add.group();
-    magicSet = this.physics.add.group();
-    //monster end
-    
+  //monster start
+  codeMonsterSet = this.physics.add.group();
+  magicSet = this.physics.add.group();
+  //monster end
+
 
   this.cameras.main.setZoom(0.7);
   this.cameras.main.startFollow(player, false);
   console.log(this.cameras);
+  console.log(stageNum);
 
-
-for(let i=0;i<5;i++){
-  let enemy = new Enemy(this,60,300*(i+1),-300*(i+1),"alien", "swarm", 1);
-  if(enemy.type === 1){
-    enemy.health = 1;
+  switch (stageNum) {
+    case 1:
+      maxMon = 5;
+      break;
+    case 2:
+      maxMon = 10;
+      break;
+    case 3:
+      maxMon = 10;
+      break;
+    case 4:
+      maxMon = 10;
+      break;
+    case 5:
+      maxMon = 10;
+      for(let i=0;i<5;i++){
+        catSpawn();
+        let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", 1);
+        codeMonsterSet.add(enemy);
+      }
+      break;
+    case 6:
+      maxMon = 10;
+      for(let i=0;i<5;i++){
+        catSpawn();
+        let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", 1);
+        codeMonsterSet.add(enemy);
+      }
+      break;
   }
-  codeMonsterSet.add(enemy);
-  this.physics.moveToObject(
-    codeMonsterSet.children.entries[i],
-    player,
-    codeMonsterSet.children.entries[i].velo
-  );
-}
-this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
 
-this.scene.pause();
+
+  this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
+  this.physics.add.overlap(player, codeMonsterSet, playerHit);
+  this.scene.pause();
 }
 
 function update(time, delta) {
@@ -358,10 +383,119 @@ function update(time, delta) {
   if (frameTime > 16.5) {
     frameTime = 0;
     timer++;
+    monTimer++;
     if (timer > 60) {
       timer = 0;
       if (IsStarted) {
         dataSend();
+      }
+    }
+
+    if (monTimer > 60) {
+      monTimer = 0;
+
+      switch (stageNum) {
+        case 1:
+          if (monCount < maxMon) {
+            let enemy = new Enemy(this, 60, 400, -400, "alien", "swarm", 1);
+            if (enemy.type === 1) {
+              enemy.health = 1;
+            }
+            codeMonsterSet.add(enemy);
+            this.physics.moveToObject(
+              enemy,
+              player,
+              enemy.velo
+            );
+            monCount++;
+          }
+          break;
+        case 2:
+          if (monCount < maxMon) {
+            let enemy = (monCount % 2 === 0) ? new Enemy(this, 60, 400, -400, "alien", "swarm", 1) : new Enemy(this, 60, -400, -400, "alien", "swarm", 1);
+            if (enemy.type === 1) {
+              enemy.health = 1;
+            }
+            codeMonsterSet.add(enemy);
+            this.physics.moveToObject(
+              enemy,
+              player,
+              enemy.velo
+            );
+            monCount++;
+          }
+          break;
+        case 3:
+          if (monCount < maxMon) {
+            enemySpawn();
+            let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", 1);
+            if (enemy.type === 1) {
+              enemy.health = 1;
+            }
+            codeMonsterSet.add(enemy);
+            this.physics.moveToObject(
+              enemy,
+              player,
+              enemy.velo
+            );
+            monCount++;
+          }
+          break;
+          case 4:
+            if (monCount < maxMon) {
+              enemySpawn();
+              let typeNum = Math.floor(Math.random() * 4+2);
+              let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", typeNum);
+              console.log(enemy.type);
+              if (enemy.type === 1) {
+                enemy.health = 1;
+              }
+              codeMonsterSet.add(enemy);
+              this.physics.moveToObject(
+                enemy,
+                player,
+                enemy.velo
+              );
+              monCount++;
+            }
+            break;
+          case 5:
+            if (monCount < maxMon) {
+              enemySpawn();
+              let typeNum = Math.floor(Math.random() * 5+1);
+              let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", typeNum);
+              console.log(enemy.type);
+              if (enemy.type === 1) {
+                enemy.health = 1;
+              }
+              codeMonsterSet.add(enemy);
+              this.physics.moveToObject(
+                enemy,
+                player,
+                enemy.velo
+              );
+              monCount++;
+            }
+            break;
+          case 6:
+            if (monCount < maxMon) {
+              enemySpawn();
+              let typeNum = Math.floor(Math.random() * 5+1);
+              let randomVelo = Math.floor(Math.random() * 60 + 40);
+              let enemy = new Enemy(this, randomVelo, monX, monY, "alien", "swarm", typeNum);
+              console.log(enemy.type);
+              if (enemy.type === 1) {
+                enemy.health = 1;
+              }
+              codeMonsterSet.add(enemy);
+              this.physics.moveToObject(
+                enemy,
+                player,
+                enemy.velo
+              );
+              monCount++;
+            }
+            break;
       }
     }
 
@@ -389,8 +523,8 @@ function dataSend() {
 
       let objList = [[]];
       let obj = codeMonsterSet.children.entries;
-      for(let i=0;i<codeMonsterSet.children.entries.length;i++){
-        objList.push([obj[i].x,obj[i].y,obj[i].type]);
+      for (let i = 0; i < codeMonsterSet.children.entries.length; i++) {
+        objList.push([obj[i].x, obj[i].y, obj[i].type]);
       }
 
 
@@ -406,9 +540,9 @@ function dataSend() {
 }
 // sock end
 export function attack(isAttack, angle, element) {
-  if(isAttack){
-    let x = Math.cos(angle*(Math.PI/180));
-    let y = Math.sin(angle*(Math.PI/180));
+  if (isAttack) {
+    let x = Math.cos(angle * (Math.PI / 180));
+    let y = Math.sin(angle * (Math.PI / 180));
 
     let magic = new Magic(codeScene, 1);
     magicSet.add(magic);
@@ -422,26 +556,68 @@ export function attack(isAttack, angle, element) {
 }
 
 function monsterHit(magic, monster) {
-  if(monster.type === 0){
-    console.log("GameOver!");
+  if (monster.type === 0) {
+    score -= 200;
   }
 
   if (!monster.invincible) {
-    if(monster.type === magic.element){
+    if (monster.type === magic.element) {
       monster.health -= 3;
-    }else{
+    } else {
       monster.invincible = true;
       monster.health -= 1;
     }
     magic.destroy();
 
-    if(monster.health <= 0){
+    if (monster.health <= 0) {
+      score += 100;
       monster.destroy();
+      console.log(score);
     }
 
   }
 }
 
+function playerHit(player, monster) {
+  monster.destroy();
+  score -= 50;
+  console.log(score);
+}
+
 
 // sock end
+
+function enemySpawn() {
+  randomLocation = Math.floor(Math.random() * 4) + 1;
+  if (randomLocation === 1) {
+    monX = Phaser.Math.Between(player.x - 400, player.x + 400);
+    monY = Phaser.Math.Between(player.y + 400, player.y + 400);
+  } else if (randomLocation === 2) {
+    monX = Phaser.Math.Between(player.x - 400, player.x + 400);
+    monY = Phaser.Math.Between(player.y - 400, player.y - 400);
+  } else if (randomLocation === 3) {
+    monX = Phaser.Math.Between(player.x - 400, player.x - 400);
+    monY = Phaser.Math.Between(player.y - 400, player.y + 400);
+  } else if (randomLocation === 4) {
+    monX = Phaser.Math.Between(player.x + 400, player.x + 400);
+    monY = Phaser.Math.Between(player.y - 400, player.y + 400);
+  }
+}
+
+function catSpawn() {
+  randomLocation = Math.floor(Math.random() * 4) + 1;
+  if (randomLocation === 1) {
+    monX = Phaser.Math.Between(player.x - 200, player.x + 200);
+    monY = Phaser.Math.Between(player.y + 200, player.y + 200);
+  } else if (randomLocation === 2) {
+    monX = Phaser.Math.Between(player.x - 200, player.x + 200);
+    monY = Phaser.Math.Between(player.y - 200, player.y - 200);
+  } else if (randomLocation === 3) {
+    monX = Phaser.Math.Between(player.x - 200, player.x - 200);
+    monY = Phaser.Math.Between(player.y - 200, player.y + 200);
+  } else if (randomLocation === 4) {
+    monX = Phaser.Math.Between(player.x + 200, player.x + 200);
+    monY = Phaser.Math.Between(player.y - 200, player.y + 200);
+  }
+}
 
