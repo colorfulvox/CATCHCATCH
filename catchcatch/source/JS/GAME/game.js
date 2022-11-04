@@ -1957,6 +1957,8 @@ function changeSlot() {
 
 function attack(magic, monster) {
   if (!monster.invincible) {
+    setSound.playSE(12);
+
     if (magic.pierceCount > 0) {
       magic.pierceCount--;
     } else {
