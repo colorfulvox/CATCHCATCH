@@ -29,8 +29,6 @@ export const codeConfig = {
   },
 };
 
-
-
 // 우리가 전달할 정보 --------------------------
 let monsterpos = [
   [1, 2],
@@ -112,13 +110,65 @@ function preload() {
     frameWidth: 96,
     frameHeight: 100,
   });
-
+  this.load.spritesheet("cat2", "images/cat/cat2.png", {
+    frameWidth: 116,
+    frameHeight: 112,
+  });
+  this.load.spritesheet("cat3", "images/cat/cat3.png", {
+    frameWidth: 116,
+    frameHeight: 112,
+  });
+  this.load.spritesheet("cat4", "images/cat/cat4.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
+  this.load.spritesheet("cat5", "images/cat/cat5.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
+  this.load.spritesheet("cat6", "images/cat/cat6.png", {
+    frameWidth: 116,
+    frameHeight: 112,
+  });
+  this.load.spritesheet("cat7", "images/cat/cat7.png", {
+    frameWidth: 96,
+    frameHeight: 100,
+  });
   // 몬스터
-  this.load.spritesheet(
-    "alien",
-    "http://labs.phaser.io/assets/tests/invaders/invader1.png",
-    { frameWidth: 32, frameHeight: 32 }
-  );
+  this.load.spritesheet("monster_die", "images/monster/monster_die2.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("alien", "images/monster/alien.png", {
+    frameWidth: 20,
+    frameHeight: 20,
+  });
+
+  this.load.spritesheet("worm", "images/monster/worm.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
+  this.load.spritesheet("sonic", "images/monster/sonic.png", {
+    frameWidth: 32,
+    frameHeight: 32,
+  });
+
+  this.load.spritesheet("turtle", "images/monster/turtle.png", {
+    frameWidth: 32,
+    frameHeight: 32,
+  });
+
+  this.load.spritesheet("slime", "images/monster/slime.png", {
+    frameWidth: 16,
+    frameHeight: 16,
+  });
+
+  this.load.spritesheet("fly", "images/monster/fly.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
   //object sprite end
 }
 
@@ -185,10 +235,103 @@ function create() {
     frameRate: 16,
     repeat: -1,
   });
+  // ============== 몬스터 스프라이트 애니메이션 목록 ==================
   this.anims.create({
-    key: "swarm",
-    frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 1 }),
-    frameRate: 30,
+    key: "alien",
+    frames: this.anims.generateFrameNumbers("alien", { start: 9, end: 14 }),
+    frameRate: 3,
+    repeat: -1, // -1은 무한 반복 의미
+  });
+
+  this.anims.create({
+    key: "worm",
+    frames: this.anims.generateFrameNumbers("worm", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "alienPlus",
+    frames: this.anims.generateFrameNumbers("alienPlus", { start: 9, end: 14 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "wormPlus",
+    frames: this.anims.generateFrameNumbers("wormPlus", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "sonic",
+    frames: this.anims.generateFrameNumbers("sonic", { start: 0, end: 1 }),
+    frameRate: 4,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "turtle",
+    frames: this.anims.generateFrameNumbers("turtle", { start: 0, end: 1 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "slime",
+    frames: this.anims.generateFrameNumbers("slime", { start: 7, end: 14 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fly",
+    frames: this.anims.generateFrameNumbers("fly", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "cat1",
+    frames: this.anims.generateFrameNumbers("cat1", { start: 0, end: 0 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "cat2",
+    frames: this.anims.generateFrameNumbers("cat2", { start: 0, end: 0 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "cat3",
+    frames: this.anims.generateFrameNumbers("cat3", { start: 0, end: 0 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "cat4",
+    frames: this.anims.generateFrameNumbers("cat4", { start: 0, end: 0 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "cat5",
+    frames: this.anims.generateFrameNumbers("cat5", { start: 0, end: 0 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "cat6",
+    frames: this.anims.generateFrameNumbers("cat6", { start: 0, end: 0 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "cat7",
+    frames: this.anims.generateFrameNumbers("cat7", { start: 0, end: 0 }),
+    frameRate: 3,
     repeat: -1,
   });
   // resource load end
@@ -334,7 +477,6 @@ function create() {
   magicSet = this.physics.add.group();
   //monster end
 
-
   this.cameras.main.setZoom(0.7);
   this.cameras.main.startFollow(player, false);
   console.log(this.cameras);
@@ -355,26 +497,25 @@ function create() {
       break;
     case 5:
       maxMon = 10;
-      for(let i=0;i<5;i++){
+      for (let i = 0; i < 5; i++) {
         catSpawn();
-        let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", 1);
+        let enemy = new Enemy(this, 60, monX, monY, "cat1", "cat1", 0);
         codeMonsterSet.add(enemy);
       }
       break;
     case 6:
       maxMon = 10;
-      for(let i=0;i<5;i++){
+      for (let i = 0; i < 5; i++) {
         catSpawn();
-        let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", 1);
+        let enemy = new Enemy(this, 60, monX, monY, "cat1", "cat1", 0);
         codeMonsterSet.add(enemy);
       }
       break;
   }
-
-
+  this.physics.world.drawDebug = false;
   this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
   this.physics.add.overlap(player, codeMonsterSet, playerHit);
-  this.scene.pause();
+  // this.scene.pause();
 }
 
 function update(time, delta) {
@@ -397,108 +538,110 @@ function update(time, delta) {
       switch (stageNum) {
         case 1:
           if (monCount < maxMon) {
-            let enemy = new Enemy(this, 60, 400, -400, "alien", "swarm", 1);
+            let enemy = new Enemy(this, 60, 400, -400, "alien", "alien", 1);
             if (enemy.type === 1) {
               enemy.health = 1;
             }
             codeMonsterSet.add(enemy);
-            this.physics.moveToObject(
-              enemy,
-              player,
-              enemy.velo
-            );
+            this.physics.moveToObject(enemy, player, enemy.velo);
             monCount++;
           }
           break;
         case 2:
           if (monCount < maxMon) {
-            let enemy = (monCount % 2 === 0) ? new Enemy(this, 60, 400, -400, "alien", "swarm", 1) : new Enemy(this, 60, -400, -400, "alien", "swarm", 1);
+            let enemy =
+              monCount % 2 === 0
+                ? new Enemy(this, 60, 400, -400, "alien", "alien", 1)
+                : new Enemy(this, 60, -400, -400, "alien", "alien", 1);
             if (enemy.type === 1) {
               enemy.health = 1;
             }
             codeMonsterSet.add(enemy);
-            this.physics.moveToObject(
-              enemy,
-              player,
-              enemy.velo
-            );
+            this.physics.moveToObject(enemy, player, enemy.velo);
             monCount++;
           }
           break;
         case 3:
           if (monCount < maxMon) {
             enemySpawn();
-            let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", 1);
+            let enemy = new Enemy(this, 60, monX, monY, "alien", "alien", 1);
             if (enemy.type === 1) {
               enemy.health = 1;
             }
             codeMonsterSet.add(enemy);
-            this.physics.moveToObject(
-              enemy,
-              player,
-              enemy.velo
-            );
+            this.physics.moveToObject(enemy, player, enemy.velo);
             monCount++;
           }
           break;
-          case 4:
-            if (monCount < maxMon) {
-              enemySpawn();
-              let typeNum = Math.floor(Math.random() * 4+2);
-              let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", typeNum);
-              console.log(enemy.type);
-              if (enemy.type === 1) {
-                enemy.health = 1;
-              }
-              codeMonsterSet.add(enemy);
-              this.physics.moveToObject(
-                enemy,
-                player,
-                enemy.velo
-              );
-              monCount++;
+        case 4:
+          if (monCount < maxMon) {
+            enemySpawn();
+            let typeNum = Math.floor(Math.random() * 4 + 2);
+            let enemy = new Enemy(
+              this,
+              60,
+              monX,
+              monY,
+              "alien",
+              "alien",
+              typeNum
+            );
+            console.log(enemy.type);
+            if (enemy.type === 1) {
+              enemy.health = 1;
             }
-            break;
-          case 5:
-            if (monCount < maxMon) {
-              enemySpawn();
-              let typeNum = Math.floor(Math.random() * 5+1);
-              let enemy = new Enemy(this, 60, monX, monY, "alien", "swarm", typeNum);
-              console.log(enemy.type);
-              if (enemy.type === 1) {
-                enemy.health = 1;
-              }
-              codeMonsterSet.add(enemy);
-              this.physics.moveToObject(
-                enemy,
-                player,
-                enemy.velo
-              );
-              monCount++;
+            codeMonsterSet.add(enemy);
+            this.physics.moveToObject(enemy, player, enemy.velo);
+            monCount++;
+          }
+          break;
+        case 5:
+          if (monCount < maxMon) {
+            enemySpawn();
+            let typeNum = Math.floor(Math.random() * 5 + 1);
+            let enemy = new Enemy(
+              this,
+              60,
+              monX,
+              monY,
+              "alien",
+              "alien",
+              typeNum
+            );
+            console.log(enemy.type);
+            if (enemy.type === 1) {
+              enemy.health = 1;
             }
-            break;
-          case 6:
-            if (monCount < maxMon) {
-              enemySpawn();
-              let typeNum = Math.floor(Math.random() * 5+1);
-              let randomVelo = Math.floor(Math.random() * 60 + 40);
-              let enemy = new Enemy(this, randomVelo, monX, monY, "alien", "swarm", typeNum);
-              console.log(enemy.type);
-              if (enemy.type === 1) {
-                enemy.health = 1;
-              }
-              codeMonsterSet.add(enemy);
-              this.physics.moveToObject(
-                enemy,
-                player,
-                enemy.velo
-              );
-              monCount++;
+            codeMonsterSet.add(enemy);
+            this.physics.moveToObject(enemy, player, enemy.velo);
+            monCount++;
+          }
+          break;
+        case 6:
+          if (monCount < maxMon) {
+            enemySpawn();
+            let typeNum = Math.floor(Math.random() * 5 + 1);
+            let randomVelo = Math.floor(Math.random() * 60 + 40);
+            let enemy = new Enemy(
+              this,
+              randomVelo,
+              monX,
+              monY,
+              "alien",
+              "alien",
+              typeNum
+            );
+            console.log(enemy.type);
+            if (enemy.type === 1) {
+              enemy.health = 1;
             }
-            break;
+            codeMonsterSet.add(enemy);
+            this.physics.moveToObject(enemy, player, enemy.velo);
+            monCount++;
+          }
+          break;
       }
     }
-
   }
 }
 
@@ -520,13 +663,11 @@ function dataSend() {
   const tempMonster = [true, true, true, true, true];
   if (socket.bufferedAmount == 0) {
     if (IsStarted != false && IsRunning != true) {
-
       let objList = [[]];
       let obj = codeMonsterSet.children.entries;
       for (let i = 0; i < codeMonsterSet.children.entries.length; i++) {
         objList.push([obj[i].x, obj[i].y, obj[i].type]);
       }
-
 
       var Data = {
         action: "exeData",
@@ -546,12 +687,7 @@ export function attack(isAttack, angle, element) {
 
     let magic = new Magic(codeScene, 1);
     magicSet.add(magic);
-    codeScene.physics.moveTo(
-      magic,
-      x,
-      -y,
-      300
-    );
+    codeScene.physics.moveTo(magic, x, -y, 300);
   }
 }
 
@@ -574,7 +710,6 @@ function monsterHit(magic, monster) {
       monster.destroy();
       console.log(score);
     }
-
   }
 }
 
@@ -583,7 +718,6 @@ function playerHit(player, monster) {
   score -= 50;
   console.log(score);
 }
-
 
 // sock end
 
@@ -621,3 +755,11 @@ function catSpawn() {
   }
 }
 
+function debugModeChange(scene) {
+  if (scene.physics.world.drawDebug) {
+    scene.physics.world.drawDebug = false;
+    // scene.physics.world.debugGraphic.clear();
+  } else {
+    scene.physics.world.drawDebug = true;
+  }
+}
