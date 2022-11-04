@@ -67,8 +67,8 @@ const StartPageInit = () => {
           PinNumber = msg.pinnumber;
 
           RankingData = JSON.parse(JSON.stringify(msg.ranking));
-          console.log(RankingData);
           console.log(`당신의 Pin번호는 "${PinNumber}" 입니다.`);
+          UpdateRanking();
         }
         // 게임 시작시 1초 마다 서버에게 데이터를 보내는걸 시작한다.
         else if (msg.action === "StartGame") {
@@ -199,7 +199,6 @@ const StartPageInit = () => {
 
       RankingSpace.appendChild(MyRanking);
     }
-    UpdateRanking();
 
     //-----------------------------------------------
 
