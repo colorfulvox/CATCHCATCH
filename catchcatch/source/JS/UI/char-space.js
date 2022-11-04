@@ -3,6 +3,7 @@ import { StartBtnOn } from "./start-page";
 import { SaveData } from "../../main.js";
 import { config } from "../GAME/game.js";
 import { codeConfig } from "../GAME/code.js";
+import {setSound} from "../SOUND/sound";
 
 let _settingSpace;
 
@@ -161,6 +162,7 @@ function BackStart() {
 }
 
 function GameStart() {
+  setSound.playSE(10);
   //app 자체를 false해야되나?
   if (ChoiceCat === -1) console.log("시작 불가");
   const StartPage = document.querySelector(".StartPage");
@@ -187,6 +189,7 @@ export function GoStage() {
 let CharIndex = 0;
 
 function Slide() {
+  setSound.playSE(16);
   _slideList.style.left = -CharIndex * 190 + "px";
   if (LocalData.Cat[CharIndex] !== false) {
     ChoiceCat = CharIndex;

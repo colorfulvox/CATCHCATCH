@@ -68,4 +68,10 @@
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
-/* 여기서부턴 캐릭터 선택 */
+.RankingList {
+  /* display: flex; */
+  width: 500px;
+  height: 600px;
+  position: absolute;
+  border: 5px solid red;
+}

@@ -1,3 +1,5 @@
+import {setSound} from "../SOUND/sound";
+
 const _propertyArr = [
   "common",
   "wizard",
@@ -11,6 +13,8 @@ const _propertyArr = [
 const _commonArr = ["health", "dmgMul", "heal", "speed"];
 
 export default function levelup() {
+  setSound.playSE(19);
+
   const property = {
     common: {
       name: "공통",

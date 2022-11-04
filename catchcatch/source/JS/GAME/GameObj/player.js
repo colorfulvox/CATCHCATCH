@@ -1,6 +1,7 @@
 import {cursors, mapSize} from "../game.js";
 import {GameOver, updateExp} from "../../UI/ingame-ui.js";
 import levelup from "../../UI/levelup.js";
+import {setSound} from "../../SOUND/sound";
 
 export const Direction = Object.freeze({
     Up: "Up",
@@ -23,7 +24,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     maxExpBonus = 1;
     coin = 100000;
     // 캐릭터 특수능력 일단 보류
-    //ability;
+    ability = 0;
     heal = 0;
     healCount = 0;
     maxHealCount = 300;
@@ -172,6 +173,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     hitPlayer(player) {
+        setSound.playSE(11);
         if (player.invincible === false) {
             player.invincible = true;
             player.body.checkCollision.none = true;

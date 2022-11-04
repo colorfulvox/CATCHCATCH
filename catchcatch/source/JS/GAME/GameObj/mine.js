@@ -33,17 +33,13 @@ export default class Mine extends Phaser.Physics.Arcade.Image {
     }
     if (0 <= range && range < 500) {
       player.coin += 1 + mine.coinTime;
-      // console.log(1);
     }
     else if (500 <= range && range < 5000) {
       player.coin += 2 + mine.coinTime;
-      // console.log(2);
     }
     else {
       player.coin += 3 + mine.coinTime;
-      // console.log(3);
     }
-    console.log(player.coin);
     UpdateCatCoin();
 
     mine.destroy();
