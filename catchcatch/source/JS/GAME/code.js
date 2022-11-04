@@ -29,12 +29,7 @@ export const codeConfig = {
   },
 };
 
-let socket;
 
-let IsStarted = false;
-let PinNumber;
-
-let IsRunning = false;
 
 // 우리가 전달할 정보 --------------------------
 let monsterpos = [
@@ -339,37 +334,7 @@ function create() {
   this.cameras.main.startFollow(player, false);
   console.log(this.cameras);
 
-  socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
 
-  socket.onopen = function () {
-    IsStarted = false;
-    PinNumber = null;
-
-    var Data = {
-      action: "exeClientInit",
-    };
-    socket.send(JSON.stringify(Data));
-  };
-
-socket.onmessage = function (data) {
-  var msg = JSON.parse(data.data.toString());
-
-  if (msg.action === "PinNumber") {
-    PinNumber = msg.pinnumber;
-    console.log(`당신의 Pin번호는 "${PinNumber}" 입니다.`);
-  }
-  // 게임 시작시 1초 마다 서버에게 데이터를 보내는걸 시작한다.
-  else if (msg.action === "StartGame") {
-    IsStarted = true;
-    IsRunning = false;
-  }
-  // 1번의 cycle이 끝나면 보낸다.
-  else if (msg.action === "codeData") {
-    //여기서 바뀐 정보를 전달 받는다.
-    attack(msg.attack,msg.angle,msg.type);
-    IsRunning = false;
-  }
-};
 for(let i=0;i<5;i++){
   let enemy = new Enemy(this,60,300*(i+1),-300*(i+1),"alien", "swarm", 1);
   if(enemy.type === 1){
@@ -383,6 +348,8 @@ for(let i=0;i<5;i++){
   );
 }
 this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
+
+this.scene.pause();
 }
 
 function update(time, delta) {
@@ -438,7 +405,7 @@ function dataSend() {
   }
 }
 // sock end
-function attack(isAttack, angle, element) {
+export function attack(isAttack, angle, element) {
   if(isAttack){
     let x = Math.cos(angle*(Math.PI/180));
     let y = Math.sin(angle*(Math.PI/180));
