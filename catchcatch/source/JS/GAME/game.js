@@ -1677,11 +1677,14 @@ function update(time, delta) {
             golem.setDepth(2);
             golem.anime();
             bossActive = true;
+            let mw = golem.body.halfWidth;
+            let mh = golem.body.halfHeight;
+            golem.setCircle(mh / 2, mw - (mh / 2), mw);
             bossSet.add(golem);
         }
 
         // 불거인
-        if (gameTimer === 12000) {
+        if (gameTimer === 120) {
             setSound.playSE(15);
 
             fireGiant = new Boss(
@@ -1698,7 +1701,7 @@ function update(time, delta) {
             );
             let mw = fireGiant.body.halfWidth;
             let mh = fireGiant.body.halfHeight;
-            fireGiant.setCircle(mw, mh - mw, mh - mw);
+            fireGiant.setCircle(mh / 2, mw - (mh / 2), mw);
             fireGiant.setDepth(6);
             fireGiant.anime();
             bossActive = true;
@@ -1707,23 +1710,23 @@ function update(time, delta) {
             fireGiantIndex = bossSet.children.entries.length - 1;
         }
 
-        if (gameTimer === 12000) {
-            fireGiantAura = new Boss(
-                this,
-                10000,
-                1000,
-                player.x - 60,
-                player.y - 60,
-                "fireGiantAura",
-                "fireGiantAura",
-                1,
-                10,
-                "boss"
-            );
-            fireGiantAura.setDepth(5);
-            fireGiantAura.anime();
-            bossMagicSet.add(fireGiantAura);
-        }
+        // if (gameTimer === 12000) {
+        //     fireGiantAura = new Boss(
+        //         this,
+        //         10000,
+        //         1000,
+        //         player.x - 60,
+        //         player.y - 60,
+        //         "fireGiantAura",
+        //         "fireGiantAura",
+        //         1,
+        //         10,
+        //         "boss"
+        //     );
+        //     fireGiantAura.setDepth(5);
+        //     fireGiantAura.anime();
+        //     bossMagicSet.add(fireGiantAura);
+        // }
 
         // if (bossFireGiantActive) {
         //   let x = bossSet.children.entries[fireGiantIndex].x;
@@ -1759,15 +1762,15 @@ function update(time, delta) {
                         player,
                         bossSet.children.entries[i].velocity
                     );
-                    if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
-                        if (bossFireGiantActive) {
-                            this.physics.moveToObject(
-                                bossMagicSet.children.entries[0],
-                                bossSet.children.entries[i],
-                                bossMagicSet.children.entries[0].velocity
-                            );
-                        }
-                    }
+                    // if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
+                    //     if (bossFireGiantActive) {
+                    //         this.physics.moveToObject(
+                    //             bossMagicSet.children.entries[0],
+                    //             bossSet.children.entries[i],
+                    //             bossMagicSet.children.entries[0].velocity
+                    //         );
+                    //     }
+                    // }
                 } else if (bossSet.children.entries[i].bossSpecie === "golem") {
                     this.physics.moveToObject(
                         bossSet.children.entries[i],
