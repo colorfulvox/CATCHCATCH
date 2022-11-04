@@ -50,7 +50,8 @@ function BackStart() {
 function OffStage() {
   const stagePage = document.querySelector(".stagePage");
   const StartPage = document.querySelector(".StartPage");
+  const app = document.querySelector("#app");
   StartPage.style.display = "flex";
-  stagePage.style.display = "none";
+  app.removeChild(stagePage);
   StartBtnOn();
 }
