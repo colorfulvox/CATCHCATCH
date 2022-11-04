@@ -8,7 +8,7 @@ const _propertyArr = [
   "common",
   "common",
 ];
-const _commonArr = ["health", "dmgmul", "heal", "speed"];
+const _commonArr = ["health", "dmgMul", "heal", "speed"];
 
 export default function levelup() {
   const property = {
