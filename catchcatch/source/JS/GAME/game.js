@@ -1228,7 +1228,7 @@ this.anims.create({
     start: 0,
     end: 2,
   }),
-  frameRate: 8,
+  frameRate: 4,
   repeat: -1,
 });
 
@@ -1238,7 +1238,7 @@ this.anims.create({
     start: 3,
     end: 8,
   }),
-  frameRate: 16,
+  frameRate: 8,
   repeat: 0,
 });
 
@@ -1248,7 +1248,7 @@ this.anims.create({
     start: 0,
     end: 2,
   }),
-  frameRate: 8,
+  frameRate: 4,
   repeat: -1,
 });
 
@@ -1258,7 +1258,7 @@ this.anims.create({
     start: 3,
     end: 8,
   }),
-  frameRate: 16,
+  frameRate: 8,
   repeat: 0,
 });
 
@@ -1268,7 +1268,7 @@ this.anims.create({
     start: 0,
     end: 2,
   }),
-  frameRate: 8,
+  frameRate: 4,
   repeat: -1,
 });
 
@@ -1278,7 +1278,7 @@ this.anims.create({
     start: 3,
     end: 8,
   }),
-  frameRate: 16,
+  frameRate: 8,
   repeat: 0,
 });
 
@@ -1288,7 +1288,7 @@ this.anims.create({
     start: 0,
     end: 2,
   }),
-  frameRate: 8,
+  frameRate: 4,
   repeat: -1,
 });
 
@@ -1298,7 +1298,7 @@ this.anims.create({
     start: 3,
     end: 8,
   }),
-  frameRate: 16,
+  frameRate: 8,
   repeat: 0,
 });
 
@@ -1308,7 +1308,7 @@ this.anims.create({
     start: 0,
     end: 2,
   }),
-  frameRate: 8,
+  frameRate: 4,
   repeat: -1,
 });
 
@@ -1318,19 +1318,25 @@ this.anims.create({
     start: 3,
     end: 8,
   }),
-  frameRate: 16,
+  frameRate: 8,
   repeat: 0,
 });
 //cattower animation end
 
-  towerLU = new CatTower(this, -100, -100, "0_idle", "can", "skill", 0);
-  towerRU = new CatTower(this, 100, -100, "0_idle", "can", "skill", 0);
-  towerLD = new CatTower(this, -100, 100, "0_idle", "can", "skill", 0);
-  towerRD = new CatTower(this, 100, 100, "0_idle", "can", "skill", 0);
+  towerLU = new CatTower(this, -130, -130, "0_idle", "can", "skill", 0);
+  towerRU = new CatTower(this, 130, -130, "0_idle", "can", "skill", 0);
+  towerLD = new CatTower(this, -130, 130, "0_idle", "can", "skill", 0);
+  towerRD = new CatTower(this, 130, 130, "0_idle", "can", "skill", 0);
   towerLU.scale_Circle();
   towerRU.scale_Circle();
   towerLD.scale_Circle();
   towerRD.scale_Circle();
+
+  towerLU.scale = 2;
+  towerRU.scale = 2;
+  towerLD.scale = 2;
+  towerRD.scale = 2;
+
   towerLU.setDepth(1);
   towerRU.setDepth(1);
   towerLD.setDepth(1);
