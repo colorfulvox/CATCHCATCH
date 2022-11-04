@@ -2,7 +2,7 @@ import { UpdateCatCoin } from "../../UI/ingame-ui.js";
 import { input, camera, aliens } from "../game.js";
 import Magic from "./magic.js";
 import Skill from "./skill.js";
-import {setSound} from "../../SOUND/sound";
+import { setSound } from "../../SOUND/sound";
 
 export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   // 얘는 공격 스프라이트 객체
@@ -21,7 +21,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   velocity;
   size = 0.5;
   spriteScale = 1;
-
+  isSkill = false;
   vxm;
   vym;
   vxp;
@@ -126,6 +126,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     this.pierceCount = 99999;
     this.bombTime = 99999;
     this.evo1 = true;
+    this.isSkill = true;
   }
 
   levelUp() {
@@ -225,7 +226,12 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
   levelUp5() {
     if (player.coin >= 200) {
+      if (this.fairyNum !== 3) {
+        this.isSkill = true;
+      }
+
       player.coin -= 200;
+
       this.level = 5;
       this.evo1 = true;
       this.idleKey = `fairy${this.fairyNum}_1_idle`;
@@ -355,7 +361,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
   normalAttack(magic) {
     magics.add(magic);
 
-    if(this.fairyNum !== 2) {
+    if (this.fairyNum !== 2) {
       setSound.playSE(this.fairyNum - 1);
     }
 

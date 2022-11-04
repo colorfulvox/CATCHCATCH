@@ -2,7 +2,13 @@ import Fairy from "./GameObj/fairy.js";
 import Magic from "./GameObj/magic.js";
 import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
-import ingameUi, { GameOver, updateExp, updateHP } from "../UI/ingame-ui.js";
+import ingameUi, {
+  GameOver,
+  updateExp,
+  updateHP,
+  useSkill,
+  canSkill,
+} from "../UI/ingame-ui.js";
 import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
@@ -12,7 +18,7 @@ import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
 import { UpdateTimer } from "../UI/ingame-ui.js";
-import {setSound} from "../SOUND/sound.js";
+import { setSound } from "../SOUND/sound.js";
 
 export const config = {
   type: Phaser.AUTO,
@@ -24,7 +30,7 @@ export const config = {
   pixelArt: true,
   roundPixels: true,
   audio: {
-    disableWebAudio: true
+    disableWebAudio: true,
   },
   scene: {
     //scene 제어에
@@ -198,7 +204,7 @@ function preload() {
   //map end
 
   //tower start
-  
+
   this.load.spritesheet("catNone", "images/cattower/towerNone.png", {
     frameWidth: 38,
     frameHeight: 64,
@@ -224,13 +230,10 @@ function preload() {
   //tower end
 
   //hole start
-  this.load.spritesheet(
-    "new_hole",
-    "images/hole/new_hole.png",
-    {
+  this.load.spritesheet("new_hole", "images/hole/new_hole.png", {
     frameWidth: 100,
-    frameHeight: 100
-})
+    frameHeight: 100,
+  });
   //hole end
 
   //navi start
@@ -444,109 +447,76 @@ function preload() {
 
   // 몬스터
 
-  this.load.spritesheet('monster_die', 'images/monster/monster_die2.png',
-  {frameWidth: 64, frameHeight: 64});
+  this.load.spritesheet("monster_die", "images/monster/monster_die2.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
 
-  this.load.spritesheet(
-    "alien",
-    "images/monster/alien.png",
-    { frameWidth: 20, frameHeight: 20 }
-  );
-
-  this.load.spritesheet(
-    "worm",
-    "images/monster/worm.png",
-    {
-    frameWidth: 48,
-    frameHeight: 48
-})
-
-  this.load.spritesheet(
-    "sonic",
-    "images/monster/sonic.png",
-    {
-    frameWidth: 32,
-    frameHeight: 32
-})
-
-  this.load.spritesheet(
-    "turtle",
-    "images/monster/turtle.png",
-    {
-    frameWidth: 32,
-    frameHeight: 32
-})
-
-  this.load.spritesheet(
-    "slime",
-    "images/monster/slime.png",
-    {
-    frameWidth: 16,
-    frameHeight: 16
-})
-
-  this.load.spritesheet(
-    "fly",
-    "images/monster/fly.png",
-    {
-    frameWidth: 48,
-    frameHeight: 48
-})
-
-  this.load.spritesheet(
-    "alienPlus",
-    "images/monster/alienPlus.png",
-    {
+  this.load.spritesheet("alien", "images/monster/alien.png", {
     frameWidth: 20,
-    frameHeight: 20
-})
+    frameHeight: 20,
+  });
 
-  this.load.spritesheet(
-    "wormPlus",
-    "images/monster/wormPlus.png",
-    {
+  this.load.spritesheet("worm", "images/monster/worm.png", {
     frameWidth: 48,
-    frameHeight: 48
-})
+    frameHeight: 48,
+  });
 
-//   보스
-  this.load.spritesheet(
-    "slimeKing",
-    "images/boss/slimeKing.png",
-    {
+  this.load.spritesheet("sonic", "images/monster/sonic.png", {
+    frameWidth: 32,
+    frameHeight: 32,
+  });
+
+  this.load.spritesheet("turtle", "images/monster/turtle.png", {
+    frameWidth: 32,
+    frameHeight: 32,
+  });
+
+  this.load.spritesheet("slime", "images/monster/slime.png", {
+    frameWidth: 16,
+    frameHeight: 16,
+  });
+
+  this.load.spritesheet("fly", "images/monster/fly.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
+  this.load.spritesheet("alienPlus", "images/monster/alienPlus.png", {
+    frameWidth: 20,
+    frameHeight: 20,
+  });
+
+  this.load.spritesheet("wormPlus", "images/monster/wormPlus.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
+  //   보스
+  this.load.spritesheet("slimeKing", "images/boss/slimeKing.png", {
     frameWidth: 96,
-    frameHeight: 96
-})
+    frameHeight: 96,
+  });
 
-  this.load.spritesheet(
-    "golem",
-    "images/boss/golem.png",
-    {
+  this.load.spritesheet("golem", "images/boss/golem.png", {
     frameWidth: 96,
-    frameHeight: 96
-})
+    frameHeight: 96,
+  });
 
-  this.load.spritesheet(
-    "fireGiant",
-    "images/boss/fireGiant.png",
-    {
+  this.load.spritesheet("fireGiant", "images/boss/fireGiant.png", {
     frameWidth: 96,
-    frameHeight: 96
-})
+    frameHeight: 96,
+  });
 
-
-this.load.spritesheet(
-    "fireGiantAura",
-    "images/boss/fireGiantAura.png",
-    {
+  this.load.spritesheet("fireGiantAura", "images/boss/fireGiantAura.png", {
     frameWidth: 96,
-    frameHeight: 96
-})
+    frameHeight: 96,
+  });
   //enemy end
 }
 
 function create() {
-  this.input.setDefaultCursor("url(/images/cursor/aimNone.png), pointer")
+  this.input.setDefaultCursor("url(/images/cursor/aimNone.png), pointer");
   setSound.setBGM(1);
   thisScene = this;
   //map start
@@ -694,6 +664,7 @@ function create() {
   for (let i = 0; i < 5; i++) {
     fairySet[i].setDepth(2);
   }
+  console.log(witch);
   player.changeFairy(fairySet[0]);
   normalAttackAS = fairySet[0].as;
   // animation
@@ -907,8 +878,6 @@ function create() {
     repeat: 0,
   });
 
-  
-
   // 공격 애니메이션
   this.anims.create({
     key: "magic1",
@@ -986,7 +955,6 @@ function create() {
 
   //player end
 
-
   // 홀 애니메이션
 
   this.anims.create({
@@ -1001,7 +969,7 @@ function create() {
     frames: this.anims.generateFrameNumbers("new_hole", { start: 3, end: 7 }),
     frameRate: 12,
     repeat: 0,
-  })
+  });
 
   //cointext start
   // cointext = this.add.text(500, 20, 'coin: 0', {font: 'Bold 15px Arial', fill: '#fff', fontStyle: "strong"}).setScrollFactor(0);
@@ -1018,7 +986,7 @@ function create() {
   mines = this.physics.add.group();
 
   // 임시 구멍
-  hole = this.physics.add.sprite(0, 0, "new_hole").play('new_hole');
+  hole = this.physics.add.sprite(0, 0, "new_hole").play("new_hole");
   hole.setScale(2.3);
   hw = hole.body.halfWidth;
   hh = hole.body.halfHeight;
@@ -1128,9 +1096,7 @@ function create() {
     frames: this.anims.generateFrameNumbers("alien", { start: 9, end: 14 }),
     frameRate: 3,
     repeat: -1, // -1은 무한 반복 의미
-    
   });
-
 
   this.anims.create({
     key: "worm",
@@ -1181,7 +1147,7 @@ function create() {
     repeat: -1,
   });
 
-// boss
+  // boss
 
   this.anims.create({
     key: "slimeKing",
@@ -1206,14 +1172,20 @@ function create() {
 
   this.anims.create({
     key: "monster_die",
-    frames: this.anims.generateFrameNumbers("monster_die", { start: 0, end: 5 }),
+    frames: this.anims.generateFrameNumbers("monster_die", {
+      start: 0,
+      end: 5,
+    }),
     frameRate: 12,
     repeat: -1,
   });
 
   this.anims.create({
     key: "fireGiantAura",
-    frames: this.anims.generateFrameNumbers("fireGiantAura", { start: 0, end: 7 }),
+    frames: this.anims.generateFrameNumbers("fireGiantAura", {
+      start: 0,
+      end: 7,
+    }),
     frameRate: 12,
     repeat: -1,
   });
@@ -1221,107 +1193,107 @@ function create() {
 
   //tower start
 
-//cattower animation start
-this.anims.create({
-  key: "0_idle",
-  frames: this.anims.generateFrameNumbers("catNone", {
-    start: 0,
-    end: 2,
-  }),
-  frameRate: 8,
-  repeat: -1,
-});
+  //cattower animation start
+  this.anims.create({
+    key: "0_idle",
+    frames: this.anims.generateFrameNumbers("catNone", {
+      start: 0,
+      end: 2,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
-this.anims.create({
-  key: "0_attack",
-  frames: this.anims.generateFrameNumbers("catNone", {
-    start: 3,
-    end: 8,
-  }),
-  frameRate: 16,
-  repeat: 0,
-});
+  this.anims.create({
+    key: "0_attack",
+    frames: this.anims.generateFrameNumbers("catNone", {
+      start: 3,
+      end: 8,
+    }),
+    frameRate: 16,
+    repeat: 0,
+  });
 
-this.anims.create({
-  key: "1_idle",
-  frames: this.anims.generateFrameNumbers("catThunder", {
-    start: 0,
-    end: 2,
-  }),
-  frameRate: 8,
-  repeat: -1,
-});
+  this.anims.create({
+    key: "1_idle",
+    frames: this.anims.generateFrameNumbers("catThunder", {
+      start: 0,
+      end: 2,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
-this.anims.create({
-  key: "1_attack",
-  frames: this.anims.generateFrameNumbers("catThunder", {
-    start: 3,
-    end: 8,
-  }),
-  frameRate: 16,
-  repeat: 0,
-});
+  this.anims.create({
+    key: "1_attack",
+    frames: this.anims.generateFrameNumbers("catThunder", {
+      start: 3,
+      end: 8,
+    }),
+    frameRate: 16,
+    repeat: 0,
+  });
 
-this.anims.create({
-  key: "2_idle",
-  frames: this.anims.generateFrameNumbers("catFire", {
-    start: 0,
-    end: 2,
-  }),
-  frameRate: 8,
-  repeat: -1,
-});
+  this.anims.create({
+    key: "2_idle",
+    frames: this.anims.generateFrameNumbers("catFire", {
+      start: 0,
+      end: 2,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
-this.anims.create({
-  key: "2_attack",
-  frames: this.anims.generateFrameNumbers("catFire", {
-    start: 3,
-    end: 8,
-  }),
-  frameRate: 16,
-  repeat: 0,
-});
+  this.anims.create({
+    key: "2_attack",
+    frames: this.anims.generateFrameNumbers("catFire", {
+      start: 3,
+      end: 8,
+    }),
+    frameRate: 16,
+    repeat: 0,
+  });
 
-this.anims.create({
-  key: "3_idle",
-  frames: this.anims.generateFrameNumbers("catWater", {
-    start: 0,
-    end: 2,
-  }),
-  frameRate: 8,
-  repeat: -1,
-});
+  this.anims.create({
+    key: "3_idle",
+    frames: this.anims.generateFrameNumbers("catWater", {
+      start: 0,
+      end: 2,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
-this.anims.create({
-  key: "3_attack",
-  frames: this.anims.generateFrameNumbers("catWater", {
-    start: 3,
-    end: 8,
-  }),
-  frameRate: 16,
-  repeat: 0,
-});
+  this.anims.create({
+    key: "3_attack",
+    frames: this.anims.generateFrameNumbers("catWater", {
+      start: 3,
+      end: 8,
+    }),
+    frameRate: 16,
+    repeat: 0,
+  });
 
-this.anims.create({
-  key: "4_idle",
-  frames: this.anims.generateFrameNumbers("catEarth", {
-    start: 0,
-    end: 2,
-  }),
-  frameRate: 8,
-  repeat: -1,
-});
+  this.anims.create({
+    key: "4_idle",
+    frames: this.anims.generateFrameNumbers("catEarth", {
+      start: 0,
+      end: 2,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
-this.anims.create({
-  key: "4_attack",
-  frames: this.anims.generateFrameNumbers("catEarth", {
-    start: 3,
-    end: 8,
-  }),
-  frameRate: 16,
-  repeat: 0,
-});
-//cattower animation end
+  this.anims.create({
+    key: "4_attack",
+    frames: this.anims.generateFrameNumbers("catEarth", {
+      start: 3,
+      end: 8,
+    }),
+    frameRate: 16,
+    repeat: 0,
+  });
+  //cattower animation end
 
   towerLU = new CatTower(this, -100, -100, "0_idle", "can", "skill", 0);
   towerRU = new CatTower(this, 100, -100, "0_idle", "can", "skill", 0);
@@ -1335,8 +1307,6 @@ this.anims.create({
   towerRU.setDepth(1);
   towerLD.setDepth(1);
   towerRD.setDepth(1);
-
-  
 
   //tower end
 
@@ -1494,13 +1464,24 @@ function update(time, delta) {
     for (let i = 0; i < 5; i++) {
       if (fairySet[i].timer < fairySet[i].skillCD) {
         fairySet[i].timer++;
+        if (fairySet[i].skillUse === true) {
+          useSkill(i);
+        }
       } else {
-        fairySet[i].skillUse = false;
+        if (fairySet[i].skillUse === true) {
+          fairySet[i].skillUse = false;
+          canSkill(i);
+        }
       }
     }
 
-    if (cursors.skill.isDown && !fairySet[nowFairy].skillUse) {
+    if (
+      cursors.skill.isDown &&
+      fairySet[nowFairy].isSkill &&
+      !fairySet[nowFairy].skillUse
+    ) {
       fairySet[nowFairy].skillFire();
+      // fairySet[nowFairy].skillUse = true;
     }
 
     player.healCount++;
@@ -1575,9 +1556,27 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alienPlus", "alienPlus", 80, 60, monX, monY, "follower");
+        addMonster(
+          this,
+          "alienPlus",
+          "alienPlus",
+          80,
+          60,
+          monX,
+          monY,
+          "follower"
+        );
       } else if (18000 < gameTimer) {
-        addMonster(this, "alienPlus", "alienPlus", 130, 75, monX, monY, "follower");
+        addMonster(
+          this,
+          "alienPlus",
+          "alienPlus",
+          130,
+          75,
+          monX,
+          monY,
+          "follower"
+        );
       } else {
         addMonster(this, "alien", "alien", 30, 50, monX, monY, "follower");
       }
@@ -1843,38 +1842,37 @@ function update(time, delta) {
     towerSkillAttacks,
   ]);
 
-if(gameTimer % 3600 === 0){
-  ++mineshowtime;
-  for (let i = 0; i < mineCount[mineshowtime]; i++) {
-    let x =
-      Math.random() *
-        (EndMineRangeX[mineshowtime] - StartMineRangeX[mineshowtime]) +
-      StartMineRangeX[mineshowtime];
-    let y =
-      Math.random() *
-        (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
-      StartMineRangeY[mineshowtime];
-    mine = new Mine(this, x, y, "mine", 0);
-    mine.scale_Circle();
-    mines.add(mine);
+  if (gameTimer % 3600 === 0) {
+    ++mineshowtime;
+    for (let i = 0; i < mineCount[mineshowtime]; i++) {
+      let x =
+        Math.random() *
+          (EndMineRangeX[mineshowtime] - StartMineRangeX[mineshowtime]) +
+        StartMineRangeX[mineshowtime];
+      let y =
+        Math.random() *
+          (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
+        StartMineRangeY[mineshowtime];
+      mine = new Mine(this, x, y, "mine", 0);
+      mine.scale_Circle();
+      mines.add(mine);
+    }
+    console.log(mines);
   }
-  console.log(mines);
-}
 
-if (!towerLU.anims.isPlaying) {
-  console.log(towerLU.stone)
-  towerLU.anims.play(`${towerLU.stone}_idle`, true);
-}
-if (!towerLD.anims.isPlaying) {
-  towerLD.anims.play(`${towerLD.stone}_idle`, true);
-}
-if (!towerRU.anims.isPlaying) {
-  towerRU.anims.play(`${towerRU.stone}_idle`, true);
-}
-if (!towerRD.anims.isPlaying) {
-  towerRD.anims.play(`${towerRD.stone}_idle`, true);
-}
-
+  if (!towerLU.anims.isPlaying) {
+    console.log(towerLU.stone);
+    towerLU.anims.play(`${towerLU.stone}_idle`, true);
+  }
+  if (!towerLD.anims.isPlaying) {
+    towerLD.anims.play(`${towerLD.stone}_idle`, true);
+  }
+  if (!towerRU.anims.isPlaying) {
+    towerRU.anims.play(`${towerRU.stone}_idle`, true);
+  }
+  if (!towerRD.anims.isPlaying) {
+    towerRD.anims.play(`${towerRD.stone}_idle`, true);
+  }
 }
 
 //player start
@@ -2072,31 +2070,43 @@ function hitHole(hole, monster) {
   updateHP();
   monster.destroy();
   monsterCount -= 1;
-  hole
-  .play('hole_damage')
+  hole.play("hole_damage");
   if (hole.lhp <= 0) {
     console.log("game over");
   }
   thisScene.time.addEvent({
     delay: 600,
     callback: () => {
-      hole
-      .play('new_hole')
+      hole.play("new_hole");
     },
     loop: false,
   });
 }
 
 function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
-  monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime, type).setInteractive({ cursor: 'url(images/cursor/aimHover.png), pointer' });
+  monster = new Enemy(
+    scene,
+    hp,
+    velo,
+    x,
+    y,
+    mon_name,
+    monAnime,
+    type
+  ).setInteractive({ cursor: "url(images/cursor/aimHover.png), pointer" });
   if (monster.monSpecie === "babySlime") {
     monster.scale = 2;
-  }
-  else if (monster.monSpecie === 'alien' || monster.monSpecie === 'alienPlus'){
+  } else if (
+    monster.monSpecie === "alien" ||
+    monster.monSpecie === "alienPlus"
+  ) {
     monster.scale = 2.5;
-  }
-  else if (monster.monSpecie === 'turtle' || monster.monSpecie === 'sonic' || monster.monSpecie === 'slime'){
-    monster.scale = 3; 
+  } else if (
+    monster.monSpecie === "turtle" ||
+    monster.monSpecie === "sonic" ||
+    monster.monSpecie === "slime"
+  ) {
+    monster.scale = 3;
   }
   monster.setDepth(2);
   monsterCount += 1;
