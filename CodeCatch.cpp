@@ -91,7 +91,7 @@ int main()
 					if (_data["action"] == "ConnectFail")
 					{
 						
-						cout << "데이터를 전달 받지 못했습니다."<<endl;
+						cout << "CatchCatch와의 연결에 실패하셨습니다."<<endl;
 						cout << "---------------------------------" << endl;
 						exit(1);
 					}
@@ -137,11 +137,9 @@ void play(CatchObj *catchobj,int objsize)
 	for (int i = 0; i < objsize; ++i)
 		cout << catchobj[i].x << " " << catchobj[i].y << " " << catchobj[i].type << endl;
 
-
-
-
-
-
+	// attack = true;  
+	// angle = 90.0f;  
+	// type = 1;
 
 	//------------------------------------------------------------------
 	PlaySend();
