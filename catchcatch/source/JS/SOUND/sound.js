@@ -47,7 +47,8 @@ export class setSound {
         'sounds/se/se_appear_golem.wav',
         // 15. 보스 불거인 생성
         'sounds/se/se_appear_fire_giant.wav',
-        // 16. 홀 경고
+        // 16. 고양이 변경 버튼
+        'sounds/se/se_cat_select.wav',
         // 17. 코인 획득 소리
         'sounds/se/se_coin.wav',
         // 18. shift 업그레이드 버튼 소리
@@ -75,6 +76,7 @@ export class setSound {
     }
 
     static playSE(index) {
+        console.log("효과음");
         let soundEffect = new Audio((setSound._soundEffectList)[index]);
         soundEffect.play();
     }
