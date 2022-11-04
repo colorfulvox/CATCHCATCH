@@ -40,8 +40,6 @@ global.pause = false;
 global.isUpgrade = false;
 global.isLevelup = false;
 
-//
-
 // 1. ws 모듈 취득
 // 2. WebSocket 서버 생성/구동
 // const socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");

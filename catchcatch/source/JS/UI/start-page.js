@@ -1,8 +1,8 @@
 import "../../CSS/UI/StartPage.css";
 import "./char-space.js";
+import CharPageInit, {CharSpaceOn, CodeStart} from "./char-space.js";
 import CharPageInit, {CharSpaceOn} from "./char-space.js";
 import {setSound} from "../SOUND/sound";
-
 let _mode = true;
 const _StartPage = document.createElement("div");
 const _app = document.getElementById("app");
@@ -60,6 +60,7 @@ const StartPageInit = () => {
     } else {
         Btn.addEventListener("click", () => {
             console.log("코딩모드 시작");
+            CodeStart();
         });
     }
     //-------------------------
