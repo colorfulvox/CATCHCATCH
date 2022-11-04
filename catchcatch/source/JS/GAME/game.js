@@ -539,8 +539,8 @@ this.load.spritesheet(
     "fireGiantAura",
     "images/boss/fireGiantAura.png",
     {
-    frameWidth: 96,
-    frameHeight: 96
+    frameWidth: 60,
+    frameHeight: 60
 })
   //enemy end
 }
@@ -1213,7 +1213,7 @@ function create() {
 
   this.anims.create({
     key: "fireGiantAura",
-    frames: this.anims.generateFrameNumbers("fireGiantAura", { start: 0, end: 7 }),
+    frames: this.anims.generateFrameNumbers("fireGiantAura", { start: 0, end: 5 }),
     frameRate: 12,
     repeat: -1,
   });
@@ -1690,7 +1690,7 @@ function update(time, delta) {
         player.y - 60,
         "fireGiant",
         "fireGiant",
-        1,
+        3,
         10,
         "boss"
       );
