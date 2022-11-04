@@ -83,6 +83,8 @@ const StartPageInit = () => {
     _StartPage.appendChild(_RankingList);
     _RankingList.style.display = "none";
 
+    //랭킹 리스트 생성
+
     //-----------------------------------------------
 
     const _Ranked = document.createElement("div");
