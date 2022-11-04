@@ -332,7 +332,7 @@ function create() {
 
   this.cameras.main.setZoom(0.7);
   this.cameras.main.startFollow(player, false);
-  console.log(this.cameras);
+  
 
 
 for(let i=0;i<5;i++){

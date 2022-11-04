@@ -25,9 +25,15 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
     }
 
     anime() {
-        this
+        if (player.ability != 2){
+            this
             .clearTint()
-            .play(this.anim);
-        // .setTint(Phaser.Display.Color.RandomRGB().color)
+            .play(this.anim);}
+        
+        else if (player.ability == 2){
+        this
+        .setTint(Phaser.Display.Color.RandomRGB().color)
+        .play(this.anim);
     }
+}
 }

@@ -493,6 +493,15 @@ function preload() {
     frameHeight: 48
 })
 
+
+this.load.spritesheet(
+  "flyPlus",
+  "images/monster/flyPlus.png",
+  {
+  frameWidth: 48,
+  frameHeight: 48
+})
+
   this.load.spritesheet(
     "alienPlus",
     "images/monster/alienPlus.png",
@@ -591,6 +600,7 @@ function create() {
 
   player = cats[catNumber];
   player = new Player(this, 1, 20, 20, "cat" + (ChoiceCat + 1));
+  player.ability = ChoiceCat + 1
   player.setScale(0.7);
   player.setDepth(2);
   let hw = player.body.halfWidth;
@@ -1181,6 +1191,12 @@ function create() {
     repeat: -1,
   });
 
+  this.anims.create({
+    key: "flyPlus",
+    frames: this.anims.generateFrameNumbers("flyPlus", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
 // boss
 
   this.anims.create({
@@ -1323,10 +1339,10 @@ this.anims.create({
 });
 //cattower animation end
 
-  towerLU = new CatTower(this, -130, -130, "0_idle", "can", "skill", 0);
-  towerRU = new CatTower(this, 130, -130, "0_idle", "can", "skill", 0);
-  towerLD = new CatTower(this, -130, 130, "0_idle", "can", "skill", 0);
-  towerRD = new CatTower(this, 130, 130, "0_idle", "can", "skill", 0);
+  towerLU = new CatTower(this, -140, -140, "0_idle", "can", "skill", 0);
+  towerRU = new CatTower(this, 140, -140, "0_idle", "can", "skill", 0);
+  towerLD = new CatTower(this, -140, 140, "0_idle", "can", "skill", 0);
+  towerRD = new CatTower(this, 140, 140, "0_idle", "can", "skill", 0);
   towerLU.scale_Circle();
   towerRU.scale_Circle();
   towerLD.scale_Circle();
@@ -1360,7 +1376,6 @@ this.anims.create({
     mine.scale_Circle();
     mines.add(mine);
   }
-  console.log(mines);
   //mine end
 
   // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
@@ -1581,34 +1596,34 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alienPlus", "alienPlus", 80, 60, monX, monY, "follower");
+        addMonster(this, "alienPlus", "alienPlus", 70, 55, monX, monY, "follower");
       } else if (18000 < gameTimer) {
         addMonster(this, "alienPlus", "alienPlus", 130, 75, monX, monY, "follower");
       } else {
-        addMonster(this, "alien", "alien", 30, 50, monX, monY, "follower");
+        addMonster(this, "alien", "alien", 30, 45, monX, monY, "follower");
       }
     }
-    if (gameTimer > 1200 && gameTimer % 120 === 0) {
+    if (gameTimer > 6000 && gameTimer % 240 === 0) {
       // 2번 worm
       siegeSpawn(randomLocation);
-      if (10800 < gameTimer && gameTimer <= 18000) {
+      if (12000 < gameTimer && gameTimer <= 18000) {
         addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY, "siege");
       } else if (18000 < gameTimer) {
         addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY, "siege");
-      } else if (gameTimer <= 18000) {
+      } else if (gameTimer <= 12000) {
         addMonster(this, "worm", "worm", 40, 40, monX, monY, "siege");
       }
     }
-    if (gameTimer > 7200 && gameTimer % 300 === 0) {
+    if (gameTimer > 12000 && gameTimer % 300 === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "sonic", "sonic", 150, 80, monX, monY, "follower");
     }
-    if (gameTimer > 20000 && gameTimer % 600 === 0) {
+    if (gameTimer > 21000 && gameTimer % 600 === 0) {
       siegeSpawn(randomLocation);
       addMonster(this, "turtle", "turtle", 300, 50, monX, monY, "siege");
     }
 
-    if (gameTimer > 16000 && gameTimer % 200 === 0) {
+    if (gameTimer > 18000 && gameTimer % 200 === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
     }
@@ -1618,17 +1633,17 @@ function update(time, delta) {
       addMonster(this, "fly", "fly", 10, 50, monX, monY, "wave");
     } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "fly", 100, 50, monX, monY, "wave");
+      addMonster(this, "flyPlus", "flyPlus", 100, 50, monX, monY, "wave");
     }
 
     // 스폰 주기
     if (gameTimer < 3600) {
       monsterSpawn = 90;
-    } else if (3600 <= gameTimer && gameTimer < 7200) {
+    } else if (3600 <= gameTimer && gameTimer < 10800) {
       monsterSpawn = 70;
-    } else if (7200 <= gameTimer && gameTimer < 10800) {
+    } else if (10800 <= gameTimer && gameTimer < 18000) {
       monsterSpawn = 50;
-    } else if (10800 <= gameTimer) {
+    } else if (18000 <= gameTimer) {
       monsterSpawn = 30;
     }
 
@@ -1640,10 +1655,10 @@ function update(time, delta) {
 
       slimeKing = new Boss(
         this,
-        400,
-        80,
-        player.x + 300,
-        player.y + 300,
+        300,
+        70,
+        player.x + 500,
+        player.y + 500,
         "slimeKing",
         "slimeKing",
         3,
@@ -1651,8 +1666,12 @@ function update(time, delta) {
         "boss"
       );
       slimeKing.setDepth(2);
-      slimeKing.anime();
+      slimeKing.anime(player);
       bossActive = true;
+      let mw = slimeKing.body.halfWidth;
+      let mh = slimeKing.body.halfHeight;
+    
+      slimeKing.setCircle(mw, mh - mw, mh - mw);
       bossSet.add(slimeKing);
     }
 
@@ -1662,8 +1681,8 @@ function update(time, delta) {
 
       golem = new Boss(
         this,
-        500,
-        30,
+        550,
+        35,
         hole.x + 2000,
         hole.y - 2000,
         "golem",
@@ -1673,8 +1692,13 @@ function update(time, delta) {
         "boss"
       );
       golem.setDepth(2);
-      golem.anime();
+      golem.anime(player);
       bossActive = true;
+
+      let mw = golem.body.halfWidth;
+      let mh = golem.body.halfHeight;
+    
+      golem.setCircle(mw, mh - mw, mh - mw);
       bossSet.add(golem);
     }
 
@@ -1685,9 +1709,9 @@ function update(time, delta) {
       fireGiant = new Boss(
         this,
         500,
-        230,
-        player.x - 60,
-        player.y - 60,
+        80,
+        player.x - 1000,
+        player.y - 1000,
         "fireGiant",
         "fireGiant",
         3,
@@ -1695,9 +1719,15 @@ function update(time, delta) {
         "boss"
       );
       fireGiant.setDepth(6);
-      fireGiant.anime();
+      fireGiant.anime(player);
       bossActive = true;
       bossFireGiantActive = true;
+
+      let mw = fireGiant.body.halfWidth;
+      let mh = fireGiant.body.halfHeight;
+    
+      fireGiant.setCircle(mw, mh - mw, mh - mw);
+
       bossSet.add(fireGiant);
       fireGiantIndex = bossSet.children.entries.length - 1;
     }
@@ -1716,7 +1746,7 @@ function update(time, delta) {
         "boss"
       );
       fireGiantAura.setDepth(5);
-      fireGiantAura.anime();
+      fireGiantAura.anime(player);
       bossMagicSet.add(fireGiantAura);
     }
 
@@ -1738,7 +1768,7 @@ function update(time, delta) {
       );
       bossMagicSet.children.entries[0].destroy();
       aura.setDepth(5);
-      aura.anime();
+      aura.anime(player);
       bossMagicSet.add(aura);
     }
 
@@ -1770,7 +1800,7 @@ function update(time, delta) {
             bossSet.children.entries[i].velocity
           );
         }
-        if (bossSet.children.entries[i].health <= 0) {
+        if (bossSet.children.entries[i].health <= 0 && bossSet.children.entries[i].bossSpecie !== "slimeKing") {
           for (let i = 0; i < 5; i++) {
             player.expUp();
           }
@@ -1870,11 +1900,9 @@ if(gameTimer % 3600 === 0){
     mine.scale_Circle();
     mines.add(mine);
   }
-  console.log(mines);
 }
 
 if (!towerLU.anims.isPlaying) {
-  console.log(towerLU.stone)
   towerLU.anims.play(`${towerLU.stone}_idle`, true);
 }
 if (!towerLD.anims.isPlaying) {
@@ -2088,9 +2116,6 @@ function hitHole(hole, monster) {
   monsterCount -= 1;
   hole
   .play('hole_damage')
-  if (hole.lhp <= 0) {
-    console.log("game over");
-  }
   thisScene.time.addEvent({
     delay: 600,
     callback: () => {
@@ -2120,7 +2145,7 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
   monster.setCircle(mw, mh - mw, mh - mw);
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
-  monster.anime();
+  monster.anime(player);
 }
 
 function destroyHole(hole, golem) {
@@ -2202,15 +2227,19 @@ function slimePattern(scene, pt, x, y) {
           100,
           x + i * 25,
           y,
-          "slimeKing",
+          "slimeKing_end",
           "slimeKing",
           0.5,
           pt,
           "boss"
         );
       }
-      slimeKing.anime();
+      slimeKing.anime(player);
       scene.physics.add.collider(bossSet, slimeKing);
+      let mw = slimeKing.body.halfWidth;
+      let mh = slimeKing.body.halfHeight;
+    
+      slimeKing.setCircle(mw, mh - mw, mh - mw);
       bossSet.add(slimeKing);
     }
   }
