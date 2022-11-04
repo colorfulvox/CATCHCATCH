@@ -489,17 +489,8 @@ function preload() {
     "fly",
     "images/monster/fly.png",
     {
-    frameWidth: 48,
-    frameHeight: 48
-})
-
-
-this.load.spritesheet(
-  "flyPlus",
-  "images/monster/flyPlus.png",
-  {
-  frameWidth: 48,
-  frameHeight: 48
+    frameWidth: 32,
+    frameHeight: 32
 })
 
   this.load.spritesheet(
@@ -1185,13 +1176,6 @@ function create() {
         frameRate: 3,
         repeat: -1,
     });
-
-  this.anims.create({
-    key: "flyPlus",
-    frames: this.anims.generateFrameNumbers("flyPlus", { start: 0, end: 2 }),
-    frameRate: 3,
-    repeat: -1,
-  });
 // boss
 
     this.anims.create({
@@ -1622,23 +1606,23 @@ function update(time, delta) {
             addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
         }
         // 몬스터 빅 웨이브
-        if (gameTimer > 8000 && gameTimer < 8200 && gameTimer % 3 === 0) {
+        if (gameTimer > 8000 && gameTimer < 8300 && gameTimer % 3 === 0) {
             enemySpawn(randomLocation);
             addMonster(this, "fly", "fly", 10, 50, monX, monY, "wave");
         } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
             enemySpawn(randomLocation);
-            addMonster(this, "flyPlus", "flyPlus", 100, 50, monX, monY, "wave");
+            addMonster(this, "fly", "fly", 100, 50, monX, monY, "wave");
         }
 
         // 스폰 주기
-        if (gameTimer < 3600) {
+        if (gameTimer < 4200) {
             monsterSpawn = 90;
-        } else if (3600 <= gameTimer && gameTimer < 7200) {
-            monsterSpawn = 70;
-        } else if (7200 <= gameTimer && gameTimer < 10800) {
-            monsterSpawn = 50;
-        } else if (10800 <= gameTimer) {
+        } else if (4200 <= gameTimer && gameTimer < 11000) {
+            monsterSpawn = 60;
+        } else if (11000 <= gameTimer && gameTimer < 23000) {
             monsterSpawn = 30;
+        } else if (23000 <= gameTimer) {
+            monsterSpawn = 15;
         }
 
         // 보스
@@ -2128,7 +2112,7 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
     monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime, type).setInteractive({cursor: 'url(images/cursor/aimHover.png), pointer'});
     if (monster.monSpecie === "babySlime") {
         monster.scale = 2;
-    } else if (monster.monSpecie === 'alien' || monster.monSpecie === 'alienPlus') {
+    } else if (monster.monSpecie === 'alien' || monster.monSpecie === 'alienPlus' || monster.monSpecie === 'fly') {
         monster.scale = 2.5;
     } else if (monster.monSpecie === 'turtle' || monster.monSpecie === 'sonic' || monster.monSpecie === 'slime') {
         monster.scale = 3;
@@ -2138,7 +2122,7 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
     let mw = monster.body.halfWidth;
     let mh = monster.body.halfHeight;
 
-  monster.setCircle(mw, mh - mw, mh - mw);
+  monster.setCircle(mh / 2, mw - (mh / 2), mw);
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
   monster.anime(player);
@@ -2224,7 +2208,7 @@ function slimePattern(scene, pt, x, y) {
                     x + i * 25,
                     y,
                     "slimeKing_end",
-                    "slimeKing_end",
+                    "slimeKing",
                     0.5,
                     pt,
                     "boss"
