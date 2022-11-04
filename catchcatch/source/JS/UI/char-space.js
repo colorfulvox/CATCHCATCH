@@ -220,6 +220,7 @@ function SlideRight() {
 
 function BuyChar() {
   if (LocalData.Coin >= 100) {
+    setSound.playSE(18);
     LocalData.Coin -= 100;
     LocalData.Cat[CharIndex] = true;
     ChoiceCat = CharIndex;
