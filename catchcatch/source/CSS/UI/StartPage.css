@@ -70,8 +70,86 @@
 
 .RankingList {
   /* display: flex; */
-  width: 500px;
-  height: 600px;
+  width: 430px;
+  height: 520px;
   position: absolute;
+  background-color: rgb(150, 150, 150);
   border: 5px solid red;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 30px;
+}
+
+.RankingSpace {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.RankingTemp {
+  display: flex;
+  align-items: center;
+  width: 350px;
+  height: 70px;
+  border: 3px solid white;
+  justify-content: center;
+}
+.GradeSpace {
+  width: 50px;
+  height: 50px;
+  /* border: 2px solid black; */
+  text-align: center;
+  line-height: 45px;
+  font-size: xx-large;
+  color: gold;
+  font-weight: bold;
+  font-family: "KenneyBlocks";
+  margin-right: 15px;
+  margin-left: 15px;
+}
+.NameSpace {
+  width: 130px;
+  height: 50px;
+  /* border: 2px solid black; */
+  text-align: center;
+  font-weight: bold;
+  font-size: x-large;
+  /* font-family: ""; */
+  line-height: 50px;
+  margin-right: 10px;
+}
+
+.ScoreSpace {
+  width: 130px;
+  height: 50px;
+  /* border: 2px solid black; */
+  text-align: center;
+  font-size: x-large;
+  font-family: "KenneyBlocks";
+  line-height: 45px;
+}
+
+.RankingBack {
+  width: 30px;
+  height: 30px;
+  /* border: 3px solid black; */
+  position: absolute;
+  background: url("../../../public/images/ui/backicon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  left: 5px;
+  top: 5px;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.RankingBack:active {
+  background: url("../../../public/images/ui/backiconclick.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }

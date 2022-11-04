@@ -1,13 +1,18 @@
+// 랭킹을 가져오기전에 먼저 디자인 해버린다..
+
 import "../../CSS/UI/StartPage.css";
 import "./char-space.js";
 
 import CharPageInit, { CharSpaceOn, CodeStart, GoStage } from "./char-space.js";
 import Stage from "./stage.js";
 let _RankingList;
-import {setSound} from "../SOUND/sound";
-import {attack} from "../GAME/code.js";
+import { setSound } from "../SOUND/sound";
+import { attack } from "../GAME/code.js";
 
 let _mode = true;
+
+let RankingListTxt = [];
+let RankingData = [];
 
 global.IsStarted = false;
 global.PinNumber = "";
@@ -31,6 +36,7 @@ const StartPageInit = () => {
   // 로고 생성=======================================
   const _Logo = document.createElement("div");
   _Logo.className = "Logo";
+  _Logo.id = "Logo";
 
   let LogoImg = document.createElement("img");
   LogoImg.src = "images/ui/Logo.png";
@@ -41,25 +47,28 @@ const StartPageInit = () => {
   _Logo.addEventListener("click", () => {
     _mode = !_mode;
     StartPageInit();
-    if(!_mode){
-      socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
+    if (!_mode) {
+      socket = new WebSocket("ws://localhost:8080");
 
       socket.onopen = function () {
         IsStarted = false;
         PinNumber = null;
-    
+
         var Data = {
           action: "exeClientInit",
         };
         socket.send(JSON.stringify(Data));
       };
-    
+
       socket.onmessage = function (data) {
         var msg = JSON.parse(data.data.toString());
-      
+
         if (msg.action === "PinNumber") {
           PinNumber = msg.pinnumber;
+
+          RankingData = JSON.parse(JSON.stringify(msg.ranking));
           console.log(`당신의 Pin번호는 "${PinNumber}" 입니다.`);
+          UpdateRanking();
         }
         // 게임 시작시 1초 마다 서버에게 데이터를 보내는걸 시작한다.
         else if (msg.action === "StartGame") {
@@ -70,7 +79,7 @@ const StartPageInit = () => {
         // 1번의 cycle이 끝나면 보낸다.
         else if (msg.action === "codeData") {
           //여기서 바뀐 정보를 전달 받는다.
-          attack(msg.attack,msg.angle,msg.type);
+          attack(msg.attack, msg.angle, msg.type);
           IsRunning = false;
         }
       };
@@ -124,7 +133,72 @@ const StartPageInit = () => {
     _StartPage.appendChild(_RankingList);
     _RankingList.style.display = "none";
 
+    const MySpace = document.createElement("div");
+    MySpace.className = "RankingSpace";
+    MySpace.style.width = "100%";
+    MySpace.style.height = "60px";
+    // MySpace.style.border = "4px solid black";
+    MySpace.style.marginTop = "60px";
+    MySpace.style.marginBottom = "40px";
+    _RankingList.appendChild(MySpace);
+
+    // 뒤로가기 생성
+    const RankingBack = document.createElement("button");
+    RankingBack.className = "RankingBack";
+    _RankingList.appendChild(RankingBack);
+    RankingBack.addEventListener("click", RankingListOff);
+
+    RankingListTxt = [];
+
     //랭킹 리스트 생성
+    const MyRanking = document.createElement("div");
+    MyRanking.className = "RankingTemp";
+
+    const GradeSpace = document.createElement("div");
+    GradeSpace.className = "GradeSpace";
+    MyRanking.appendChild(GradeSpace);
+
+    const NameSpace = document.createElement("div");
+    NameSpace.className = "NameSpace";
+    MyRanking.appendChild(NameSpace);
+
+    const ScoreSpace = document.createElement("div");
+    ScoreSpace.className = "ScoreSpace";
+    MyRanking.appendChild(ScoreSpace);
+
+    // RankingListTxt.push([GradeSpace, NameSpace, ScoreSpace]);
+
+    MySpace.appendChild(MyRanking);
+
+    for (let i = 0; i < 5; ++i) {
+      const RankingSpace = document.createElement("div");
+      RankingSpace.className = "RankingSpace";
+      RankingSpace.style.width = "100%";
+      RankingSpace.style.height = "60px";
+      RankingSpace.style.marginBottom = "25px";
+      // RankingSpace.style.border = "4px solid black";
+      _RankingList.appendChild(RankingSpace);
+
+      const MyRanking = document.createElement("div");
+      MyRanking.className = "RankingTemp";
+
+      const GradeSpace = document.createElement("div");
+      GradeSpace.className = "GradeSpace";
+      MyRanking.appendChild(GradeSpace);
+      GradeSpace.textContent = i + 1;
+
+      const NameSpace = document.createElement("div");
+      NameSpace.className = "NameSpace";
+      MyRanking.appendChild(NameSpace);
+
+      const ScoreSpace = document.createElement("div");
+      ScoreSpace.className = "ScoreSpace";
+      MyRanking.appendChild(ScoreSpace);
+
+      RankingListTxt.push([NameSpace, ScoreSpace]);
+
+      RankingSpace.appendChild(MyRanking);
+    }
 
     //-----------------------------------------------
 
@@ -186,9 +260,25 @@ function GoSelectChar() {
 }
 
 function RankingListOn() {
+  let logo = document.getElementById("Logo");
+  logo.style.display = "none";
   _RankingList.style.display = "flex";
 }
 
 function RankingListOff() {
+  let logo = document.getElementById("Logo");
+  logo.style.display = "block";
   _RankingList.style.display = "none";
+}
+
+function UpdateRanking() {
+  // RankingListTxt[0][0].textContent = "1"; //내 등급
+  // RankingListTxt[0][1].textContent = "chu"; //내 별명
+  // RankingListTxt[0][2].textContent = 200; //내 스코어
+  console.log(RankingData);
+  for (let i = 0; i < RankingData.length; ++i) {
+    console.log(RankingData[i]);
+    RankingListTxt[i][0].textContent = RankingData[i][0]; //유저 별명
+    RankingListTxt[i][1].textContent = RankingData[i][1]; //유저 스코어
+  }
 }
