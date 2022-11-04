@@ -227,23 +227,23 @@ html {
 } */
 
 .wizardActive {
-  background: url("../../../public/images/ui/Icon/char/fairy1.png");
+  /* background: url("../../../public/images/ui/Icon/char/fairy1.png"); */
   z-index: 1;
 }
 .reaperActive {
-  background: url("../../../public/images/ui/Icon/char/fairy2.png");
+  /* background: url("../../../public/images/ui/Icon/char/fairy2.png"); */
   z-index: 1;
 }
 .ninjaActive {
-  background: url("../../../public/images/ui/Icon/char/fairy3.png");
+  /* background: url("../../../public/images/ui/Icon/char/fairy3.png"); */
   z-index: 1;
 }
 .slimeActive {
-  background: url("../../../public/images/ui/Icon/char/fairy4.png");
+  /* background: url("../../../public/images/ui/Icon/char/fairy4.png"); */
   z-index: 1;
 }
 .witchActive {
-  background: url("../../../public/images/ui/Icon/char/fairy5.png");
+  /* background: url("../../../public/images/ui/Icon/char/fairy5.png"); */
   z-index: 1;
 }
 

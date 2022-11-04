@@ -100,8 +100,9 @@ export default function ingameUi() {
   const html = document.querySelector("html");
   fairy.map((el, idx) => {
     html.style.setProperty(`--${fairyName[idx]}`, fairy[idx].skillCD / 60);
-    const div = document.createElement("div");
+    const div = document.createElement("img");
     div.setAttribute("class", "fairy");
+    div.src = `images/ui/Icon/char/fairy${idx + 1}.png`;
     div.classList.add(`${fairyName[idx]}`);
     div.classList.add(`${fairyActive[idx]}`);
     div.innerText = "요정";
@@ -224,7 +225,7 @@ export function useSkill(num) {
   // html.style.setProperty(`--${fairyName[num]}`, `${fairy[num].skillCD a/ 60}s`);
   const div = document.querySelector(`.${fairyName[num]}`);
 
-  div.style.background = `conic-gradient(red var(--percentage), white ${
+  div.style.background = `conic-gradient(rgba(255,255,255,1) var(--percentage), rgba(0,0,0,1) ${
     (fairy[num].timer * 100) / fairy[num].skillCD
   }%)`;
   if (div.classList.length === 3) {
