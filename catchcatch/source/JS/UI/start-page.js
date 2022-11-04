@@ -3,9 +3,10 @@ import "./char-space.js";
 
 import CharPageInit, { CharSpaceOn, CodeStart, GoStage } from "./char-space.js";
 import Stage from "./stage.js";
-import {setSound} from "../SOUND/sound";
+import { setSound } from "../SOUND/sound";
 
 let _mode = true;
+let _RankingList;
 const _StartPage = document.createElement("div");
 const _app = document.getElementById("app");
 _StartPage.className = "StartPage";
@@ -76,11 +77,20 @@ const StartPageInit = () => {
 
   // 랭킹 ============================================
   if (_mode === false) {
+    //랭킹 리스트 화면 생성 --------------------------------
+    _RankingList = document.createElement("div");
+    _RankingList.className = "RankingList";
+    _StartPage.appendChild(_RankingList);
+    _RankingList.style.display = "none";
+
+    //-----------------------------------------------
+
     const _Ranked = document.createElement("div");
     _Ranked.className = "RankedId";
     let Btn = document.createElement("button");
     Btn.className = "StartBtn";
     Btn.textContent = "Ranking";
+    Btn.addEventListener("click", RankingListOn);
     _Ranked.appendChild(Btn);
 
     _StartBtn.appendChild(_Ranked); //랭킹 버튼 추가;
@@ -127,8 +137,16 @@ export const StartPageOff = () => {
 
 // 캐릭터 선택 버튼 클릭 이벤트 리스너
 function GoSelectChar() {
-    setSound.playSE(1);
-    setSound.setBGM(0);
-    StartBtnOff();
-    CharSpaceOn();
+  setSound.playSE(1);
+  setSound.setBGM(0);
+  StartBtnOff();
+  CharSpaceOn();
+}
+
+function RankingListOn() {
+  _RankingList.style.display = "flex";
+}
+
+function RankingListOff() {
+  _RankingList.style.display = "none";
 }
