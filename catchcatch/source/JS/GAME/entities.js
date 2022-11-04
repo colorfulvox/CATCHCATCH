@@ -44,7 +44,9 @@ export class Chunk {
           this.tiles.add(tile);
         }
       }
-      UICam.ignore(this.tiles);
+      if(UICam){
+        UICam.ignore(this.tiles);
+      }
       this.isLoaded = true;
     }
   }
