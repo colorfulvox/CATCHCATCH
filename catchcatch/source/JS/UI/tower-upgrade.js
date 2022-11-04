@@ -22,6 +22,7 @@ export default function tower() {
       click: () => {
         towers[_towerNum].rangeFunc(towers[_towerNum]);
       },
+
       current: towers[_towerNum].circleSizeLevel,
       max: towers[_towerNum].circleSizeMax,
     },
@@ -97,7 +98,7 @@ export default function tower() {
     }
     div.addEventListener("click", () => {
       if (!towers[_towerNum].isTowerEvelop1) {
-        towers[_towerNum].changeEvelop(i);
+        towers[_towerNum].changeEvelop(i, towers[_towerNum]);
       }
     });
     towerIcons2.appendChild(div);
@@ -134,7 +135,7 @@ export default function tower() {
     }
     div.addEventListener("click", () => {
       if (!towers[_towerNum].isTowerEvelop2) {
-        towers[_towerNum].changeEvelop(i);
+        towers[_towerNum].changeEvelop(i, towers[_towerNum]);
       }
     });
     towerIcons4.appendChild(div);

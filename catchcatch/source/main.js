@@ -9,9 +9,9 @@ import perlin from "./JS/GAME/perlin.js";
 import initUpgrade from "./JS/UI/upgrade.js";
 import levelup from "./JS/UI/levelup.js";
 import ingameUi from "./JS/UI/ingame-ui.js";
+import {setSound} from "./JS/SOUND/sound";
 
 console.log(1);
-
 global.noise = {};
 perlin();
 // localStorage.clear();
@@ -22,7 +22,7 @@ if (global.LocalData === null) {
   localStorage.setItem(
     "data",
     JSON.stringify({
-      Coin: 1000,
+      Coin: 10000,
       Cat: [true, false, false, false, false, false, false],
     })
   );
@@ -42,6 +42,16 @@ global.isLevelup = false;
 
 // 1. ws 모듈 취득
 // 2. WebSocket 서버 생성/구동
+// const socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
+//
+// socket.addEventListener("open", function (event) {
+//   socket.send("Hello Server!");
+// });
+//
+// // 메시지 수신
+// socket.addEventListener("message", function (event) {
+//   console.log("Message from server ", event.data);
+// });
 
 function Init() {
   StartPageInit(); //스타트 페이지 init

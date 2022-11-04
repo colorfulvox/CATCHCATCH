@@ -23,6 +23,7 @@
   height: 30px;
   left: 2px;
   top: 2px;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 .BackIcon:active {
   background: url("../../../public/images/ui/backiconclick.png");
@@ -30,6 +31,7 @@
   background-position: center;
   background-size: contain;
   border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 .CanIcon {
   background: url("../../../public/images/canicon.png") no-repeat center;
@@ -62,6 +64,7 @@
   background-position: center;
   background-size: contain;
   border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
 .BuyBtn:active {
@@ -69,6 +72,7 @@
     center;
   color: gray;
   background-size: contain;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
 .CharSpace {
@@ -108,6 +112,7 @@
   border: none;
   width: 30px;
   height: 40px;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 .CharLeftBtn:active {
   background: url("../../../public/images/ui/gleft.png");
@@ -115,6 +120,7 @@
   background-position: center;
   background-size: contain;
   border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 .CharRightBtn {
   background: url("../../../public/images/ui/right.png");
@@ -124,6 +130,7 @@
   border: none;
   width: 30px;
   height: 40px;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 .CharRightBtn:active {
   background: url("../../../public/images/ui/gright.png");
@@ -131,6 +138,7 @@
   background-position: center;
   background-size: contain;
   border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 .Slide {
   width: 190px;
@@ -192,6 +200,7 @@
   font-size: large;
   color: white;
   border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
 .GameStartBtn {
@@ -206,12 +215,14 @@
   background-position: center;
   background-size: contain;
   border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 .GameStartBtn:active {
   background: url("../../../public/images/ui/GameStartBtnclick.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 .GameStartBtn:disabled {
   background: url("../../../public/images/ui/disabledbtn.png");
@@ -219,4 +230,5 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }

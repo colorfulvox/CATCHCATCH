@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  cursor: url("../../../public/images/cursor/aimNone.png"), pointer;
 }
 
 #game-container > canvas {

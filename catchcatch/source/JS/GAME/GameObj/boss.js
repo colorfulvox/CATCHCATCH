@@ -25,20 +25,8 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
     }
 
     anime() {
-        if (this.bossSpecie === 'slime_king') {
-            this
-                .setTint(0x00ff00)
-        } else if (this.bossSpecie === 'fire_giant') {
-            this
-                .setTint(0xff0000);
-        } else if (this.bossSpecie === 'golem') {
-            this
-                .setTint(0x0000ff)
-        } else if (this.bossSpecie === 'unkown') {
-            this
-                .setTint(0xac28f6)
-        }
         this
+            .clearTint()
             .play(this.anim);
         // .setTint(Phaser.Display.Color.RandomRGB().color)
     }
