@@ -497,7 +497,7 @@ function create() {
       break;
     case 5:
       maxMon = 10;
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 3; i++) {
         catSpawn();
         let enemy = new Enemy(this, 60, monX, monY, "cat1", "cat1", 0);
         codeMonsterSet.add(enemy);
@@ -515,7 +515,7 @@ function create() {
   this.physics.world.drawDebug = false;
   this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
   this.physics.add.overlap(player, codeMonsterSet, playerHit);
-  // this.scene.pause();
+  this.scene.pause();
 }
 
 function update(time, delta) {
