@@ -6,7 +6,10 @@ export default function IncodeUI() {
 
   const pin = document.createElement("div");
   pin.setAttribute("class", "pin");
-  pin.innerText = "핀번호";
+  pin.innerText = "핀 번호 : " + global.PinNumber;
+  pin.style.textAlign = "center";
+  pin.style.lineHeight = "100px";
+  pin.style.fontSize = "large";
 
   const buttonContainer = document.createElement("div");
   buttonContainer.setAttribute("class", "buttonContainer");
