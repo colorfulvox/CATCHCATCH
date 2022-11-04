@@ -599,7 +599,6 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           break;
         case 5:
           setSound.playSE(8);
-          console.log(this.skillCD);
           for (let i = 0; i < bombs.children.entries.length; i++) {
             bombs.children.entries[i].bomb();
           }

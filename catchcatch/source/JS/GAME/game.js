@@ -485,21 +485,30 @@ function preload() {
             frameHeight: 16
         })
 
-    this.load.spritesheet(
-        "fly",
-        "images/monster/fly.png",
-        {
-            frameWidth: 48,
-            frameHeight: 48
-        })
+  this.load.spritesheet(
+    "fly",
+    "images/monster/fly.png",
+    {
+    frameWidth: 48,
+    frameHeight: 48
+})
 
-    this.load.spritesheet(
-        "alienPlus",
-        "images/monster/alienPlus.png",
-        {
-            frameWidth: 20,
-            frameHeight: 20
-        })
+
+this.load.spritesheet(
+  "flyPlus",
+  "images/monster/flyPlus.png",
+  {
+  frameWidth: 48,
+  frameHeight: 48
+})
+
+  this.load.spritesheet(
+    "alienPlus",
+    "images/monster/alienPlus.png",
+    {
+    frameWidth: 20,
+    frameHeight: 20
+})
 
     this.load.spritesheet(
         "wormPlus",
@@ -589,12 +598,13 @@ function create() {
     cats = require("./jsons/cats.json");
     fairySet = require("./jsons/fairys.json");
 
-    player = cats[catNumber];
-    player = new Player(this, 1, 20, 20, "cat" + (ChoiceCat + 1));
-    player.setScale(0.7);
-    player.setDepth(2);
-    let hw = player.body.halfWidth;
-    let hh = player.body.halfHeight;
+  player = cats[catNumber];
+  player = new Player(this, 1, 20, 20, "cat" + (ChoiceCat + 1));
+  player.ability = ChoiceCat + 1
+  player.setScale(0.7);
+  player.setDepth(2);
+  let hw = player.body.halfWidth;
+  let hh = player.body.halfHeight;
 
     player.setCircle(hw, hh - hw, hh - hw);
 
@@ -1181,6 +1191,12 @@ function create() {
         repeat: -1,
     });
 
+  this.anims.create({
+    key: "flyPlus",
+    frames: this.anims.generateFrameNumbers("flyPlus", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
 // boss
 
     this.anims.create({
@@ -1323,14 +1339,14 @@ function create() {
     });
 //cattower animation end
 
-    towerLU = new CatTower(this, -130, -130, "0_idle", "can", "skill", 0);
-    towerRU = new CatTower(this, 130, -130, "0_idle", "can", "skill", 0);
-    towerLD = new CatTower(this, -130, 130, "0_idle", "can", "skill", 0);
-    towerRD = new CatTower(this, 130, 130, "0_idle", "can", "skill", 0);
-    towerLU.scale_Circle();
-    towerRU.scale_Circle();
-    towerLD.scale_Circle();
-    towerRD.scale_Circle();
+  towerLU = new CatTower(this, -140, -140, "0_idle", "can", "skill", 0);
+  towerRU = new CatTower(this, 140, -140, "0_idle", "can", "skill", 0);
+  towerLD = new CatTower(this, -140, 140, "0_idle", "can", "skill", 0);
+  towerRD = new CatTower(this, 140, 140, "0_idle", "can", "skill", 0);
+  towerLU.scale_Circle();
+  towerRU.scale_Circle();
+  towerLD.scale_Circle();
+  towerRD.scale_Circle();
 
     towerLU.scale = 2;
     towerRU.scale = 2;
@@ -1359,8 +1375,7 @@ function create() {
         mine.scale_Circle();
         mines.add(mine);
     }
-    console.log(mines);
-    //mine end
+      //mine end
 
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
 
@@ -1580,34 +1595,34 @@ function update(time, delta) {
             // 1번 zombie
             enemySpawn(randomLocation);
             if (10800 < gameTimer && gameTimer <= 18000) {
-                addMonster(this, "alienPlus", "alienPlus", 80, 60, monX, monY, "follower");
+                addMonster(this, "alienPlus", "alienPlus", 70, 55, monX, monY, "follower");
             } else if (18000 < gameTimer) {
                 addMonster(this, "alienPlus", "alienPlus", 130, 75, monX, monY, "follower");
             } else {
-                addMonster(this, "alien", "alien", 30, 50, monX, monY, "follower");
+                addMonster(this, "alien", "alien", 30, 45, monX, monY, "follower");
             }
         }
-        if (gameTimer > 1200 && gameTimer % 120 === 0) {
+        if (gameTimer > 6000 && gameTimer % 240 === 0) {
             // 2번 worm
             siegeSpawn(randomLocation);
-            if (10800 < gameTimer && gameTimer <= 18000) {
+            if (12000 < gameTimer && gameTimer <= 18000) {
                 addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY, "siege");
             } else if (18000 < gameTimer) {
                 addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY, "siege");
-            } else if (gameTimer <= 18000) {
+            } else if (gameTimer <= 12000) {
                 addMonster(this, "worm", "worm", 40, 40, monX, monY, "siege");
             }
         }
-        if (gameTimer > 7200 && gameTimer % 300 === 0) {
+        if (gameTimer > 12000 && gameTimer % 300 === 0) {
             enemySpawn(randomLocation);
             addMonster(this, "sonic", "sonic", 150, 80, monX, monY, "follower");
         }
-        if (gameTimer > 20000 && gameTimer % 600 === 0) {
+        if (gameTimer > 21000 && gameTimer % 600 === 0) {
             siegeSpawn(randomLocation);
             addMonster(this, "turtle", "turtle", 300, 50, monX, monY, "siege");
         }
 
-        if (gameTimer > 16000 && gameTimer % 200 === 0) {
+        if (gameTimer > 18000 && gameTimer % 200 === 0) {
             enemySpawn(randomLocation);
             addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
         }
@@ -1617,7 +1632,7 @@ function update(time, delta) {
             addMonster(this, "fly", "fly", 10, 50, monX, monY, "wave");
         } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
             enemySpawn(randomLocation);
-            addMonster(this, "fly", "fly", 100, 50, monX, monY, "wave");
+            addMonster(this, "flyPlus", "flyPlus", 100, 50, monX, monY, "wave");
         }
 
         // 스폰 주기
@@ -1637,26 +1652,27 @@ function update(time, delta) {
         if (gameTimer === 10800) {
             setSound.playSE(13);
 
-            slimeKing = new Boss(
-                this,
-                400,
-                80,
-                player.x + 300,
-                player.y + 300,
-                "slimeKing",
-                "slimeKing",
-                3,
-                1,
-                "boss"
-            );
-            slimeKing.setDepth(2);
-            slimeKing.anime();
-            let mw = slimeKing.body.halfWidth;
-            let mh = slimeKing.body.halfHeight;
-            slimeKing.setCircle(mh / 2, mw - (mh / 2), mw);
-            bossActive = true;
-            bossSet.add(slimeKing);
-        }
+      slimeKing = new Boss(
+        this,
+        300,
+        70,
+        player.x + 500,
+        player.y + 500,
+        "slimeKing",
+        "slimeKing",
+        3,
+        1,
+        "boss"
+      );
+      slimeKing.setDepth(2);
+      slimeKing.anime(player);
+      bossActive = true;
+      let mw = slimeKing.body.halfWidth;
+      let mh = slimeKing.body.halfHeight;
+    
+      slimeKing.setCircle(mh / 2, mw - (mh / 2), mw);
+      bossSet.add(slimeKing);
+    }
 
         // 골렘
         if (gameTimer === 21000) {
@@ -1675,7 +1691,7 @@ function update(time, delta) {
                 "boss"
             );
             golem.setDepth(2);
-            golem.anime();
+            golem.anime(player);
             bossActive = true;
             let mw = golem.body.halfWidth;
             let mh = golem.body.halfHeight;
@@ -1703,7 +1719,7 @@ function update(time, delta) {
             let mh = fireGiant.body.halfHeight;
             fireGiant.setCircle(mh / 2, mw - (mh / 2), mw);
             fireGiant.setDepth(6);
-            fireGiant.anime();
+            fireGiant.anime(player);
             bossActive = true;
             bossFireGiantActive = true;
             bossSet.add(fireGiant);
@@ -2096,9 +2112,6 @@ function hitHole(hole, monster) {
     monsterCount -= 1;
     hole
         .play('hole_damage')
-    if (hole.lhp <= 0) {
-        console.log("game over");
-    }
     thisScene.time.addEvent({
         delay: 600,
         callback: () => {
@@ -2123,10 +2136,10 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
     let mw = monster.body.halfWidth;
     let mh = monster.body.halfHeight;
 
-    monster.setCircle(mw, mh - mw, mh - mw);
-    monsterSet.add(monster);
-    scene.physics.add.collider(monsterSet, monster);
-    monster.anime();
+  monster.setCircle(mw, mh - mw, mh - mw);
+  monsterSet.add(monster);
+  scene.physics.add.collider(monsterSet, monster);
+  monster.anime(player);
 }
 
 function destroyHole(hole, golem) {
@@ -2208,14 +2221,14 @@ function slimePattern(scene, pt, x, y) {
                     100,
                     x + i * 25,
                     y,
-                    "slimeKing",
-                    "slimeKing",
+                    "slimeKing_end",
+                    "slimeKing_end",
                     0.5,
                     pt,
                     "boss"
                 );
             }
-            slimeKing.anime();
+            slimeKing.anime(player);
             scene.physics.add.collider(bossSet, slimeKing);
             let mw = slimeKing.body.halfWidth;
             let mh = slimeKing.body.halfHeight;
