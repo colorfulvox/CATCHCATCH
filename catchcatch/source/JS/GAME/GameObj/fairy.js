@@ -232,6 +232,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       this.attackKey = `fairy${this.fairyNum}_1_attack`;
       switch (this.fairyNum) {
         case 1:
+          this.spriteScale = 0.3;
           this.skillSprite = 1;
           this.skillCD = 300;
           break;
@@ -329,6 +330,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       this.attackKey = `fairy${this.fairyNum}_2_attack`;
       switch (this.fairyNum) {
         case 1:
+          this.spriteScale = 1;
           this.skillSprite = 2;
           break;
         case 2:
@@ -399,10 +401,21 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           this.attackCount = this.maxAttackCount;
           normalAttackTimer = 0;
         }
-        if(this.evo1){
-          magic.anims.play("magic" + this.fairyNum+"_1", true);
-        } else if (this.evo2) {
+        if (this.evo2) {
           magic.anims.play("magic" + this.fairyNum+"_2", true);
+        }else if(this.evo1){
+          magic.anims.play("magic" + this.fairyNum + "_1", true);
+          this.hw = magic.body.halfWidth;
+          this.hh = magic.body.halfHeight;
+      
+          magic.setCircle(
+            this.hw * (this.size*4),
+            this.hh - this.hw * (this.size*4),
+            this.hh - this.hw * (this.size*4) 
+            
+          );
+          magic.body.offset.x += 170;
+          magic.body.offset.y += 170;
         }
         break;
       case 2:
