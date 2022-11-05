@@ -399,6 +399,11 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           this.attackCount = this.maxAttackCount;
           normalAttackTimer = 0;
         }
+        if(this.evo1){
+          magic.anims.play("magic" + this.fairyNum+"_1", true);
+        } else if (this.evo2) {
+          magic.anims.play("magic" + this.fairyNum+"_2", true);
+        }
         break;
       case 2:
         magic.setVisible(false);

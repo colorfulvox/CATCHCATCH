@@ -36,7 +36,7 @@ export const config = {
         default: "arcade",
         arcade: {
             fps: 60,
-            debug: false,
+            debug: true,
             fixedStep: false,
         },
     },
@@ -1716,7 +1716,7 @@ function update(time, delta) {
             GameOver();
         }
 
-        gameTimer+=4;
+        gameTimer+=1;
         UpdateTimer();
 
         // 플레이어 기준랜덤 위치에 몬스터 생성
