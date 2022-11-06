@@ -1784,7 +1784,7 @@ function update(time, delta) {
             GameOver();
         }
 
-        gameTimer+=3;
+        gameTimer++;
         UpdateTimer();
 
         // 플레이어 기준랜덤 위치에 몬스터 생성
