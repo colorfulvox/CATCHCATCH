@@ -400,7 +400,7 @@ function preload() {
 
     this.load.spritesheet(
         "magic4_1",
-        "images/attack/weapon/slime_attack1_48x48.png",
+        "images/attack/weapon/slime_attack2_48x48.png",
         {
             frameWidth: 48,
             frameHeight: 48,
@@ -410,7 +410,7 @@ function preload() {
 
     this.load.spritesheet(
         "magic4_2",
-        "images/attack/weapon/slime_attack2_48x48.png",
+        "images/attack/weapon/slime_attack3_48x48.png",
         {
             frameWidth: 48,
             frameHeight: 48,
@@ -2226,7 +2226,13 @@ function attack(magic, monster) {
                     // copyMagic.isFirst = false;
                     magics.add(copyMagic);
                     copyMagic.setPosition(magic.x, magic.y);
-
+                    if (magic.fairy.evo2) {
+                        copyMagic.anims.play("magic" + magic.fairy.fairyNum+"_2", true);
+                      }else if(magic.fairy.evo1){
+                        copyMagic.anims.play("magic" + magic.fairy.fairyNum+"_1", true);
+                    } else {
+                        copyMagic.anims.play("magic" + magic.fairy.fairyNum, true);
+                    }
                     thisScene.physics.moveTo(
                         copyMagic,
                         -monsterSet.children.entries[monNum].x,
