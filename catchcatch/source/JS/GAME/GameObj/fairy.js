@@ -356,7 +356,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
   normalAttack(magic) {
     magics.add(magic);
-
+    console.log(magics);
     if(this.fairyNum !== 2) {
       setSound.playSE(this.fairyNum - 1);
     }

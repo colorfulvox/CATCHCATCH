@@ -753,7 +753,7 @@ function create() {
         7200,
         10,
         1,
-        99999,
+        10,
         60,
         10,
         400,
@@ -2025,14 +2025,6 @@ function update(time, delta) {
                         bossActive = false;
                     }
                 }
-            }
-        }
-
-        for (let i = magics.length - 1; i >= 0; i--) {
-            magics[i].timer++;
-            if (magics[i].timer === magics[i].lifetime) {
-                magics[i].destroy();
-                magics.splice(i, 1);
             }
         }
 
