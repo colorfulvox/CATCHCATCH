@@ -36,7 +36,7 @@ export const config = {
         default: "arcade",
         arcade: {
             fps: 60,
-            debug: true,
+            debug: false,
             fixedStep: false,
         },
     },
@@ -293,7 +293,15 @@ function preload() {
             endFrame: 7,
         }
     );
-
+    this.load.spritesheet(
+        "magic1_1_1",
+        "images/attack/weapon/magic1_1_1.png",
+        {
+            frameWidth: 74,
+            frameHeight: 74,
+            endFrame: 24,
+        }
+    );
     this.load.spritesheet(
         "magic1_2",
         "images/attack/weapon/magic1_2.png",
@@ -303,7 +311,15 @@ function preload() {
             endFrame: 4,
         }
     );
-
+    this.load.spritesheet(
+        "magic1_2_1",
+        "images/attack/weapon/magic1_2_1.png",
+        {
+            frameWidth: 74,
+            frameHeight: 74,
+            endFrame: 24,
+        }
+    );
     this.load.spritesheet(
         "magic2",
         "images/attack/weapon/magic2.png",
@@ -338,23 +354,40 @@ function preload() {
     );
     this.load.spritesheet(
         "magic2_2_1",
-        "images/attack/weapon/19_freezing_spritesheet.png",
+        "images/attack/weapon/magic2_2_1.png",
         {
-            frameWidth: 100,
-            frameHeight: 100,
+            frameWidth: 192,
+            frameHeight: 108,
         }
     );
 
     this.load.spritesheet(
         "magic3",
-        "images/attack/weapon/18_midnight_spritesheet.png",
+        "images/attack/weapon/magic3.png",
         {
-            frameWidth: 100,
-            frameHeight: 100,
-            endFrame: 61,
+            frameWidth: 74,
+            frameHeight: 74,
+            endFrame: 7,
         }
     );
-
+    this.load.spritesheet(
+        "magic3_1",
+        "images/attack/weapon/magic3_1.png",
+        {
+            frameWidth: 74,
+            frameHeight: 74,
+            endFrame: 7,
+        }
+    );
+    this.load.spritesheet(
+        "magic3_2",
+        "images/attack/weapon/magic3_2.png",
+        {
+            frameWidth: 74,
+            frameHeight: 74,
+            endFrame: 7,
+        }
+    );
     this.load.spritesheet(
         "magic4",
         "images/attack/weapon/slime_attack1_48x48.png",
@@ -407,15 +440,7 @@ function preload() {
         {frameWidth: 74, frameHeight: 74, endFrame: 8}
     );
     // 스킬 스프라이트
-    this.load.spritesheet(
-        "skill1",
-        "images/attack/weapon/17_felspell_spritesheet.png",
-        {
-            frameWidth: 100,
-            frameHeight: 100,
-            endFrame: 61,
-        }
-    );
+
     this.load.spritesheet(
         "skill4",
         "images/attack/weapon/10_weaponhit_spritesheet.png",
@@ -992,6 +1017,28 @@ function create() {
         frameRate: 20,
         repeat: -1,
     });
+
+    this.anims.create({
+        key: "magic1_1_1",
+        frames: this.anims.generateFrameNumbers("magic1_1_1", {
+            start: 0,
+            end: 24,
+            first: 0,
+        }),
+        frameRate: 70,
+        repeat: -1,
+    });
+
+    this.anims.create({
+        key: "magic1_2_1",
+        frames: this.anims.generateFrameNumbers("magic1_2_1", {
+            start: 0,
+            end: 24,
+            first: 0,
+        }),
+        frameRate: 70,
+        repeat: -1,
+    });
     this.anims.create({
         key: "magic1_2",
         frames: this.anims.generateFrameNumbers("magic1_2", {
@@ -1045,11 +1092,11 @@ function create() {
     this.anims.create({
         key: "magic2_2_1",
         frames: this.anims.generateFrameNumbers("magic2_2_1", {
-            start: 0,
-            end: 60,
+            start: 3,
+            end: 3,
             first: 0,
         }),
-        frameRate: 200,
+        frameRate: 1,
         repeat: -1,
     });
 
@@ -1057,10 +1104,31 @@ function create() {
         key: "magic3",
         frames: this.anims.generateFrameNumbers("magic3", {
             start: 0,
-            end: 60,
+            end: 7,
             first: 0,
         }),
-        frameRate: 200,
+        frameRate: 20,
+        repeat: -1,
+    });
+
+    this.anims.create({
+        key: "magic3_1",
+        frames: this.anims.generateFrameNumbers("magic3_1", {
+            start: 0,
+            end: 7,
+            first: 0,
+        }),
+        frameRate: 20,
+        repeat: -1,
+    });
+    this.anims.create({
+        key: "magic3_2",
+        frames: this.anims.generateFrameNumbers("magic3_2", {
+            start: 0,
+            end: 7,
+            first: 0,
+        }),
+        frameRate: 20,
         repeat: -1,
     });
     this.anims.create({

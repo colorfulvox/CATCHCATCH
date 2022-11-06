@@ -15,5 +15,6 @@ export default class Skill extends Phaser.Physics.Arcade.Sprite {
         this.fairy = fairy;
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.anims.play("anim")
     }
 }

@@ -233,7 +233,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       switch (this.fairyNum) {
         case 1:
           this.spriteScale = 0.3;
-          this.skillSprite = 1;
+          this.skillSprite = 3;
           this.skillCD = 300;
           break;
         case 2:
@@ -331,7 +331,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       switch (this.fairyNum) {
         case 1:
           this.spriteScale = 1;
-          this.skillSprite = 2;
+          this.skillSprite = 5;
           break;
         case 2:
           this.skillSprite = 2;
@@ -427,14 +427,15 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         magic.body.offset.x += 35;
         if (this.evo2) {
           let magic2 = new Magic(thisScene, this);
-          magic2.setScale(this.spriteScale / 2);
+          magic2.setScale(this.spriteScale/1.5);
           let hhw = magic2.body.halfWidth;
           let hhh = magic2.body.halfHeight;
           magic2.setCircle(
-            hhw * this.size,
-            hhh - hhw * this.size,
-            hhh - hhw * this.size
+            hhw * (this.size*0.8),
+            hhh - hhw * (this.size*0.8),
+            hhh - hhw * (this.size*0.8)
           );
+          magic2.body.offset.x += 35;
           magics.add(magic2);
           let angle = Phaser.Math.Angle.Between(
             this.x,
@@ -466,8 +467,28 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           magic3 = new Magic(thisScene, this);
           magics.add(magic2);
           magics.add(magic3);
-          magic2.anims.play("magic" + this.fairyNum, true);
-          magic3.anims.play("magic" + this.fairyNum, true);
+          if (this.evo2) {
+            magic.anims.play("magic3_2", true);
+            magic2.anims.play("magic3_2", true);
+            magic3.anims.play("magic3_2", true);
+          } else if (this.evo1) {
+            magic.anims.play("magic3_1", true);
+            magic2.anims.play("magic3_1", true);
+            magic3.anims.play("magic3_1", true);
+          }
+
+          magic2.setCircle(
+            this.hw * this.size,
+            this.hh - this.hw * this.size,
+            this.hh - this.hw * this.size 
+            
+          );
+          magic3.setCircle(
+            this.hw * this.size,
+            this.hh - this.hw * this.size,
+            this.hh - this.hw * this.size 
+            
+          );
           let num =
             (this.x - (input.x + camera.scrollX)) ** 2 +
             (this.y - (input.y + camera.scrollY)) ** 2;
@@ -606,10 +627,18 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           shw = skill.body.halfWidth;
           shh = skill.body.halfHeight;
           skill.setCircle(
-            shw *  this.size,
-            shh -  shw *  this.size,
-            shh -  shw *  this.size
+            shw *  (this.size*2.6),
+            shh -  shw *  (this.size*2.6),
+            shh -  shw *  (this.size*2.6)
           );
+          skill.body.offset.x += 20;
+          skill.body.offset.y += 22;
+          if (this.evo2) {
+            skill.anims.play("magic1_2_1", true);
+          } else if (this.evo1) {
+            skill.anims.play("magic1_1_1", true);
+          }
+          
           skill.setPosition(input.x + camera.scrollX, input.y + camera.scrollY);
           this.skillUse = true;
           this.timer = 0;
