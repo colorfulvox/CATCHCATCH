@@ -59,6 +59,9 @@ export function updateBullet() {
 function BacktoStage() {
   const gameContainer = document.querySelector("#game-container");
   gameContainer.style.display = "none";
+  const app = document.querySelector("#app");
+  const stagePage = document.querySelector(".stagePage");
+  app.removeChild(stagePage);
   Stage();
 }
 
