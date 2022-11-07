@@ -366,7 +366,10 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
   normalAttack(magic) {
     magics.add(magic);
-    if (this.fairyNum !== 2) {
+    if (ChoiceCat === 5) {
+      let rand = Math.floor(Math.random() * 20);
+      setSound.playSE(rand);
+    } else if (this.fairyNum !== 2) {
       setSound.playSE(this.fairyNum - 1);
     }
 
@@ -625,7 +628,12 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     if (this.evo1) {
       switch (this.fairyNum) {
         case 1:
-          setSound.playSE(5);
+          if (ChoiceCat === 5) {
+            let rand = Math.floor(Math.random() * 20);
+            setSound.playSE(rand);
+          } else {
+            setSound.playSE(5);
+          }
           skill = new Skill(thisScene, this);
           magics.add(skill);
           skill.setDepth(2);
@@ -650,7 +658,12 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           this.timer = 0;
           break;
         case 2:
-          setSound.playSE(6);
+          if (ChoiceCat === 5) {
+            let rand = Math.floor(Math.random() * 20);
+            setSound.playSE(rand);
+          } else {
+            setSound.playSE(6);
+          }
           skill = new Skill(thisScene, this);
           skill.setDepth(2);
           skill.setScale(this.skillSprite * 3);
@@ -669,7 +682,12 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         case 3:
           break;
         case 4:
-          setSound.playSE(7);
+          if (ChoiceCat === 5) {
+            let rand = Math.floor(Math.random() * 20);
+            setSound.playSE(rand);
+          } else {
+            setSound.playSE(7);
+          }
           this.player.x = 0;
           this.player.y = 0;
           thisScene.followPoint.x = 0;
@@ -678,7 +696,12 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           this.timer = 0;
           break;
         case 5:
-          setSound.playSE(8);
+          if (ChoiceCat === 5) {
+            let rand = Math.floor(Math.random() * 20);
+            setSound.playSE(rand);
+          } else {
+            setSound.playSE(8);
+          }
           for (let i = 0; i < bombs.children.entries.length; i++) {
             bombs.children.entries[i].bomb();
           }

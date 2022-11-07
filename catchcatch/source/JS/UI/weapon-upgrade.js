@@ -76,13 +76,23 @@ export default function weapon() {
 
             if (idx2 === 4 && el.level === 4) {
               div.addEventListener("click", () => {
-                setSound.playSE(9);
+                if (ChoiceCat === 5) {
+                  let rand = Math.floor(Math.random() * 20);
+                  setSound.playSE(rand);
+                } else {
+                  setSound.playSE(9);
+                }
                 fairy[idx].levelUp();
                 weapon();
               });
             } else if (idx2 === 8 && el.level === 8) {
               div.addEventListener("click", () => {
-                setSound.playSE(9);
+                if (ChoiceCat === 5) {
+                  let rand = Math.floor(Math.random() * 20);
+                  setSound.playSE(rand);
+                } else {
+                  setSound.playSE(9);
+                }
                 fairy[idx].levelUp();
                 weapon();
               });

@@ -3,7 +3,12 @@ import tower from "./tower-upgrade.js";
 import {setSound} from "../SOUND/sound";
 export default function initUpgrade() {
   // console.log(this.)
-  setSound.playSE(18);
+  if (ChoiceCat === 5) {
+    let rand = Math.floor(Math.random() * 20);
+    setSound.playSE(rand);
+  } else {
+    setSound.playSE(18);
+  }
   $this.pause();
   const gameContainer = document.querySelector("#game-container");
   const upgradeContainer = document.createElement("div");
