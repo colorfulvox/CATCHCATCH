@@ -7,6 +7,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   invincible = false;
   type;
   monSpiece;
+  weak;
   constructor(scene, velo, randomX, randomY, monSpiece, anim, type) {
     scene.time.addEvent({
       delay: 400,
@@ -26,26 +27,32 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         let randomNum = Math.floor(Math.random() * 7 + 1);
         this.monSpiece = "cat" + randomNum;
         this.anim = "cat" + randomNum;
+        this.weak = 0;
         break;
       case 1:
         this.monSpiece = "alien";
         this.anim = this.monSpiece;
+        this.weak = 0;
         break;
       case 2:
         this.monSpiece = "worm";
         this.anim = this.monSpiece;
+        this.weak = 4;
         break;
       case 3:
         this.monSpiece = "sonic";
         this.anim = this.monSpiece;
+        this.weak = 3;
         break;
       case 4:
         this.monSpiece = "turtle";
         this.anim = this.monSpiece;
+        this.weak = 1;
         break;
       case 5:
-        this.monSpiece = "babySlime";
-        this.anim = "slime";
+        this.monSpiece = "slime";
+        this.anim = this.monSpiece;
+        this.weak = 2;
         break;
     }
     this.type = type;
