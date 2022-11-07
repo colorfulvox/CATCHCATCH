@@ -49,6 +49,11 @@ export const config = {
     },
 };
 
+// 난이도
+let difficulty_spawn = 0;
+let difficulty_vel = 0;
+let difficulty_hp = 0;
+
 //player start
 // 고양이 json
 let cats;
@@ -1173,7 +1178,7 @@ function create() {
     hw = hole.body.halfWidth;
     hh = hole.body.halfHeight;
     hole.setCircle(hw * 0.7, hh - hw * 0.7, hh - hw * 0.7);
-    hole.hp = 500;
+    hole.hp = 10;
     hole.setDepth(1);
     ingameUi();
 
@@ -1562,6 +1567,20 @@ function create() {
 
     this.cameras.main.setZoom(0.8);
     UICam.setZoom(1);
+
+
+  // 난이도
+  if (global.ChoiceLevel === 1){
+    difficulty_hp = 10;
+    difficulty_spawn = 10;
+    difficulty_vel = 10;
+  }
+
+  if (global.ChoiceLevel === 2){
+    difficulty_hp = 20;
+    difficulty_spawn = 20;
+    difficulty_vel = 20;
+  }
 }
 
 function update(time, delta) {
@@ -2340,7 +2359,7 @@ function attack(magic, monster) {
                         thisScene,
                         "babySlime",
                         "slime",
-                        150,
+                        150 + difficulty_hp,
                         125,
                         monster.x + i * 20,
                         monster.y,
@@ -2459,7 +2478,7 @@ function slimePattern(scene, pt, x, y) {
             if (pt < 4) {
                 slimeKing = new Boss(
                     scene,
-                    200,
+                    200 + difficulty_hp,
                     100,
                     x + i * 100,
                     y,
@@ -2472,7 +2491,7 @@ function slimePattern(scene, pt, x, y) {
             } else if (pt < 8) {
                 slimeKing = new Boss(
                     scene,
-                    100,
+                    100 + difficulty_hp,
                     100,
                     x + i * 50,
                     y,
@@ -2485,7 +2504,7 @@ function slimePattern(scene, pt, x, y) {
             } else {
                 slimeKing = new Boss(
                     scene,
-                    50,
+                    50 + difficulty_hp,
                     100,
                     x + i * 25,
                     y,
