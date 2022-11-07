@@ -258,6 +258,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           this.skillCD = 300;
           break;
       }
+    } else {
+      alert(`코인이 ${200 - player.coin} 부족합니다.`);
     }
     UpdateCatCoin();
   }
@@ -356,6 +358,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           this.skillCD = 240;
           break;
       }
+    } else {
+      alert(`코인이 ${500 - player.coin} 부족합니다.`);
     }
     UpdateCatCoin();
   }
