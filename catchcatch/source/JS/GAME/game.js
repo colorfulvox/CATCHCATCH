@@ -1526,11 +1526,12 @@ function update(time, delta) {
   for (let i = 0; i < 5; i++) {
     if (fairySet[i].timer < fairySet[i].skillCD) {
       fairySet[i].timer++;
-      if (fairySet[i].skillUse === true) {
+      if (fairySet[i].isSkill === true && fairySet[i].skillUse === true) {
         useSkill(i);
       }
     } else {
-      if (fairySet[i].skillUse === true) {
+      if (fairySet[i].isSkill === true) {
+        console.log(1);
         fairySet[i].skillUse = false;
         canSkill(i);
       }

@@ -173,12 +173,14 @@
 .coolContainer {
   display: flex;
 
-  width: 300px;
-  height: 60px;
+  width: 360px;
+  height: 80px;
   position: absolute;
   bottom: 10px;
   left: 50%;
+  justify-content: space-between;
   transform: translateX(-50%) translateY(-50%);
+  border: 2px solid red;
 }
 
 html {
@@ -196,35 +198,31 @@ html {
 }
 
 .fairy {
-  width: 60px;
-  height: 54px;
-  border: 6px solid red;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 58px;
+  height: 58px;
+  border: 2px solid black;
+  overflow: hidden;
+  position: absolute;
+  /* border: 6px solid red; */
 }
-/* .wizard {
-  --percentage: 0%;
-  background: conic-gradient(red var(--percentage), white 0);
-  animation: timer var(--wizard) 1 linear;
+.wizard {
 }
 .reaper {
-  --percentage: 0%;
-  background: conic-gradient(red var(--percentage), white 0);
-  animation: timer var(--reaper) 1 linear;
+  left: 20%;
 }
 .ninja {
-  --percentage: 0%;
-  background: conic-gradient(red var(--percentage), white 0);
-  animation: timer var(--ninja) 1 linear;
+  left: 40%;
 }
 .slime {
-  --percentage: 0%;
-  background: conic-gradient(red var(--percentage), white 0);
-  animation: timer var(--slime) 1 linear;
+  left: 60%;
 }
 .witch {
-  --percentage: 0%;
-  background: conic-gradient(red var(--percentage), white 0);
-  animation: timer var(--witch) 1 linear;
-} */
+  left: 80%;
+  margin-right: 10px;
+}
 
 .wizardActive {
   /* background: url("../../../public/images/ui/Icon/char/fairy1.png"); */
@@ -262,4 +260,62 @@ html {
   transform: translateX(-50%) translateY(-50%);
   font-size: 30px;
   text-align: center;
+}
+
+.tutorialKey {
+  position: absolute;
+  width: 320px;
+
+  top: 50%;
+  left: 20%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.tutorialMouse {
+  position: absolute;
+  width: 320px;
+  top: 50%;
+  right: 15%;
+  transform: translateX(+50%) translateY(-50%);
+}
+.tutorialNumber {
+  position: absolute;
+  width: 430px;
+  bottom: 19%;
+  left: 54%;
+  transform: translateX(-50%) translateY(+50%);
+}
+
+.tutorialSpace {
+  position: absolute;
+  width: 200px;
+  bottom: 7%;
+  right: 10%;
+}
+
+.tutorialLevel {
+  position: absolute;
+  width: 100px;
+  top: 30%;
+  right: 2%;
+}
+.tutorialCoin {
+  position: absolute;
+  width: 100px;
+  top: 25%;
+  right: 2%;
+}
+.tutorialHp {
+  position: absolute;
+  width: 100px;
+  top: 27%;
+  right: 9%;
+}
+
+.back {
+  display: none;
+  overflow-y: hidden;
+  position: absolute;
+  z-index: 10;
+  width: 60px;
+  height: 60px;
 }

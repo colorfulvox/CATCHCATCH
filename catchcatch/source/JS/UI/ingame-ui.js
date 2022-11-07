@@ -17,6 +17,13 @@ export default function ingameUi() {
     "slimeActive",
     "witchActive",
   ];
+  const fairyBack = [
+    "wizardBack",
+    "reaperBack",
+    "ninjaBack",
+    "slimeBack",
+    "witchBack",
+  ];
   const gameContainer = document.querySelector("#game-container");
   // const progress = document.createElement("progress");
 
@@ -100,14 +107,38 @@ export default function ingameUi() {
   const html = document.querySelector("html");
   fairy.map((el, idx) => {
     html.style.setProperty(`--${fairyName[idx]}`, fairy[idx].skillCD / 60);
-    const div = document.createElement("img");
+    const div = document.createElement("div");
     div.setAttribute("class", "fairy");
-    div.src = `images/ui/Icon/char/fairy${idx + 1}.png`;
+    const img = document.createElement("img");
+    img.src = `images/ui/Icon/char/fairy${idx + 1}.png`;
     div.classList.add(`${fairyName[idx]}`);
-    div.classList.add(`${fairyActive[idx]}`);
-    div.innerText = "요정";
+    img.classList.add(`${fairyActive[idx]}`);
+    img.innerText = "요정";
+    div.appendChild(img);
+    const back = document.createElement("div");
+    back.setAttribute("class", `${fairyBack[idx]}`);
+    back.classList.add(`back`);
+    div.appendChild(back);
     coolContainer.appendChild(div);
   });
+
+  if (isTutorial) {
+    const img = document.createElement("img");
+    img.setAttribute("class", "tutorialKey");
+    img.src = "images/ui/tutorial/tutorial_keyboard.png";
+    const mouse = document.createElement("img");
+    mouse.setAttribute("class", "tutorialMouse");
+    mouse.src = "images/ui/tutorial/tutorial_mouse.png";
+    gameContainer.appendChild(img);
+    gameContainer.appendChild(mouse);
+
+    setTimeout(() => {
+      gameContainer.removeChild(img);
+      gameContainer.removeChild(mouse);
+      ChangeWeapon();
+    }, 6000);
+  }
+
   gameContainer.appendChild(coolContainer);
   gameContainer.appendChild(stats);
 }
@@ -220,18 +251,24 @@ export function useSkill(num) {
     "slimeActive",
     "witchActive",
   ];
-  const coolContainer = document.querySelector(".coolContainer");
+  const fairyBack = [
+    "wizardBack",
+    "reaperBack",
+    "ninjaBack",
+    "slimeBack",
+    "witchBack",
+  ];
+  const div = document.querySelector(`${fairyName[num]}`);
   const html = document.querySelector("html");
   // html.style.setProperty(`--${fairyName[num]}`, `${fairy[num].skillCD a/ 60}s`);
-  const div = document.querySelector(`.${fairyName[num]}`);
+  const back = document.querySelector(`.${fairyBack[num]}`);
 
-  div.style.background = `conic-gradient(rgba(255,255,255,1) var(--percentage), rgba(0,0,0,1) ${
-    (fairy[num].timer * 100) / fairy[num].skillCD
-  }%)`;
-  if (div.classList.length === 3) {
-    div.classList.remove(`${fairyActive[num]}`);
-  }
-  coolContainer.replaceChild(coolContainer.childNodes[num], div);
+  back.style.background = "rgba(255,0,0,0.7)";
+  back.style.top = `${(fairy[num].timer * 100) / fairy[num].skillCD}%`;
+  back.style.display = "block";
+  // if (div.classList.length === 3) {
+  //   div.classList.remove(`${fairyActive[num]}`);
+  // }
 }
 
 export function canSkill(num) {
@@ -245,12 +282,12 @@ export function canSkill(num) {
   const fairyName = ["wizard", "reaper", "ninja", "slime", "witch"];
   const coolContainer = document.querySelector(".coolContainer");
   const div = document.querySelector(`.${fairyName[num]}`);
-  if (div.childNodes.length !== 3) {
-    div.style.background = "";
-    div.classList.add(`${fairyActive[num]}`);
+  // if (div.childNodes.length !== 3) {
+  //   div.style.background = "";
+  //   div.classList.add(`${fairyActive[num]}`);
 
-    coolContainer.replaceChild(coolContainer.childNodes[num], div);
-  }
+  //   coolContainer.replaceChild(coolContainer.childNodes[num], div);
+  // }
 }
 
 export function messageBoss(boss) {
@@ -273,3 +310,40 @@ export function messageBoss(boss) {
     console.log(123);
   }, 10000);
 }
+
+function ChangeWeapon() {
+  const gameContainer = document.querySelector("#game-container");
+  const img = document.createElement("img");
+  img.setAttribute("class", "tutorialNumber");
+  img.src = "images/ui/tutorial/tutorial_number.png";
+  const space = document.createElement("img");
+  space.setAttribute("class", "tutorialSpace");
+  space.src = "images/ui/tutorial/tutorial_spacebar.png";
+  gameContainer.appendChild(space);
+  gameContainer.appendChild(img);
+
+  setTimeout(() => {
+    gameContainer.removeChild(img);
+    gameContainer.removeChild(space);
+    // ShowUI();
+  }, 5000);
+}
+
+// function ShowUI() {
+//   const gameContainer = document.querySelector("#game-container");
+//   const level = document.createElement("img");
+//   const hp = document.createElement("img");
+//   const coin = document.createElement("img");
+
+//   level.src = "images/ui/tutorial/tutorial_level.png";
+//   hp.src = "images/ui/tutorial/tutorial_hp.png";
+//   coin.src = "images/ui/tutorial/tutorial_coin.png";
+
+//   level.setAttribute("class", "tutorialLevel");
+//   hp.setAttribute("class", "tutorialHp");
+//   coin.setAttribute("class", "tutorialCoin");
+
+//   gameContainer.appendChild(level);
+//   gameContainer.appendChild(hp);
+//   gameContainer.appendChild(coin);
+// }
