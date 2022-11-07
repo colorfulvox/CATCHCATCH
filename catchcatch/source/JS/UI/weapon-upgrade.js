@@ -72,11 +72,17 @@ export default function weapon() {
             } else {
               img.src = "images/ui/Icon/skilllock.png";
             }
-
-            div.addEventListener("click", () => {
-              fairy[idx].levelUp();
-              weapon();
-            });
+            if (idx2 === 4 && el.level === 4) {
+              div.addEventListener("click", () => {
+                fairy[idx].levelUp();
+                weapon();
+              });
+            } else if (idx2 === 8 && el.level === 8) {
+              div.addEventListener("click", () => {
+                fairy[idx].levelUp();
+                weapon();
+              });
+            }
           } else {
             img.src = "images/ui/Icon/skilllock.png";
           }
