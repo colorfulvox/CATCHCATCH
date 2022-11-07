@@ -73,8 +73,11 @@
   width: 430px;
   height: 520px;
   position: absolute;
-  background-color: rgb(150, 150, 150);
-  border: 5px solid red;
+  background: url("../../../public/images/ui/Rankingbackround.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -85,15 +88,97 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 5px;
+  margin-bottom: 0px;
 }
 
-.RankingTemp {
+.InputTemp {
+  display: flex;
+  margin-top: 30px;
+  width: 400px;
+  height: 100px;
+  /* border: 3px solid black; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.InputSpace {
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: row-reverse;
+  align-items: center;
+  width: 350px;
+  height: 25px;
+  margin-top: 15px;
+}
+.InputArea {
+  margin-right: 10px;
+  width: 150px;
+  height: 25px;
+  font-size: large;
+  font-weight: bold;
+  font-family: "neodgm";
+  border: 4px solid #0388c1;
+  border-radius: 5px;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+.InputArea:focus {
+  outline: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.RankingSearchBtn {
+  width: 40px;
+  height: 40px;
+  background: url("../../../public/images/ui/serachBtn.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: none;
+
+  font-weight: bold;
+  font-family: "neodgm";
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+.RankingSearchBtn:active {
+  background: url("../../../public/images/ui/serachBtnclick.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: none;
+  color: gray;
+}
+
+.BlankTemp {
+  background: url("../../../public/images/ui/RankingListSlot.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+
   display: flex;
   align-items: center;
   width: 350px;
-  height: 70px;
-  border: 3px solid white;
+  height: 50px;
+  /* border: 3px solid white; */
   justify-content: center;
+}
+
+.RankingTemp {
+  background: url("../../../public/images/ui/RankingListSlot.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  width: 350px;
+  height: 50px;
+  /* border: 3px solid white; */
+  justify-content: center;
+  margin-top: 20px;
 }
 .GradeSpace {
   width: 50px;
@@ -102,11 +187,12 @@
   text-align: center;
   line-height: 45px;
   font-size: xx-large;
-  color: gold;
+  color: black;
   font-weight: bold;
   font-family: "KenneyBlocks";
   margin-right: 15px;
   margin-left: 15px;
+  color: rgb(255, 74, 74);
 }
 .NameSpace {
   width: 130px;
@@ -128,6 +214,7 @@
   font-size: x-large;
   font-family: "KenneyBlocks";
   line-height: 45px;
+  color: rgb(46, 112, 255);
 }
 
 .RankingBack {
@@ -141,7 +228,7 @@
   background-size: contain;
   border: none;
   left: 5px;
-  top: 5px;
+  top: 22px;
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 

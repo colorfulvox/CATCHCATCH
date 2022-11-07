@@ -19,6 +19,11 @@ global.PinNumber = "";
 global.socket = "";
 global.IsRunning = false;
 
+let InputArea;
+let S_GradeSpace;
+let S_NameSpace;
+let S_ScoreSpace;
+
 const _StartPage = document.createElement("div");
 const _app = document.getElementById("app");
 _StartPage.className = "StartPage";
@@ -152,19 +157,38 @@ const StartPageInit = () => {
 
     //랭킹 리스트 생성
     const MyRanking = document.createElement("div");
-    MyRanking.className = "RankingTemp";
+    MyRanking.className = "InputTemp";
 
-    const GradeSpace = document.createElement("div");
-    GradeSpace.className = "GradeSpace";
-    MyRanking.appendChild(GradeSpace);
+    const BlankRanking = document.createElement("div");
+    BlankRanking.className = "BlankTemp";
+    MyRanking.appendChild(BlankRanking);
 
-    const NameSpace = document.createElement("div");
-    NameSpace.className = "NameSpace";
-    MyRanking.appendChild(NameSpace);
+    S_GradeSpace = document.createElement("div");
+    S_GradeSpace.className = "GradeSpace";
+    BlankRanking.appendChild(S_GradeSpace);
 
-    const ScoreSpace = document.createElement("div");
-    ScoreSpace.className = "ScoreSpace";
-    MyRanking.appendChild(ScoreSpace);
+    S_NameSpace = document.createElement("div");
+    S_NameSpace.className = "NameSpace";
+    BlankRanking.appendChild(S_NameSpace);
+
+    S_ScoreSpace = document.createElement("div");
+    S_ScoreSpace.className = "ScoreSpace";
+    BlankRanking.appendChild(S_ScoreSpace);
+
+    //--------------------------------------------------
+    const InputSpace = document.createElement("div");
+    InputSpace.className = "InputSpace";
+    MyRanking.appendChild(InputSpace);
+
+    const RankingSearchBtn = document.createElement("button");
+    RankingSearchBtn.className = "RankingSearchBtn";
+    RankingSearchBtn.textContent = "검색";
+    RankingSearchBtn.addEventListener("click", SearchResult);
+    InputSpace.appendChild(RankingSearchBtn);
+
+    InputArea = document.createElement("input");
+    InputArea.className = "InputArea";
+    InputSpace.appendChild(InputArea);
 
     // RankingListTxt.push([GradeSpace, NameSpace, ScoreSpace]);
 
@@ -175,7 +199,6 @@ const StartPageInit = () => {
       RankingSpace.className = "RankingSpace";
       RankingSpace.style.width = "100%";
       RankingSpace.style.height = "60px";
-      RankingSpace.style.marginBottom = "25px";
       // RankingSpace.style.border = "4px solid black";
       _RankingList.appendChild(RankingSpace);
 
@@ -269,6 +292,9 @@ function RankingListOff() {
   let logo = document.getElementById("Logo");
   logo.style.display = "block";
   _RankingList.style.display = "none";
+  S_GradeSpace.textContent = "";
+  S_NameSpace.textContent = "";
+  S_ScoreSpace.textContent = "";
 }
 
 function UpdateRanking() {
@@ -281,4 +307,50 @@ function UpdateRanking() {
     RankingListTxt[i][0].textContent = RankingData[i][0]; //유저 별명
     RankingListTxt[i][1].textContent = RankingData[i][1]; //유저 스코어
   }
+}
+
+function SearchResult() {
+  if (InputArea.value === "") return;
+  socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
+  socket.onopen = function () {
+    IsStarted = false;
+    PinNumber = null;
+    let name = InputArea.value.toString();
+    var Data = {
+      action: "searchranking",
+      searchname: name,
+    };
+    socket.send(JSON.stringify(Data));
+    InputArea.value = "";
+  };
+  socket.onmessage = function (data) {
+    var msg = JSON.parse(data.data.toString());
+    S_GradeSpace.textContent = "";
+    S_NameSpace.textContent = "";
+    S_ScoreSpace.textContent = "";
+
+    if (msg.action === "searchranking") {
+      if (msg.check === false) {
+        S_NameSpace.textContent = msg.log;
+        S_NameSpace.style.fontSize = "15px";
+      } else {
+        S_GradeSpace.textContent = msg.grade;
+        S_NameSpace.textContent = msg.name;
+        S_ScoreSpace.textContent = msg.score;
+
+        if (msg.grade.length >= 4) {
+          S_GradeSpace.style.fontSize = "20px";
+        } else {
+          S_GradeSpace.style.fontSize = "xx-large";
+        }
+        if (msg.name.length > 5) {
+          S_NameSpace.style.fontSize = "15px";
+        } else {
+          S_NameSpace.style.fontSize = "x-large";
+        }
+      }
+    }
+  };
+
+  // console.log(InputArea.value);
 }
