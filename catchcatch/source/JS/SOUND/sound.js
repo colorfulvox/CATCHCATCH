@@ -10,7 +10,7 @@ export class setSound {
         // 3. 게임 승리
         'sounds/bgm/bgm_ending.wav',
         // 4. 코딩 모드
-        'sounds/bgm/bgm_codingmode.wav'
+        'sounds/bgm/bgm_main_coding.wav'
     ];
 
     // SE
