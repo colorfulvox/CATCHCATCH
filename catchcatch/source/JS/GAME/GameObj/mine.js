@@ -2,8 +2,7 @@ import {mines} from "../game";
 import {UpdateCatCoin} from "../../UI/ingame-ui";
 import {setSound} from "../../SOUND/sound";
 
-export default class Mine extends Phaser.Physics.Arcade.Image {
-    mineSprite;
+export default class Mine extends Phaser.Physics.Arcade.Sprite {
     mine = 0;
     coinTime;
 
@@ -11,7 +10,7 @@ export default class Mine extends Phaser.Physics.Arcade.Image {
         super(scene, mineX, mineY, minesprite, cointimes);
 
         this.scene = scene;
-        this.mineSprite = minesprite;
+        this.minesprite = minesprite;
         this.coinTime = cointimes;
 
         scene.add.existing(this);
@@ -26,7 +25,12 @@ export default class Mine extends Phaser.Physics.Arcade.Image {
         this.setCircle(hw * 1, hh - hw * 1, hh - hw * 1);
     }
 
+    set_anime(){
+        this.play(this.minesprite);
+    }
+
     overlapOpen(mine, player) {
+        console.log(mine)
         var range = Phaser.Math.Distance.Between(mine.x, mine.y, 0, 0);
 
         if (gameTimer % 7200 === 0) {

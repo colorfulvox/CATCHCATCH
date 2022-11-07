@@ -56,6 +56,7 @@ global.isLevelup = false;
 function Init() {
   StartPageInit(); //스타트 페이지 init
   CharPageInit(); // 캐릭터 페이지 init
+
 }
 console.log(4);
 function SaveData() {

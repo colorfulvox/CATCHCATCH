@@ -162,10 +162,10 @@ let mine;
 let mineshowtime = 0;
 let mineCount = [3, 15, 60, 120, 400, 500, 500, 550, 800, 1000];
 let StartMineRangeX = [
-    -200, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
+    -400, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
 ];
 let StartMineRangeY = [
-    -200, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
+    -400, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
 ];
 let EndMineRangeX = [
     500, 1200, 5000, 7200, 15000, 32000, 45000, 52000, 72000, 100000,
@@ -219,6 +219,10 @@ function preload() {
         frameWidth: 38,
         frameHeight: 64,
     });
+    this.load.spritesheet("catFinal", "images/cattower/towerFinal.png", {
+        frameWidth: 38,
+        frameHeight: 64,
+    });
     this.load.image("can", "images/cattower/can.png");
     this.load.image("skill", "images/cattower/skill.png");
     //tower end
@@ -238,8 +242,10 @@ function preload() {
     //navi end
 
     //mine start
-    this.load.image("minearrow", "images/mine/boxarrow.png");
-    this.load.image("mine", "images/mine/mine.png");
+    this.load.spritesheet("mineani", "images/mine/coin.png", {
+        frameWidth: 32,
+        frameHeight: 32,
+    });
     //mine end
 
     //player start
@@ -639,7 +645,7 @@ function create() {
     thisScene = this;
     //map start
     this.chunkSize = 8;
-    this.tileSize = 300;
+    this.tileSize = 1024;
     this.cameraSpeed = 1;
     UICam = this.cameras.add(
         player.x,
@@ -1536,6 +1542,26 @@ function create() {
         frameRate: 8,
         repeat: 0,
     });
+
+    this.anims.create({
+        key: "5_idle",
+        frames: this.anims.generateFrameNumbers("catFinal", {
+            start: 0,
+            end: 2,
+        }),
+        frameRate: 4,
+        repeat: -1,
+    });
+
+    this.anims.create({
+        key: "5_attack",
+        frames: this.anims.generateFrameNumbers("catFinal", {
+            start: 3,
+            end: 8,
+        }),
+        frameRate: 8,
+        repeat: 0,
+    });
 //cattower animation end
 
   towerLU = new CatTower(this, -140, -140, "0_idle", "can", "skill", 0);
@@ -1561,6 +1587,16 @@ function create() {
     //tower end
 
     //mine start
+    this.anims.create({
+        key: "minecoin",
+        frames: this.anims.generateFrameNumbers("mineani", {
+            start: 0,
+            end: 3,
+        }),
+        frameRate: 8,
+        repeat: -1,
+    });
+
     for (let i = 0; i < mineCount[mineshowtime]; i++) {
         let x =
             Math.random() *
@@ -1570,8 +1606,9 @@ function create() {
             Math.random() *
             (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
             StartMineRangeY[mineshowtime];
-        mine = new Mine(this, x, y, "mine", 0);
+        mine = new Mine(this, x, y, "minecoin", 0);
         mine.scale_Circle();
+        mine.set_anime();
         mines.add(mine);
     }
       //mine end
@@ -2088,8 +2125,9 @@ function update(time, delta) {
                 Math.random() *
                 (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
                 StartMineRangeY[mineshowtime];
-            mine = new Mine(this, x, y, "mine", 0);
+            mine = new Mine(this, x, y, "minecoin", 0);
             mine.scale_Circle();
+            mine.set_anime();
             mines.add(mine);
         }
         console.log(mines);
