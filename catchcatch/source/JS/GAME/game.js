@@ -8,6 +8,7 @@ import ingameUi, {
   updateHP,
   useSkill,
   canSkill,
+  messageBoss,
 } from "../UI/ingame-ui.js";
 import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
@@ -1785,6 +1786,13 @@ function update(time, delta) {
       addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
     }
     // 몬스터 빅 웨이브
+    if (gameTimer === 7700) {
+      messageBoss("빅 웨이브");
+    }
+    if (gameTimer === 19700) {
+      messageBoss("빅 웨이브");
+    }
+
     if (gameTimer > 8000 && gameTimer < 8300 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "fly", "fly", 10, 50, monX, monY, "wave");
@@ -1807,9 +1815,12 @@ function update(time, delta) {
     // 보스
 
     // 슬라임
-    if (gameTimer === 10800) {
-      setSound.playSE(13);
+    if (gameTimer === 17400) {
+      messageBoss("슬라임 킹");
+    }
 
+    if (gameTimer === 18000) {
+      setSound.playSE(13);
       slimeKing = new Boss(
         this,
         300,
@@ -1833,9 +1844,11 @@ function update(time, delta) {
     }
 
     // 골렘
+    if (gameTimer === 20400) {
+      messageBoss("골렘");
+    }
     if (gameTimer === 21000) {
       setSound.playSE(14);
-
       golem = new Boss(
         this,
         500,
@@ -1858,6 +1871,9 @@ function update(time, delta) {
     }
 
     // 불거인
+    if (gameTimer === 27400) {
+      messageBoss("불거인");
+    }
     if (gameTimer === 28000) {
       setSound.playSE(15);
 
