@@ -44,13 +44,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     scene.events.on("update", () => {
       this.update();
     });
-    scene.time.addEvent({
-      delay: 50,
-      callback: () => {
-        scene.physics.moveToObject(this, player, this.velocity);
-      },
-      loop: true,
-    });
   }
 
   update() {
