@@ -2,7 +2,14 @@ import Fairy from "./GameObj/fairy.js";
 import Magic from "./GameObj/magic.js";
 import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
-import ingameUi, { GameOver, updateExp, updateHP } from "../UI/ingame-ui.js";
+import ingameUi, {
+  GameOver,
+  updateExp,
+  updateHP,
+  useSkill,
+  canSkill,
+  messageBoss,
+} from "../UI/ingame-ui.js";
 import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
@@ -38,11 +45,6 @@ export const config = {
       fps: 60,
       debug: false,
       fixedStep: false,
-    },
-    fps: {
-      target: 2,
-      min: 2,
-      forceSetTimeOut: true,
     },
   },
 };
@@ -552,7 +554,12 @@ function preload() {
 
 function create() {
   this.input.setDefaultCursor("url(/images/cursor/aimNone.png), pointer");
-  setSound.setBGM(1);
+  if (ChoiceCat === 4) {
+    setSound.setBGM(5);
+  } else {
+    setSound.setBGM(1);
+  }
+
   thisScene = this;
   //map start
   this.chunkSize = 8;
@@ -1200,7 +1207,6 @@ function create() {
   }
   for (let i = 0; i < chunks.length; i++) {
     let chunk = chunks[i];
-
     if (
       Phaser.Math.Distance.Between(
         snappedChunkX,
@@ -1522,8 +1528,30 @@ function create() {
 }
 
 function update(time, delta) {
-  frameTime += delta;
+  for (let i = 0; i < 5; i++) {
+    if (fairySet[i].timer < fairySet[i].skillCD) {
+      fairySet[i].timer++;
+      if (fairySet[i].skillUse === true) {
+        useSkill(i);
+      }
+    } else {
+      if (fairySet[i].skillUse === true) {
+        fairySet[i].skillUse = false;
+        canSkill(i);
+      }
+    }
+  }
 
+  if (
+    cursors.skill.isDown &&
+    fairySet[nowFairy].isSkill &&
+    !fairySet[nowFairy].skillUse
+  ) {
+    fairySet[nowFairy].skillFire();
+    // fairySet[nowFairy].skillUse = true;
+  }
+
+  frameTime += delta;
   player.move();
   //  Health bar start
   hpBar.clear();
@@ -1541,9 +1569,7 @@ function update(time, delta) {
   // Health bar end
   if (frameTime > 16.5) {
     frameTime = 0;
-    if (gameTimer % 60 === 0) {
-      console.log(1);
-    }
+
     let snappedChunkX =
       this.chunkSize *
       this.tileSize *
@@ -1682,11 +1708,11 @@ function update(time, delta) {
           monsterSet.children.entries[i].type === "follower" ||
           monsterSet.children.entries[i].type === "wave"
         ) {
-          //   this.physics.moveToObject(
-          //     monsterSet.children.entries[i],
-          //     player,
-          //     monsterSet.children.entries[i].velocity
-          //   );
+          this.physics.moveToObject(
+            monsterSet.children.entries[i],
+            player,
+            monsterSet.children.entries[i].velocity
+          );
         }
         // 몬스터가 홀에 도달하게 함
         else if (monsterSet.children.entries[i].type === "siege") {
@@ -1765,6 +1791,13 @@ function update(time, delta) {
       addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
     }
     // 몬스터 빅 웨이브
+    if (gameTimer === 7700) {
+      messageBoss("빅 웨이브");
+    }
+    if (gameTimer === 19700) {
+      messageBoss("빅 웨이브");
+    }
+
     if (gameTimer > 8000 && gameTimer < 8300 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "fly", "fly", 10, 50, monX, monY, "wave");
@@ -1787,9 +1820,17 @@ function update(time, delta) {
     // 보스
 
     // 슬라임
-    if (gameTimer === 10800) {
-      setSound.playSE(13);
+    if (gameTimer === 17400) {
+      messageBoss("슬라임 킹");
+    }
 
+    if (gameTimer === 18000) {
+      if (ChoiceCat === 5) {
+        let rand = Math.floor(Math.random() * 20);
+        setSound.playSE(rand);
+      } else {
+        setSound.playSE(13);
+      }
       slimeKing = new Boss(
         this,
         300,
@@ -1813,9 +1854,16 @@ function update(time, delta) {
     }
 
     // 골렘
+    if (gameTimer === 20400) {
+      messageBoss("골렘");
+    }
     if (gameTimer === 21000) {
-      setSound.playSE(14);
-
+      if (ChoiceCat === 5) {
+        let rand = Math.floor(Math.random() * 20);
+        setSound.playSE(rand);
+      } else {
+        setSound.playSE(14);
+      }
       golem = new Boss(
         this,
         500,
@@ -1838,9 +1886,16 @@ function update(time, delta) {
     }
 
     // 불거인
+    if (gameTimer === 27400) {
+      messageBoss("불거인");
+    }
     if (gameTimer === 28000) {
-      setSound.playSE(15);
-
+      if (ChoiceCat === 5) {
+        let rand = Math.floor(Math.random() * 20);
+        setSound.playSE(rand);
+      } else {
+        setSound.playSE(15);
+      }
       fireGiant = new Boss(
         this,
         500,
@@ -1996,57 +2051,70 @@ function update(time, delta) {
       UICam.worldView.width * (player.exp / player.maxExp),
       16
     );
-    //exp bar end
-    UICam.ignore([
-      player,
-      bossSet,
-      fairySet,
-      monsterSet,
-      hpBar,
-      hpBarBG,
-      hole,
-      towerLD,
-      towerLU,
-      towerRD,
-      towerRU,
-      magics,
-      mines,
-      towerAttacks,
-      towerSkillAttacks,
-      bossMagicSet,
-    ]);
+  } //exp bar end
+  UICam.ignore([
+    player,
+    bossSet,
+    fairySet,
+    monsterSet,
+    hpBar,
+    hpBarBG,
+    hole,
+    towerLD,
+    towerLU,
+    towerRD,
+    towerRU,
+    magics,
+    mines,
+    towerAttacks,
+    towerSkillAttacks,
+    bossMagicSet,
+  ]);
 
-    if (gameTimer % 3600 === 0) {
-      ++mineshowtime;
-      for (let i = 0; i < mineCount[mineshowtime]; i++) {
-        let x =
-          Math.random() *
-            (EndMineRangeX[mineshowtime] - StartMineRangeX[mineshowtime]) +
-          StartMineRangeX[mineshowtime];
-        let y =
-          Math.random() *
-            (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
-          StartMineRangeY[mineshowtime];
-        mine = new Mine(this, x, y, "mine", 0);
-        mine.scale_Circle();
-        mines.add(mine);
-      }
-      console.log(mines);
+  if (gameTimer % 3600 === 0) {
+    ++mineshowtime;
+    for (let i = 0; i < mineCount[mineshowtime]; i++) {
+      let x =
+        Math.random() *
+          (EndMineRangeX[mineshowtime] - StartMineRangeX[mineshowtime]) +
+        StartMineRangeX[mineshowtime];
+      let y =
+        Math.random() *
+          (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
+        StartMineRangeY[mineshowtime];
+      mine = new Mine(this, x, y, "mine", 0);
+      mine.scale_Circle();
+      mines.add(mine);
     }
+    console.log(mines);
+  }
 
-    if (!towerLU.anims.isPlaying) {
-      console.log(towerLU.stone);
-      towerLU.anims.play(`${towerLU.stone}_idle`, true);
-    }
-    if (!towerLD.anims.isPlaying) {
-      towerLD.anims.play(`${towerLD.stone}_idle`, true);
-    }
-    if (!towerRU.anims.isPlaying) {
-      towerRU.anims.play(`${towerRU.stone}_idle`, true);
-    }
-    if (!towerRD.anims.isPlaying) {
-      towerRD.anims.play(`${towerRD.stone}_idle`, true);
-    }
+  if (!towerLU.anims.isPlaying) {
+    console.log(towerLU.stone);
+    towerLU.anims.play(`${towerLU.stone}_idle`, true);
+  }
+  if (!towerLD.anims.isPlaying) {
+    towerLD.anims.play(`${towerLD.stone}_idle`, true);
+  }
+  if (!towerRU.anims.isPlaying) {
+    towerRU.anims.play(`${towerRU.stone}_idle`, true);
+  }
+  if (!towerRD.anims.isPlaying) {
+    towerRD.anims.play(`${towerRD.stone}_idle`, true);
+  }
+
+  if (!towerLU.anims.isPlaying) {
+    console.log(towerLU.stone);
+    towerLU.anims.play(`${towerLU.stone}_idle`, true);
+  }
+  if (!towerLD.anims.isPlaying) {
+    towerLD.anims.play(`${towerLD.stone}_idle`, true);
+  }
+  if (!towerRU.anims.isPlaying) {
+    towerRU.anims.play(`${towerRU.stone}_idle`, true);
+  }
+  if (!towerRD.anims.isPlaying) {
+    towerRD.anims.play(`${towerRD.stone}_idle`, true);
   }
 }
 
@@ -2124,8 +2192,12 @@ function changeSlot() {
 
 function attack(magic, monster) {
   if (!monster.invincible) {
-    setSound.playSE(12);
-
+    if (ChoiceCat === 5) {
+      let rand = Math.floor(Math.random() * 20);
+      setSound.playSE(rand);
+    } else {
+      setSound.playSE(12);
+    }
     if (magic.pierceCount > 0) {
       magic.pierceCount--;
     } else {
