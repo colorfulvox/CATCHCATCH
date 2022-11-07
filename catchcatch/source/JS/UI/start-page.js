@@ -50,6 +50,12 @@ const StartPageInit = () => {
   LogoImg.height = 300;
   _Logo.appendChild(LogoImg);
   _Logo.addEventListener("click", () => {
+    // BGM
+    if(_mode){
+      setSound.setBGM(4);
+    } else{
+      setSound.setBGM(0);
+    }
     _mode = !_mode;
     StartPageInit();
     if (!_mode) {
