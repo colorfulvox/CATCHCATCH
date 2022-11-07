@@ -169,3 +169,86 @@
   width: 150px;
   height: 50px;
 }
+
+.coolContainer {
+  display: flex;
+
+  width: 300px;
+  height: 60px;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+html {
+  --wizard: 4;
+  --reaper: 4;
+  --ninja: 4;
+  --slime: 4;
+  --witch: 4;
+}
+
+@property --percentage {
+  initial-value: 0%;
+  inherits: false;
+  syntax: "<percentage>";
+}
+
+.fairy {
+  width: 60px;
+  height: 54px;
+  border: 6px solid red;
+}
+/* .wizard {
+  --percentage: 0%;
+  background: conic-gradient(red var(--percentage), white 0);
+  animation: timer var(--wizard) 1 linear;
+}
+.reaper {
+  --percentage: 0%;
+  background: conic-gradient(red var(--percentage), white 0);
+  animation: timer var(--reaper) 1 linear;
+}
+.ninja {
+  --percentage: 0%;
+  background: conic-gradient(red var(--percentage), white 0);
+  animation: timer var(--ninja) 1 linear;
+}
+.slime {
+  --percentage: 0%;
+  background: conic-gradient(red var(--percentage), white 0);
+  animation: timer var(--slime) 1 linear;
+}
+.witch {
+  --percentage: 0%;
+  background: conic-gradient(red var(--percentage), white 0);
+  animation: timer var(--witch) 1 linear;
+} */
+
+.wizardActive {
+  /* background: url("../../../public/images/ui/Icon/char/fairy1.png"); */
+  z-index: 1;
+}
+.reaperActive {
+  /* background: url("../../../public/images/ui/Icon/char/fairy2.png"); */
+  z-index: 1;
+}
+.ninjaActive {
+  /* background: url("../../../public/images/ui/Icon/char/fairy3.png"); */
+  z-index: 1;
+}
+.slimeActive {
+  /* background: url("../../../public/images/ui/Icon/char/fairy4.png"); */
+  z-index: 1;
+}
+.witchActive {
+  /* background: url("../../../public/images/ui/Icon/char/fairy5.png"); */
+  z-index: 1;
+}
+
+@keyframes timer {
+  to {
+    --percentage: 100%;
+  }
+}
