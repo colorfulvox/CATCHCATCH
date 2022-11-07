@@ -3,7 +3,7 @@ import TowerMagic from "./tower-magic";
 import TowerSkill from "./tower-skill";
 import tower from "../../UI/tower-upgrade.js";
 import Player from "./player";
-import { UpdateCatCoin } from "../../UI/ingame-ui.js";
+
 
 export default class CatTower extends Phaser.Physics.Arcade.Sprite {
   weaponSprite;
@@ -159,7 +159,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
       player.coin >= thTower.towerDmgCost[thTower.towerDmgLevel + 1]
     ) {
       player.coin -= thTower.towerDmgCost[thTower.towerDmgLevel + 1];
-      UpdateCatCoin();
+
       thTower.towerDmgLevel += 1;
       thTower.level++;
       tower();
@@ -187,7 +187,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
       }
 
       thTower.level++;
-      UpdateCatCoin();
+
       tower();
     }
   }
@@ -203,7 +203,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
         thTower.circleSizeLevel++;
         thTower.level++;
       }
-      UpdateCatCoin();
+
       tower();
     }
   }
@@ -219,7 +219,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
         thTower.level++;
       }
       tower();
-      UpdateCatCoin();
+
     }
   }
 
@@ -262,7 +262,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
     } else {
       alert("레벨 부족");
     }
-    UpdateCatCoin();
+
     tower();
   }
 

@@ -1,4 +1,3 @@
-import { UpdateCatCoin } from "../../UI/ingame-ui.js";
 import { input, camera, aliens } from "../game.js";
 import Magic from "./magic.js";
 import Skill from "./skill.js";
@@ -253,7 +252,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           break;
       }
     }
-    UpdateCatCoin();
+
   }
 
   levelUp6() {
@@ -351,7 +350,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           break;
       }
     }
-    UpdateCatCoin();
+
   }
 
   normalAttack(magic) {

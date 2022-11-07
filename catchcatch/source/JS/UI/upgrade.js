@@ -1,5 +1,6 @@
 import weapon from "./weapon-upgrade.js";
 import tower from "./tower-upgrade.js";
+
 export default function initUpgrade() {
   // console.log(this.)
 
@@ -22,15 +23,20 @@ export default function initUpgrade() {
   upgradeType.setAttribute("class", "upgradeType");
   weaponType.setAttribute("class", "weaponType");
   towerType.setAttribute("class", "towerType");
-  weaponType.innerText = "weaponType";
-  towerType.innerText = "towerType";
+  weaponType.style.backgroundImage = "url('images/ui/weaponicon_act.png')";
+  // weaponType.innerText = "weaponType";
+  // towerType.innerText = "towerType";
   if (!isUpgrade) {
     window.addEventListener("keydown", sceneHandler);
   }
   towerType.addEventListener("click", () => {
+    weaponType.style.backgroundImage = "url('images/ui/weaponicon.png')";
+    towerType.style.backgroundImage = "url('images/ui/towericon_act.png')";
     tower();
   });
   weaponType.addEventListener("click", () => {
+    weaponType.style.backgroundImage = "url('images/ui/weaponicon_act.png')";
+    towerType.style.backgroundImage = "url('images/ui/towericon.png')";
     weapon();
   });
 

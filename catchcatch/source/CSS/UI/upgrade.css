@@ -56,11 +56,15 @@ body {
   /* display: flex; */
   /* align-items: center;
   justify-content: center; */
-  width: 30px;
-  height: 30px;
-  border: 6px solid blue;
-  top: 90px;
-  right: 10px;
+  width: 45px;
+  height: 45px;
+  top: 75px;
+  right: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/weaponicon.png");
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
@@ -71,11 +75,15 @@ body {
 
 .towerType {
   position: relative;
-  width: 30px;
-  height: 30px;
-  border: 6px solid red;
-  top: 100px;
-  right: 10px;
+  width: 45px;
+  height: 45px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  top: 85px;
+  right: 5px;
+  background-image: url("../../../public/images/ui/towericon.png");
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
@@ -148,7 +156,7 @@ body {
   justify-content: space-between;
   align-items: center;
   height: 70%;
-  margin-bottom: 80px;
+  margin-bottom: 55px;
 }
 
 .levelContent {
@@ -195,32 +203,112 @@ body {
   line-height: 40px;
 }
 
-.tower1 {
-  width: 60px;
-  height: 60px;
-  border: 2px solid black;
+.towerdefault {
+  width: 74px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/default.png");
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+.towerdefault:hover {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/default_act.png");
+}
+
+.tower1 {
+  width: 74px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/1.png");
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+.tower1:hover {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/1_act.png");
 }
 
 .tower2 {
-  width: 60px;
-  height: 60px;
-  border: 2px solid black;
+  width: 74px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/2.png");
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+.tower2:hover {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/2_act.png");
 }
 
 .tower3 {
-  width: 60px;
-  height: 60px;
-  border: 2px solid black;
+  width: 74px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/3.png");
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+.tower3:hover {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/3_act.png");
 }
 
 .tower4 {
-  width: 60px;
-  height: 60px;
-  border: 2px solid black;
+  width: 74px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/4.png");
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+.tower4:hover {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/4_act.png");
+}
+
+.tower5 {
+  width: 74px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/5.png");
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+.tower5:hover {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  background-image: url("../../../public/images/ui/Icon/tower/char/5_act.png");
 }
 
 .con {
@@ -229,16 +317,41 @@ body {
   font-family: "KenneyBlocks";
   font-weight: bold;
   font-size: small;
-  line-height: 50px;
+  line-height: 110px;
   width: 50px;
   height: 50px;
+  align-items: center;
+  justify-content: center;
   /* border: 2px solid black; */
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
+.towerskillimg {
+  width: 40px;
+  height: 40px;
+  /* border: 2px solid black; */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
 
 .property {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 50px;
   height: 50px;
-  /* border: 2px solid black; */
+
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.propertyimg {
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  /* background-image: url("../../../public/images/ui/Icon/tower/1.png"); */
+  /* border: 2px solid black; */
 }

@@ -41,15 +41,6 @@
   font-weight: bold;
 }
 
-.catCoin {
-  width: 100%;
-  font-family: "KenneyBlocks";
-  font-weight: bold;
-  font-size: x-large;
-  /* text-align: center; */
-  color: white;
-  /* border: black solid 2px; */
-}
 .stats #heal {
   position: relative;
   width: 20px;
@@ -80,23 +71,6 @@
   border-radius: 6px;
 }
 
-.healTxt {
-  position: absolute;
-  left: 28px;
-  top: 4px;
-}
-
-.dmgMulTxt {
-  position: absolute;
-  left: 28px;
-  top: 4px;
-}
-
-.speedTxt {
-  position: absolute;
-  left: 28px;
-  top: 4px;
-}
 
 .holeHp {
   display: flex;

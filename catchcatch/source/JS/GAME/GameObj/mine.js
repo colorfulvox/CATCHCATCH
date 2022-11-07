@@ -1,5 +1,5 @@
 import {mines} from "../game";
-import {UpdateCatCoin} from "../../UI/ingame-ui";
+
 import {setSound} from "../../SOUND/sound";
 
 export default class Mine extends Phaser.Physics.Arcade.Image {
@@ -39,7 +39,6 @@ export default class Mine extends Phaser.Physics.Arcade.Image {
         } else {
             player.coin += 3 + mine.coinTime;
         }
-        UpdateCatCoin();
         setSound.playSE(17);
         mine.destroy();
     }

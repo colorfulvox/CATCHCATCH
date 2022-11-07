@@ -1,4 +1,6 @@
 let _towerNum = 0;
+let _targetid = null;
+
 export default function tower() {
   const towers = [towerLU, towerRU, towerLD, towerRD];
   const tier1 = [
@@ -45,14 +47,22 @@ export default function tower() {
   const tower2 = document.createElement("div");
   const tower3 = document.createElement("div");
   const tower4 = document.createElement("div");
-  tower1.setAttribute("class", "tower1");
-  tower2.setAttribute("class", "tower2");
-  tower3.setAttribute("class", "tower3");
-  tower4.setAttribute("class", "tower4");
-  tower1.innerText = "1번 타워";
-  tower2.innerText = "2번 타워";
-  tower3.innerText = "3번 타워";
-  tower4.innerText = "4번 타워";
+  tower1.setAttribute("class", "towerdefault");
+  tower1.id = "tower1";
+  // tower1.style.backgroundImage = `url("images/ui/Icon/tower/char/default.png")`;
+  tower2.setAttribute("class", "towerdefault");
+  tower2.id = "tower2";
+  // tower2.style.backgroundImage = `url("images/ui/Icon/tower/char/default.png")`;
+  tower3.setAttribute("class", "towerdefault");
+  tower3.id = "tower3";
+  // tower3.style.backgroundImage = `url("images/ui/Icon/tower/char/default.png")`;
+  tower4.setAttribute("class", "towerdefault");
+  tower4.id = "tower4";
+  // tower4.style.backgroundImage = `url("images/ui/Icon/tower/char/default.png")`;
+  if (_targetid === null) {
+    _targetid = "tower1";
+  }
+
   tower13.appendChild(tower1);
   tower13.appendChild(tower3);
   tower24.appendChild(tower2);
@@ -67,6 +77,9 @@ export default function tower() {
   towerIcons2.setAttribute("class", "towerIcons");
   towerIcons3.setAttribute("class", "towerIcons");
   towerIcons4.setAttribute("class", "towerIcons");
+
+  let nextsection_1 = false;
+
   for (let i = 0; i < 2; i++) {
     const con = document.createElement("div");
     con.style.backgroundImage = `url("images/ui/towericonslot.png")`;
@@ -76,6 +89,9 @@ export default function tower() {
     con.setAttribute("class", "con");
 
     const count = document.createElement("div");
+    count.setAttribute("class", "towerskillimg");
+    count.style.backgroundImage = `url("images/ui/icon/tower/${i + 1}.png")`;
+
     count.innerText = `${tier1[i].current}/${tier1[i].max}`;
     con.appendChild(count);
     count.addEventListener("click", tier1[i].click);
@@ -84,6 +100,21 @@ export default function tower() {
     });
     towerIcons1.appendChild(con);
   }
+
+  if (tier1[0].current + tier1[1].current >= 10) {
+    nextsection_1 = true;
+  }
+
+  let nextsection_2 = false;
+
+  let ischoose = false;
+
+  if (nextsection_1) {
+    for (let i = 0; i < 4; i++) {
+      if (towers[_towerNum].towerEvelop1[i]) ischoose = true;
+    }
+  }
+
   for (let i = 0; i < 4; i++) {
     const div = document.createElement("div");
     div.setAttribute("class", "property");
@@ -91,11 +122,30 @@ export default function tower() {
     div.style.backgroundPosition = "center";
     div.style.backgroundRepeat = "no-repeat";
     div.style.backgroundSize = "cover";
-    if (towers[_towerNum].towerEvelop1[i]) {
-      div.innerText = "완료";
-    } else {
-      div.innerText = "그림";
-    }
+
+    const propertyimg = document.createElement("div");
+    propertyimg.setAttribute("class", "propertyimg");
+
+    div.appendChild(propertyimg);
+
+    if (nextsection_1) {
+      if (ischoose) {
+        if (towers[_towerNum].towerEvelop1[i]) {
+          nextsection_2 = true;
+          propertyimg.style.backgroundImage = `url("images/ui/icon/tower/property_${
+            i + 1
+          }.png")`;
+        } else {
+          propertyimg.style.backgroundImage = `url("images/ui/Icon/skilllock.png`;
+        }
+      } else {
+        propertyimg.style.backgroundImage = `url("images/ui/icon/tower/property_${
+          i + 1
+        }.png")`;
+      }
+    } else
+      propertyimg.style.backgroundImage = `url("images/ui/Icon/skilllock.png`;
+
     div.addEventListener("click", () => {
       if (!towers[_towerNum].isTowerEvelop1) {
         towers[_towerNum].changeEvelop(i, towers[_towerNum]);
@@ -103,6 +153,7 @@ export default function tower() {
     });
     towerIcons2.appendChild(div);
   }
+
   for (let i = 0; i < 2; i++) {
     const con = document.createElement("div");
     con.setAttribute("class", "con");
@@ -114,6 +165,12 @@ export default function tower() {
     // div.innerText = "그림";
     const count = document.createElement("div");
     count.innerText = `${tier3[i].current}/${tier3[i].max}`;
+    count.setAttribute("class", "towerskillimg");
+
+    if (nextsection_2)
+      count.style.backgroundImage = `url("images/ui/Icon/tower/${i + 3}.png")`;
+    else count.style.backgroundImage = `url("images/ui/Icon/skilllock.png`;
+
     con.appendChild(count);
     count.addEventListener("click", tier3[i].click);
     count.addEventListener("click", () => {
@@ -121,6 +178,17 @@ export default function tower() {
     });
     towerIcons3.appendChild(con);
   }
+
+  let nextsection_3 = false;
+  if (tier3[0].current + tier3[1].current >= 10) nextsection_3 = true;
+
+  ischoose = false;
+  if (nextsection_3) {
+    for (let i = 0; i < 4; i++) {
+      if (towers[_towerNum].towerEvelop2[i]) ischoose = true;
+    }
+  }
+
   for (let i = 0; i < 4; i++) {
     const div = document.createElement("div");
     div.setAttribute("class", "property");
@@ -128,11 +196,27 @@ export default function tower() {
     div.style.backgroundPosition = "center";
     div.style.backgroundRepeat = "no-repeat";
     div.style.backgroundSize = "cover";
-    if (towers[_towerNum].towerEvelop2[i]) {
-      div.innerText = "완료";
-    } else {
-      div.innerText = "그림";
-    }
+    const propertyimg = document.createElement("div");
+    propertyimg.setAttribute("class", "propertyimg");
+    div.appendChild(propertyimg);
+
+    if (nextsection_3) {
+      if (ischoose) {
+        if (towers[_towerNum].towerEvelop2[i]) {
+          propertyimg.style.backgroundImage = `url("images/ui/icon/tower/property_${
+            i + 1
+          }.png")`;
+        } else {
+          propertyimg.style.backgroundImage = `url("images/ui/Icon/skilllock.png`;
+        }
+      } else {
+        propertyimg.style.backgroundImage = `url("images/ui/icon/tower/property_${
+          i + 1
+        }.png")`;
+      }
+    } else
+      propertyimg.style.backgroundImage = `url("images/ui/Icon/skilllock.png`;
+
     div.addEventListener("click", () => {
       if (!towers[_towerNum].isTowerEvelop2) {
         towers[_towerNum].changeEvelop(i, towers[_towerNum]);
@@ -168,10 +252,45 @@ export default function tower() {
   upgradeContent.appendChild(tower24);
 
   for (let i = 1; i < 5; i++) {
-    const btn = document.querySelector(`.tower${i}`);
-    btn.addEventListener("click", () => {
+    const btn = document.getElementById(`tower${i}`);
+
+    if (towers[i - 1].isTowerEvelop2) {
+      btn.setAttribute("class", `tower5`);
+    } else {
+      if (towers[i - 1].isTowerEvelop1) {
+        for (let j = 0; j < 4; ++j) {
+          if (towers[i - 1].towerEvelop1[j]) {
+            btn.setAttribute("class", `tower${j + 1}`);
+            break;
+          }
+        }
+      }
+    }
+
+    btn.addEventListener("click", (e) => {
       _towerNum = i - 1;
+      _targetid = e.target.id;
       tower();
     });
   }
+
+  clickevent();
+}
+
+function clickevent() {
+  const targetid = document.getElementById(_targetid);
+
+  if (targetid === null) return;
+  if (targetid.className === "towerdefault")
+    targetid.style.backgroundImage = `url("images/ui/Icon/tower/char/default_act.png`;
+  else if (targetid.className === "tower1")
+    targetid.style.backgroundImage = `url("images/ui/Icon/tower/char/1_act.png`;
+  else if (targetid.className === "tower2")
+    targetid.style.backgroundImage = `url("images/ui/Icon/tower/char/2_act.png`;
+  else if (targetid.className === "tower3")
+    targetid.style.backgroundImage = `url("images/ui/Icon/tower/char/3_act.png`;
+  else if (targetid.className === "tower4")
+    targetid.style.backgroundImage = `url("images/ui/Icon/tower/char/4_act.png`;
+  else if (targetid.className === "tower5")
+    targetid.style.backgroundImage = `url("images/ui/Icon/tower/char/5_act.png`;
 }
