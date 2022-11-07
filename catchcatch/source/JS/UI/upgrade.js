@@ -1,8 +1,9 @@
 import weapon from "./weapon-upgrade.js";
 import tower from "./tower-upgrade.js";
+import {setSound} from "../SOUND/sound";
 export default function initUpgrade() {
   // console.log(this.)
-
+  setSound.playSE(18);
   $this.pause();
   const gameContainer = document.querySelector("#game-container");
   const upgradeContainer = document.createElement("div");

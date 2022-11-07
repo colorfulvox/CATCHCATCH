@@ -33,8 +33,8 @@ export class setSound {
         'sounds/se/se_slime_skill.wav',
         // 8. 마녀 폭발
         'sounds/se/se_witch_pop.wav',
-        // 9. 사신 진화 공격
-        'sounds/se/se_reaper_attack_2.wav',
+        // 9. 플레이어 업글
+        'sounds/se/se_player_upgrade.wav',
         // 10. 버튼 클릭
         'sounds/se/se_button.wav',
         // 11. 플레이어 피격
