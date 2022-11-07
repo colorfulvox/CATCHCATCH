@@ -47,11 +47,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   anime(){
-    if (player.ability != 2){
+    if (player.ability !== 2){
     this
     .clearTint()
     .play(this.anim);}
-    else if (player.ability == 2){
+    else if (player.ability === 2){
     this
     .setTint(Phaser.Display.Color.RandomRGB().color)
     .play(this.anim);

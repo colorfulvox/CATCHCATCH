@@ -171,7 +171,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   hitByEnemy(damage) {}
 
   hitPlayer(player) {
-    setSound.playSE(11);
+    if (ChoiceCat === 5) {
+      let rand = Math.floor(Math.random() * 20);
+      setSound.playSE(rand);
+    } else {
+      setSound.playSE(11);
+    }
     if (player.invincible === false) {
       player.invincible = true;
       player.body.checkCollision.none = true;

@@ -1,9 +1,17 @@
+import {setSound} from "../SOUND/sound";
+
 let _towerNum = 0;
 export default function tower() {
   const towers = [towerLU, towerRU, towerLD, towerRD];
   const tier1 = [
     {
       click: () => {
+        if (ChoiceCat === 5) {
+          let rand = Math.floor(Math.random() * 20);
+          setSound.playSE(rand);
+        } else {
+          setSound.playSE(9);
+        }
         towers[_towerNum].damageFunc(towers[_towerNum]);
       },
       current: towers[_towerNum].towerDmgLevel,
@@ -11,6 +19,12 @@ export default function tower() {
     },
     {
       click: () => {
+        if (ChoiceCat === 5) {
+          let rand = Math.floor(Math.random() * 20);
+          setSound.playSE(rand);
+        } else {
+          setSound.playSE(9);
+        }
         towers[_towerNum].bulletFunc(towers[_towerNum]);
       },
       current: towers[_towerNum].bulletLevel,
@@ -20,6 +34,12 @@ export default function tower() {
   const tier3 = [
     {
       click: () => {
+        if (ChoiceCat === 5) {
+          let rand = Math.floor(Math.random() * 20);
+          setSound.playSE(rand);
+        } else {
+          setSound.playSE(9);
+        }
         towers[_towerNum].rangeFunc(towers[_towerNum]);
       },
 
@@ -28,6 +48,12 @@ export default function tower() {
     },
     {
       click: () => {
+        if (ChoiceCat === 5) {
+          let rand = Math.floor(Math.random() * 20);
+          setSound.playSE(rand);
+        } else {
+          setSound.playSE(9);
+        }
         towers[_towerNum].speedFunc(towers[_towerNum]);
       },
       current: towers[_towerNum].towerASLevel,

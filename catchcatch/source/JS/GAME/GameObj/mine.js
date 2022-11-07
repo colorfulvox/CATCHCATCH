@@ -44,7 +44,12 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
             player.coin += 3 + mine.coinTime;
         }
         UpdateCatCoin();
-        setSound.playSE(17);
+        if (ChoiceCat === 5) {
+            let rand = Math.floor(Math.random() * 20);
+            setSound.playSE(rand);
+        } else {
+            setSound.playSE(17);
+        }
         mine.destroy();
     }
 }

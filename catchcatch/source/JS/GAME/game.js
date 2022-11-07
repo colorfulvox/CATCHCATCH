@@ -2,7 +2,14 @@ import Fairy from "./GameObj/fairy.js";
 import Magic from "./GameObj/magic.js";
 import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
-import ingameUi, {GameOver, updateExp, updateHP} from "../UI/ingame-ui.js";
+import ingameUi, {
+    GameOver,
+    updateExp,
+    updateHP,
+    useSkill,
+    canSkill,
+    messageBoss,
+} from "../UI/ingame-ui.js";
 import levelup from "../UI/levelup.js";
 import initUpgrade, {closeUpgrade} from "../UI/upgrade.js";
 
@@ -24,7 +31,7 @@ export const config = {
     pixelArt: true,
     roundPixels: true,
     audio: {
-        disableWebAudio: true
+        disableWebAudio: true,
     },
     scene: {
         //scene 제어에
@@ -228,13 +235,10 @@ function preload() {
     //tower end
 
     //hole start
-    this.load.spritesheet(
-        "new_hole",
-        "images/hole/new_hole.png",
-        {
-            frameWidth: 100,
-            frameHeight: 100
-        })
+    this.load.spritesheet("new_hole", "images/hole/new_hole.png", {
+        frameWidth: 100,
+        frameHeight: 100,
+    });
     //hole end
 
     //navi start
@@ -280,120 +284,68 @@ function preload() {
     });
 
     // 공격 스프라이트
-    this.load.spritesheet(
-        "magic1",
-        "images/attack/weapon/magic1.png",
-        {
-            frameWidth: 138,
-            frameHeight: 138,
-            endFrame: 4,
-        }
-    );
+    this.load.spritesheet("magic1", "images/attack/weapon/magic1.png", {
+        frameWidth: 138,
+        frameHeight: 138,
+        endFrame: 4,
+    });
 
-    this.load.spritesheet(
-        "magic1_1",
-        "images/attack/weapon/magic1_1.png",
-        {
-            frameWidth: 362,
-            frameHeight: 362,
-            endFrame: 7,
-        }
-    );
-    this.load.spritesheet(
-        "magic1_1_1",
-        "images/attack/weapon/magic1_1_1.png",
-        {
-            frameWidth: 74,
-            frameHeight: 74,
-            endFrame: 24,
-        }
-    );
-    this.load.spritesheet(
-        "magic1_2",
-        "images/attack/weapon/magic1_2.png",
-        {
-            frameWidth: 138,
-            frameHeight: 138,
-            endFrame: 4,
-        }
-    );
-    this.load.spritesheet(
-        "magic1_2_1",
-        "images/attack/weapon/magic1_2_1.png",
-        {
-            frameWidth: 74,
-            frameHeight: 74,
-            endFrame: 24,
-        }
-    );
-    this.load.spritesheet(
-        "magic2",
-        "images/attack/weapon/magic2.png",
-        {
-            frameWidth: 192,
-            frameHeight: 108,
-        }
-    );
-    this.load.spritesheet(
-        "magic2_1",
-        "images/attack/weapon/magic2_1.png",
-        {
-            frameWidth: 192,
-            frameHeight: 108,
-        }
-    );
-    this.load.spritesheet(
-        "magic2_2",
-        "images/attack/weapon/magic2_2.png",
-        {
-            frameWidth: 192,
-            frameHeight: 108,
-        }
-    );
-    this.load.spritesheet(
-        "magic2_1_1",
-        "images/attack/weapon/magic2_1_1.png",
-        {
-            frameWidth: 74,
-            frameHeight: 74,
-        }
-    );
-    this.load.spritesheet(
-        "magic2_2_1",
-        "images/attack/weapon/magic2_2_1.png",
-        {
-            frameWidth: 192,
-            frameHeight: 108,
-        }
-    );
+    this.load.spritesheet("magic1_1", "images/attack/weapon/magic1_1.png", {
+        frameWidth: 362,
+        frameHeight: 362,
+        endFrame: 7,
+    });
+    this.load.spritesheet("magic1_1_1", "images/attack/weapon/magic1_1_1.png", {
+        frameWidth: 74,
+        frameHeight: 74,
+        endFrame: 24,
+    });
+    this.load.spritesheet("magic1_2", "images/attack/weapon/magic1_2.png", {
+        frameWidth: 138,
+        frameHeight: 138,
+        endFrame: 4,
+    });
+    this.load.spritesheet("magic1_2_1", "images/attack/weapon/magic1_2_1.png", {
+        frameWidth: 74,
+        frameHeight: 74,
+        endFrame: 24,
+    });
+    this.load.spritesheet("magic2", "images/attack/weapon/magic2.png", {
+        frameWidth: 192,
+        frameHeight: 108,
+    });
+    this.load.spritesheet("magic2_1", "images/attack/weapon/magic2_1.png", {
+        frameWidth: 192,
+        frameHeight: 108,
+    });
+    this.load.spritesheet("magic2_2", "images/attack/weapon/magic2_2.png", {
+        frameWidth: 192,
+        frameHeight: 108,
+    });
+    this.load.spritesheet("magic2_1_1", "images/attack/weapon/magic2_1_1.png", {
+        frameWidth: 74,
+        frameHeight: 74,
+    });
+    this.load.spritesheet("magic2_2_1", "images/attack/weapon/magic2_2_1.png", {
+        frameWidth: 192,
+        frameHeight: 108,
+    });
 
-    this.load.spritesheet(
-        "magic3",
-        "images/attack/weapon/magic3.png",
-        {
-            frameWidth: 74,
-            frameHeight: 74,
-            endFrame: 7,
-        }
-    );
-    this.load.spritesheet(
-        "magic3_1",
-        "images/attack/weapon/magic3_1.png",
-        {
-            frameWidth: 74,
-            frameHeight: 74,
-            endFrame: 7,
-        }
-    );
-    this.load.spritesheet(
-        "magic3_2",
-        "images/attack/weapon/magic3_2.png",
-        {
-            frameWidth: 74,
-            frameHeight: 74,
-            endFrame: 7,
-        }
-    );
+    this.load.spritesheet("magic3", "images/attack/weapon/magic3.png", {
+        frameWidth: 74,
+        frameHeight: 74,
+        endFrame: 7,
+    });
+    this.load.spritesheet("magic3_1", "images/attack/weapon/magic3_1.png", {
+        frameWidth: 74,
+        frameHeight: 74,
+        endFrame: 7,
+    });
+    this.load.spritesheet("magic3_2", "images/attack/weapon/magic3_2.png", {
+        frameWidth: 74,
+        frameHeight: 74,
+        endFrame: 7,
+    });
     this.load.spritesheet(
         "magic4",
         "images/attack/weapon/slime_attack1_48x48.png",
@@ -430,21 +382,21 @@ function preload() {
         {frameWidth: 100, frameHeight: 100, endFrame: 61}
     );
 
-    this.load.spritesheet(
-        "magic5_1",
-        "images/attack/weapon/magic5_1.png",
-        {frameWidth: 74, frameHeight: 74, endFrame: 8}
-    );
-    this.load.spritesheet(
-        "magic5_2",
-        "images/attack/weapon/magic5_2.png",
-        {frameWidth: 74, frameHeight: 74, endFrame: 8}
-    );
-    this.load.spritesheet(
-        "magic5_3",
-        "images/attack/weapon/magic5_3.png",
-        {frameWidth: 74, frameHeight: 74, endFrame: 8}
-    );
+    this.load.spritesheet("magic5_1", "images/attack/weapon/magic5_1.png", {
+        frameWidth: 74,
+        frameHeight: 74,
+        endFrame: 8,
+    });
+    this.load.spritesheet("magic5_2", "images/attack/weapon/magic5_2.png", {
+        frameWidth: 74,
+        frameHeight: 74,
+        endFrame: 8,
+    });
+    this.load.spritesheet("magic5_3", "images/attack/weapon/magic5_3.png", {
+        frameWidth: 74,
+        frameHeight: 74,
+        endFrame: 8,
+    });
     // 스킬 스프라이트
 
     this.load.spritesheet(
@@ -538,110 +490,82 @@ function preload() {
 
     // 몬스터
 
-    this.load.spritesheet('monster_die', 'images/monster/monster_die2.png',
-        {frameWidth: 64, frameHeight: 64});
+    this.load.spritesheet("monster_die", "images/monster/monster_die2.png", {
+        frameWidth: 64,
+        frameHeight: 64,
+    });
 
-    this.load.spritesheet(
-        "alien",
-        "images/monster/alien.png",
-        {frameWidth: 20, frameHeight: 20}
-    );
+    this.load.spritesheet("alien", "images/monster/alien.png", {
+        frameWidth: 20,
+        frameHeight: 20,
+    });
 
-    this.load.spritesheet(
-        "worm",
-        "images/monster/worm.png",
-        {
-            frameWidth: 48,
-            frameHeight: 48
-        })
+    this.load.spritesheet("worm", "images/monster/worm.png", {
+        frameWidth: 48,
+        frameHeight: 48,
+    });
 
-    this.load.spritesheet(
-        "sonic",
-        "images/monster/sonic.png",
-        {
-            frameWidth: 32,
-            frameHeight: 32
-        })
+    this.load.spritesheet("sonic", "images/monster/sonic.png", {
+        frameWidth: 32,
+        frameHeight: 32,
+    });
 
-    this.load.spritesheet(
-        "turtle",
-        "images/monster/turtle.png",
-        {
-            frameWidth: 32,
-            frameHeight: 32
-        })
+    this.load.spritesheet("turtle", "images/monster/turtle.png", {
+        frameWidth: 32,
+        frameHeight: 32,
+    });
 
-    this.load.spritesheet(
-        "slime",
-        "images/monster/slime.png",
-        {
-            frameWidth: 16,
-            frameHeight: 16
-        })
+    this.load.spritesheet("slime", "images/monster/slime.png", {
+        frameWidth: 16,
+        frameHeight: 16,
+    });
 
-  this.load.spritesheet(
-    "fly",
-    "images/monster/fly.png",
-    {
-    frameWidth: 32,
-    frameHeight: 32
-})
+    this.load.spritesheet("fly", "images/monster/fly.png", {
+        frameWidth: 32,
+        frameHeight: 32,
+    });
 
-  this.load.spritesheet(
-    "alienPlus",
-    "images/monster/alienPlus.png",
-    {
-    frameWidth: 20,
-    frameHeight: 20
-})
+    this.load.spritesheet("alienPlus", "images/monster/alienPlus.png", {
+        frameWidth: 20,
+        frameHeight: 20,
+    });
 
-    this.load.spritesheet(
-        "wormPlus",
-        "images/monster/wormPlus.png",
-        {
-            frameWidth: 48,
-            frameHeight: 48
-        })
+    this.load.spritesheet("wormPlus", "images/monster/wormPlus.png", {
+        frameWidth: 48,
+        frameHeight: 48,
+    });
 
-//   보스
-    this.load.spritesheet(
-        "slimeKing",
-        "images/boss/slimeKing.png",
-        {
-            frameWidth: 96,
-            frameHeight: 96
-        })
+    //   보스
+    this.load.spritesheet("slimeKing", "images/boss/slimeKing.png", {
+        frameWidth: 96,
+        frameHeight: 96,
+    });
 
-    this.load.spritesheet(
-        "golem",
-        "images/boss/golem.png",
-        {
-            frameWidth: 96,
-            frameHeight: 96
-        })
+    this.load.spritesheet("golem", "images/boss/golem.png", {
+        frameWidth: 96,
+        frameHeight: 96,
+    });
 
-    this.load.spritesheet(
-        "fireGiant",
-        "images/boss/fireGiant.png",
-        {
-            frameWidth: 96,
-            frameHeight: 96
-        })
+    this.load.spritesheet("fireGiant", "images/boss/fireGiant.png", {
+        frameWidth: 96,
+        frameHeight: 96,
+    });
 
-
-    this.load.spritesheet(
-        "fireGiantAura",
-        "images/boss/fireGiantAura.png",
-        {
-            frameWidth: 64,
-            frameHeight: 64
-        })
+    this.load.spritesheet("fireGiantAura", "images/boss/fireGiantAura.png", {
+        frameWidth: 64,
+        frameHeight: 64,
+    });
     //enemy end
 }
 
 function create() {
-    this.input.setDefaultCursor("url(/images/cursor/aimNone.png), pointer")
-    setSound.setBGM(1);
+    this.input.setDefaultCursor("url(/images/cursor/aimNone.png), pointer");
+    if (ChoiceCat === 4) {
+        setSound.setBGM(5);
+    } else {
+        setSound.setBGM(1);
+    }
+
     thisScene = this;
     //map start
     this.chunkSize = 8;
@@ -683,15 +607,15 @@ function create() {
     cats = require("./jsons/cats.json");
     fairySet = require("./jsons/fairys.json");
 
-  player = cats[catNumber];
-  player = new Player(this, 1, 20, 20, "cat" + (ChoiceCat + 1));
-  player.ability = ChoiceCat + 1
-  player.setScale(0.7);
-  player.setDepth(2);
-  let hw = player.body.halfWidth;
-  let hh = player.body.halfHeight;
+    player = cats[catNumber];
+    player = new Player(this, 1, 20, 20, "cat" + (ChoiceCat + 1));
+    player.ability = ChoiceCat + 1;
+    player.setScale(0.7);
+    player.setDepth(2);
+    let hw = player.body.halfWidth;
+    let hh = player.body.halfHeight;
 
-    player.setCircle(hw*0.6, hh - hw*0.6, hh - hw*0.6);
+    player.setCircle(hw * 0.6, hh - hw * 0.6, hh - hw * 0.6);
     camera = this.cameras.main;
     input = this.input;
     mouse = input.mousePointer;
@@ -1001,7 +925,6 @@ function create() {
         repeat: 0,
     });
 
-
     // 공격 애니메이션
     this.anims.create({
         key: "magic1",
@@ -1212,7 +1135,6 @@ function create() {
 
     //player end
 
-
     // 홀 애니메이션
 
     this.anims.create({
@@ -1227,7 +1149,7 @@ function create() {
         frames: this.anims.generateFrameNumbers("new_hole", {start: 3, end: 7}),
         frameRate: 12,
         repeat: 0,
-    })
+    });
 
     //cointext start
     // cointext = this.add.text(500, 20, 'coin: 0', {font: 'Bold 15px Arial', fill: '#fff', fontStyle: "strong"}).setScrollFactor(0);
@@ -1246,7 +1168,7 @@ function create() {
     mines = this.physics.add.group();
 
     // 임시 구멍
-    hole = this.physics.add.sprite(0, 0, "new_hole").play('new_hole');
+    hole = this.physics.add.sprite(0, 0, "new_hole").play("new_hole");
     hole.setScale(2.3);
     hw = hole.body.halfWidth;
     hh = hole.body.halfHeight;
@@ -1291,7 +1213,6 @@ function create() {
     }
     for (let i = 0; i < chunks.length; i++) {
         let chunk = chunks[i];
-
         if (
             Phaser.Math.Distance.Between(
                 snappedChunkX,
@@ -1350,9 +1271,7 @@ function create() {
         frames: this.anims.generateFrameNumbers("alien", {start: 9, end: 14}),
         frameRate: 3,
         repeat: -1, // -1은 무한 반복 의미
-
     });
-
 
     this.anims.create({
         key: "worm",
@@ -1402,7 +1321,7 @@ function create() {
         frameRate: 3,
         repeat: -1,
     });
-// boss
+    // boss
 
     this.anims.create({
         key: "slimeKing",
@@ -1427,14 +1346,20 @@ function create() {
 
     this.anims.create({
         key: "monster_die",
-        frames: this.anims.generateFrameNumbers("monster_die", {start: 0, end: 5}),
+        frames: this.anims.generateFrameNumbers("monster_die", {
+            start: 0,
+            end: 5,
+        }),
         frameRate: 12,
         repeat: -1,
     });
 
     this.anims.create({
         key: "fireGiantAura",
-        frames: this.anims.generateFrameNumbers("fireGiantAura", {start: 0, end: 5}),
+        frames: this.anims.generateFrameNumbers("fireGiantAura", {
+            start: 0,
+            end: 5,
+        }),
         frameRate: 12,
         repeat: -1,
     });
@@ -1442,7 +1367,7 @@ function create() {
 
     //tower start
 
-//cattower animation start
+    //cattower animation start
     this.anims.create({
         key: "0_idle",
         frames: this.anims.generateFrameNumbers("catNone", {
@@ -1564,14 +1489,14 @@ function create() {
     });
 //cattower animation end
 
-  towerLU = new CatTower(this, -140, -140, "0_idle", "can", "skill", 0);
-  towerRU = new CatTower(this, 140, -140, "0_idle", "can", "skill", 0);
-  towerLD = new CatTower(this, -140, 140, "0_idle", "can", "skill", 0);
-  towerRD = new CatTower(this, 140, 140, "0_idle", "can", "skill", 0);
-  towerLU.scale_Circle();
-  towerRU.scale_Circle();
-  towerLD.scale_Circle();
-  towerRD.scale_Circle();
+    towerLU = new CatTower(this, -140, -140, "0_idle", "can", "skill", 0);
+    towerRU = new CatTower(this, 140, -140, "0_idle", "can", "skill", 0);
+    towerLD = new CatTower(this, -140, 140, "0_idle", "can", "skill", 0);
+    towerRD = new CatTower(this, 140, 140, "0_idle", "can", "skill", 0);
+    towerLU.scale_Circle();
+    towerRU.scale_Circle();
+    towerLD.scale_Circle();
+    towerRD.scale_Circle();
 
     towerLU.scale = 2;
     towerRU.scale = 2;
@@ -1582,7 +1507,6 @@ function create() {
     towerRU.setDepth(1);
     towerLD.setDepth(1);
     towerRD.setDepth(1);
-
 
     //tower end
 
@@ -1611,7 +1535,7 @@ function create() {
         mine.set_anime();
         mines.add(mine);
     }
-      //mine end
+    //mine end
 
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
 
@@ -1641,6 +1565,29 @@ function create() {
 }
 
 function update(time, delta) {
+    for (let i = 0; i < 5; i++) {
+        if (fairySet[i].timer < fairySet[i].skillCD) {
+            fairySet[i].timer++;
+            if (fairySet[i].skillUse === true) {
+                useSkill(i);
+            }
+        } else {
+            if (fairySet[i].skillUse === true) {
+                fairySet[i].skillUse = false;
+                canSkill(i);
+            }
+        }
+    }
+
+    if (
+        cursors.skill.isDown &&
+        fairySet[nowFairy].isSkill &&
+        !fairySet[nowFairy].skillUse
+    ) {
+        fairySet[nowFairy].skillFire();
+        // fairySet[nowFairy].skillUse = true;
+    }
+
     frameTime += delta;
     player.move();
     //  Health bar start
@@ -1831,9 +1778,27 @@ function update(time, delta) {
             // 1번 zombie
             enemySpawn(randomLocation);
             if (10800 < gameTimer && gameTimer <= 18000) {
-                addMonster(this, "alienPlus", "alienPlus", 70, 55, monX, monY, "follower");
+                addMonster(
+                    this,
+                    "alienPlus",
+                    "alienPlus",
+                    70,
+                    55,
+                    monX,
+                    monY,
+                    "follower"
+                );
             } else if (18000 < gameTimer) {
-                addMonster(this, "alienPlus", "alienPlus", 130, 75, monX, monY, "follower");
+                addMonster(
+                    this,
+                    "alienPlus",
+                    "alienPlus",
+                    130,
+                    75,
+                    monX,
+                    monY,
+                    "follower"
+                );
             } else {
                 addMonster(this, "alien", "alien", 30, 45, monX, monY, "follower");
             }
@@ -1863,6 +1828,13 @@ function update(time, delta) {
             addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
         }
         // 몬스터 빅 웨이브
+        if (gameTimer === 7700) {
+            messageBoss("빅 웨이브");
+        }
+        if (gameTimer === 19700) {
+            messageBoss("빅 웨이브");
+        }
+
         if (gameTimer > 8000 && gameTimer < 8300 && gameTimer % 3 === 0) {
             enemySpawn(randomLocation);
             addMonster(this, "fly", "fly", 10, 50, monX, monY, "wave");
@@ -1885,35 +1857,50 @@ function update(time, delta) {
         // 보스
 
         // 슬라임
-        if (gameTimer === 10800) {
-            setSound.playSE(13);
+        if (gameTimer === 17400) {
+            messageBoss("슬라임 킹");
+        }
 
-      slimeKing = new Boss(
-        this,
-        300,
-        70,
-        player.x + 500,
-        player.y + 500,
-        "slimeKing",
-        "slimeKing",
-        3,
-        1,
-        "boss"
-      );
-      slimeKing.setDepth(2);
-      slimeKing.anime(player);
-      bossActive = true;
-      let mw = slimeKing.body.halfWidth;
-      let mh = slimeKing.body.halfHeight;
-    
-      slimeKing.setCircle(mh / 2, mw - (mh / 2), mw);
-      bossSet.add(slimeKing);
-    }
+        if (gameTimer === 18000) {
+            if (ChoiceCat === 5) {
+                let rand = Math.floor(Math.random() * 20);
+                setSound.playSE(rand);
+            } else {
+                setSound.playSE(13);
+            }
+            slimeKing = new Boss(
+                this,
+                300,
+                70,
+                player.x + 500,
+                player.y + 500,
+                "slimeKing",
+                "slimeKing",
+                3,
+                1,
+                "boss"
+            );
+            slimeKing.setDepth(2);
+            slimeKing.anime(player);
+            bossActive = true;
+            let mw = slimeKing.body.halfWidth;
+            let mh = slimeKing.body.halfHeight;
+
+            slimeKing.setCircle(mh / 2, mw - mh / 2, mw);
+            bossSet.add(slimeKing);
+        }
 
         // 골렘
+        if (gameTimer === 20400) {
+            messageBoss("골렘");
+        }
         if (gameTimer === 21000) {
+          if (ChoiceCat === 5) {
+            let rand = Math.floor(Math.random() * 20);
+            setSound.playSE(rand);
+          } else {
             setSound.playSE(14);
-
+          }
             golem = new Boss(
                 this,
                 500,
@@ -1931,14 +1918,21 @@ function update(time, delta) {
             bossActive = true;
             let mw = golem.body.halfWidth;
             let mh = golem.body.halfHeight;
-            golem.setCircle(mh / 2, mw - (mh / 2), mw);
+            golem.setCircle(mh / 2, mw - mh / 2, mw);
             bossSet.add(golem);
         }
 
         // 불거인
+        if (gameTimer === 27400) {
+            messageBoss("불거인");
+        }
         if (gameTimer === 28000) {
+          if (ChoiceCat === 5) {
+            let rand = Math.floor(Math.random() * 20);
+            setSound.playSE(rand);
+          } else {
             setSound.playSE(15);
-
+          }
             fireGiant = new Boss(
                 this,
                 500,
@@ -1953,7 +1947,7 @@ function update(time, delta) {
             );
             let mw = fireGiant.body.halfWidth;
             let mh = fireGiant.body.halfHeight;
-            fireGiant.setCircle(mh / 2, mw - (mh / 2), mw);
+            fireGiant.setCircle(mh / 2, mw - mh / 2, mw);
             fireGiant.setDepth(6);
             fireGiant.anime(player);
             bossActive = true;
@@ -1977,13 +1971,13 @@ function update(time, delta) {
             );
             let mw = fireGiantAura.body.halfWidth;
             let mh = fireGiantAura.body.halfHeight;
-            fireGiantAura.setCircle(mh / 2, mw - (mh / 2), mw);
+            fireGiantAura.setCircle(mh / 2, mw - mh / 2, mw);
             fireGiantAura.setDepth(5);
             fireGiantAura.anime();
             bossMagicSet.add(fireGiantAura);
         }
 
-        if (bossFireGiantActive && (gameTimer % 120 == 0)) {
+        if (bossFireGiantActive && gameTimer % 120 == 0) {
             let x = bossSet.children.entries[fireGiantIndex].x;
             let y = bossSet.children.entries[fireGiantIndex].y;
 
@@ -2002,7 +1996,7 @@ function update(time, delta) {
             bossMagicSet.children.entries[0].destroy();
             let mw = aura.body.halfWidth;
             let mh = aura.body.halfHeight;
-            aura.setCircle(mh / 2, mw - (mh / 2), mw - (mh / 2));
+            aura.setCircle(mh / 2, mw - mh / 2, mw - mh / 2);
             aura.setDepth(5);
             aura.anime();
             bossMagicSet.add(aura);
@@ -2134,7 +2128,7 @@ function update(time, delta) {
     }
 
     if (!towerLU.anims.isPlaying) {
-        console.log(towerLU.stone)
+        console.log(towerLU.stone);
         towerLU.anims.play(`${towerLU.stone}_idle`, true);
     }
     if (!towerLD.anims.isPlaying) {
@@ -2147,6 +2141,19 @@ function update(time, delta) {
         towerRD.anims.play(`${towerRD.stone}_idle`, true);
     }
 
+    if (!towerLU.anims.isPlaying) {
+        console.log(towerLU.stone);
+        towerLU.anims.play(`${towerLU.stone}_idle`, true);
+    }
+    if (!towerLD.anims.isPlaying) {
+        towerLD.anims.play(`${towerLD.stone}_idle`, true);
+    }
+    if (!towerRU.anims.isPlaying) {
+        towerRU.anims.play(`${towerRU.stone}_idle`, true);
+    }
+    if (!towerRD.anims.isPlaying) {
+        towerRD.anims.play(`${towerRD.stone}_idle`, true);
+    }
 }
 
 //player start
@@ -2223,8 +2230,12 @@ function changeSlot() {
 
 function attack(magic, monster) {
     if (!monster.invincible) {
+      if (ChoiceCat === 5) {
+        let rand = Math.floor(Math.random() * 20);
+        setSound.playSE(rand);
+      } else {
         setSound.playSE(12);
-
+      }
         if (magic.pierceCount > 0) {
             magic.pierceCount--;
         } else {
@@ -2257,9 +2268,9 @@ function attack(magic, monster) {
                     magics.add(copyMagic);
                     copyMagic.setPosition(magic.x, magic.y);
                     if (magic.fairy.evo2) {
-                        copyMagic.anims.play("magic" + magic.fairy.fairyNum+"_2", true);
-                      }else if(magic.fairy.evo1){
-                        copyMagic.anims.play("magic" + magic.fairy.fairyNum+"_1", true);
+                        copyMagic.anims.play("magic" + magic.fairy.fairyNum + "_2", true);
+                    } else if (magic.fairy.evo1) {
+                        copyMagic.anims.play("magic" + magic.fairy.fairyNum + "_1", true);
                     } else {
                         copyMagic.anims.play("magic" + magic.fairy.fairyNum, true);
                     }
@@ -2352,25 +2363,40 @@ function hitHole(hole, monster) {
     updateHP();
     monster.destroy();
     monsterCount -= 1;
-    hole
-        .play('hole_damage')
+    hole.play("hole_damage");
     thisScene.time.addEvent({
         delay: 600,
         callback: () => {
-            hole
-                .play('new_hole')
+            hole.play("new_hole");
         },
         loop: false,
     });
 }
 
 function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
-    monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime, type).setInteractive({cursor: 'url(images/cursor/aimHover.png), pointer'});
+    monster = new Enemy(
+        scene,
+        hp,
+        velo,
+        x,
+        y,
+        mon_name,
+        monAnime,
+        type
+    ).setInteractive({cursor: "url(images/cursor/aimHover.png), pointer"});
     if (monster.monSpecie === "babySlime") {
         monster.scale = 2;
-    } else if (monster.monSpecie === 'alien' || monster.monSpecie === 'alienPlus' || monster.monSpecie === 'fly') {
+    } else if (
+        monster.monSpecie === "alien" ||
+        monster.monSpecie === "alienPlus" ||
+        monster.monSpecie === "fly"
+    ) {
         monster.scale = 2.5;
-    } else if (monster.monSpecie === 'turtle' || monster.monSpecie === 'sonic' || monster.monSpecie === 'slime') {
+    } else if (
+        monster.monSpecie === "turtle" ||
+        monster.monSpecie === "sonic" ||
+        monster.monSpecie === "slime"
+    ) {
         monster.scale = 3;
     }
     monster.setDepth(2);
@@ -2378,10 +2404,10 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
     let mw = monster.body.halfWidth;
     let mh = monster.body.halfHeight;
 
-  monster.setCircle(mh / 2, mw - (mh / 2), mw);
-  monsterSet.add(monster);
-  scene.physics.add.collider(monsterSet, monster);
-  monster.anime(player);
+    monster.setCircle(mh / 2, mw - mh / 2, mw);
+    monsterSet.add(monster);
+    scene.physics.add.collider(monsterSet, monster);
+    monster.anime(player);
 }
 
 function destroyHole(hole, golem) {
@@ -2474,7 +2500,7 @@ function slimePattern(scene, pt, x, y) {
             scene.physics.add.collider(bossSet, slimeKing);
             let mw = slimeKing.body.halfWidth;
             let mh = slimeKing.body.halfHeight;
-            slimeKing.setCircle(mh / 2, mw - (mh / 2), mw);
+            slimeKing.setCircle(mh / 2, mw - mh / 2, mw);
             bossSet.add(slimeKing);
         }
     }

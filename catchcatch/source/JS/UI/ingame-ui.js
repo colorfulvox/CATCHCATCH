@@ -8,6 +8,15 @@ let _second = 0;
 let _catCoin;
 
 export default function ingameUi() {
+  const fairy = [wizard, reaper, ninja, slime, witch];
+  const fairyName = ["wizard", "reaper", "ninja", "slime", "witch"];
+  const fairyActive = [
+    "wizardActive",
+    "reaperActive",
+    "ninjaActive",
+    "slimeActive",
+    "witchActive",
+  ];
   const gameContainer = document.querySelector("#game-container");
   // const progress = document.createElement("progress");
 
@@ -84,6 +93,22 @@ export default function ingameUi() {
   stats.appendChild(dmgMul);
   stats.appendChild(speed);
   // gameContainer.appendChild(progress);
+
+  // 쿨타임
+  const coolContainer = document.createElement("div");
+  coolContainer.setAttribute("class", "coolContainer");
+  const html = document.querySelector("html");
+  fairy.map((el, idx) => {
+    html.style.setProperty(`--${fairyName[idx]}`, fairy[idx].skillCD / 60);
+    const div = document.createElement("img");
+    div.setAttribute("class", "fairy");
+    div.src = `images/ui/Icon/char/fairy${idx + 1}.png`;
+    div.classList.add(`${fairyName[idx]}`);
+    div.classList.add(`${fairyActive[idx]}`);
+    div.innerText = "요정";
+    coolContainer.appendChild(div);
+  });
+  gameContainer.appendChild(coolContainer);
   gameContainer.appendChild(stats);
 }
 
@@ -183,4 +208,68 @@ function GoHome() {
 
 export function UpdateCatCoin() {
   _catCoin.textContent = player.coin + " Coin";
+}
+
+export function useSkill(num) {
+  const fairy = [wizard, reaper, ninja, slime, witch];
+  const fairyName = ["wizard", "reaper", "ninja", "slime", "witch"];
+  const fairyActive = [
+    "wizardActive",
+    "reaperActive",
+    "ninjaActive",
+    "slimeActive",
+    "witchActive",
+  ];
+  const coolContainer = document.querySelector(".coolContainer");
+  const html = document.querySelector("html");
+  // html.style.setProperty(`--${fairyName[num]}`, `${fairy[num].skillCD a/ 60}s`);
+  const div = document.querySelector(`.${fairyName[num]}`);
+
+  div.style.background = `conic-gradient(rgba(255,255,255,1) var(--percentage), rgba(0,0,0,1) ${
+    (fairy[num].timer * 100) / fairy[num].skillCD
+  }%)`;
+  if (div.classList.length === 3) {
+    div.classList.remove(`${fairyActive[num]}`);
+  }
+  coolContainer.replaceChild(coolContainer.childNodes[num], div);
+}
+
+export function canSkill(num) {
+  const fairyActive = [
+    "wizardActive",
+    "reaperActive",
+    "ninjaActive",
+    "slimeActive",
+    "witchActive",
+  ];
+  const fairyName = ["wizard", "reaper", "ninja", "slime", "witch"];
+  const coolContainer = document.querySelector(".coolContainer");
+  const div = document.querySelector(`.${fairyName[num]}`);
+  if (div.childNodes.length !== 3) {
+    div.style.background = "";
+    div.classList.add(`${fairyActive[num]}`);
+
+    coolContainer.replaceChild(coolContainer.childNodes[num], div);
+  }
+}
+
+export function messageBoss(boss) {
+  const gameContainer = document.querySelector("#game-container");
+  const div = document.createElement("div");
+  div.setAttribute("class", "bossMessage");
+  console.log(boss);
+  if (boss === "슬라임 킹") {
+    div.innerHTML = `<p style="color: red">${boss} 보스가 등장합니다.</p>`;
+  } else if (boss === "골렘") {
+    div.innerHTML = `<p style="color: red">${boss} 보스가 등장합니다.</p>`;
+  } else if (boss === "불거인") {
+    div.innerHTML = `<p style="color: red">${boss} 보스가 등장합니다.</p>`;
+  } else {
+    div.innerHTML = `<p style="color: red">${boss}가 몰려옵니다.</p>`;
+  }
+  gameContainer.appendChild(div);
+  setTimeout(() => {
+    div.innerHTML = "";
+    console.log(123);
+  }, 10000);
 }

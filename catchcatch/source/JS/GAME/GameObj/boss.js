@@ -25,7 +25,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
     }
 
     anime() {
-        if (player.ability != 2){
+        if (player.ability !== 2){
             this
             .clearTint()
             .play(this.anim);}

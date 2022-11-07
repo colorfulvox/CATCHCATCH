@@ -19,7 +19,12 @@ export default class Magic extends Phaser.Physics.Arcade.Sprite {
         callback: () => {
           this.body.checkCollision.none = false;
           this.setVisible(true);
-          setSound.playSE(1);
+          if (ChoiceCat === 5) {
+            let rand = Math.floor(Math.random() * 20);
+            setSound.playSE(rand);
+          } else {
+            setSound.playSE(1);
+          }
           if (this.texture.key !== "magic2_2_1") {
             if (this.fairy.evo2) {
               this.anims.play("magic2_2");

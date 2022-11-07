@@ -1,4 +1,5 @@
 import Player from "../GAME/GameObj/player";
+import { setSound } from "../SOUND/sound";
 
 export default function weapon() {
   const arr = ["", "", "", "", "", "", "", "", ""];
@@ -42,7 +43,7 @@ export default function weapon() {
         img.setAttribute("class", "weaponImg");
 
         if (idx2 < el.level) {
-          if (idx2 != 4 && idx2 != 8) {
+          if (idx2 !== 4 && idx2 !== 8) {
             div.style.backgroundImage = `url("images/ui/upgradeiconactive.png")`;
             div.style.backgroundPosition = "center";
             div.style.backgroundRepeat = "no-repeat";
@@ -73,10 +74,29 @@ export default function weapon() {
               img.src = "images/ui/Icon/skilllock.png";
             }
 
-            div.addEventListener("click", () => {
-              fairy[idx].levelUp();
-              weapon();
-            });
+            if (idx2 === 4 && el.level === 4) {
+              div.addEventListener("click", () => {
+                if (ChoiceCat === 5) {
+                  let rand = Math.floor(Math.random() * 20);
+                  setSound.playSE(rand);
+                } else {
+                  setSound.playSE(9);
+                }
+                fairy[idx].levelUp();
+                weapon();
+              });
+            } else if (idx2 === 8 && el.level === 8) {
+              div.addEventListener("click", () => {
+                if (ChoiceCat === 5) {
+                  let rand = Math.floor(Math.random() * 20);
+                  setSound.playSE(rand);
+                } else {
+                  setSound.playSE(9);
+                }
+                fairy[idx].levelUp();
+                weapon();
+              });
+            }
           } else {
             img.src = "images/ui/Icon/skilllock.png";
           }
