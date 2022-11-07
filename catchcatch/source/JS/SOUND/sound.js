@@ -10,7 +10,9 @@ export class setSound {
         // 3. 게임 승리
         'sounds/bgm/bgm_ending.wav',
         // 4. 코딩 모드
-        'sounds/bgm/bgm_main_coding.wav'
+        'sounds/bgm/bgm_main_coding.wav',
+        // 5. Nyan
+        'sounds/bgm/bgm_nyan.wav'
     ];
 
     // SE
@@ -56,7 +58,9 @@ export class setSound {
         // 19. 레벨업 창 팝업시 소리
         'sounds/se/se_level_up.wav',
         // 20. 패배 소리
-        'sounds/se/se_game_over_lose.wav'
+        'sounds/se/se_game_over_lose.wav',
+        // 21. 무야호
+        'sounds/se/se_muyaho.wav'
     ]
 
     static _backGroundMusic;

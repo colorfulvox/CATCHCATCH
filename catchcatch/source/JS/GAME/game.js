@@ -554,7 +554,12 @@ function preload() {
 
 function create() {
   this.input.setDefaultCursor("url(/images/cursor/aimNone.png), pointer");
-  setSound.setBGM(1);
+  if(ChoiceCat === 4){
+    setSound.setBGM(5);
+  } else{
+    setSound.setBGM(1);
+  }
+
   thisScene = this;
   //map start
   this.chunkSize = 8;

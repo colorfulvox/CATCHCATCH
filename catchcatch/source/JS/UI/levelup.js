@@ -13,7 +13,11 @@ const _propertyArr = [
 const _commonArr = ["health", "dmgMul", "heal", "speed"];
 
 export default function levelup() {
-  setSound.playSE(19);
+  if(ChoiceCat === 2){
+    setSound.playSE(21);
+  } else{
+    setSound.playSE(19);
+  }
 
   const property = {
     common: {
