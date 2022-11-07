@@ -1522,6 +1522,29 @@ function create() {
 }
 
 function update(time, delta) {
+  for (let i = 0; i < 5; i++) {
+    if (fairySet[i].timer < fairySet[i].skillCD) {
+      fairySet[i].timer++;
+      if (fairySet[i].skillUse === true) {
+        useSkill(i);
+      }
+    } else {
+      if (fairySet[i].skillUse === true) {
+        fairySet[i].skillUse = false;
+        canSkill(i);
+      }
+    }
+  }
+
+  if (
+    cursors.skill.isDown &&
+    fairySet[nowFairy].isSkill &&
+    !fairySet[nowFairy].skillUse
+  ) {
+    fairySet[nowFairy].skillFire();
+    // fairySet[nowFairy].skillUse = true;
+  }
+
   frameTime += delta;
   player.move();
   //  Health bar start
