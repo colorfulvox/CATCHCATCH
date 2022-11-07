@@ -1895,12 +1895,12 @@ function update(time, delta) {
             messageBoss("골렘");
         }
         if (gameTimer === 21000) {
-          if (ChoiceCat === 5) {
-            let rand = Math.floor(Math.random() * 20);
-            setSound.playSE(rand);
-          } else {
-            setSound.playSE(14);
-          }
+            if (ChoiceCat === 5) {
+                let rand = Math.floor(Math.random() * 20);
+                setSound.playSE(rand);
+            } else {
+                setSound.playSE(14);
+            }
             golem = new Boss(
                 this,
                 500,
@@ -1927,18 +1927,18 @@ function update(time, delta) {
             messageBoss("불거인");
         }
         if (gameTimer === 28000) {
-          if (ChoiceCat === 5) {
-            let rand = Math.floor(Math.random() * 20);
-            setSound.playSE(rand);
-          } else {
-            setSound.playSE(15);
-          }
+            if (ChoiceCat === 5) {
+                let rand = Math.floor(Math.random() * 20);
+                setSound.playSE(rand);
+            } else {
+                setSound.playSE(15);
+            }
             fireGiant = new Boss(
                 this,
                 500,
                 10,
-                player.x - 60,
-                player.y - 60,
+                player.x - 600,
+                player.y - 600,
                 "fireGiant",
                 "fireGiant",
                 3,
@@ -1961,8 +1961,8 @@ function update(time, delta) {
                 this,
                 10000,
                 1000,
-                player.x - 60,
-                player.y - 60,
+                player.x - 600,
+                player.y - 600,
                 "fireGiantAura",
                 "fireGiantAura",
                 1,
@@ -1977,7 +1977,7 @@ function update(time, delta) {
             bossMagicSet.add(fireGiantAura);
         }
 
-        if (bossFireGiantActive && gameTimer % 120 == 0) {
+        if (bossFireGiantActive && gameTimer % 120 === 0) {
             let x = bossSet.children.entries[fireGiantIndex].x;
             let y = bossSet.children.entries[fireGiantIndex].y;
 
@@ -1989,7 +1989,7 @@ function update(time, delta) {
                 y,
                 "fireGiantAura",
                 "fireGiantAura",
-                gameTimer / 120,
+                (gameTimer - 28000) / 120 + 1,
                 10,
                 "boss"
             );
@@ -2230,12 +2230,12 @@ function changeSlot() {
 
 function attack(magic, monster) {
     if (!monster.invincible) {
-      if (ChoiceCat === 5) {
-        let rand = Math.floor(Math.random() * 20);
-        setSound.playSE(rand);
-      } else {
-        setSound.playSE(12);
-      }
+        if (ChoiceCat === 5) {
+            let rand = Math.floor(Math.random() * 20);
+            setSound.playSE(rand);
+        } else {
+            setSound.playSE(12);
+        }
         if (magic.pierceCount > 0) {
             magic.pierceCount--;
         } else {

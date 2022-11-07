@@ -22,9 +22,9 @@ export const codeConfig = {
   physics: {
     default: "arcade",
     arcade: {
-      fps: 20,
-      debug: false,
-      fixedStep: false,
+      fps: 60,
+      debug: true,
+      fixedStep: true,
     },
   },
 };
@@ -95,14 +95,38 @@ function preload() {
 
   //attack sprite start
   this.load.spritesheet(
-    "magic1",
-    "images/attack/weapon/16_sunburn_spritesheet.png",
+    "magic0",
+    "images/attack/weapon/code_tower_normal.png",
     {
-      frameWidth: 100,
-      frameHeight: 100,
-      endFrame: 61,
+      frameWidth: 64,
+      frameHeight: 64,
+      endFrame: 5,
     }
   );
+  this.load.spritesheet(
+    "magic1",
+    "images/attack/weapon/code_tower_thunder.png",
+    {
+      frameWidth: 64,
+      frameHeight: 64,
+      endFrame: 5,
+    }
+  );
+  this.load.spritesheet("magic2", "images/attack/weapon/code_tower_fire.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+    endFrame: 5,
+  });
+  this.load.spritesheet("magic3", "images/attack/weapon/code_tower_water.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+    endFrame: 5,
+  });
+  this.load.spritesheet("magic4", "images/attack/weapon/code_tower_earth.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+    endFrame: 5,
+  });
   //attack sprite end
 
   //object sprite start
@@ -334,6 +358,37 @@ function create() {
     frameRate: 3,
     repeat: -1,
   });
+
+  this.anims.create({
+    key: "magic0",
+    frames: this.anims.generateFrameNumbers("magic0", { start: 0, end: 5 }),
+    frameRate: 20,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "magic1",
+    frames: this.anims.generateFrameNumbers("magic1", { start: 0, end: 5 }),
+    frameRate: 20,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "magic2",
+    frames: this.anims.generateFrameNumbers("magic2", { start: 0, end: 5 }),
+    frameRate: 20,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "magic3",
+    frames: this.anims.generateFrameNumbers("magic3", { start: 0, end: 5 }),
+    frameRate: 20,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "magic4",
+    frames: this.anims.generateFrameNumbers("magic4", { start: 0, end: 5 }),
+    frameRate: 20,
+    repeat: -1,
+  });
   // resource load end
 
   //player start
@@ -500,6 +555,8 @@ function create() {
       for (let i = 0; i < 3; i++) {
         catSpawn();
         let enemy = new Enemy(this, 60, monX, monY, "cat1", "cat1", 0);
+        enemy.setCircle(5, 1, 1);
+        console.log(enemy);
         codeMonsterSet.add(enemy);
       }
       break;
@@ -515,7 +572,7 @@ function create() {
   this.physics.world.drawDebug = false;
   this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
   this.physics.add.overlap(player, codeMonsterSet, playerHit);
-  this.scene.pause();
+  // this.scene.pause();
 }
 
 function update(time, delta) {
@@ -663,19 +720,31 @@ function dataSend() {
   const tempMonster = [true, true, true, true, true];
   if (socket.bufferedAmount == 0) {
     if (IsStarted != false && IsRunning != true) {
-      let objList = [[]];
-      let obj = codeMonsterSet.children.entries;
-      for (let i = 0; i < codeMonsterSet.children.entries.length; i++) {
-        objList.push([obj[i].x, obj[i].y, obj[i].type]);
-      }
+      if (codeMonsterSet.children.entries.length > 0) {
+        let objList = [[]];
+        let obj = codeMonsterSet.children.entries;
 
-      var Data = {
-        action: "exeData",
-        pinnumber: PinNumber,
-        catchobj: objList,
-      };
-      IsRunning = true;
-      socket.send(JSON.stringify(Data));
+        for (let i = 0; i < codeMonsterSet.children.entries.length; i++) {
+          objList.push([obj[i].x, obj[i].y, obj[i].type]);
+        }
+        for (let i = 0; i < objList.length; i++) {
+          console.log("length : " + objList[i].length);
+          if (objList[i] == 0) {
+            objList.splice(i, 1);
+            i--;
+          }
+        }
+        shuffle(objList);
+
+        console.log(objList);
+        var Data = {
+          action: "exeData",
+          pinnumber: PinNumber,
+          catchobj: objList,
+        };
+        IsRunning = true;
+        socket.send(JSON.stringify(Data));
+      }
     }
   }
 }
@@ -685,9 +754,10 @@ export function attack(isAttack, angle, element) {
     let x = Math.cos(angle * (Math.PI / 180));
     let y = Math.sin(angle * (Math.PI / 180));
 
-    let magic = new Magic(codeScene, 1);
+    let magic = new Magic(codeScene, element);
+    magic.anims.play("magic" + element);
     magicSet.add(magic);
-    codeScene.physics.moveTo(magic, x, -y, 300);
+    codeScene.physics.moveTo(magic, x, y, 300);
   }
 }
 
@@ -761,5 +831,12 @@ function debugModeChange(scene) {
     // scene.physics.world.debugGraphic.clear();
   } else {
     scene.physics.world.drawDebug = true;
+  }
+}
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
 }
