@@ -13,6 +13,9 @@ export const codeConfig = {
   resolution: window.devicePixelRatio,
   pixelArt: true,
   roundPixels: true,
+  audio: {
+    disableWebAudio: true,
+  },
   scene: {
     //scene 제어에
     preload: preload,
@@ -24,7 +27,7 @@ export const codeConfig = {
     arcade: {
       fps: 60,
       debug: true,
-      fixedStep: true,
+      fixedStep: false,
     },
   },
 };
@@ -555,8 +558,8 @@ function create() {
       for (let i = 0; i < 3; i++) {
         catSpawn();
         let enemy = new Enemy(this, 60, monX, monY, "cat1", "cat1", 0);
-        enemy.setCircle(5, 1, 1);
         console.log(enemy);
+
         codeMonsterSet.add(enemy);
       }
       break;
@@ -569,7 +572,6 @@ function create() {
       }
       break;
   }
-  this.physics.world.drawDebug = false;
   this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
   this.physics.add.overlap(player, codeMonsterSet, playerHit);
   // this.scene.pause();
@@ -599,6 +601,7 @@ function update(time, delta) {
             if (enemy.type === 1) {
               enemy.health = 1;
             }
+            console.log(enemy);
             codeMonsterSet.add(enemy);
             this.physics.moveToObject(enemy, player, enemy.velo);
             monCount++;
@@ -665,6 +668,8 @@ function update(time, delta) {
               "alien",
               typeNum
             );
+
+            // enemy.setScale(2);
             console.log(enemy.type);
             if (enemy.type === 1) {
               enemy.health = 1;
@@ -822,15 +827,6 @@ function catSpawn() {
   } else if (randomLocation === 4) {
     monX = Phaser.Math.Between(player.x + 200, player.x + 200);
     monY = Phaser.Math.Between(player.y - 200, player.y + 200);
-  }
-}
-
-function debugModeChange(scene) {
-  if (scene.physics.world.drawDebug) {
-    scene.physics.world.drawDebug = false;
-    // scene.physics.world.debugGraphic.clear();
-  } else {
-    scene.physics.world.drawDebug = true;
   }
 }
 
