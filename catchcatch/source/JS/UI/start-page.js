@@ -50,12 +50,6 @@ const StartPageInit = () => {
   LogoImg.height = 300;
   _Logo.appendChild(LogoImg);
   _Logo.addEventListener("click", () => {
-    // BGM
-    if(_mode){
-      setSound.setBGM(4);
-    } else{
-      setSound.setBGM(0);
-    }
     _mode = !_mode;
     StartPageInit();
     if (!_mode) {
@@ -125,6 +119,7 @@ const StartPageInit = () => {
     Btn.addEventListener("click", () => {
       console.log("코딩모드 시작");
       //   CodeStart();
+      setSound.setBGM(4);
       GoStage();
       Stage();
     });
@@ -283,6 +278,7 @@ export const StartPageOff = () => {
 
 // 캐릭터 선택 버튼 클릭 이벤트 리스너
 function GoSelectChar() {
+  // BGM
   setSound.setBGM(0);
   StartBtnOff();
   CharSpaceOn();
