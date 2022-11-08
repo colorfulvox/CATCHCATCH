@@ -101,7 +101,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     let hh = this.body.halfHeight;
     let hw = this.body.halfWidth;
     this.setCircle(hw, 0, hh - hw);
-    if (this.type === 0 && stageNum >= 5) {
+    if (this.type === 0 && stageNum === 5) {
       scene.time.addEvent({
         delay: 2000,
         callback: () => {
@@ -117,7 +117,23 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         },
         loop: true,
       });
+    } else if (this.type === 0 && stageNum === 6) {
+      scene.time.addEvent({
+        delay: 2000,
+        callback: () => {
+          if (this.active) {
+            let angle = Math.floor(Math.random() * 360);
+            let x = Math.cos(angle * (Math.PI / 180));
+            let y = Math.sin(angle * (Math.PI / 180));
+            codeScene.physics.moveTo(this, this.x + x, this.y + y, 50);
+
+          }
+        },
+        loop: true,
+      });
+
     }
+
   }
 
   update() {
@@ -130,6 +146,26 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.velocity = 0;
     } else if (this.cc === "water") {
       this.velocity = 10;
+    }
+    if (this.type === 0) {
+      if (this.x >= 400) {
+        this.setVelocityX(-99);
+      }else if (this.x < -400) {
+        this.setVelocityX(99);
+      }else if (this.x <= 100 && this.x >= 0) {
+        this.setVelocityX(99);
+      }else if (this.x >= -100 && this.x <= 0) {
+        this.setVelocityX(-99);
+      }
+      if (this.y >= 400) {
+        this.setVelocityY(-99);
+      } else if (this.y < -400) {
+        this.setVelocityY(99);
+      }else if (this.y <= 100 && this.y >= 0) {
+        this.setVelocityY(99);
+      }else if (this.y >= -100 && this.y <= 0) {
+        this.setVelocityY(-99);
+      }
     }
   }
 
