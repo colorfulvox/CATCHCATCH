@@ -7,21 +7,21 @@ export default function IncodeUI() {
 
   const pin = document.createElement("div");
   pin.setAttribute("class", "pin");
-  pin.innerText = "핀 번호 : " + global.PinNumber;
+  pin.innerText = global.PinNumber;
   pin.style.textAlign = "center";
-  pin.style.lineHeight = "100px";
-  pin.style.fontSize = "large";
+  pin.style.lineHeight = "60px";
+  // pin.style.fontSize = "large";
 
   const buttonContainer = document.createElement("div");
   buttonContainer.setAttribute("class", "buttonContainer");
 
   const backBtn = document.createElement("div");
-  backBtn.innerText = "뒤로가기";
+  // backBtn.innerText = "뒤로가기";
   backBtn.setAttribute("class", "backBtn");
   backBtn.addEventListener("click", BacktoStage);
 
   const reBtn = document.createElement("div");
-  reBtn.innerText = "다시하기";
+  // reBtn.innerText = "다시하기";
   reBtn.setAttribute("class", "reBtn");
   reBtn.addEventListener("click", Replay);
 
@@ -30,6 +30,8 @@ export default function IncodeUI() {
 
   gameContainer.appendChild(pin);
   gameContainer.appendChild(buttonContainer);
+
+  // makeranking();
 }
 
 function BacktoStage() {
@@ -61,4 +63,49 @@ function Replay() {
     pinnumber: PinNumber,
   };
   socket.send(JSON.stringify(Data));
+}
+
+export function makeranking() {
+  const gameContainer = document.querySelector("#game-container");
+
+  const rankingpanel = document.createElement("div");
+  rankingpanel.setAttribute("class", "rankingpanel");
+  gameContainer.appendChild(rankingpanel);
+
+  const scorespace = document.createElement("div");
+  scorespace.setAttribute("class", "scorespace");
+  scorespace.textContent = "2000 score";
+  rankingpanel.appendChild(scorespace);
+
+  const inputspace = document.createElement("input");
+  inputspace.setAttribute("class", "inputspace");
+  inputspace.placeholder = "닉네임을 입력해주세요.";
+
+  rankingpanel.appendChild(inputspace);
+
+  const submitspace = document.createElement("div");
+  submitspace.setAttribute("class", "submitspace");
+  rankingpanel.appendChild(submitspace);
+
+  const submitbtn = document.createElement("button");
+  submitbtn.setAttribute("class", "submitbtn");
+  submitbtn.textContent = "등록";
+  submitspace.appendChild(submitbtn);
+
+  submitbtn.addEventListener("click", submitranking);
+
+  const cancelbtn = document.createElement("button");
+  cancelbtn.setAttribute("class", "submitbtn");
+  cancelbtn.textContent = "나가기";
+
+  cancelbtn.addEventListener("click", cancelranking);
+  submitspace.appendChild(cancelbtn);
+}
+
+function submitranking() {
+  BacktoStage();
+}
+
+function cancelranking() {
+  BacktoStage();
 }
