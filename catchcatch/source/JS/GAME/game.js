@@ -2270,6 +2270,7 @@ function bomb(bomb, target) {
       target.health -= 5;
     }
     target.invincible = true;
+    // 병합용
   }
 
   if (
