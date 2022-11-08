@@ -48,27 +48,29 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     switch (type) {
       case 0:
         this.anim = monSpiece;
+        this.health = 1;
         this.weak = 0;
         break;
       case 1:
         this.anim = this.monSpiece;
+        this.health = 1;
         this.weak = 0;
         break;
       case 2:
         this.anim = this.monSpiece;
-        this.weak = 4;
+        this.weak = 5;
         break;
       case 3:
         this.anim = this.monSpiece;
-        this.weak = 3;
+        this.weak = 4;
         break;
       case 4:
         this.anim = this.monSpiece;
-        this.weak = 1;
+        this.weak = 2;
         break;
       case 5:
         this.anim = this.monSpiece;
-        this.weak = 2;
+        this.weak = 3;
         break;
     }
     this.type = type;
