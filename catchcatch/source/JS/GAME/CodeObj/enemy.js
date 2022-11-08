@@ -1,3 +1,4 @@
+import ingameUi from "../../UI/ingame-ui";
 import { monsterSet } from "../game";
 import Explosion from "./explosion";
 
@@ -9,7 +10,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   type;
   monSpiece;
   weak;
-  constructor(scene, velo, randomX, randomY, monSpiece, anim, type) {
+  location;
+  velo = 100;
+  constructor(scene, velo, randomX, randomY, monSpiece, anim, type, location) {
     scene.time.addEvent({
       delay: 400,
       callback: () => {
@@ -78,7 +81,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.anime();
-
+    this.location = location;
     scene.events.on("update", () => {
       this.update();
     });
@@ -98,6 +101,23 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     let hh = this.body.halfHeight;
     let hw = this.body.halfWidth;
     this.setCircle(hw, 0, hh - hw);
+    if (this.type === 0 && stageNum >= 5) {
+      scene.time.addEvent({
+        delay: 2000,
+        callback: () => {
+          if (this.active) {
+            if (this.location < 3) {
+              velo = -velo;
+              this.setVelocityX(velo);
+            } else {
+              velo = -velo;
+              this.setVelocityY(velo);
+            }
+          }
+        },
+        loop: true,
+      });
+    }
   }
 
   update() {
