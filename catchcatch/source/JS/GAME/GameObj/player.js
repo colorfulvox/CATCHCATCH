@@ -31,6 +31,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   healLevel = 1;
   fairy;
   invincible = false;
+  type = "player";
 
   constructor(scene, dmgMul, maxHealth, health, catName) {
     super(scene, 0, 0, catName);

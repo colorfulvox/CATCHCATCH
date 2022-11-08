@@ -1,4 +1,5 @@
 import Explosion from "./explosion";
+import Boom from "./boom";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   maxHealth;
@@ -70,5 +71,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   dieAnim() {
     new Explosion(thisScene, this.x, this.y);
+  }
+
+  boomAnim() {
+    new Boom(thisScene, this.x, this.y);
   }
 }
