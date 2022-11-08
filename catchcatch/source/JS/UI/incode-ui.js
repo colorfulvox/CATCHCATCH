@@ -56,4 +56,9 @@ function Replay() {
   codeGame.destroy(true);
   codeGame = null;
   codeGame = new Phaser.Game(codeConfig);
+  let Data = {
+    action: "endGame",
+    pinnumber: PinNumber,
+  };
+  socket.send(JSON.stringify(Data));
 }
