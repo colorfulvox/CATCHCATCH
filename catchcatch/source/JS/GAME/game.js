@@ -1708,7 +1708,7 @@ function update(time, delta) {
     }
     if (gameTimer > 6000 && gameTimer % 240 === 0) {
       // 2번 worm
-      siegeSpawn(randomLocation);
+      enemySpawn(randomLocation);
       if (12000 < gameTimer && gameTimer <= 18000) {
         addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY);
       } else if (18000 < gameTimer) {
@@ -1722,7 +1722,7 @@ function update(time, delta) {
       addMonster(this, "sonic", "sonic", 150, 80, monX, monY);
     }
     if (gameTimer > 21000 && gameTimer % 600 === 0) {
-      siegeSpawn(randomLocation);
+      enemySpawn(randomLocation);
       addMonster(this, "turtle", "turtle", 300, 50, monX, monY);
     }
 
