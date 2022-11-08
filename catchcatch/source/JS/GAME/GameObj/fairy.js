@@ -29,6 +29,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
 
   // 사신 특성
   vampire = 0;
+  originalAs = 0;
   // swordAura = false;
   // 닌자 특성
   stun = 0;
@@ -239,15 +240,15 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.skillCD = 300;
         break;
       case 2:
-        this.skillSprite = 1.5;
-        this.skillCD = 300;
+        this.skillCD = 2400;
         break;
       case 3:
         this.isTriple = true;
         break;
       // 집으로 귀환 가능
       case 4:
-        this.skillCD = 7200;
+        this.skillSprite = 1.5;
+        this.skillCD = 1200;
         break;
       // 스페이스바로 즉시 폭발 가능
       case 5:
@@ -332,7 +333,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.skillSprite = 5;
         break;
       case 2:
-        this.skillSprite = 2;
+        this.skillCD = 1800;
         break;
       case 3:
         this.isTriple = true;
@@ -340,7 +341,8 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       // 집으로 귀환 가능
       case 4:
         this.copyCount = 60;
-        this.skillCD = 3600;
+        this.skillCD = 900;
+        this.skillSprite = 2;
         break;
       // 스페이스바로 즉시 폭발 가능
       case 5:
@@ -648,20 +650,18 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
             let rand = Math.floor(Math.random() * 20);
             setSound.playSE(rand);
           } else {
-            setSound.playSE(6);
+            setSound.playSE(7);
           }
-          skill = new Skill(thisScene, this);
-          skill.setDepth(2);
-          skill.setScale(this.skillSprite * 3);
-          sSize = this.size * 2;
-          shw = skill.body.halfWidth;
-          shh = skill.body.halfHeight;
-          skill.setCircle(shw * sSize, shh - shw * sSize, shh - shw * sSize);
-          skill.body.offset.x += 20;
-          skill.body.offset.y += 20;
-          skill.anims.play("magic2_1_1", true);
-          magics.add(skill);
-          skill.setPosition(this.x, this.y);
+          this.originalAs = this.as;
+          this.as = 1;
+          thisScene.time.addEvent({
+            delay: 3000,
+            callback: () => {
+              this.as = this.originalAs;
+            },
+            loop: false,
+          });
+
           this.skillUse = true;
           this.timer = 0;
           break;
@@ -672,12 +672,19 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
             let rand = Math.floor(Math.random() * 20);
             setSound.playSE(rand);
           } else {
-            setSound.playSE(7);
+            setSound.playSE(6);
           }
-          this.player.x = 0;
-          this.player.y = 0;
-          thisScene.followPoint.x = 0;
-          thisScene.followPoint.y = 0;
+          skill = new Skill(thisScene, this);
+          skill.setDepth(2);
+          skill.setScale(this.skillSprite * 3);
+          shw = skill.body.halfWidth;
+          shh = skill.body.halfHeight;
+          skill.setCircle(shw*0.3, 0, shh - shw*0.3);
+          skill.body.offset.x += 22;
+          skill.body.offset.y -= 13;
+          skill.anims.play("magic2_1_1", true);
+          magics.add(skill);
+          skill.setPosition(this.x, this.y);
           this.skillUse = true;
           this.timer = 0;
           break;

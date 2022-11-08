@@ -2,12 +2,17 @@ export default class Skill extends Phaser.Physics.Arcade.Sprite {
     collidingEditEnemy = null;
     dmg;
     fairy;
+    isSkill = true;
     pierceCount = 999999;
 
     constructor(scene, fairy) {
         super(scene, fairy.x, fairy.y, "skill" + fairy.fairyNum);
+        let delay = 2000;
+        if (fairy.fairyNum === 4) {
+            delay = 400;
+        }
         scene.time.addEvent({
-            delay: (fairy.range * 2000), callback: () => {
+            delay: (fairy.range * delay), callback: () => {
                 this.destroy();
             }, loop: false
         });

@@ -616,10 +616,6 @@ function create() {
   //map end
 
   //player start
-  cats = require("./jsons/cats.json");
-  fairySet = require("./jsons/fairys.json");
-
-  player = cats[catNumber];
   player = new Player(this, 1, 20, 20, "cat" + (ChoiceCat + 1));
   player.ability = ChoiceCat + 1;
   player.setScale(0.7);
@@ -2336,7 +2332,7 @@ function attack(magic, monster) {
       magic.destroy();
     }
 
-    if (nowFairy === 3) {
+    if (nowFairy === 3 && !magic.isSkill) {
       if (monsterSet.children.entries.length !== 0) {
         let monNum = Math.floor(
           Math.random() * monsterSet.children.entries.length
