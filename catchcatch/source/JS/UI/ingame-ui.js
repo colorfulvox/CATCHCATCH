@@ -71,7 +71,6 @@ export default function ingameUi() {
   }
 
   gameContainer.appendChild(coolContainer);
-  gameContainer.appendChild(stats);
 }
 
 export function updateExp() {
