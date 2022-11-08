@@ -39,8 +39,11 @@ function BacktoStage() {
   gameContainer.style.display = "none";
   const pin = document.querySelector(".pin");
   const buttonContainer = document.querySelector(".buttonContainer");
+  const rankingpanel = document.querySelector(".rankingpanel");
   gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
+  gameContainer.removeChild(rankingpanel);
+
   const app = document.querySelector("#app");
   const stagePage = document.querySelector(".stagePage");
   app.removeChild(stagePage);
@@ -74,7 +77,7 @@ export function makeranking() {
 
   const scorespace = document.createElement("div");
   scorespace.setAttribute("class", "scorespace");
-  scorespace.textContent = "2000 score";
+  scorespace.textContent = global.score + " score";
   rankingpanel.appendChild(scorespace);
 
   const inputspace = document.createElement("input");
