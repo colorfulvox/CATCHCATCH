@@ -3,27 +3,72 @@
   top: 60px;
   left: 50%;
   width: 200px;
-  height: 100px;
+  height: 60px;
   transform: translateX(-50%) translateY(-50%);
   z-index: 1;
-  background-color: wheat;
+  border: 2px solid black;
+  background: url("../../../public/images/ui/Pinspace.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  font-weight: bold;
+  font-family: "KenneyBlocks";
+  font-size: x-large;
 }
 
 .buttonContainer {
+  display: flex;
+  flex-direction: column;
   position: absolute;
+  align-items: center;
+  justify-content: center;
   top: 20px;
-  left: 10px;
+  left: -50px;
   width: 200px;
-  height: 100px;
+  height: 200px;
   z-index: 1;
-  background-color: aqua;
+  /* background-color: aqua; */
+}
+
+.backBtn {
+  width: 70px;
+  height: 70px;
+  background: url("../../../public/images/ui/homeicon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  /* border: 2px solid blue; */
+}
+
+.reBtn {
+  width: 120px;
+  height: 120px;
+  background: url("../../../public/images/ui/restart.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: none;
+
+  margin-bottom: 40px;
+  /* border: 2px solid blue; */
+}
+.reBtn:hover {
+  animation: rotate_image 6s linear infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes rotate_image {
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .buttonContainer > div {
   text-align: center;
   line-height: 50px;
-  width: 200px;
-  height: 50px;
+  /* width: 200px;
+  height: 50px; */
 }
 
 .textContainer {
@@ -41,4 +86,76 @@
   line-height: 50px;
   width: 200;
   height: 50px;
+}
+
+.rankingpanel {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 400px;
+  background: url("../../../public/images/ui/makerankingpanel.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  height: 200px;
+  /* border: 6px solid red; */
+  /* background-color: gray; */
+}
+.inputspace {
+  width: 200px;
+  height: 30px;
+  border: 5px solid rgb(95, 151, 241);
+  border-radius: 5px;
+  font-size: large;
+  font-weight: bold;
+}
+.inputspace:focus {
+  outline: none;
+}
+
+.scorespace {
+  font-size: 40px;
+  font-weight: bold;
+  font-family: "KenneyBlocks";
+  text-align: center;
+  color: rgb(0, 0, 0);
+  margin-bottom: 20px;
+  /* border: 2px solid red; */
+}
+
+.submitspace {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 50px;
+  /* border: 5px solid red */
+}
+.submitbtn {
+  margin-left: 35px;
+  margin-right: 35px;
+  width: 100px;
+  height: 50px;
+  font-weight: bold;
+  font-size: medium;
+  font-family: "neodgm";
+  background: url("../../../public/images/ui/GameStartBtn.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  color: white;
+}
+.submitbtn:active {
+  background: url("../../../public/images/ui/GameStartBtnclick.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
 }
