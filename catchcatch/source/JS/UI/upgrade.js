@@ -45,6 +45,11 @@ export default function initUpgrade() {
     weapon();
   });
 
+  const homeBtn = document.createElement("div");
+  homeBtn.setAttribute("class", "homeBtn");
+  homeBtn.style.backgroundImage = "url('images/ui/weaponicon_act.png')";
+
+  upgradeType.appendChild(homeBtn);
   upgradeType.appendChild(weaponType);
   upgradeType.appendChild(towerType);
   upgradeContainer.appendChild(upgradeType);

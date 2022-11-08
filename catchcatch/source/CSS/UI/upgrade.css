@@ -247,3 +247,15 @@ body {
   /* background-image: url("../../../public/images/ui/Icon/tower/1.png"); */
   /* border: 2px solid black; */
 }
+
+.homeBtn {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  left: -4px;
+  bottom: 70px;
+}
