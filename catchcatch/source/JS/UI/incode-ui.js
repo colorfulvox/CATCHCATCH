@@ -37,10 +37,8 @@ function BacktoStage() {
   gameContainer.style.display = "none";
   const pin = document.querySelector(".pin");
   const buttonContainer = document.querySelector(".buttonContainer");
-  const textContainer = document.querySelector(".textContainer");
   gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
-  gameContainer.removeChild(textContainer);
   const app = document.querySelector("#app");
   const stagePage = document.querySelector(".stagePage");
   app.removeChild(stagePage);
@@ -53,10 +51,8 @@ function Replay() {
   const gameContainer = document.querySelector("#game-container");
   const pin = document.querySelector(".pin");
   const buttonContainer = document.querySelector(".buttonContainer");
-  const textContainer = document.querySelector(".textContainer");
   gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
-  gameContainer.removeChild(textContainer);
   codeGame.destroy(true);
   codeGame = null;
   codeGame = new Phaser.Game(codeConfig);
