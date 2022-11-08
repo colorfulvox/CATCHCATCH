@@ -4,7 +4,6 @@ import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
 import ingameUi, {
   GameOver,
-  updateExp,
   useSkill,
   canSkill,
   messageBoss,
@@ -95,7 +94,6 @@ export let camera;
 //map end
 let frameTime = 0;
 //navi start
-let navi;
 //navi end
 
 //coin start
@@ -196,6 +194,9 @@ let hpBarBG;
 
 function preload() {
   //map end
+  this.load.image("sprWater", "images/map/sprWater.png");
+  this.load.image("sprSand", "images/map/sprSand.png");
+  this.load.image("sprGrass", "images/map/sprGrass.png");
 
   //tower start
 
@@ -235,7 +236,6 @@ function preload() {
   //hole end
 
   //navi start
-  this.load.image("navi", "images/navi/arrow.png");
   //navi end
 
   //mine start
@@ -1514,8 +1514,6 @@ function create() {
   // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
 
   //navi start
-  navi = this.add.image(58, 80, "navi").setScrollFactor(0).setScale(1);
-  navi.setDepth(4);
   //navi end
 
   //exp bar start
@@ -1524,7 +1522,7 @@ function create() {
   expBar.setDepth(4);
   expBarBG.setDepth(3);
 
-  this.cameras.main.ignore([expBar, expBarBG, navi]);
+  this.cameras.main.ignore([expBar, expBarBG]);
 
   //exp bar end
   // hp bar start
@@ -1645,13 +1643,6 @@ function update(time, delta) {
     //map end
 
     //navi start
-
-    navi.rotation = Phaser.Math.Angle.Between(
-      hole.x,
-      hole.y,
-      player.x,
-      player.y
-    );
 
     //navi end
 
