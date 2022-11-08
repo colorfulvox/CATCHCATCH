@@ -1,5 +1,5 @@
 import { cursors, mapSize } from "../game.js";
-import { GameOver, updateExp } from "../../UI/ingame-ui.js";
+import { GameOver } from "../../UI/ingame-ui.js";
 import levelup from "../../UI/levelup.js";
 import { setSound } from "../../SOUND/sound";
 
@@ -62,7 +62,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   expUp() {
     this.exp++;
     this.expUpdate();
-    updateExp();
   }
 
   commonLevelUp(id) {
@@ -95,10 +94,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.level++;
         isLevelup = true;
         levelup();
-        updateExp();
       }
     }
-    updateExp();
   }
 
   changeFairy(fairy) {

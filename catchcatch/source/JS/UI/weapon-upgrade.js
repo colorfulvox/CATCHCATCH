@@ -10,19 +10,6 @@ export default function weapon() {
   weaponContent.setAttribute("class", "weaponContent");
   const levelContent = document.createElement("div");
   levelContent.setAttribute("class", "levelContent");
-  //   arr.map((el, idx) => {
-  //     if (idx !== 0) {
-  //       const div = document.createElement("div");
-  //       div.setAttribute("class", "level");
-  //       div.innerText = `Lv.${idx + 1}`;
-  //       levelContent.appendChild(div);
-  //     } else {
-  //       const div = document.createElement("div");
-  //       div.style.width = "120px";
-  //       div.innerText = "";
-  //       levelContent.appendChild(div);
-  //     }
-  //   });
   weaponContent.appendChild(levelContent);
   let iconIdx = 1;
   fairy.map((el, idx) => {
@@ -72,30 +59,6 @@ export default function weapon() {
               img.src = "images/ui/Icon/weaponlock.gif";
             } else {
               img.src = "images/ui/Icon/skilllock.png";
-            }
-
-            if (idx2 === 4 && el.level === 4) {
-              div.addEventListener("click", () => {
-                if (ChoiceCat === 5) {
-                  let rand = Math.floor(Math.random() * 20);
-                  setSound.playSE(rand);
-                } else {
-                  setSound.playSE(9);
-                }
-                fairy[idx].levelUp();
-                weapon();
-              });
-            } else if (idx2 === 8 && el.level === 8) {
-              div.addEventListener("click", () => {
-                if (ChoiceCat === 5) {
-                  let rand = Math.floor(Math.random() * 20);
-                  setSound.playSE(rand);
-                } else {
-                  setSound.playSE(9);
-                }
-                fairy[idx].levelUp();
-                weapon();
-              });
             }
           } else {
             img.src = "images/ui/Icon/skilllock.png";
