@@ -1,3 +1,4 @@
+import { monsterSet } from "../game";
 import Explosion from "./explosion";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
@@ -19,61 +20,84 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       },
       loop: true,
     });
-    super(scene, randomX, randomY, monSpiece);
-    this.velo = velo;
-    this.alpha = 1;
     switch (type) {
       case 0:
         let randomNum = Math.floor(Math.random() * 7 + 1);
-        this.monSpiece = "cat" + randomNum;
-        this.anim = "cat" + randomNum;
+        monSpiece = "cat" + randomNum;
+        break;
+      case 1:
+        monSpiece = "alien";
+        break;
+      case 2:
+        monSpiece = "worm";
+        break;
+      case 3:
+        monSpiece = "sonic";
+        break;
+      case 4:
+        monSpiece = "turtle";
+        break;
+      case 5:
+        monSpiece = "slime";
+        break;
+    }
+    super(scene, randomX, randomY, monSpiece);
+    this.velo = velo;
+    this.alpha = 1;
+    this.monSpiece = monSpiece;
+    switch (type) {
+      case 0:
+        this.anim = monSpiece;
+        this.health = 1;
         this.weak = 0;
         break;
       case 1:
-        this.monSpiece = "alien";
         this.anim = this.monSpiece;
+        this.health = 1;
         this.weak = 0;
         break;
       case 2:
-        this.monSpiece = "worm";
+        this.anim = this.monSpiece;
+        this.weak = 5;
+        break;
+      case 3:
         this.anim = this.monSpiece;
         this.weak = 4;
         break;
-      case 3:
-        this.monSpiece = "sonic";
-        this.anim = this.monSpiece;
-        this.weak = 3;
-        break;
       case 4:
-        this.monSpiece = "turtle";
-        this.anim = this.monSpiece;
-        this.weak = 1;
-        break;
-      case 5:
-        this.monSpiece = "slime";
         this.anim = this.monSpiece;
         this.weak = 2;
         break;
+      case 5:
+        this.anim = this.monSpiece;
+        this.weak = 3;
+        break;
     }
     this.type = type;
-    this.scale = 0.8;
+
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
+    this.anime();
+
+    scene.events.on("update", () => {
+      this.update();
+    });
+    this.setScale(0.8);
     if (this.monSpiece === "babySlime") {
-      this.scale = 2;
+      this.setScale(2);
     } else if (this.monSpiece === "alien" || this.monSpiece === "alienPlus") {
-      this.scale = 2.5;
+      this.setScale(2.5);
     } else if (
       this.monSpiece === "turtle" ||
       this.monSpiece === "sonic" ||
       this.monSpiece === "slime"
     ) {
-      this.scale = 3;
+      this.setScale(3);
     }
-    scene.add.existing(this);
-    scene.physics.add.existing(this);
-    this.anime();
-    scene.events.on("update", () => {
-      this.update();
-    });
+
+    let hh = this.body.halfHeight;
+    let hw = this.body.halfWidth;
+    this.setCircle(hw, 0, hh - hw);
   }
 
   update() {
