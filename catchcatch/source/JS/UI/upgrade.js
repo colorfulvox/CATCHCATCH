@@ -1,6 +1,8 @@
 import weapon from "./weapon-upgrade.js";
 import tower from "./tower-upgrade.js";
 import { setSound } from "../SOUND/sound";
+import { GoHome } from "./ingame-ui.js";
+
 export default function initUpgrade() {
   // console.log(this.)
   if (ChoiceCat === 5) {
@@ -45,6 +47,12 @@ export default function initUpgrade() {
     weapon();
   });
 
+  const homeBtn = document.createElement("div");
+  homeBtn.setAttribute("class", "homeBtn");
+  homeBtn.style.backgroundImage = "url('images/ui/weaponicon_act.png')";
+  homeBtn.addEventListener("click", GoHome);
+
+  upgradeType.appendChild(homeBtn);
   upgradeType.appendChild(weaponType);
   upgradeType.appendChild(towerType);
   upgradeContainer.appendChild(upgradeType);

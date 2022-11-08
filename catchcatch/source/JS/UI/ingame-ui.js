@@ -69,7 +69,6 @@ export default function ingameUi() {
       ChangeWeapon();
     }, 6000);
   }
-
   gameContainer.appendChild(coolContainer);
 }
 
@@ -156,7 +155,7 @@ function GameClear() {
   gameContainer.appendChild(GameClearSpace);
 }
 
-function GoHome() {
+export function GoHome() {
   window.location.reload();
 }
 

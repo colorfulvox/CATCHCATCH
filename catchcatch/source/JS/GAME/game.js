@@ -74,7 +74,7 @@ let magic;
 global.magics = "";
 let hitTimer = 0;
 let hitVisible = true;
-
+global.bombDead = "";
 export let cursors;
 let gameOver = false;
 let scoreText;
@@ -111,24 +111,6 @@ let fireGiantIndex;
 
 let monsterSpawn = 300;
 
-// 1번 몬스터: alien
-let alien;
-
-// 2번 몬스터: worm
-let worm;
-
-// 3번 몬스터: sonic
-let sonic;
-
-// 4번 몬스터: turtle
-let turtle;
-
-// 5번 몬스터: alienPlus
-let alienPlus;
-
-// 6번 몬스터: wormPlus
-let wormPlus;
-
 // 보스
 let slimeKing;
 let golem;
@@ -138,6 +120,7 @@ let fireGiantAura;
 let pt;
 // 보스 활성 확인
 let bossActive;
+let bossGolemActive;
 let bossFireGiantActive;
 
 let monX;
@@ -477,6 +460,11 @@ function preload() {
   // 몬스터
 
   this.load.spritesheet("monster_die", "images/monster/monster_die2.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("monster_boom", "images/monster/monster_die.png", {
     frameWidth: 64,
     frameHeight: 64,
   });
@@ -1131,6 +1119,7 @@ function create() {
 
   bossSet = this.physics.add.group();
   bossMagicSet = this.physics.add.group();
+  bombDead = this.physics.add.group();
   monsterSet = this.physics.add.group();
   magics = this.physics.add.group();
   towerAttacks = this.physics.add.group();
@@ -1147,6 +1136,8 @@ function create() {
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
   this.physics.add.collider(player, monsterSet, player.hitPlayer);
   thisScene.physics.add.overlap(magics, monsterSet, attack);
+  thisScene.physics.add.overlap(bombDead, monsterSet, bomb);
+  thisScene.physics.add.overlap(bombDead, player, bomb);
 
   //map start
   let snappedChunkX =
@@ -1312,6 +1303,16 @@ function create() {
     }),
     frameRate: 12,
     repeat: -1,
+  });
+
+  this.anims.create({
+    key: "monster_boom",
+    frames: this.anims.generateFrameNumbers("monster_boom", {
+      start: 0,
+      end: 7,
+    }),
+    frameRate: 12,
+    repeat: 0,
   });
 
   this.anims.create({
@@ -1699,31 +1700,31 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alienPlus", "alienPlus", 70, 55, monX, monY);
+        addMonster(this, "alien", "alienPlus", 100, 55, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "alienPlus", "alienPlus", 130, 75, monX, monY);
+        addMonster(this, "alien", "alienPlus", 150, 75, monX, monY);
       } else {
         addMonster(this, "alien", "alien", 30, 45, monX, monY);
       }
     }
-    if (gameTimer > 6000 && gameTimer % 240 === 0) {
+    if (gameTimer > 100) {
       // 2번 worm
       enemySpawn(randomLocation);
       if (12000 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY);
+        addMonster(this, "worm", "wormPlus", 150, 50, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY);
+        addMonster(this, "worm", "wormPlus", 200, 60, monX, monY);
       } else if (gameTimer <= 12000) {
-        addMonster(this, "worm", "worm", 40, 40, monX, monY);
+        addMonster(this, "worm", "worm", 10, 40, monX, monY);
       }
     }
-    if (gameTimer > 12000 && gameTimer % 300 === 0) {
+    if (gameTimer > 15000 && gameTimer % 300 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "sonic", "sonic", 150, 80, monX, monY);
+      addMonster(this, "sonic", "sonic", 150, 100, monX, monY);
     }
     if (gameTimer > 21000 && gameTimer % 600 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "turtle", "turtle", 300, 50, monX, monY);
+      addMonster(this, "turtle", "turtle", 400, 50, monX, monY);
     }
 
     if (gameTimer > 18000 && gameTimer % 200 === 0) {
@@ -1819,6 +1820,7 @@ function update(time, delta) {
       golem.setDepth(2);
       golem.anime(player);
       bossActive = true;
+      bossGolemActive = true;
       let mw = golem.body.halfWidth;
       let mh = golem.body.halfHeight;
       golem.setCircle(mh / 2, mw - mh / 2, mw);
@@ -1917,6 +1919,20 @@ function update(time, delta) {
           bossSet.children.entries[i].velocity
         );
 
+        if (bossSet.children.entries[i].bossSpecie === "golem") {
+          if (bossGolemActive && gameTimer % 240 === 0) {
+            addMonster(
+              this,
+              "wormPlus",
+              "wormPlus",
+              100,
+              50,
+              bossSet.children.entries[i].x,
+              bossSet.children.entries[i].y + 150
+            );
+          }
+        }
+
         if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
           if (bossFireGiantActive) {
             this.physics.moveToObject(
@@ -1940,6 +1956,10 @@ function update(time, delta) {
               bossSet.children.entries[i].x,
               bossSet.children.entries[i].y
             );
+          }
+
+          if (bossSet.children.entries[i].bossSpecie === "golem") {
+            bossGolemActive = false;
           }
 
           if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
@@ -2144,7 +2164,12 @@ function attack(magic, monster) {
       let num = Math.floor(Math.random() * 100 + 1);
       if (num <= magic.fairy.deathCount && monster.type !== "boss") {
         if (monster.monSpecie !== "slime") {
-          monster.dieAnim();
+          if (monster.monSpecie === "worm") {
+            monster.boomAnim();
+          } else {
+            monster.dieAnim();
+          }
+
           monster.destroy();
           player.expUp();
           monsterCount -= 1;
@@ -2174,7 +2199,11 @@ function attack(magic, monster) {
 
     if (monster.health <= 0 && monster.type !== "boss") {
       if (monster.monSpecie !== "slime") {
-        monster.dieAnim();
+        if (monster.monSpecie === "worm") {
+          monster.boomAnim();
+        } else {
+          monster.dieAnim();
+        }
         monster.destroy();
         player.expUp();
         if (magic.fairy.fairyNum === 2) {
@@ -2250,6 +2279,49 @@ function enemySpawn(scene) {
   } else if (randomLocation === 4) {
     monX = Phaser.Math.Between(player.x + 500, player.x + 500);
     monY = Phaser.Math.Between(player.y - 500, player.y + 500);
+  }
+}
+
+function bomb(bomb, target) {
+  if (!target.invincible) {
+    if (target.type !== "player") {
+      target.health -= 50;
+    } else {
+      target.health -= 5;
+    }
+    target.invincible = true;
+    // 병합용
+  }
+
+  if (
+    (target.health <= 0 && target.type !== "boss") ||
+    (target.health <= 0 && target.type !== "player")
+  ) {
+    if (target.monSpecie !== "slime") {
+      if (target.monSpecie === "worm") {
+        target.boomAnim();
+      } else {
+        target.dieAnim();
+      }
+      target.destroy();
+      player.expUp();
+      monsterCount -= 1;
+    } else if (target.monSpecie === "slime") {
+      for (let i = 0; i < 2; i++) {
+        addMonster(
+          thisScene,
+          "babySlime",
+          "slime",
+          150 + difficulty_hp,
+          125,
+          target.x + i * 20,
+          target.y
+        );
+      }
+      target.destroy();
+      monsterCount -= 1;
+    }
+  } else if (target.health <= 0 && target.type === "player") {
   }
 }
 
