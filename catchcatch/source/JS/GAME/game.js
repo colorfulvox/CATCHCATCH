@@ -74,7 +74,7 @@ let magic;
 global.magics = "";
 let hitTimer = 0;
 let hitVisible = true;
-global.bombDead = "";
+
 export let cursors;
 let gameOver = false;
 let scoreText;
@@ -110,6 +110,24 @@ export let bossMagicSet;
 let fireGiantIndex;
 
 let monsterSpawn = 300;
+
+// 1번 몬스터: alien
+let alien;
+
+// 2번 몬스터: worm
+let worm;
+
+// 3번 몬스터: sonic
+let sonic;
+
+// 4번 몬스터: turtle
+let turtle;
+
+// 5번 몬스터: alienPlus
+let alienPlus;
+
+// 6번 몬스터: wormPlus
+let wormPlus;
 
 // 보스
 let slimeKing;
@@ -459,11 +477,6 @@ function preload() {
   // 몬스터
 
   this.load.spritesheet("monster_die", "images/monster/monster_die2.png", {
-    frameWidth: 64,
-    frameHeight: 64,
-  });
-
-  this.load.spritesheet("monster_boom", "images/monster/monster_die.png", {
     frameWidth: 64,
     frameHeight: 64,
   });
@@ -1118,7 +1131,6 @@ function create() {
 
   bossSet = this.physics.add.group();
   bossMagicSet = this.physics.add.group();
-  bombDead = this.physics.add.group();
   monsterSet = this.physics.add.group();
   magics = this.physics.add.group();
   towerAttacks = this.physics.add.group();
@@ -1135,8 +1147,6 @@ function create() {
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
   this.physics.add.collider(player, monsterSet, player.hitPlayer);
   thisScene.physics.add.overlap(magics, monsterSet, attack);
-  thisScene.physics.add.overlap(bombDead, monsterSet, bomb);
-  thisScene.physics.add.overlap(bombDead, player, bomb);
 
   //map start
   let snappedChunkX =
@@ -1302,16 +1312,6 @@ function create() {
     }),
     frameRate: 12,
     repeat: -1,
-  });
-
-  this.anims.create({
-    key: "monster_boom",
-    frames: this.anims.generateFrameNumbers("monster_boom", {
-      start: 0,
-      end: 7,
-    }),
-    frameRate: 12,
-    repeat: 0,
   });
 
   this.anims.create({
@@ -1699,60 +1699,60 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alien", "alienPlus", 100, 55, monX, monY);
+        addMonster(this, "alienPlus", "alienPlus", 70, 55, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "alien", "alienPlus", 150, 75, monX, monY);
+        addMonster(this, "alienPlus", "alienPlus", 130, 75, monX, monY);
       } else {
         addMonster(this, "alien", "alien", 30, 45, monX, monY);
       }
     }
-    if (gameTimer > 100) {
+    if (gameTimer > 6000 && gameTimer % 240 === 0) {
       // 2번 worm
       enemySpawn(randomLocation);
       if (12000 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "worm", "wormPlus", 150, 50, monX, monY);
+        addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "worm", "wormPlus", 200, 60, monX, monY);
+        addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY);
       } else if (gameTimer <= 12000) {
-        addMonster(this, "worm", "worm", 10, 40, monX, monY);
+        addMonster(this, "worm", "worm", 40, 40, monX, monY);
       }
     }
-    if (gameTimer > 15000 && gameTimer % 300 === 0) {
+    if (gameTimer > 12000 && gameTimer % 300 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "sonic", "sonic", 150, 100, monX, monY);
+      addMonster(this, "sonic", "sonic", 150, 80, monX, monY);
     }
     if (gameTimer > 21000 && gameTimer % 600 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "turtle", "turtle", 400, 50, monX, monY);
+      addMonster(this, "turtle", "turtle", 300, 50, monX, monY);
     }
 
-    if (gameTimer > 9000 && gameTimer % 200 === 0) {
+    if (gameTimer > 18000 && gameTimer % 200 === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "slime", "slime", 240, 75, monX, monY);
     }
     // 몬스터 빅 웨이브
     if (gameTimer === 7700) {
-      messageBoss("몬스터 웨이브가 몰려옵니다!");
+      messageBoss("빅 웨이브");
     }
     if (gameTimer === 19700) {
-      messageBoss("몬스터 웨이브가 몰려옵니다!");
+      messageBoss("빅 웨이브");
     }
 
     if (gameTimer > 8000 && gameTimer < 8300 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "fly", 30, 50, monX, monY);
+      addMonster(this, "fly", "fly", 10, 50, monX, monY);
     } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "fly", 150, 50, monX, monY);
+      addMonster(this, "fly", "fly", 100, 50, monX, monY);
     }
 
     // 스폰 주기
     if (gameTimer < 4200) {
-      monsterSpawn = 60;
+      monsterSpawn = 90;
     } else if (4200 <= gameTimer && gameTimer < 11000) {
-      monsterSpawn = 30;
+      monsterSpawn = 60;
     } else if (11000 <= gameTimer && gameTimer < 23000) {
-      monsterSpawn = 15;
+      monsterSpawn = 30;
     } else if (23000 <= gameTimer) {
       monsterSpawn = 15;
     }
@@ -1760,11 +1760,11 @@ function update(time, delta) {
     // 보스
 
     // 슬라임
-    if (gameTimer === 9000) {
-      messageBoss("슬라임 킹이 등장했습니다!");
+    if (gameTimer === 17400) {
+      messageBoss("슬라임 킹");
     }
 
-    if (gameTimer === 9000) {
+    if (gameTimer === 18000) {
       if (ChoiceCat === 5) {
         let rand = Math.floor(Math.random() * 20);
         setSound.playSE(rand);
@@ -1794,10 +1794,10 @@ function update(time, delta) {
     }
 
     // 골렘
-    if (gameTimer === 18000) {
-      messageBoss("골렘이 등장했습니다!");
+    if (gameTimer === 20400) {
+      messageBoss("골렘");
     }
-    if (gameTimer === 18000) {
+    if (gameTimer === 21000) {
       if (ChoiceCat === 5) {
         let rand = Math.floor(Math.random() * 20);
         setSound.playSE(rand);
@@ -1806,8 +1806,8 @@ function update(time, delta) {
       }
       golem = new Boss(
         this,
-        800,
-        100,
+        500,
+        30,
         player.x + 1500,
         player.y + 1500,
         "golem",
@@ -1826,10 +1826,10 @@ function update(time, delta) {
     }
 
     // 불거인
-    if (gameTimer === 27000) {
-      messageBoss("불거인이 등장했습니다!");
+    if (gameTimer === 27400) {
+      messageBoss("불거인");
     }
-    if (gameTimer === 27000) {
+    if (gameTimer === 28000) {
       if (ChoiceCat === 5) {
         let rand = Math.floor(Math.random() * 20);
         setSound.playSE(rand);
@@ -1838,7 +1838,7 @@ function update(time, delta) {
       }
       fireGiant = new Boss(
         this,
-        1200,
+        500,
         10,
         player.x - 600,
         player.y - 600,
@@ -2144,12 +2144,7 @@ function attack(magic, monster) {
       let num = Math.floor(Math.random() * 100 + 1);
       if (num <= magic.fairy.deathCount && monster.type !== "boss") {
         if (monster.monSpecie !== "slime") {
-          if (monster.monSpecie === "worm") {
-            monster.boomAnim();
-          } else {
-            monster.dieAnim();
-          }
-
+          monster.dieAnim();
           monster.destroy();
           player.expUp();
           monsterCount -= 1;
@@ -2179,11 +2174,7 @@ function attack(magic, monster) {
 
     if (monster.health <= 0 && monster.type !== "boss") {
       if (monster.monSpecie !== "slime") {
-        if (monster.monSpecie === "worm") {
-          monster.boomAnim();
-        } else {
-          monster.dieAnim();
-        }
+        monster.dieAnim();
         monster.destroy();
         player.expUp();
         if (magic.fairy.fairyNum === 2) {
@@ -2259,48 +2250,6 @@ function enemySpawn(scene) {
   } else if (randomLocation === 4) {
     monX = Phaser.Math.Between(player.x + 500, player.x + 500);
     monY = Phaser.Math.Between(player.y - 500, player.y + 500);
-  }
-}
-
-function bomb(bomb, target) {
-  if (!target.invincible) {
-    if (target.type !== "player") {
-      target.health -= 50;
-    } else {
-      target.health -= 5;
-    }
-    target.invincible = true;
-  }
-
-  if (
-    (target.health <= 0 && target.type !== "boss") ||
-    (target.health <= 0 && target.type !== "player")
-  ) {
-    if (target.monSpecie !== "slime") {
-      if (target.monSpecie === "worm") {
-        target.boomAnim();
-      } else {
-        target.dieAnim();
-      }
-      target.destroy();
-      player.expUp();
-      monsterCount -= 1;
-    } else if (target.monSpecie === "slime") {
-      for (let i = 0; i < 2; i++) {
-        addMonster(
-          thisScene,
-          "babySlime",
-          "slime",
-          150 + difficulty_hp,
-          125,
-          target.x + i * 20,
-          target.y
-        );
-      }
-      target.destroy();
-      monsterCount -= 1;
-    }
-  } else if (target.health <= 0 && target.type === "player") {
   }
 }
 
