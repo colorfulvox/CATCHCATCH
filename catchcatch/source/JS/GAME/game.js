@@ -533,11 +533,20 @@ function preload() {
     frameHeight: 20,
   });
 
+  this.load.spritesheet("alienFinal", "images/monster/alienFinal.png", {
+    frameWidth: 20,
+    frameHeight: 20,
+  });
+
   this.load.spritesheet("wormPlus", "images/monster/wormPlus.png", {
     frameWidth: 48,
     frameHeight: 48,
   });
 
+  this.load.spritesheet("wormFinal", "images/monster/wormFinal.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
   //   보스
   this.load.spritesheet("slimeKing", "images/boss/slimeKing.png", {
     frameWidth: 96,
@@ -1268,8 +1277,25 @@ function create() {
   });
 
   this.anims.create({
+    key: "alienFinal",
+    frames: this.anims.generateFrameNumbers("alienFinal", {
+      start: 9,
+      end: 14,
+    }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
     key: "wormPlus",
     frames: this.anims.generateFrameNumbers("wormPlus", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "wormFinal",
+    frames: this.anims.generateFrameNumbers("wormFinal", { start: 0, end: 2 }),
     frameRate: 3,
     repeat: -1,
   });
@@ -1890,7 +1916,7 @@ function update(time, delta) {
       if (10800 < gameTimer && gameTimer <= 18000) {
         addMonster(this, "alien", "alienPlus", 100, 55, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "alien", "alienPlus", 150, 75, monX, monY);
+        addMonster(this, "alien", "alienFinal", 150, 75, monX, monY);
       } else {
         addMonster(this, "alien", "alien", 30, 45, monX, monY);
       }
@@ -1901,7 +1927,7 @@ function update(time, delta) {
       if (12000 < gameTimer && gameTimer <= 18000) {
         addMonster(this, "worm", "wormPlus", 150, 50, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "worm", "wormPlus", 200, 60, monX, monY);
+        addMonster(this, "worm", "wormFinal", 200, 60, monX, monY);
       } else if (gameTimer <= 12000) {
         addMonster(this, "worm", "worm", 10, 40, monX, monY);
       }
@@ -2438,6 +2464,7 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
   } else if (
     monster.monSpecie === "alien" ||
     monster.monSpecie === "alienPlus" ||
+    monster.monSpecie === "alienFinal" ||
     monster.monSpecie === "fly"
   ) {
     monster.scale = 2.5;
