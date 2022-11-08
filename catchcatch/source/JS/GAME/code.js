@@ -202,6 +202,8 @@ function preload() {
 function create() {
   // resource load start
   IncodeUI();
+  monCount = 0;
+  chunks = [];
   this.anims.create({
     key: "tower1_idle",
     frames: this.anims.generateFrameNumbers("tower1", { start: 0, end: 2 }),
@@ -427,7 +429,6 @@ function create() {
 
   snappedChunkX = snappedChunkX / this.chunkSize / this.tileSize;
   snappedChunkY = snappedChunkY / this.chunkSize / this.tileSize;
-
   for (var x = snappedChunkX - 2; x < snappedChunkX + 2; x++) {
     for (var y = snappedChunkY - 2; y < snappedChunkY + 2; y++) {
       var existingChunk = getChunk(x, y);
@@ -573,7 +574,7 @@ function create() {
 
   this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
   this.physics.add.overlap(player, codeMonsterSet, playerHit);
-  this.scene.pause();
+  // this.scene.pause();
 }
 
 function update(time, delta) {

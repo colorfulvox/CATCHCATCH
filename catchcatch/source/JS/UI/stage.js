@@ -58,7 +58,7 @@ export default function Stage() {
     stage.addEventListener("click", () => {
       stagePage.style.display = "none";
       stageNum = i + 1;
-      let game = new Phaser.Game(codeConfig);
+      global.codeGame = new Phaser.Game(codeConfig);
       const gameContainer = document.querySelector("#game-container");
       gameContainer.style.display = "block";
     });
