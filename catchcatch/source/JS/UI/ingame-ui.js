@@ -155,7 +155,7 @@ function GameClear() {
   gameContainer.appendChild(GameClearSpace);
 }
 
-function GoHome() {
+export function GoHome() {
   window.location.reload();
 }
 
