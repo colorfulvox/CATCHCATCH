@@ -12,6 +12,7 @@ import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
 import { Chunk, Tile } from "./entities.js";
+import CatTower from "./GameObj/cat-tower.js";
 
 import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
@@ -209,6 +210,34 @@ function preload() {
   });
   this.load.image("can", "images/cattower/can.png");
   this.load.image("skill", "images/cattower/skill.png");
+
+  //pet start
+  this.load.spritesheet("petNormal", "images/pet/petNormal.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+  this.load.spritesheet("petThunder", "images/pet/petThunder.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+  this.load.spritesheet("petFire", "images/pet/petFire.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+  this.load.spritesheet("petWater", "images/pet/petWater.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+  this.load.spritesheet("petEarth", "images/pet/petEarth.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+  this.load.spritesheet("petGod", "images/pet/petGod.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+  //pet end
+
   //tower end
 
   //navi start
@@ -1328,6 +1357,154 @@ function create() {
 
   //tower start
 
+  //pet start
+  this.anims.create({
+    key: "0_idle_pet",
+    frames: this.anims.generateFrameNumbers("petNormal", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "1_idle_pet",
+    frames: this.anims.generateFrameNumbers("petThunder", {
+      start: 0,
+      end: 2,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "2_idle_pet",
+    frames: this.anims.generateFrameNumbers("petFire", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "3_idle_pet",
+    frames: this.anims.generateFrameNumbers("petWater", {
+      start: 0,
+      end: 2,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "4_idle_pet",
+    frames: this.anims.generateFrameNumbers("petEarth", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "5_idle_pet",
+    frames: this.anims.generateFrameNumbers("petGod", {
+      start: 0,
+      end: 4,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+  //pet end
+
+  global.pets = this.add.group();
+
+  global.petNormal = new CatTower(
+    this,
+    0,
+    player.x,
+    player.y,
+    "0_idle_pet",
+    "can"
+  );
+  global.petThunder = new CatTower(
+    this,
+    1,
+    player.x,
+    player.y,
+    "1_idle_pet",
+    "can"
+  );
+  global.petFire = new CatTower(
+    this,
+    2,
+    player.x,
+    player.y,
+    "2_idle_pet",
+    "can"
+  );
+  global.petWater = new CatTower(
+    this,
+    3,
+    player.x,
+    player.y,
+    "3_idle_pet",
+    "can"
+  );
+  global.petEarth = new CatTower(
+    this,
+    4,
+    player.x,
+    player.y,
+    "4_idle_pet",
+    "can"
+  );
+  global.petGod = new CatTower(
+    this,
+    5,
+    player.x,
+    player.y,
+    "5_idle_pet",
+    "can"
+  );
+
+  petNormal.setDepth(10);
+  petThunder.setDepth(10);
+  petFire.setDepth(10);
+  petWater.setDepth(10);
+  petEarth.setDepth(10);
+  petGod.setDepth(10);
+
+  petNormal.setVisible(true);
+  petThunder.setVisible(true);
+  petFire.setVisible(true);
+  petWater.setVisible(true);
+  petEarth.setVisible(true);
+  petGod.setVisible(true);
+
+  pets.add(petNormal);
+  pets.add(petThunder);
+  pets.add(petFire);
+  pets.add(petWater);
+  pets.add(petEarth);
+  pets.add(petGod);
+  console.log(pets.getChildren());
+
+  global.petscircle = new Phaser.Geom.Circle(player.x, player.y, 800);
+
+  global.startAngle = this.tweens.addCounter({
+    from: 50,
+    to: 100,
+    duration: 100000,
+    ease: "Linear",
+    repeat: -1,
+  });
+
+  global.endAngle = this.tweens.addCounter({
+    from: 100,
+    to: 50,
+    duration: 100000,
+    ease: "Linear",
+    repeat: -1,
+  });
+
   //cattower animation start
   this.anims.create({
     key: "0_idle",
@@ -1518,6 +1695,17 @@ function create() {
 }
 
 function update(time, delta) {
+  petscircle.x = player.x;
+  petscircle.y = player.y;
+  Phaser.Actions.SetXY(petscircle, player.x, player.y);
+  Phaser.Actions.PlaceOnCircle(pets.getChildren(), petscircle);
+  Phaser.Actions.RotateAroundDistance(
+    pets.getChildren(),
+    petscircle,
+    startAngle.getValue(),
+    endAngle.getValue()
+  );
+
   for (let i = 0; i < 5; i++) {
     if (fairySet[i].timer < fairySet[i].skillCD) {
       fairySet[i].timer++;
@@ -2005,6 +2193,12 @@ function update(time, delta) {
     hpBarBG,
     magics,
     mines,
+    petNormal,
+    petThunder,
+    petFire,
+    petWater,
+    petEarth,
+    petGod,
     towerAttacks,
     towerSkillAttacks,
     bossMagicSet,
