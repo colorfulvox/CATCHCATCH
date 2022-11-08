@@ -8,7 +8,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   invincible = false;
   monSpecie;
   cc;
-  constructor(scene, maxHealth, velo, randomX, randomY, monSpecie, anim, type) {
+  type;
+  constructor(scene, maxHealth, velo, randomX, randomY, monSpecie, anim) {
     scene.time.addEvent({
       delay: 400,
       callback: () => {
@@ -26,8 +27,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.alpha = 1;
     this.anim = anim;
     this.monSpecie = monSpecie;
-    this.type = type;
     this.cc = "";
+    this.type = "monster";
     this.scale = 1;
     this.originalVelocity = this.velocity;
     thisScene.time.addEvent({

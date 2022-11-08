@@ -4,8 +4,6 @@ import Player from "./GameObj/player.js";
 import Enemy from "./GameObj/enemy.js";
 import ingameUi, {
   GameOver,
-  updateExp,
-  updateHP,
   useSkill,
   canSkill,
   messageBoss,
@@ -14,7 +12,7 @@ import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
 import { Chunk, Tile } from "./entities.js";
-import CatTower from "./GameObj/cat-tower.js";
+
 import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
@@ -49,16 +47,18 @@ export const config = {
   },
 };
 
+// 난이도
+let difficulty_spawn = 0;
+let difficulty_vel = 0;
+let difficulty_hp = 0;
+
 //player start
 // 고양이 json
 let cats;
 // 플레이어 객체
 global.player = "";
 // 타워
-global.towerLU = "";
-global.towerRU = "";
-global.towerLD = "";
-global.towerRD = "";
+
 // 캐릭터 선택 시 변경될 변수
 let catNumber = 0;
 // 요정
@@ -94,7 +94,6 @@ export let camera;
 //map end
 let frameTime = 0;
 //navi start
-let navi;
 //navi end
 
 //coin start
@@ -156,10 +155,6 @@ global.hole = "";
 //enemy end
 
 //tower start
-// let towerLU;
-// let towerRU;
-// let towerLD;
-// let towerRD;
 global.towerAttacks = "";
 global.towerSkillAttacks = "";
 //tower end
@@ -169,10 +164,10 @@ let mine;
 let mineshowtime = 0;
 let mineCount = [3, 15, 60, 120, 400, 500, 500, 550, 800, 1000];
 let StartMineRangeX = [
-  -200, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
+  -400, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
 ];
 let StartMineRangeY = [
-  -200, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
+  -400, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
 ];
 let EndMineRangeX = [
   500, 1200, 5000, 7200, 15000, 32000, 45000, 52000, 72000, 100000,
@@ -198,11 +193,10 @@ let hpBarBG;
 //hp bar end
 
 function preload() {
-  //map start
+  //map end
   this.load.image("sprWater", "images/map/sprWater.png");
   this.load.image("sprSand", "images/map/sprSand.png");
   this.load.image("sprGrass", "images/map/sprGrass.png");
-  //map end
 
   //tower start
 
@@ -226,24 +220,22 @@ function preload() {
     frameWidth: 38,
     frameHeight: 64,
   });
+  this.load.spritesheet("catFinal", "images/cattower/towerFinal.png", {
+    frameWidth: 38,
+    frameHeight: 64,
+  });
   this.load.image("can", "images/cattower/can.png");
   this.load.image("skill", "images/cattower/skill.png");
   //tower end
 
-  //hole start
-  this.load.spritesheet("new_hole", "images/hole/new_hole.png", {
-    frameWidth: 100,
-    frameHeight: 100,
-  });
-  //hole end
-
   //navi start
-  this.load.image("navi", "images/navi/arrow.png");
   //navi end
 
   //mine start
-  this.load.image("minearrow", "images/mine/boxarrow.png");
-  this.load.image("mine", "images/mine/mine.png");
+  this.load.spritesheet("mineani", "images/mine/coin.png", {
+    frameWidth: 32,
+    frameHeight: 32,
+  });
   //mine end
 
   //player start
@@ -563,7 +555,7 @@ function create() {
   thisScene = this;
   //map start
   this.chunkSize = 8;
-  this.tileSize = 300;
+  this.tileSize = 1024;
   this.cameraSpeed = 1;
   UICam = this.cameras.add(
     player.x,
@@ -1129,22 +1121,6 @@ function create() {
 
   //player end
 
-  // 홀 애니메이션
-
-  this.anims.create({
-    key: "new_hole",
-    frames: this.anims.generateFrameNumbers("new_hole", { start: 0, end: 2 }),
-    frameRate: 6,
-    repeat: -1,
-  });
-
-  this.anims.create({
-    key: "hole_damage",
-    frames: this.anims.generateFrameNumbers("new_hole", { start: 3, end: 7 }),
-    frameRate: 12,
-    repeat: 0,
-  });
-
   //cointext start
   // cointext = this.add.text(500, 20, 'coin: 0', {font: 'Bold 15px Arial', fill: '#fff', fontStyle: "strong"}).setScrollFactor(0);
   // cointext.setStroke('#000', 2);
@@ -1161,14 +1137,6 @@ function create() {
   towerSkillAttacks = this.physics.add.group();
   mines = this.physics.add.group();
 
-  // 임시 구멍
-  hole = this.physics.add.sprite(0, 0, "new_hole").play("new_hole");
-  hole.setScale(2.3);
-  hw = hole.body.halfWidth;
-  hh = hole.body.halfHeight;
-  hole.setCircle(hw * 0.7, hh - hw * 0.7, hh - hw * 0.7);
-  hole.hp = 500;
-  hole.setDepth(1);
   ingameUi();
 
   this.physics.add.collider(player, bossSet, player.hitPlayer);
@@ -1179,9 +1147,7 @@ function create() {
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
   this.physics.add.collider(player, monsterSet, player.hitPlayer);
   thisScene.physics.add.overlap(magics, monsterSet, attack);
-  // 만약 몬스터와 구멍이 닿았다면 (hitHole 함수 실행)
-  thisScene.physics.add.overlap(hole, monsterSet, hitHole);
-  thisScene.physics.add.overlap(hole, bossSet, destroyHole);
+
   //map start
   let snappedChunkX =
     this.chunkSize *
@@ -1461,30 +1427,41 @@ function create() {
     frameRate: 8,
     repeat: 0,
   });
+
+  this.anims.create({
+    key: "5_idle",
+    frames: this.anims.generateFrameNumbers("catFinal", {
+      start: 0,
+      end: 2,
+    }),
+    frameRate: 4,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "5_attack",
+    frames: this.anims.generateFrameNumbers("catFinal", {
+      start: 3,
+      end: 8,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
   //cattower animation end
-
-  towerLU = new CatTower(this, -140, -140, "0_idle", "can", "skill", 0);
-  towerRU = new CatTower(this, 140, -140, "0_idle", "can", "skill", 0);
-  towerLD = new CatTower(this, -140, 140, "0_idle", "can", "skill", 0);
-  towerRD = new CatTower(this, 140, 140, "0_idle", "can", "skill", 0);
-  towerLU.scale_Circle();
-  towerRU.scale_Circle();
-  towerLD.scale_Circle();
-  towerRD.scale_Circle();
-
-  towerLU.scale = 2;
-  towerRU.scale = 2;
-  towerLD.scale = 2;
-  towerRD.scale = 2;
-
-  towerLU.setDepth(1);
-  towerRU.setDepth(1);
-  towerLD.setDepth(1);
-  towerRD.setDepth(1);
 
   //tower end
 
   //mine start
+  this.anims.create({
+    key: "minecoin",
+    frames: this.anims.generateFrameNumbers("mineani", {
+      start: 0,
+      end: 3,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
   for (let i = 0; i < mineCount[mineshowtime]; i++) {
     let x =
       Math.random() *
@@ -1494,8 +1471,9 @@ function create() {
       Math.random() *
         (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
       StartMineRangeY[mineshowtime];
-    mine = new Mine(this, x, y, "mine", 0);
+    mine = new Mine(this, x, y, "minecoin", 0);
     mine.scale_Circle();
+    mine.set_anime();
     mines.add(mine);
   }
   //mine end
@@ -1503,8 +1481,6 @@ function create() {
   // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
 
   //navi start
-  navi = this.add.image(58, 80, "navi").setScrollFactor(0).setScale(1);
-  navi.setDepth(4);
   //navi end
 
   //exp bar start
@@ -1513,7 +1489,7 @@ function create() {
   expBar.setDepth(4);
   expBarBG.setDepth(3);
 
-  this.cameras.main.ignore([expBar, expBarBG, navi]);
+  this.cameras.main.ignore([expBar, expBarBG]);
 
   //exp bar end
   // hp bar start
@@ -1525,6 +1501,19 @@ function create() {
 
   this.cameras.main.setZoom(0.8);
   UICam.setZoom(1);
+
+  // 난이도
+  if (global.ChoiceLevel === 1) {
+    difficulty_hp = 10;
+    difficulty_spawn = 10;
+    difficulty_vel = 10;
+  }
+
+  if (global.ChoiceLevel === 2) {
+    difficulty_hp = 20;
+    difficulty_spawn = 20;
+    difficulty_vel = 20;
+  }
 }
 
 function update(time, delta) {
@@ -1620,17 +1609,6 @@ function update(time, delta) {
     UICam.startFollow(player, false);
     //map end
 
-    //navi start
-
-    navi.rotation = Phaser.Math.Angle.Between(
-      hole.x,
-      hole.y,
-      player.x,
-      player.y
-    );
-
-    //navi end
-
     //player start
     changeSlot();
     normalAttackAS = fairySet[nowFairy].as;
@@ -1703,32 +1681,12 @@ function update(time, delta) {
         if (monsterSet.children.entries[i].invincible) {
           monsterSet.children.entries[i].setTint(0xff0000);
         }
-
-        if (
-          monsterSet.children.entries[i].type === "follower" ||
-          monsterSet.children.entries[i].type === "wave"
-        ) {
-          this.physics.moveToObject(
-            monsterSet.children.entries[i],
-            player,
-            monsterSet.children.entries[i].velocity
-          );
-        }
-        // 몬스터가 홀에 도달하게 함
-        else if (monsterSet.children.entries[i].type === "siege") {
-          this.physics.moveToObject(
-            monsterSet.children.entries[i],
-            hole,
-            monsterSet.children.entries[i].velocity
-          );
-        }
+        this.physics.moveToObject(
+          monsterSet.children.entries[i],
+          player,
+          monsterSet.children.entries[i].velocity
+        );
       }
-    }
-
-    if (hole.hp <= 0) {
-      $this.pause();
-      updateHP();
-      GameOver();
     }
 
     gameTimer++;
@@ -1741,54 +1699,36 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(
-          this,
-          "alienPlus",
-          "alienPlus",
-          70,
-          55,
-          monX,
-          monY,
-          "follower"
-        );
+        addMonster(this, "alienPlus", "alienPlus", 70, 55, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(
-          this,
-          "alienPlus",
-          "alienPlus",
-          130,
-          75,
-          monX,
-          monY,
-          "follower"
-        );
+        addMonster(this, "alienPlus", "alienPlus", 130, 75, monX, monY);
       } else {
-        addMonster(this, "alien", "alien", 30, 45, monX, monY, "follower");
+        addMonster(this, "alien", "alien", 30, 45, monX, monY);
       }
     }
     if (gameTimer > 6000 && gameTimer % 240 === 0) {
       // 2번 worm
       siegeSpawn(randomLocation);
       if (12000 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY, "siege");
+        addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY, "siege");
+        addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY);
       } else if (gameTimer <= 12000) {
-        addMonster(this, "worm", "worm", 40, 40, monX, monY, "siege");
+        addMonster(this, "worm", "worm", 40, 40, monX, monY);
       }
     }
     if (gameTimer > 12000 && gameTimer % 300 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "sonic", "sonic", 150, 80, monX, monY, "follower");
+      addMonster(this, "sonic", "sonic", 150, 80, monX, monY);
     }
     if (gameTimer > 21000 && gameTimer % 600 === 0) {
       siegeSpawn(randomLocation);
-      addMonster(this, "turtle", "turtle", 300, 50, monX, monY, "siege");
+      addMonster(this, "turtle", "turtle", 300, 50, monX, monY);
     }
 
     if (gameTimer > 18000 && gameTimer % 200 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
+      addMonster(this, "slime", "slime", 240, 75, monX, monY);
     }
     // 몬스터 빅 웨이브
     if (gameTimer === 7700) {
@@ -1800,10 +1740,10 @@ function update(time, delta) {
 
     if (gameTimer > 8000 && gameTimer < 8300 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "fly", 10, 50, monX, monY, "wave");
+      addMonster(this, "fly", "fly", 10, 50, monX, monY);
     } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "fly", 100, 50, monX, monY, "wave");
+      addMonster(this, "fly", "fly", 100, 50, monX, monY);
     }
 
     // 스폰 주기
@@ -1868,8 +1808,8 @@ function update(time, delta) {
         this,
         500,
         30,
-        hole.x + 2000,
-        hole.y - 2000,
+        player.x + 1500,
+        player.y + 1500,
         "golem",
         "golem",
         3,
@@ -1971,27 +1911,20 @@ function update(time, delta) {
         if (bossSet.children.entries[i].invincible) {
           bossSet.children.entries[i].setTint(0xff0000);
         }
-        if (bossSet.children.entries[i].bossSpecie !== "golem") {
-          this.physics.moveToObject(
-            bossSet.children.entries[i],
-            player,
-            bossSet.children.entries[i].velocity
-          );
-          if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
-            if (bossFireGiantActive) {
-              this.physics.moveToObject(
-                bossMagicSet.children.entries[0],
-                bossSet.children.entries[i],
-                bossMagicSet.children.entries[0].velocity
-              );
-            }
+        this.physics.moveToObject(
+          bossSet.children.entries[i],
+          player,
+          bossSet.children.entries[i].velocity
+        );
+
+        if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
+          if (bossFireGiantActive) {
+            this.physics.moveToObject(
+              bossMagicSet.children.entries[0],
+              bossSet.children.entries[i],
+              bossMagicSet.children.entries[0].velocity
+            );
           }
-        } else if (bossSet.children.entries[i].bossSpecie === "golem") {
-          this.physics.moveToObject(
-            bossSet.children.entries[i],
-            hole,
-            bossSet.children.entries[i].velocity
-          );
         }
         if (bossSet.children.entries[i].health <= 0) {
           for (let i = 0; i < 5; i++) {
@@ -2026,15 +1959,6 @@ function update(time, delta) {
 
     //tower start
 
-    towerLU.towerAttackTimer++;
-    towerRU.towerAttackTimer++;
-    towerLD.towerAttackTimer++;
-    towerRD.towerAttackTimer++;
-
-    towerLU.towerSkillAttackTimer++;
-    towerRU.towerSkillAttackTimer++;
-    towerLD.towerSkillAttackTimer++;
-    towerRD.towerSkillAttackTimer++;
     //tower end
 
     //exp bar start
@@ -2059,11 +1983,6 @@ function update(time, delta) {
     monsterSet,
     hpBar,
     hpBarBG,
-    hole,
-    towerLD,
-    towerLU,
-    towerRD,
-    towerRU,
     magics,
     mines,
     towerAttacks,
@@ -2082,39 +2001,12 @@ function update(time, delta) {
         Math.random() *
           (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
         StartMineRangeY[mineshowtime];
-      mine = new Mine(this, x, y, "mine", 0);
+      mine = new Mine(this, x, y, "minecoin", 0);
       mine.scale_Circle();
+      mine.set_anime();
       mines.add(mine);
     }
     console.log(mines);
-  }
-
-  if (!towerLU.anims.isPlaying) {
-    console.log(towerLU.stone);
-    towerLU.anims.play(`${towerLU.stone}_idle`, true);
-  }
-  if (!towerLD.anims.isPlaying) {
-    towerLD.anims.play(`${towerLD.stone}_idle`, true);
-  }
-  if (!towerRU.anims.isPlaying) {
-    towerRU.anims.play(`${towerRU.stone}_idle`, true);
-  }
-  if (!towerRD.anims.isPlaying) {
-    towerRD.anims.play(`${towerRD.stone}_idle`, true);
-  }
-
-  if (!towerLU.anims.isPlaying) {
-    console.log(towerLU.stone);
-    towerLU.anims.play(`${towerLU.stone}_idle`, true);
-  }
-  if (!towerLD.anims.isPlaying) {
-    towerLD.anims.play(`${towerLD.stone}_idle`, true);
-  }
-  if (!towerRU.anims.isPlaying) {
-    towerRU.anims.play(`${towerRU.stone}_idle`, true);
-  }
-  if (!towerRD.anims.isPlaying) {
-    towerRD.anims.play(`${towerRD.stone}_idle`, true);
   }
 }
 
@@ -2265,8 +2157,7 @@ function attack(magic, monster) {
               150,
               125,
               monster.x + i * 10,
-              monster.y,
-              "follower"
+              monster.y
             );
           }
           monster.destroy();
@@ -2302,11 +2193,10 @@ function attack(magic, monster) {
             thisScene,
             "babySlime",
             "slime",
-            150,
+            150 + difficulty_hp,
             125,
             monster.x + i * 20,
-            monster.y,
-            "follower"
+            monster.y
           );
         }
         monster.destroy();
@@ -2316,36 +2206,10 @@ function attack(magic, monster) {
   }
 }
 
-// 임시 구멍 구현
-function hitHole(hole, monster) {
-  if (monster.type === "wave" || monster.type === "follower") {
-    return;
-  }
-  hole.hp -= 1;
-  updateHP();
-  monster.destroy();
-  monsterCount -= 1;
-  hole.play("hole_damage");
-  thisScene.time.addEvent({
-    delay: 600,
-    callback: () => {
-      hole.play("new_hole");
-    },
-    loop: false,
-  });
-}
-
-function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
-  monster = new Enemy(
-    scene,
-    hp,
-    velo,
-    x,
-    y,
-    mon_name,
-    monAnime,
-    type
-  ).setInteractive({ cursor: "url(images/cursor/aimHover.png), pointer" });
+function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
+  monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime).setInteractive(
+    { cursor: "url(images/cursor/aimHover.png), pointer" }
+  );
   if (monster.monSpecie === "babySlime") {
     monster.scale = 2;
   } else if (
@@ -2370,30 +2234,6 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
   monster.anime(player);
-}
-
-function destroyHole(hole, golem) {
-  if (golem.bossSpecie === "golem") {
-    hole.hp -= 9999;
-    golem.destroy();
-  }
-}
-
-function siegeSpawn() {
-  randomLocation = Math.floor(Math.random() * 4) + 1;
-  if (randomLocation === 1) {
-    monX = Phaser.Math.Between(hole.x - 1500, hole.x + 1500);
-    monY = Phaser.Math.Between(hole.y + 1500, hole.y + 1510);
-  } else if (randomLocation === 2) {
-    monX = Phaser.Math.Between(hole.x - 1500, hole.x + 1500);
-    monY = Phaser.Math.Between(hole.y - 1500, hole.y - 1510);
-  } else if (randomLocation === 3) {
-    monX = Phaser.Math.Between(hole.x - 1500, hole.x - 1500);
-    monY = Phaser.Math.Between(hole.y - 1500, hole.y + 1500);
-  } else if (randomLocation === 4) {
-    monX = Phaser.Math.Between(hole.x + 1500, hole.x + 1500);
-    monY = Phaser.Math.Between(hole.y - 1500, hole.y + 1500);
-  }
 }
 
 function enemySpawn(scene) {
@@ -2421,7 +2261,7 @@ function slimePattern(scene, pt, x, y) {
       if (pt < 4) {
         slimeKing = new Boss(
           scene,
-          200,
+          200 + difficulty_hp,
           100,
           x + i * 100,
           y,
@@ -2434,7 +2274,7 @@ function slimePattern(scene, pt, x, y) {
       } else if (pt < 8) {
         slimeKing = new Boss(
           scene,
-          100,
+          100 + difficulty_hp,
           100,
           x + i * 50,
           y,
@@ -2447,7 +2287,7 @@ function slimePattern(scene, pt, x, y) {
       } else {
         slimeKing = new Boss(
           scene,
-          50,
+          50 + difficulty_hp,
           100,
           x + i * 25,
           y,
