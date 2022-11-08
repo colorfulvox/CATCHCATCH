@@ -74,7 +74,7 @@ function preload() {
 
   //player start
   // 플레이어 스프라이트
-  this.load.spritesheet("tower1", "images/cattower/normal_tower_38x64.png", {
+  this.load.spritesheet("tower1", "images/cattower/towerFinal.png", {
     frameWidth: 38,
     frameHeight: 64,
   });
