@@ -228,13 +228,6 @@ function preload() {
   this.load.image("skill", "images/cattower/skill.png");
   //tower end
 
-  //hole start
-  this.load.spritesheet("new_hole", "images/hole/new_hole.png", {
-    frameWidth: 100,
-    frameHeight: 100,
-  });
-  //hole end
-
   //navi start
   //navi end
 
@@ -1128,22 +1121,6 @@ function create() {
 
   //player end
 
-  // 홀 애니메이션
-
-  this.anims.create({
-    key: "new_hole",
-    frames: this.anims.generateFrameNumbers("new_hole", { start: 0, end: 2 }),
-    frameRate: 6,
-    repeat: -1,
-  });
-
-  this.anims.create({
-    key: "hole_damage",
-    frames: this.anims.generateFrameNumbers("new_hole", { start: 3, end: 7 }),
-    frameRate: 12,
-    repeat: 0,
-  });
-
   //cointext start
   // cointext = this.add.text(500, 20, 'coin: 0', {font: 'Bold 15px Arial', fill: '#fff', fontStyle: "strong"}).setScrollFactor(0);
   // cointext.setStroke('#000', 2);
@@ -1160,14 +1137,6 @@ function create() {
   towerSkillAttacks = this.physics.add.group();
   mines = this.physics.add.group();
 
-  // 임시 구멍
-  hole = this.physics.add.sprite(0, 0, "new_hole").play("new_hole");
-  hole.setScale(2.3);
-  hw = hole.body.halfWidth;
-  hh = hole.body.halfHeight;
-  hole.setCircle(hw * 0.7, hh - hw * 0.7, hh - hw * 0.7);
-  hole.hp = 10;
-  hole.setDepth(1);
   ingameUi();
 
   this.physics.add.collider(player, bossSet, player.hitPlayer);
@@ -1178,9 +1147,7 @@ function create() {
   // 만약 유저와 몬스터가 닿았다면 (hitplayer 함수 실행)
   this.physics.add.collider(player, monsterSet, player.hitPlayer);
   thisScene.physics.add.overlap(magics, monsterSet, attack);
-  // 만약 몬스터와 구멍이 닿았다면 (hitHole 함수 실행)
-  thisScene.physics.add.overlap(hole, monsterSet, hitHole);
-  thisScene.physics.add.overlap(hole, bossSet, destroyHole);
+
   //map start
   let snappedChunkX =
     this.chunkSize *
@@ -1642,10 +1609,6 @@ function update(time, delta) {
     UICam.startFollow(player, false);
     //map end
 
-    //navi start
-
-    //navi end
-
     //player start
     changeSlot();
     normalAttackAS = fairySet[nowFairy].as;
@@ -1718,32 +1681,12 @@ function update(time, delta) {
         if (monsterSet.children.entries[i].invincible) {
           monsterSet.children.entries[i].setTint(0xff0000);
         }
-
-        if (
-          monsterSet.children.entries[i].type === "follower" ||
-          monsterSet.children.entries[i].type === "wave"
-        ) {
-          this.physics.moveToObject(
-            monsterSet.children.entries[i],
-            player,
-            monsterSet.children.entries[i].velocity
-          );
-        }
-        // 몬스터가 홀에 도달하게 함
-        else if (monsterSet.children.entries[i].type === "siege") {
-          this.physics.moveToObject(
-            monsterSet.children.entries[i],
-            hole,
-            monsterSet.children.entries[i].velocity
-          );
-        }
+        this.physics.moveToObject(
+          monsterSet.children.entries[i],
+          player,
+          monsterSet.children.entries[i].velocity
+        );
       }
-    }
-
-    if (hole.hp <= 0) {
-      $this.pause();
-      updateHP();
-      GameOver();
     }
 
     gameTimer++;
@@ -1756,54 +1699,36 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(
-          this,
-          "alienPlus",
-          "alienPlus",
-          70,
-          55,
-          monX,
-          monY,
-          "follower"
-        );
+        addMonster(this, "alienPlus", "alienPlus", 70, 55, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(
-          this,
-          "alienPlus",
-          "alienPlus",
-          130,
-          75,
-          monX,
-          monY,
-          "follower"
-        );
+        addMonster(this, "alienPlus", "alienPlus", 130, 75, monX, monY);
       } else {
-        addMonster(this, "alien", "alien", 30, 45, monX, monY, "follower");
+        addMonster(this, "alien", "alien", 30, 45, monX, monY);
       }
     }
     if (gameTimer > 6000 && gameTimer % 240 === 0) {
       // 2번 worm
       siegeSpawn(randomLocation);
       if (12000 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY, "siege");
+        addMonster(this, "wormPlus", "wormPlus", 100, 50, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY, "siege");
+        addMonster(this, "wormPlus", "wormPlus", 160, 60, monX, monY);
       } else if (gameTimer <= 12000) {
-        addMonster(this, "worm", "worm", 40, 40, monX, monY, "siege");
+        addMonster(this, "worm", "worm", 40, 40, monX, monY);
       }
     }
     if (gameTimer > 12000 && gameTimer % 300 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "sonic", "sonic", 150, 80, monX, monY, "follower");
+      addMonster(this, "sonic", "sonic", 150, 80, monX, monY);
     }
     if (gameTimer > 21000 && gameTimer % 600 === 0) {
       siegeSpawn(randomLocation);
-      addMonster(this, "turtle", "turtle", 300, 50, monX, monY, "siege");
+      addMonster(this, "turtle", "turtle", 300, 50, monX, monY);
     }
 
     if (gameTimer > 18000 && gameTimer % 200 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "slime", "slime", 240, 75, monX, monY, "follower");
+      addMonster(this, "slime", "slime", 240, 75, monX, monY);
     }
     // 몬스터 빅 웨이브
     if (gameTimer === 7700) {
@@ -1815,10 +1740,10 @@ function update(time, delta) {
 
     if (gameTimer > 8000 && gameTimer < 8300 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "fly", 10, 50, monX, monY, "wave");
+      addMonster(this, "fly", "fly", 10, 50, monX, monY);
     } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "fly", 100, 50, monX, monY, "wave");
+      addMonster(this, "fly", "fly", 100, 50, monX, monY);
     }
 
     // 스폰 주기
@@ -1883,8 +1808,8 @@ function update(time, delta) {
         this,
         500,
         30,
-        hole.x + 2000,
-        hole.y - 2000,
+        player.x + 1500,
+        player.y + 1500,
         "golem",
         "golem",
         3,
@@ -1986,27 +1911,20 @@ function update(time, delta) {
         if (bossSet.children.entries[i].invincible) {
           bossSet.children.entries[i].setTint(0xff0000);
         }
-        if (bossSet.children.entries[i].bossSpecie !== "golem") {
-          this.physics.moveToObject(
-            bossSet.children.entries[i],
-            player,
-            bossSet.children.entries[i].velocity
-          );
-          if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
-            if (bossFireGiantActive) {
-              this.physics.moveToObject(
-                bossMagicSet.children.entries[0],
-                bossSet.children.entries[i],
-                bossMagicSet.children.entries[0].velocity
-              );
-            }
+        this.physics.moveToObject(
+          bossSet.children.entries[i],
+          player,
+          bossSet.children.entries[i].velocity
+        );
+
+        if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
+          if (bossFireGiantActive) {
+            this.physics.moveToObject(
+              bossMagicSet.children.entries[0],
+              bossSet.children.entries[i],
+              bossMagicSet.children.entries[0].velocity
+            );
           }
-        } else if (bossSet.children.entries[i].bossSpecie === "golem") {
-          this.physics.moveToObject(
-            bossSet.children.entries[i],
-            hole,
-            bossSet.children.entries[i].velocity
-          );
         }
         if (bossSet.children.entries[i].health <= 0) {
           for (let i = 0; i < 5; i++) {
@@ -2065,7 +1983,6 @@ function update(time, delta) {
     monsterSet,
     hpBar,
     hpBarBG,
-    hole,
     magics,
     mines,
     towerAttacks,
@@ -2240,8 +2157,7 @@ function attack(magic, monster) {
               150,
               125,
               monster.x + i * 10,
-              monster.y,
-              "follower"
+              monster.y
             );
           }
           monster.destroy();
@@ -2280,8 +2196,7 @@ function attack(magic, monster) {
             150 + difficulty_hp,
             125,
             monster.x + i * 20,
-            monster.y,
-            "follower"
+            monster.y
           );
         }
         monster.destroy();
@@ -2291,36 +2206,10 @@ function attack(magic, monster) {
   }
 }
 
-// 임시 구멍 구현
-function hitHole(hole, monster) {
-  if (monster.type === "wave" || monster.type === "follower") {
-    return;
-  }
-  hole.hp -= 1;
-  updateHP();
-  monster.destroy();
-  monsterCount -= 1;
-  hole.play("hole_damage");
-  thisScene.time.addEvent({
-    delay: 600,
-    callback: () => {
-      hole.play("new_hole");
-    },
-    loop: false,
-  });
-}
-
-function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
-  monster = new Enemy(
-    scene,
-    hp,
-    velo,
-    x,
-    y,
-    mon_name,
-    monAnime,
-    type
-  ).setInteractive({ cursor: "url(images/cursor/aimHover.png), pointer" });
+function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
+  monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime).setInteractive(
+    { cursor: "url(images/cursor/aimHover.png), pointer" }
+  );
   if (monster.monSpecie === "babySlime") {
     monster.scale = 2;
   } else if (
@@ -2345,30 +2234,6 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y, type) {
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
   monster.anime(player);
-}
-
-function destroyHole(hole, golem) {
-  if (golem.bossSpecie === "golem") {
-    hole.hp -= 9999;
-    golem.destroy();
-  }
-}
-
-function siegeSpawn() {
-  randomLocation = Math.floor(Math.random() * 4) + 1;
-  if (randomLocation === 1) {
-    monX = Phaser.Math.Between(hole.x - 1500, hole.x + 1500);
-    monY = Phaser.Math.Between(hole.y + 1500, hole.y + 1510);
-  } else if (randomLocation === 2) {
-    monX = Phaser.Math.Between(hole.x - 1500, hole.x + 1500);
-    monY = Phaser.Math.Between(hole.y - 1500, hole.y - 1510);
-  } else if (randomLocation === 3) {
-    monX = Phaser.Math.Between(hole.x - 1500, hole.x - 1500);
-    monY = Phaser.Math.Between(hole.y - 1500, hole.y + 1500);
-  } else if (randomLocation === 4) {
-    monX = Phaser.Math.Between(hole.x + 1500, hole.x + 1500);
-    monY = Phaser.Math.Between(hole.y - 1500, hole.y + 1500);
-  }
 }
 
 function enemySpawn(scene) {

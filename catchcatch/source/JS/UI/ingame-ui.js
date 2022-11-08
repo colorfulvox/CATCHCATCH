@@ -73,6 +73,17 @@ export default function ingameUi() {
   gameContainer.appendChild(coolContainer);
 }
 
+export function updateExp() {
+  // const progress = document.querySelector("#progress");
+  const heal = document.querySelector(".healTxt");
+  const dmgMul = document.querySelector(".dmgMulTxt");
+  const speed = document.querySelector(".speedTxt");
+  heal.innerText = `Lv.${player.healLevel}`;
+  dmgMul.innerText = `Lv.${player.dmgMulLevel}`;
+  speed.innerText = `Lv.${player.speedLevel} `;
+  // progress.setAttribute("value", player.exp);
+}
+
 export function GameOver() {
   const gameContainer = document.querySelector("#game-container");
   const gameOverContainer = document.createElement("div");

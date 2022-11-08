@@ -25,21 +25,6 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
     this.setCircle(hw * 1, hh - hw * 1, hh - hw * 1);
   }
 
-  overlapOpen(mine, player) {
-    var range = Phaser.Math.Distance.Between(mine.x, mine.y, 0, 0);
-
-    if (gameTimer % 7200 === 0) {
-      mine.coinTime = gameTimer / 7200;
-    }
-  }
-
-  scale_Circle() {
-    this.setScale(1);
-    let hw = this.body.halfWidth;
-    let hh = this.body.halfHeight;
-    this.setCircle(hw * 1, hh - hw * 1, hh - hw * 1);
-  }
-
   set_anime() {
     this.play(this.mineSprite);
   }
@@ -65,7 +50,6 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
       setSound.playSE(17);
     }
     mine.destroy();
-
     setSound.playSE(17);
     mine.destroy();
   }
