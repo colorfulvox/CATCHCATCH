@@ -172,7 +172,8 @@
 
 .coolContainer {
   display: flex;
-
+  background-image: url("../../../public/images/ui/ingameweaponslot.png");
+  background-size: contain;
   width: 360px;
   height: 80px;
   position: absolute;
@@ -180,7 +181,7 @@
   left: 50%;
   justify-content: space-between;
   transform: translateX(-50%) translateY(-50%);
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
 html {
@@ -200,27 +201,29 @@ html {
 .fairy {
   margin-left: 10px;
   margin-top: 10px;
+  /* margin-right: 10px; */
   margin-bottom: 10px;
-  width: 58px;
-  height: 58px;
-  border: 2px solid black;
+  width: 60px;
+  height: 60px;
+
   overflow: hidden;
   position: absolute;
   /* border: 6px solid red; */
 }
 .wizard {
+  margin-left: 10px;
 }
 .reaper {
-  left: 20%;
+  left: 70px;
 }
 .ninja {
-  left: 40%;
+  left: 140px;
 }
 .slime {
-  left: 60%;
+  left: 210px;
 }
 .witch {
-  left: 80%;
+  left: 280px;
   margin-right: 10px;
 }
 
@@ -279,8 +282,8 @@ html {
 }
 .tutorialNumber {
   position: absolute;
-  width: 430px;
-  bottom: 19%;
+  width: 470px;
+  bottom: 23%;
   left: 54%;
   transform: translateX(-50%) translateY(+50%);
 }

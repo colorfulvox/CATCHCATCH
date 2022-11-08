@@ -5,7 +5,6 @@ import Enemy from "./GameObj/enemy.js";
 import ingameUi, {
   GameOver,
   updateExp,
-  updateHP,
   useSkill,
   canSkill,
   messageBoss,
@@ -14,7 +13,6 @@ import levelup from "../UI/levelup.js";
 import initUpgrade, { closeUpgrade } from "../UI/upgrade.js";
 
 import { Chunk, Tile } from "./entities.js";
-import CatTower from "./GameObj/cat-tower.js";
 import Boss from "./GameObj/boss.js";
 import Mine from "./GameObj/mine.js";
 
@@ -1531,7 +1529,6 @@ function update(time, delta) {
       }
     } else {
       if (fairySet[i].isSkill === true) {
-        console.log(1);
         fairySet[i].skillUse = false;
         canSkill(i);
       }
