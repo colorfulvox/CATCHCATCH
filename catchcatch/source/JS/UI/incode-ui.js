@@ -39,10 +39,11 @@ function BacktoStage() {
   gameContainer.style.display = "none";
   const pin = document.querySelector(".pin");
   const buttonContainer = document.querySelector(".buttonContainer");
+
   const rankingpanel = document.querySelector(".rankingpanel");
   gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
-  gameContainer.removeChild(rankingpanel);
+  if (rankingpanel != null) gameContainer.removeChild(rankingpanel);
 
   const app = document.querySelector("#app");
   const stagePage = document.querySelector(".stagePage");
