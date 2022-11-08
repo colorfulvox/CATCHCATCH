@@ -2,7 +2,16 @@ import "../../CSS/UI/stagepage.css";
 import { StartBtnOn } from "./start-page.js";
 import { codeConfig } from "../GAME/code.js";
 
-const diff = [1, 1, 2, 3, 4, 5];
+const diff = [1, 2, 3, 4, 5, 6];
+const fsize = ["30px"];
+const txt = [
+  "몬스터x10",
+  "몬스터x10\n랜덤 위치",
+  "몬스터x10\n랜덤 위치+타입",
+  "몬스터x10\n랜덤 위치+타입\n고양이x3",
+  "몬스터x10\n랜덤 위치+타입\n고양이x3+이동",
+  "테스트",
+];
 global.stageNum = 0;
 
 export default function Stage() {
@@ -18,18 +27,33 @@ export default function Stage() {
   for (let i = 0; i < 6; i++) {
     const stage = document.createElement("div");
     stage.setAttribute("class", "stage");
+
+    const stagelevel = document.createElement("div");
+    stagelevel.setAttribute("class", "stagelevel");
+    stage.appendChild(stagelevel);
+
+    for (let j = 0; j < diff[i]; ++j) {
+      const stagestar = document.createElement("img");
+      stagestar.setAttribute("class", "stagestar");
+      stagestar.src = "/images/ui/StageStar.png";
+
+      stagelevel.appendChild(stagestar);
+    }
     const stageText = document.createElement("div");
     stageText.setAttribute("class", "stageText");
-    stageText.innerText = `${i + 1}`;
-    const stageDiff = document.createElement("div");
-    stageDiff.setAttribute("class", "stageDiff");
-    for (let j = 0; j < diff[i]; j++) {
-      const star = document.createElement("img");
-      star.src = "images/ui/Icon/sample.png";
-      stageDiff.appendChild(star);
-    }
+    stageText.innerText = txt[i];
+    if (i === 0 || i === 5) stageText.style.marginTop = "50px";
+    if (i === 4 || i === 3) stageText.style.marginTop = "30px";
+    // const stageDiff = document.createElement("div");
+    // stageDiff.setAttribute("class", "stageDiff");
+    // for (let j = 0; j < diff[i]; j++) {
+    // const star = document.createElement("img");
+    // star.src = "images/ui/Icon/sample.png";
+    // stageDiff.appendChild(star);
+    // }
     stage.appendChild(stageText);
-    stage.appendChild(stageDiff);
+    // stage.appendChild(stageDiff);
+
     stagePage.appendChild(stage);
     stage.addEventListener("click", () => {
       stagePage.style.display = "none";
