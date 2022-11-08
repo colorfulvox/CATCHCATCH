@@ -44,7 +44,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   hitPlayer(player, alien) {
-    if (player.invincible == false) {
+    if (player.invincible === false) {
       player.invincible = true;
       player.body.checkCollision.none = true;
       player.health -= 1;

@@ -1166,7 +1166,7 @@ function create() {
   this.physics.add.collider(player, monsterSet, player.hitPlayer);
   thisScene.physics.add.overlap(magics, monsterSet, attack);
   thisScene.physics.add.overlap(bombDead, monsterSet, bomb);
-  thisScene.physics.add.overlap(bombDead, player, bomb);
+  thisScene.physics.add.overlap(bombDead, player, bombHitPlayer);
 
   //map start
   let snappedChunkX =
@@ -2476,21 +2476,31 @@ function enemySpawn(scene) {
   }
 }
 
-function bomb(bomb, target) {
-  if (!target.invincible) {
-    if (target.type !== "player") {
-      target.health -= 50;
+function bombHitPlayer() {
+    if (ChoiceCat === 5) {
+        let rand = Math.floor(Math.random() * 20);
+        setSound.playSE(rand);
     } else {
-      target.health -= 5;
+        setSound.playSE(11);
     }
-    target.invincible = true;
-    // 병합용
-  }
+    if (player.invincible === false) {
+        player.invincible = true;
+        player.body.checkCollision.none = true;
+        player.health -= 5;
+        // 피해 1 줌
+        // stop_game -= 1;
+        if (player.health <= 0) {
+            GameOver();
+            $this.pause();
+        }
+    }
+}
 
-  if (
-    (target.health <= 0 && target.type !== "boss") ||
-    (target.health <= 0 && target.type !== "player")
-  ) {
+function bomb(bomb, target) {
+    target.health -= 50;
+    target.invincible = true;
+
+  if ((target.health <= 0) && (target.type !== "boss")) {
     if (target.monSpecie !== "slime") {
       if (target.monSpecie === "worm") {
         target.boomAnim();
@@ -2515,8 +2525,7 @@ function bomb(bomb, target) {
       target.destroy();
       monsterCount -= 1;
     }
-  } else if (target.health <= 0 && target.type === "player") {
-  }
+  } 
 }
 
 function slimePattern(scene, pt, x, y) {
