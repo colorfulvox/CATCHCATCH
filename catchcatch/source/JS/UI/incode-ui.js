@@ -131,7 +131,7 @@ function submitranking() {
   }
 }
 
-function codegameclear() {
+export function codegameclear() {
   const gameContainer = document.querySelector("#game-container");
 
   const resultpanel = document.createElement("div");
