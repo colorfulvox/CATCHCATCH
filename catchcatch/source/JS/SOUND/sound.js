@@ -60,7 +60,9 @@ export class setSound {
         // 20. 패배 소리
         'sounds/se/se_game_over_lose.wav',
         // 21. 무야호
-        'sounds/se/se_muyaho.wav'
+        'sounds/se/se_muyaho.wav',
+        // 22. 폭발
+        'sounds/se/se_explosion.wav'
     ]
 
     static _backGroundMusic;
