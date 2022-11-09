@@ -184,7 +184,8 @@ export default function levelup() {
     levelupContent.style.backgroundSize = "contain";
 
     //스킬 아이콘
-    levelupImg.style.backgroundImage = 'url("images/ui/Icon/sample.png")';
+    levelupImg.style.backgroundImage =
+      'url("images/ui/Icon/levelupicon/4.png")';
 
     levelupImg.style.backgroundRepeat = "no-repeat";
     levelupImg.style.backgroundPosition = "center";
