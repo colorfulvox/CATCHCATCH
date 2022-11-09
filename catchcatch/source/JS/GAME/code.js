@@ -1,7 +1,7 @@
 import Player from "./CodeObj/player.js";
 import { Chunk, Tile } from "./entities.js";
 import { sockConnect } from "./CodeObj/Execlient.js";
-import IncodeUI, { makeranking } from "../UI/incode-ui.js";
+import IncodeUI, { makeranking, codegameclear } from "../UI/incode-ui.js";
 import Enemy from "./CodeObj/enemy.js";
 import Magic from "./CodeObj/magic.js";
 import { showscore } from "../UI/incode-ui.js";
@@ -50,6 +50,7 @@ let maxMon;
 let monCount = 0;
 var player = "";
 global.codeScene = "";
+let codeStart;
 var gameOver = false;
 var scoreText;
 global.gameTimer = 0;
@@ -189,6 +190,8 @@ function create() {
   IncodeUI();
   monCount = 0;
   chunks = [];
+  score = 0;
+  codeStart = true;
   this.anims.create({
     key: "tower1_idle",
     frames: this.anims.generateFrameNumbers("tower1", { start: 0, end: 2 }),
@@ -552,7 +555,7 @@ function update(time, delta) {
   frameTime += delta;
 
   if (frameTime > 16.5) {
-    showscore.textContent = global.score + "score";
+    showscore.textContent = global.score + " score";
     // 여기다가 UI 띄워라
     frameTime = 0;
     timer++;
@@ -766,9 +769,10 @@ function dataSend() {
           pinnumber: PinNumber,
           catchobj: objList,
         };
+        codeStart = false;
         IsRunning = true;
         socket.send(JSON.stringify(Data));
-      } else {
+      } else if (!codeStart) {
         console.log("Game End, Score : " + score);
         Data = {
           action: "endGame",
@@ -776,7 +780,11 @@ function dataSend() {
         };
         socket.send(JSON.stringify(Data));
         IsStarted = false;
-        makeranking();
+        if (stageNum === 6) {
+          makeranking();
+        } else {
+          codegameclear();
+        }
       }
     }
   }
