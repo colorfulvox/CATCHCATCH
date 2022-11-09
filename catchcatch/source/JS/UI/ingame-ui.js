@@ -63,10 +63,20 @@ export default function ingameUi() {
     gameContainer.appendChild(img);
     gameContainer.appendChild(mouse);
 
+    const skill = document.createElement("img");
+    skill.setAttribute("class", "tutorialNumber");
+    skill.src = "images/ui/tutorial/tutorial_number.png";
+    const space = document.createElement("img");
+    space.setAttribute("class", "tutorialSpace");
+    space.src = "images/ui/tutorial/tutorial_spacebar.png";
+    gameContainer.appendChild(space);
+    gameContainer.appendChild(skill);
+
     setTimeout(() => {
       gameContainer.removeChild(img);
+      gameContainer.removeChild(space);
+      gameContainer.removeChild(skill);
       gameContainer.removeChild(mouse);
-      ChangeWeapon();
     }, 6000);
   }
   gameContainer.appendChild(coolContainer);

@@ -1,6 +1,7 @@
 import "../../CSS/UI/stagepage.css";
 import { StartBtnOn } from "./start-page.js";
 import { codeConfig } from "../GAME/code.js";
+import {setSound} from "../SOUND/sound";
 
 const diff = [1, 2, 3, 4, 5, 6];
 const fsize = ["30px"];
@@ -56,6 +57,7 @@ export default function Stage() {
 
     stagePage.appendChild(stage);
     stage.addEventListener("click", () => {
+      setSound.playSE(24);
       stagePage.style.display = "none";
       stageNum = i + 1;
       global.codeGame = new Phaser.Game(codeConfig);
