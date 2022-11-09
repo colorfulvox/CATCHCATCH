@@ -153,7 +153,7 @@ global.towerSkillAttacks = "";
 
 //mine start
 let mine;
-let mineshowtime = 0;
+let mineShowTime = 0;
 let mineCount = [3, 15, 60, 120, 400, 500, 500, 550, 800, 1000];
 let StartMineRangeX = [
     -400, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
@@ -1617,15 +1617,15 @@ function create() {
         repeat: -1,
     });
 
-    for (let i = 0; i < mineCount[mineshowtime]; i++) {
+    for (let i = 0; i < mineCount[mineShowTime]; i++) {
         let x =
             Math.random() *
-            (EndMineRangeX[mineshowtime] - StartMineRangeX[mineshowtime]) +
-            StartMineRangeX[mineshowtime];
+            (EndMineRangeX[mineShowTime] - StartMineRangeX[mineShowTime]) +
+            StartMineRangeX[mineShowTime];
         let y =
             Math.random() *
-            (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
-            StartMineRangeY[mineshowtime];
+            (EndMineRangeY[mineShowTime] - StartMineRangeY[mineShowTime]) +
+            StartMineRangeY[mineShowTime];
         mine = new Mine(this, x, y, "minecoin", 0);
         mine.scale_Circle();
         mine.set_anime();
@@ -1880,13 +1880,16 @@ function update(time, delta) {
         }
 
         // 보스
+        let slimeSpawnTime = 18000;
+        let golemSpawnTime = 21000;
+        let fireGiantSpawnTime = 28000;
 
         // 슬라임
-        if (gameTimer === 17400) {
+        if (gameTimer === (slimeSpawnTime - 600)) {
             messageBoss("슬라임 킹");
         }
 
-        if (gameTimer === 18000) {
+        if (gameTimer === slimeSpawnTime) {
             if (ChoiceCat === 5) {
                 let rand = Math.floor(Math.random() * 20);
                 setSound.playSE(rand);
@@ -1916,10 +1919,10 @@ function update(time, delta) {
         }
 
         // 골렘
-        if (gameTimer === 20400) {
+        if (gameTimer === (golemSpawnTime - 600)) {
             messageBoss("골렘");
         }
-        if (gameTimer === 21000) {
+        if (gameTimer === golemSpawnTime) {
             if (ChoiceCat === 5) {
                 let rand = Math.floor(Math.random() * 20);
                 setSound.playSE(rand);
@@ -1949,10 +1952,10 @@ function update(time, delta) {
         }
 
         // 불거인
-        if (gameTimer === 27400) {
+        if (gameTimer === (fireGiantSpawnTime - 600)) {
             messageBoss("불거인");
         }
-        if (gameTimer === 28000) {
+        if (gameTimer === fireGiantSpawnTime) {
             if (ChoiceCat === 5) {
                 let rand = Math.floor(Math.random() * 20);
                 setSound.playSE(rand);
@@ -1982,7 +1985,7 @@ function update(time, delta) {
             fireGiantIndex = bossSet.children.entries.length - 1;
         }
 
-        if (gameTimer === 28000) {
+        if (gameTimer === fireGiantSpawnTime) {
             fireGiantAura = new Boss(
                 this,
                 10000,
@@ -2015,7 +2018,7 @@ function update(time, delta) {
                 y,
                 "fireGiantAura",
                 "fireGiantAura",
-                (gameTimer - 28000) / 120 + 1,
+                (gameTimer - fireGiantSpawnTime) / 120 + 1,
                 10,
                 "boss"
             );
@@ -2145,16 +2148,16 @@ function update(time, delta) {
     ]);
 
     if (gameTimer % 3600 === 0) {
-        ++mineshowtime;
-        for (let i = 0; i < mineCount[mineshowtime]; i++) {
+        ++mineShowTime;
+        for (let i = 0; i < mineCount[mineShowTime]; i++) {
             let x =
                 Math.random() *
-                (EndMineRangeX[mineshowtime] - StartMineRangeX[mineshowtime]) +
-                StartMineRangeX[mineshowtime];
+                (EndMineRangeX[mineShowTime] - StartMineRangeX[mineShowTime]) +
+                StartMineRangeX[mineShowTime];
             let y =
                 Math.random() *
-                (EndMineRangeY[mineshowtime] - StartMineRangeY[mineshowtime]) +
-                StartMineRangeY[mineshowtime];
+                (EndMineRangeY[mineShowTime] - StartMineRangeY[mineShowTime]) +
+                StartMineRangeY[mineShowTime];
             mine = new Mine(this, x, y, "minecoin", 0);
             mine.scale_Circle();
             mine.set_anime();
