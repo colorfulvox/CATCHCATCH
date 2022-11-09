@@ -1171,7 +1171,7 @@ function create() {
   this.physics.add.collider(player, monsterSet, player.hitPlayer);
   thisScene.physics.add.overlap(magics, monsterSet, attack);
   thisScene.physics.add.overlap(bombDead, monsterSet, bomb);
-  thisScene.physics.add.overlap(bombDead, player, bombHitPlayer);
+  thisScene.physics.add.overlap(bombDead, player, player.bombHitPlayer);
 
   //map start
   let snappedChunkX =
@@ -1741,21 +1741,17 @@ function update(time, delta) {
   }
 
   frameTime += delta;
-  player.move();
   //  Health bar start
   hpBar.clear();
-
+  hpBarBG.clear();
   hpBarBG.fillStyle(0xff0000);
   hpBarBG.fillRect(0, 0, 60, 10);
 
   hpBar.fillStyle(0x2ff40a);
   hpBar.fillRect(0, 0, 60 * (player.health / player.maxHealth), 10);
-
-  hpBar.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
-  hpBarBG.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
-  // expBar.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
-  // expBarBG.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
   // Health bar end
+  player.move(hpBar, hpBarBG);
+
   if (frameTime > 16.5) {
     frameTime = 0;
 
@@ -2486,27 +2482,6 @@ function enemySpawn(scene) {
   } else if (randomLocation === 4) {
     monX = Phaser.Math.Between(player.x + 500, player.x + 500);
     monY = Phaser.Math.Between(player.y - 500, player.y + 500);
-  }
-}
-
-function bombHitPlayer() {
-  if (ChoiceCat === 5) {
-    let rand = Math.floor(Math.random() * 20);
-    setSound.playSE(rand);
-  } else {
-    setSound.playSE(11);
-  }
-  if (player.invincible === false) {
-    player.invincible = true;
-    player.body.checkCollision.none = true;
-    player.health -= 3;
-    // 피해 1 줌
-    // stop_game -= 1;
-    if (player.health <= 0) {
-      player.health = 0;
-      GameOver();
-      $this.pause();
-    }
   }
 }
 

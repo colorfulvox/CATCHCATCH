@@ -68,7 +68,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     new Boom(thisScene, this.x, this.y);
   }
   unInvincible() {
-    console.log("asdf");
     this.myInvincibleEvent = thisScene.time.addEvent({
       delay: 400,
       callback: () => {

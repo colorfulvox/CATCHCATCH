@@ -18,7 +18,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   dmgMulLevel = 1;
   speed = 100;
   speedLevel = 1;
-  maxExp = 300000000000;
+  maxExp = 30000;
   exp = 0;
   level = 1;
   maxExpBonus = 5;
@@ -103,7 +103,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.fairy = fairy;
   }
 
-  move(direction) {
+  move(hpBar, hpBarBG) {
     this.fairy.x = this.x - 20;
     this.fairy.y = this.y - 50;
 
@@ -164,6 +164,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityX(-speedDiag);
       this.body.setVelocityY(speedDiag);
     }
+    hpBar.setPosition(this.x - 30, this.y + 40);
+    hpBarBG.setPosition(this.x - 30, this.y + 40);
   }
 
   hitByEnemy(damage) {}
@@ -186,18 +188,44 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         GameOver();
         $this.pause();
       }
-      // 공격 맞은 후 일시 무적에 사용
-      this.myInvincibleEvent = thisScene.time.addEvent({
-        delay: 1000,
-        callback: () => {
-          player.invincible = false;
-          player.body.checkCollision.none = false;
-          player.setVisible(true);
-          thisScene.time.removeEvent(this.myInvincibleEvent);
-          this.myInvincibleEvent = undefined;
-        },
-        loop: false,
-      });
     }
+    // 공격 맞은 후 일시 무적에 사용
+    player.unInvincible();
+  }
+
+  bombHitPlayer(bombDead, player) {
+    if (ChoiceCat === 5) {
+      let rand = Math.floor(Math.random() * 20);
+      setSound.playSE(rand);
+    } else {
+      setSound.playSE(11);
+    }
+    if (player.invincible === false) {
+      player.invincible = true;
+      player.body.checkCollision.none = true;
+      player.health -= 3;
+      player.unInvincible();
+      // 피해 1 줌
+      // stop_game -= 1;
+      if (player.health <= 0) {
+        player.health = 0;
+        GameOver();
+        $this.pause();
+      }
+    }
+  }
+
+  unInvincible() {
+    this.myInvincibleEvent = thisScene.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.invincible = false;
+        this.body.checkCollision.none = false;
+        this.setVisible(true);
+        thisScene.time.removeEvent(this.myInvincibleEvent);
+        this.myInvincibleEvent = undefined;
+      },
+      loop: false,
+    });
   }
 }
