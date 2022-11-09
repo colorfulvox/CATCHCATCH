@@ -12,8 +12,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   type;
   constructor(scene, maxHealth, velo, randomX, randomY, monSpecie, anim) {
     super(scene, randomX, randomY, monSpecie);
-    this.maxHealth = 60;
-    this.health = 60;
+    this.maxHealth = maxHealth;
+    this.health = maxHealth;
     this.velocity = velo;
     this.alpha = 1;
     this.anim = anim;

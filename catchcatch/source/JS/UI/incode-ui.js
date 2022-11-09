@@ -4,6 +4,8 @@ import { codeConfig } from "../GAME/code.js";
 
 let inputspace;
 
+export let showscore;
+
 export default function IncodeUI() {
   const gameContainer = document.querySelector("#game-container");
 
@@ -27,6 +29,12 @@ export default function IncodeUI() {
   reBtn.setAttribute("class", "reBtn");
   reBtn.addEventListener("click", Replay);
 
+  showscore = document.createElement("div");
+  showscore.setAttribute("class", "showscore");
+  showscore.textContent = "0 Score";
+
+  gameContainer.appendChild(showscore);
+
   buttonContainer.appendChild(backBtn);
   buttonContainer.appendChild(reBtn);
 
@@ -34,6 +42,7 @@ export default function IncodeUI() {
   gameContainer.appendChild(buttonContainer);
 
   // makeranking();
+  // codegameclear();
 }
 
 function BacktoStage() {
@@ -120,6 +129,32 @@ function submitranking() {
     socket.send(JSON.stringify(Data));
     BacktoStage();
   }
+}
+
+export function codegameclear() {
+  const gameContainer = document.querySelector("#game-container");
+
+  const resultpanel = document.createElement("div");
+  resultpanel.setAttribute("class", "rankingpanel");
+  gameContainer.appendChild(resultpanel);
+
+  const scorespace = document.createElement("div");
+  scorespace.setAttribute("class", "scorespace");
+  scorespace.textContent = global.score + " score";
+  scorespace.style.marginTop = "30px";
+  resultpanel.appendChild(scorespace);
+
+  const submitspace = document.createElement("div");
+  submitspace.setAttribute("class", "submitspace");
+  resultpanel.appendChild(submitspace);
+
+  const okbtn = document.createElement("button");
+  okbtn.setAttribute("class", "submitbtn");
+  okbtn.textContent = "확인";
+  okbtn.style.marginTop = "20px";
+  submitspace.appendChild(okbtn);
+
+  submitspace.addEventListener("click", cancelranking);
 }
 
 function cancelranking() {

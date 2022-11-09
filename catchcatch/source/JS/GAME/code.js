@@ -1,9 +1,10 @@
 import Player from "./CodeObj/player.js";
 import { Chunk, Tile } from "./entities.js";
 import { sockConnect } from "./CodeObj/Execlient.js";
-import IncodeUI from "../UI/incode-ui.js";
+import IncodeUI, { makeranking, codegameclear } from "../UI/incode-ui.js";
 import Enemy from "./CodeObj/enemy.js";
 import Magic from "./CodeObj/magic.js";
+import { showscore } from "../UI/incode-ui.js";
 export const codeConfig = {
   type: Phaser.AUTO,
   width: 600,
@@ -551,6 +552,8 @@ function update(time, delta) {
   frameTime += delta;
 
   if (frameTime > 16.5) {
+    showscore.textContent = global.score + "score";
+    // 여기다가 UI 띄워라
     frameTime = 0;
     timer++;
     monTimer++;
@@ -773,6 +776,11 @@ function dataSend() {
         };
         socket.send(JSON.stringify(Data));
         IsStarted = false;
+        if (stageNum === 6) {
+          makeranking();
+        } else {
+          codegameclear();
+        }
       }
     }
   }

@@ -64,6 +64,21 @@
   }
 }
 
+.showscore {
+  position: absolute;
+  top: 20px;
+  right: 10px;
+  width: 200px;
+  height: 50px;
+  /* border: 2px solid white; */
+  color: white;
+  font-weight: bold;
+  font-family: "KenneyBlocks";
+  font-size: x-large;
+  text-align: center;
+  line-height: 50px;
+}
+
 .buttonContainer > div {
   text-align: center;
   line-height: 50px;
