@@ -18,11 +18,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   dmgMulLevel = 1;
   speed = 100;
   speedLevel = 1;
-<<<<<<< HEAD
-  maxExp = 3000000;
-=======
+
   maxExp = 30000;
->>>>>>> 0f9710b11803d12e378759fb2efad67f17b5d675
+
   exp = 0;
   level = 1;
   maxExpBonus = 5;
