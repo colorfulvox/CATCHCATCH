@@ -147,8 +147,8 @@ global.hole = "";
 //enemy end
 
 //tower start
-global.towerAttacks = "";
-global.towerSkillAttacks = "";
+global.petAttacks = "";
+global.petSkillAttacks = "";
 //tower end
 
 //mine start
@@ -1185,8 +1185,8 @@ function create() {
   bombDead = this.physics.add.group();
   monsterSet = this.physics.add.group();
   magics = this.physics.add.group();
-  towerAttacks = this.physics.add.group();
-  towerSkillAttacks = this.physics.add.group();
+  petAttacks = this.physics.add.group();
+  petSkillAttacks = this.physics.add.group();
   mines = this.physics.add.group();
 
   ingameUi();
@@ -1393,54 +1393,15 @@ function create() {
 
   global.pets = this.add.group();
 
-  global.petNormal = new CatTower(
-    this,
-    0,
-    player.x,
-    player.y,
-    "0_idle_pet",
-    "can"
-  );
-  global.petThunder = new CatTower(
-    this,
-    1,
-    player.x,
-    player.y,
-    "1_idle_pet",
-    "can"
-  );
-  global.petFire = new CatTower(
-    this,
-    2,
-    player.x,
-    player.y,
-    "2_idle_pet",
-    "can"
-  );
-  global.petWater = new CatTower(
-    this,
-    3,
-    player.x,
-    player.y,
-    "3_idle_pet",
-    "can"
-  );
-  global.petEarth = new CatTower(
-    this,
-    4,
-    player.x,
-    player.y,
-    "4_idle_pet",
-    "can"
-  );
-  global.petGod = new CatTower(
-    this,
-    5,
-    player.x,
-    player.y,
-    "5_idle_pet",
-    "can"
-  );
+  let px = player.x;
+  let py = player.y;
+
+  global.petNormal = new CatTower(this, 0, 0, px, py, "0_idle_pet", "can");
+  global.petThunder = new CatTower(this, 1, 0, px, py, "1_idle_pet", "can");
+  global.petFire = new CatTower(this, 2, 0, px, py, "2_idle_pet", "can");
+  global.petWater = new CatTower(this, 3, 0, px, py, "3_idle_pet", "can");
+  global.petEarth = new CatTower(this, 4, 0, px, py, "4_idle_pet", "can");
+  global.petGod = new CatTower(this, 5, 0, px, py, "5_idle_pet", "can");
 
   petNormal.setDepth(10);
   petThunder.setDepth(10);
@@ -1449,12 +1410,12 @@ function create() {
   petEarth.setDepth(10);
   petGod.setDepth(10);
 
-  petNormal.setVisible(true);
-  petThunder.setVisible(true);
-  petFire.setVisible(true);
-  petWater.setVisible(true);
-  petEarth.setVisible(true);
-  petGod.setVisible(true);
+  petNormal.setVisible(false);
+  petThunder.setVisible(false);
+  petFire.setVisible(false);
+  petWater.setVisible(false);
+  petEarth.setVisible(false);
+  petGod.setVisible(false);
 
   pets.add(petNormal);
   pets.add(petThunder);
@@ -1462,7 +1423,6 @@ function create() {
   pets.add(petWater);
   pets.add(petEarth);
   pets.add(petGod);
-  console.log(pets.getChildren());
 
   global.petscircle = new Phaser.Geom.Circle(player.x, player.y, 800);
 
@@ -2125,8 +2085,8 @@ function update(time, delta) {
     petWater,
     petEarth,
     petGod,
-    towerAttacks,
-    towerSkillAttacks,
+    petAttacks,
+    petSkillAttacks,
     bossMagicSet,
   ]);
 
