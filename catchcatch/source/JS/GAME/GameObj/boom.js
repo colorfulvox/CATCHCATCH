@@ -11,7 +11,7 @@ export default class Boom extends Phaser.GameObjects.Sprite {
     });
 
     scene.add.existing(this);
-    this.scale = 2;
+    this.scale = 3;
     UICam.ignore(this);
     this.play("monster_boom");
     scene.time.addEvent({

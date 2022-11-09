@@ -2509,7 +2509,7 @@ function bombHitPlayer() {
   if (player.invincible === false) {
     player.invincible = true;
     player.body.checkCollision.none = true;
-    player.health -= 5;
+    player.health -= 3;
     // 피해 1 줌
     // stop_game -= 1;
     if (player.health <= 0) {
