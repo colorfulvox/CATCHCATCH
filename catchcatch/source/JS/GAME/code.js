@@ -1,7 +1,7 @@
 import Player from "./CodeObj/player.js";
 import { Chunk, Tile } from "./entities.js";
 import { sockConnect } from "./CodeObj/Execlient.js";
-import IncodeUI from "../UI/incode-ui.js";
+import IncodeUI, { makeranking } from "../UI/incode-ui.js";
 import Enemy from "./CodeObj/enemy.js";
 import Magic from "./CodeObj/magic.js";
 export const codeConfig = {
@@ -773,6 +773,7 @@ function dataSend() {
         };
         socket.send(JSON.stringify(Data));
         IsStarted = false;
+        makeranking();
       }
     }
   }

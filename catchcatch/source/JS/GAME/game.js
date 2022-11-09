@@ -2298,7 +2298,11 @@ function attack(magic, monster) {
       let num = Math.floor(Math.random() * 100 + 1);
       if (num <= magic.fairy.deathCount && monster.type !== "boss") {
         if (monster.monSpecie !== "slime") {
-          if (monster.monSpecie === "worm" || monster.monSpecie === "wormPlus" || monster.monSpecie === "wormFinal") {
+          if (
+            monster.monSpecie === "worm" ||
+            monster.monSpecie === "wormPlus" ||
+            monster.monSpecie === "wormFinal"
+          ) {
             monster.boomAnim();
           } else {
             monster.dieAnim();
@@ -2334,7 +2338,11 @@ function attack(magic, monster) {
 
     if (monster.health <= 0 && monster.type !== "boss") {
       if (monster.monSpecie !== "slime") {
-        if (monster.monSpecie === "worm" || monster.monSpecie === "wormPlus" || monster.monSpecie === "wormFinal") {
+        if (
+          monster.monSpecie === "worm" ||
+          monster.monSpecie === "wormPlus" ||
+          monster.monSpecie === "wormFinal"
+        ) {
           monster.boomAnim();
         } else {
           monster.dieAnim();
@@ -2425,7 +2433,11 @@ function bomb(bomb, target) {
     target.unInvincible();
     if (target.health <= 0 && target.type !== "boss") {
       if (target.monSpecie !== "slime") {
-        if (target.monSpecie === "worm" || target.monSpecie === "wormPlus" || target.monSpecie === "wormFinal") {
+        if (
+          target.monSpecie === "worm" ||
+          target.monSpecie === "wormPlus" ||
+          target.monSpecie === "wormFinal"
+        ) {
           target.boomAnim();
         } else {
           target.dieAnim();
