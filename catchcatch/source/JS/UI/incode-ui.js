@@ -52,9 +52,15 @@ function BacktoStage() {
   const buttonContainer = document.querySelector(".buttonContainer");
 
   const rankingpanel = document.querySelector(".rankingpanel");
+  const resultpanel = document.querySelector(".resultpanel");
+  const tempshowscore = document.querySelector(".showscore");
+
   gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
+  gameContainer.removeChild(tempshowscore);
+
   if (rankingpanel != null) gameContainer.removeChild(rankingpanel);
+  if (resultpanel != null) gameContainer.removeChild(resultpanel);
 
   const app = document.querySelector("#app");
   const stagePage = document.querySelector(".stagePage");
@@ -135,7 +141,7 @@ export function codegameclear() {
   const gameContainer = document.querySelector("#game-container");
 
   const resultpanel = document.createElement("div");
-  resultpanel.setAttribute("class", "rankingpanel");
+  resultpanel.setAttribute("class", "resultpanel");
   gameContainer.appendChild(resultpanel);
 
   const scorespace = document.createElement("div");
