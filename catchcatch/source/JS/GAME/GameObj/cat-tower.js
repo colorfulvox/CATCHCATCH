@@ -71,5 +71,9 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
     this.setCircle(hw * 5, hh - hw * 5, hh - hw * 5);
   }
 
+  levelUp() {
+    this.level++;
+  }
+
   overlaphit() {}
 }
