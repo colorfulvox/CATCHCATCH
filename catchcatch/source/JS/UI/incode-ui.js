@@ -2,6 +2,8 @@ import "../../CSS/UI/inCodeUI.css";
 import Stage from "./stage.js";
 import { codeConfig } from "../GAME/code.js";
 
+let inputspace;
+
 export default function IncodeUI() {
   const gameContainer = document.querySelector("#game-container");
 
@@ -81,7 +83,7 @@ export function makeranking() {
   scorespace.textContent = global.score + " score";
   rankingpanel.appendChild(scorespace);
 
-  const inputspace = document.createElement("input");
+  inputspace = document.createElement("input");
   inputspace.setAttribute("class", "inputspace");
   inputspace.placeholder = "닉네임을 입력해주세요.";
 
@@ -107,7 +109,17 @@ export function makeranking() {
 }
 
 function submitranking() {
-  BacktoStage();
+  if (inputspace.value === "") {
+    inputspace.placeholder = "닉네임을 먼저 입력하세요.";
+  } else {
+    let Data = {
+      action: "newranking",
+      name: inputspace.value,
+      score: global.score,
+    };
+    socket.send(JSON.stringify(Data));
+    BacktoStage();
+  }
 }
 
 function cancelranking() {
