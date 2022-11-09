@@ -1239,17 +1239,6 @@ function create() {
 
   this.cameras.main.centerOn(this.followPoint.x, this.followPoint.y);
 
-  // 공격 맞은 후 일시 무적에 사용
-  timer = this.time.addEvent({
-    delay: 2000,
-    callback: () => {
-      player.invincible = false;
-      player.body.checkCollision.none = false;
-      player.setVisible(true);
-    },
-    loop: true,
-  });
-
   // ============== 몬스터 스프라이트 애니메이션 목록 ==================
   this.anims.create({
     key: "alien",
@@ -2411,6 +2400,7 @@ function attack(magic, monster) {
     }
 
     monster.invincible = true;
+    monster.unInvincible();
     monster.health -= magic.fairy.dmg * player.dmgMul;
 
     if (monster.health <= 0 && monster.type !== "boss") {
@@ -2520,33 +2510,35 @@ function bombHitPlayer() {
 }
 
 function bomb(bomb, target) {
-  target.health -= 50;
-  target.invincible = true;
-
-  if (target.health <= 0 && target.type !== "boss") {
-    if (target.monSpecie !== "slime") {
-      if (target.monSpecie === "worm") {
-        target.boomAnim();
-      } else {
-        target.dieAnim();
+  if (!target.invincible) {
+    target.invincible = true;
+    target.health -= 50;
+    target.unInvincible();
+    if (target.health <= 0 && target.type !== "boss") {
+      if (target.monSpecie !== "slime") {
+        if (target.monSpecie === "worm") {
+          target.boomAnim();
+        } else {
+          target.dieAnim();
+        }
+        target.destroy();
+        player.expUp();
+        monsterCount -= 1;
+      } else if (target.monSpecie === "slime") {
+        for (let i = 0; i < 2; i++) {
+          addMonster(
+            thisScene,
+            "babySlime",
+            "slime",
+            150 + difficulty_hp,
+            125,
+            target.x + i * 20,
+            target.y
+          );
+        }
+        target.destroy();
+        monsterCount -= 1;
       }
-      target.destroy();
-      player.expUp();
-      monsterCount -= 1;
-    } else if (target.monSpecie === "slime") {
-      for (let i = 0; i < 2; i++) {
-        addMonster(
-          thisScene,
-          "babySlime",
-          "slime",
-          150 + difficulty_hp,
-          125,
-          target.x + i * 20,
-          target.y
-        );
-      }
-      target.destroy();
-      monsterCount -= 1;
     }
   }
 }

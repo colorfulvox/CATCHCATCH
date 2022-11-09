@@ -18,7 +18,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   dmgMulLevel = 1;
   speed = 100;
   speedLevel = 1;
-  maxExp = 3;
+  maxExp = 300000000000;
   exp = 0;
   level = 1;
   maxExpBonus = 1;
@@ -32,7 +32,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   fairy;
   invincible = false;
   type = "player";
-
+  myInvincibleEvent = undefined;
   constructor(scene, dmgMul, maxHealth, health, catName) {
     super(scene, 0, 0, catName);
     this.alpha = 1;
@@ -185,6 +185,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         GameOver();
         $this.pause();
       }
+      // 공격 맞은 후 일시 무적에 사용
+      this.myInvincibleEvent = thisScene.time.addEvent({
+        delay: 1000,
+        callback: () => {
+          player.invincible = false;
+          player.body.checkCollision.none = false;
+          player.setVisible(true);
+          thisScene.time.removeEvent(this.myInvincibleEvent);
+          this.myInvincibleEvent = undefined;
+        },
+        loop: false,
+      });
     }
   }
 }
