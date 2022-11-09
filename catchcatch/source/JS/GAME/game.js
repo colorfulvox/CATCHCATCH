@@ -1616,23 +1616,6 @@ function create() {
         frameRate: 8,
         repeat: -1,
     });
-
-    for (let i = 0; i < mineCount[mineShowTime]; i++) {
-        let x =
-            Math.random() *
-            (EndMineRangeX[mineShowTime] - StartMineRangeX[mineShowTime]) +
-            StartMineRangeX[mineShowTime];
-        let y =
-            Math.random() *
-            (EndMineRangeY[mineShowTime] - StartMineRangeY[mineShowTime]) +
-            StartMineRangeY[mineShowTime];
-        mine = new Mine(this, x, y, "minecoin", 0);
-        mine.scale_Circle();
-        mine.set_anime();
-        mines.add(mine);
-    }
-    //mine end
-
     // ##보스 생성, 나중에 타이머 조건 넣고 업데이트에 넣기 ##
 
     //navi start
@@ -2147,7 +2130,7 @@ function update(time, delta) {
         bossMagicSet,
     ]);
 
-    if (gameTimer % 3600 === 0) {
+    if (gameTimer % 600 === 0) {
         ++mineShowTime;
         for (let i = 0; i < mineCount[mineShowTime]; i++) {
             let x =
