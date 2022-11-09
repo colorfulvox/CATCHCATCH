@@ -13,6 +13,7 @@ let _mode = true;
 
 let RankingListTxt = [];
 let RankingData = [];
+let NewData = [];
 
 global.IsStarted = false;
 global.PinNumber = "";
@@ -70,10 +71,14 @@ const StartPageInit = () => {
 
         if (msg.action === "PinNumber") {
           PinNumber = msg.pinnumber;
-
           RankingData = JSON.parse(JSON.stringify(msg.ranking));
+          RankingData = RankingData.map((el, idx) => {
+            return [idx + 1, ...el];
+          });
           console.log(`당신의 Pin번호는 "${PinNumber}" 입니다.`);
-          UpdateRanking();
+          NewData = RankingData;
+          InitRanking();
+          // UpdateRanking();
         }
         // 게임 시작시 1초 마다 서버에게 데이터를 보내는걸 시작한다.
         else if (msg.action === "StartGame") {
@@ -86,6 +91,17 @@ const StartPageInit = () => {
           //여기서 바뀐 정보를 전달 받는다.
           attack(msg.attack, msg.angle, msg.type);
           IsRunning = false;
+        } else if (msg.action === "RankingUpdate") {
+          console.log(msg.ranking);
+          RankingData = JSON.parse(JSON.stringify(msg.ranking));
+          RankingData = RankingData.map((el, idx) => {
+            return [idx + 1, ...el];
+          });
+          NewData = RankingData;
+          const RankingContainer = document.querySelector(".RankingContainer");
+          const RankingList = document.querySelector(".RankingList");
+          RankingList.removeChild(RankingContainer);
+          InitRanking();
         }
       };
     }
@@ -139,15 +155,6 @@ const StartPageInit = () => {
     _StartPage.appendChild(_RankingList);
     _RankingList.style.display = "none";
 
-    const MySpace = document.createElement("div");
-    MySpace.className = "RankingSpace";
-    MySpace.style.width = "100%";
-    MySpace.style.height = "60px";
-    // MySpace.style.border = "4px solid black";
-    MySpace.style.marginTop = "60px";
-    MySpace.style.marginBottom = "40px";
-    _RankingList.appendChild(MySpace);
-
     // 뒤로가기 생성
     const RankingBack = document.createElement("button");
     RankingBack.className = "RankingBack";
@@ -162,7 +169,7 @@ const StartPageInit = () => {
 
     const BlankRanking = document.createElement("div");
     BlankRanking.className = "BlankTemp";
-    MyRanking.appendChild(BlankRanking);
+    // MyRanking.appendChild(BlankRanking);
 
     S_GradeSpace = document.createElement("div");
     S_GradeSpace.className = "GradeSpace";
@@ -179,7 +186,7 @@ const StartPageInit = () => {
     //--------------------------------------------------
     const InputSpace = document.createElement("div");
     InputSpace.className = "InputSpace";
-    MyRanking.appendChild(InputSpace);
+    // MyRanking.appendChild(InputSpace);
 
     const RankingSearchBtn = document.createElement("button");
     RankingSearchBtn.className = "RankingSearchBtn";
@@ -190,39 +197,13 @@ const StartPageInit = () => {
     InputArea = document.createElement("input");
     InputArea.className = "InputArea";
     InputSpace.appendChild(InputArea);
+    InputArea.addEventListener("change", SearchResult);
 
     // RankingListTxt.push([GradeSpace, NameSpace, ScoreSpace]);
 
-    MySpace.appendChild(MyRanking);
-
-    for (let i = 0; i < 5; ++i) {
-      const RankingSpace = document.createElement("div");
-      RankingSpace.className = "RankingSpace";
-      RankingSpace.style.width = "100%";
-      RankingSpace.style.height = "60px";
-      // RankingSpace.style.border = "4px solid black";
-      _RankingList.appendChild(RankingSpace);
-
-      const MyRanking = document.createElement("div");
-      MyRanking.className = "RankingTemp";
-
-      const GradeSpace = document.createElement("div");
-      GradeSpace.className = "GradeSpace";
-      MyRanking.appendChild(GradeSpace);
-      GradeSpace.textContent = i + 1;
-
-      const NameSpace = document.createElement("div");
-      NameSpace.className = "NameSpace";
-      MyRanking.appendChild(NameSpace);
-
-      const ScoreSpace = document.createElement("div");
-      ScoreSpace.className = "ScoreSpace";
-      MyRanking.appendChild(ScoreSpace);
-
-      RankingListTxt.push([NameSpace, ScoreSpace]);
-
-      RankingSpace.appendChild(MyRanking);
-    }
+    // MySpace.appendChild(MyRanking);
+    console.log(RankingData);
+    _RankingList.appendChild(InputSpace);
 
     //-----------------------------------------------
 
@@ -299,60 +280,50 @@ function RankingListOff() {
   S_ScoreSpace.textContent = "";
 }
 
-function UpdateRanking() {
-  // RankingListTxt[0][0].textContent = "1"; //내 등급
-  // RankingListTxt[0][1].textContent = "chu"; //내 별명
-  // RankingListTxt[0][2].textContent = 200; //내 스코어
-  console.log(RankingData);
-  for (let i = 0; i < RankingData.length; ++i) {
-    console.log(RankingData[i]);
-    RankingListTxt[i][0].textContent = RankingData[i][0]; //유저 별명
-    RankingListTxt[i][1].textContent = RankingData[i][1]; //유저 스코어
+function SearchResult(e) {
+  // console.log(InputArea.value);
+  if (e.target.value) {
+    NewData = RankingData.filter((el) => el.includes(e.target.value));
+  } else {
+    NewData = RankingData;
   }
+  const RankingContainer = document.querySelector(".RankingContainer");
+  const RankingList = document.querySelector(".RankingList");
+  RankingList.removeChild(RankingContainer);
+  InitRanking();
 }
 
-function SearchResult() {
-  if (InputArea.value === "") return;
-  socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
-  socket.onopen = function () {
-    IsStarted = false;
-    PinNumber = null;
-    let name = InputArea.value.toString();
-    var Data = {
-      action: "searchranking",
-      searchname: name,
-    };
-    socket.send(JSON.stringify(Data));
-    InputArea.value = "";
-  };
-  socket.onmessage = function (data) {
-    var msg = JSON.parse(data.data.toString());
-    S_GradeSpace.textContent = "";
-    S_NameSpace.textContent = "";
-    S_ScoreSpace.textContent = "";
+function InitRanking() {
+  const RankingContainer = document.createElement("div");
+  RankingContainer.setAttribute("class", "RankingContainer");
+  const RankingList = document.querySelector(".RankingList");
+  for (let i = 0; i < NewData.length; ++i) {
+    const RankingSpace = document.createElement("div");
+    RankingSpace.className = "RankingSpace";
+    _RankingList.appendChild(RankingSpace);
 
-    if (msg.action === "searchranking") {
-      if (msg.check === false) {
-        S_NameSpace.textContent = msg.log;
-        S_NameSpace.style.fontSize = "15px";
-      } else {
-        S_GradeSpace.textContent = msg.grade;
-        S_NameSpace.textContent = msg.name;
-        S_ScoreSpace.textContent = msg.score;
+    const MyRanking = document.createElement("div");
+    MyRanking.className = "RankingTemp";
 
-        if (msg.grade.length >= 4) {
-          S_GradeSpace.style.fontSize = "20px";
-        } else {
-          S_GradeSpace.style.fontSize = "xx-large";
-        }
-        if (msg.name.length > 5) {
-          S_NameSpace.style.fontSize = "15px";
-        } else {
-          S_NameSpace.style.fontSize = "x-large";
-        }
-      }
-    }
-  };
+    const GradeSpace = document.createElement("div");
+    GradeSpace.className = "GradeSpace";
+    MyRanking.appendChild(GradeSpace);
+    GradeSpace.textContent = `${NewData[i][0]}`;
 
-  // console.log(InputArea.value);
+    const NameSpace = document.createElement("div");
+    NameSpace.className = "NameSpace";
+    NameSpace.innerText = `${NewData[i][1]}`;
+    MyRanking.appendChild(NameSpace);
+
+    const ScoreSpace = document.createElement("div");
+    ScoreSpace.className = "ScoreSpace";
+    ScoreSpace.innerText = `${NewData[i][2]}`;
+    MyRanking.appendChild(ScoreSpace);
+
+    RankingListTxt.push([NameSpace, ScoreSpace]);
+
+    RankingSpace.appendChild(MyRanking);
+    RankingContainer.appendChild(RankingSpace);
+  }
+  RankingList.appendChild(RankingContainer);
 }

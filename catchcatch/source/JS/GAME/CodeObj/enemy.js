@@ -126,14 +126,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             let x = Math.cos(angle * (Math.PI / 180));
             let y = Math.sin(angle * (Math.PI / 180));
             codeScene.physics.moveTo(this, this.x + x, this.y + y, 50);
-
           }
         },
         loop: true,
       });
-
     }
-
   }
 
   update() {
@@ -149,22 +146,22 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     if (this.type === 0) {
       if (this.x >= 400) {
-        this.setVelocityX(-99);
-      }else if (this.x < -400) {
-        this.setVelocityX(99);
-      }else if (this.x <= 100 && this.x >= 0) {
-        this.setVelocityX(99);
-      }else if (this.x >= -100 && this.x <= 0) {
-        this.setVelocityX(-99);
+        this.setVelocityX(-50);
+      } else if (this.x < -400) {
+        this.setVelocityX(50);
+      } else if (this.x <= 100 && this.x >= 0) {
+        this.setVelocityX(50);
+      } else if (this.x >= -100 && this.x <= 0) {
+        this.setVelocityX(-50);
       }
       if (this.y >= 400) {
-        this.setVelocityY(-99);
+        this.setVelocityY(-50);
       } else if (this.y < -400) {
-        this.setVelocityY(99);
-      }else if (this.y <= 100 && this.y >= 0) {
-        this.setVelocityY(99);
-      }else if (this.y >= -100 && this.y <= 0) {
-        this.setVelocityY(-99);
+        this.setVelocityY(50);
+      } else if (this.y <= 100 && this.y >= 0) {
+        this.setVelocityY(50);
+      } else if (this.y >= -100 && this.y <= 0) {
+        this.setVelocityY(-50);
       }
     }
   }

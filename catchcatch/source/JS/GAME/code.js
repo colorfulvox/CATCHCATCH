@@ -523,7 +523,7 @@ function create() {
       }
       break;
     case 6:
-      maxMon = 10;
+      maxMon = 15;
       let randomNum = Math.floor(Math.random() * 3 + 5);
       for (let i = 0; i < randomNum; i++) {
         catSpawn();
@@ -544,7 +544,7 @@ function create() {
 
   this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
   this.physics.add.overlap(player, codeMonsterSet, playerHit);
-  // this.scene.pause();
+  this.scene.pause();
 }
 
 function update(time, delta) {
@@ -786,13 +786,13 @@ export function attack(isAttack, angle, element) {
     let magic = new Magic(codeScene, element);
     magic.anims.play("magic" + element);
     magicSet.add(magic);
-    codeScene.physics.moveTo(magic, x, y, 3000);
+    codeScene.physics.moveTo(magic, x, y, 500);
   }
 }
 
 function monsterHit(magic, monster) {
   if (monster.type === 0) {
-    score -= 200;
+    score -= 300;
   }
 
   if (!monster.invincible) {

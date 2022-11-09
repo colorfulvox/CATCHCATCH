@@ -11,19 +11,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   cc;
   type;
   constructor(scene, maxHealth, velo, randomX, randomY, monSpecie, anim) {
-    scene.time.addEvent({
-      delay: 400,
-      callback: () => {
-        if (this.active === true) {
-          this.invincible = false;
-          this.anime();
-        }
-      },
-      loop: true,
-    });
     super(scene, randomX, randomY, monSpecie);
-    this.maxHealth = maxHealth;
-    this.health = maxHealth;
+    this.maxHealth = 60;
+    this.health = 60;
     this.velocity = velo;
     this.alpha = 1;
     this.anim = anim;
@@ -32,6 +22,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.type = "monster";
     this.scale = 1;
     this.originalVelocity = this.velocity;
+    this.myInvincibleEvent = undefined;
     thisScene.time.addEvent({
       delay: 1200,
       callback: () => {
@@ -75,5 +66,19 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   boomAnim() {
     new Boom(thisScene, this.x, this.y);
+  }
+  unInvincible() {
+    this.myInvincibleEvent = thisScene.time.addEvent({
+      delay: 400,
+      callback: () => {
+        if (this.active === true) {
+          this.invincible = false;
+          this.anime();
+          thisScene.time.removeEvent(this.myInvincibleEvent);
+          this.myInvincibleEvent = undefined;
+        }
+      },
+      loop: false,
+    });
   }
 }

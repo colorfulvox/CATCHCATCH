@@ -18,10 +18,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   dmgMulLevel = 1;
   speed = 100;
   speedLevel = 1;
+<<<<<<< HEAD
   maxExp = 3000000;
+=======
+  maxExp = 30000;
+>>>>>>> 0f9710b11803d12e378759fb2efad67f17b5d675
   exp = 0;
   level = 1;
-  maxExpBonus = 1;
+  maxExpBonus = 5;
   coin = 100000;
   // 캐릭터 특수능력 일단 보류
   ability = 0;
@@ -32,7 +36,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   fairy;
   invincible = false;
   type = "player";
-
+  myInvincibleEvent = undefined;
   constructor(scene, dmgMul, maxHealth, health, catName) {
     super(scene, 1024, 1024, catName);
     this.alpha = 1;
@@ -69,7 +73,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     switch (id) {
       case "dmgMul":
         this.dmgMulLevel++;
-        this.dmgMul += 0.1;
+        this.dmgMul += 0.2;
         break;
       case "health":
         this.healthLevel++;
@@ -82,7 +86,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         break;
       case "speed":
         this.speedLevel++;
-        this.speed += 10;
+        this.speed += 5;
         break;
     }
   }
@@ -103,7 +107,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.fairy = fairy;
   }
 
-  move(direction) {
+  move(hpBar, hpBarBG) {
     this.fairy.x = this.x - 20;
     this.fairy.y = this.y - 50;
 
@@ -164,6 +168,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityX(-speedDiag);
       this.body.setVelocityY(speedDiag);
     }
+    hpBar.setPosition(this.x - 30, this.y + 40);
+    hpBarBG.setPosition(this.x - 30, this.y + 40);
   }
 
   hitByEnemy(damage) {}
@@ -182,9 +188,48 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       // 피해 1 줌
       // stop_game -= 1;
       if (player.health <= 0) {
+        player.health = 0;
         GameOver();
         $this.pause();
       }
     }
+    // 공격 맞은 후 일시 무적에 사용
+    player.unInvincible();
+  }
+
+  bombHitPlayer(bombDead, player) {
+    if (ChoiceCat === 5) {
+      let rand = Math.floor(Math.random() * 20);
+      setSound.playSE(rand);
+    } else {
+      setSound.playSE(11);
+    }
+    if (player.invincible === false) {
+      player.invincible = true;
+      player.body.checkCollision.none = true;
+      player.health -= 3;
+      player.unInvincible();
+      // 피해 1 줌
+      // stop_game -= 1;
+      if (player.health <= 0) {
+        player.health = 0;
+        GameOver();
+        $this.pause();
+      }
+    }
+  }
+
+  unInvincible() {
+    this.myInvincibleEvent = thisScene.time.addEvent({
+      delay: 1000,
+      callback: () => {
+        this.invincible = false;
+        this.body.checkCollision.none = false;
+        this.setVisible(true);
+        thisScene.time.removeEvent(this.myInvincibleEvent);
+        this.myInvincibleEvent = undefined;
+      },
+      loop: false,
+    });
   }
 }

@@ -674,8 +674,8 @@ function create() {
   global.wizard = fairySet[0] = new Fairy(
     this,
     100,
-    10,
-    1,
+    15,
+    3,
     1,
     60,
     20,
@@ -690,7 +690,7 @@ function create() {
     this,
     100,
     10,
-    1,
+    2,
     1,
     80,
     20,
@@ -703,7 +703,7 @@ function create() {
   global.ninja = fairySet[2] = new Fairy(
     this,
     100,
-    6,
+    5,
     1,
     3,
     60,
@@ -719,7 +719,7 @@ function create() {
     this,
     7200,
     10,
-    1,
+    2,
     10,
     60,
     10,
@@ -1200,21 +1200,10 @@ function create() {
   this.physics.add.collider(player, monsterSet, player.hitPlayer);
   thisScene.physics.add.overlap(magics, monsterSet, attack);
   thisScene.physics.add.overlap(bombDead, monsterSet, bomb);
-  thisScene.physics.add.overlap(bombDead, player, bombHitPlayer);
+  thisScene.physics.add.overlap(bombDead, player, player.bombHitPlayer);
 
   //map start
   //map end
-
-  // 공격 맞은 후 일시 무적에 사용
-  timer = this.time.addEvent({
-    delay: 2000,
-    callback: () => {
-      player.invincible = false;
-      player.body.checkCollision.none = false;
-      player.setVisible(true);
-    },
-    loop: true,
-  });
 
   // ============== 몬스터 스프라이트 애니메이션 목록 ==================
   this.anims.create({
@@ -1723,21 +1712,17 @@ function update(time, delta) {
   }
 
   frameTime += delta;
-  player.move();
   //  Health bar start
   hpBar.clear();
-
+  hpBarBG.clear();
   hpBarBG.fillStyle(0xff0000);
   hpBarBG.fillRect(0, 0, 60, 10);
 
   hpBar.fillStyle(0x2ff40a);
   hpBar.fillRect(0, 0, 60 * (player.health / player.maxHealth), 10);
-
-  hpBar.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
-  hpBarBG.setPosition(Math.floor(player.x) - 30, Math.floor(player.y) + 40);
-  // expBar.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
-  // expBarBG.setPosition(Math.floor(player.x)-375, Math.floor(player.y) - 372);
   // Health bar end
+  player.move(hpBar, hpBarBG);
+
   if (frameTime > 16.5) {
     frameTime = 0;
 
@@ -2344,6 +2329,7 @@ function attack(magic, monster) {
     }
 
     monster.invincible = true;
+    monster.unInvincible();
     monster.health -= magic.fairy.dmg * player.dmgMul;
 
     if (monster.health <= 0 && monster.type !== "boss") {
@@ -2432,54 +2418,36 @@ function enemySpawn(scene) {
   }
 }
 
-function bombHitPlayer() {
-  if (ChoiceCat === 5) {
-    let rand = Math.floor(Math.random() * 20);
-    setSound.playSE(rand);
-  } else {
-    setSound.playSE(11);
-  }
-  if (player.invincible === false) {
-    player.invincible = true;
-    player.body.checkCollision.none = true;
-    player.health -= 5;
-    // 피해 1 줌
-    // stop_game -= 1;
-    if (player.health <= 0) {
-      GameOver();
-      $this.pause();
-    }
-  }
-}
-
 function bomb(bomb, target) {
-  target.health -= 50;
-  target.invincible = true;
-
-  if (target.health <= 0 && target.type !== "boss") {
-    if (target.monSpecie !== "slime") {
-      if (target.monSpecie === "worm") {
-        target.boomAnim();
-      } else {
-        target.dieAnim();
+  if (!target.invincible) {
+    target.invincible = true;
+    target.health -= 50;
+    target.unInvincible();
+    if (target.health <= 0 && target.type !== "boss") {
+      if (target.monSpecie !== "slime") {
+        if (target.monSpecie === "worm") {
+          target.boomAnim();
+        } else {
+          target.dieAnim();
+        }
+        target.destroy();
+        player.expUp();
+        monsterCount -= 1;
+      } else if (target.monSpecie === "slime") {
+        for (let i = 0; i < 2; i++) {
+          addMonster(
+            thisScene,
+            "babySlime",
+            "slime",
+            150 + difficulty_hp,
+            125,
+            target.x + i * 20,
+            target.y
+          );
+        }
+        target.destroy();
+        monsterCount -= 1;
       }
-      target.destroy();
-      player.expUp();
-      monsterCount -= 1;
-    } else if (target.monSpecie === "slime") {
-      for (let i = 0; i < 2; i++) {
-        addMonster(
-          thisScene,
-          "babySlime",
-          "slime",
-          150 + difficulty_hp,
-          125,
-          target.x + i * 20,
-          target.y
-        );
-      }
-      target.destroy();
-      monsterCount -= 1;
     }
   }
 }
