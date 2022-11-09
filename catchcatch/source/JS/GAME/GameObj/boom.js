@@ -1,3 +1,5 @@
+import {setSound} from "../../SOUND/sound";
+
 export default class Boom extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y) {
     // magic5_1를 나중에 폭발 스프라이트 애니메이션  key로 바꾸기
@@ -11,8 +13,9 @@ export default class Boom extends Phaser.GameObjects.Sprite {
     });
 
     scene.add.existing(this);
-    this.scale = 2;
+    this.scale = 3;
     UICam.ignore(this);
+    setSound.playSE(22);
     this.play("monster_boom");
     scene.time.addEvent({
       delay: 100,
