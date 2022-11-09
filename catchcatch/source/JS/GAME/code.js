@@ -151,6 +151,31 @@ function preload() {
     frameHeight: 64,
   });
 
+  this.load.spritesheet("alien", "images/monster/alien.png", {
+    frameWidth: 20,
+    frameHeight: 20,
+  });
+
+  this.load.spritesheet("worm", "images/monster/worm.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
+  this.load.spritesheet("sonic", "images/monster/sonic.png", {
+    frameWidth: 32,
+    frameHeight: 32,
+  });
+
+  this.load.spritesheet("turtle", "images/monster/turtle.png", {
+    frameWidth: 32,
+    frameHeight: 32,
+  });
+
+  this.load.spritesheet("slime", "images/monster/slime.png", {
+    frameWidth: 16,
+    frameHeight: 16,
+  });
+
   this.load.spritesheet("fly", "images/monster/fly.png", {
     frameWidth: 48,
     frameHeight: 48,
