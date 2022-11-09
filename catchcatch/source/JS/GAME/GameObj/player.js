@@ -69,7 +69,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     switch (id) {
       case "dmgMul":
         this.dmgMulLevel++;
-        this.dmgMul += 0.1;
+        this.dmgMul += 0.2;
         break;
       case "health":
         this.healthLevel++;
@@ -82,7 +82,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         break;
       case "speed":
         this.speedLevel++;
-        this.speed += 10;
+        this.speed += 5;
         break;
     }
   }

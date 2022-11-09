@@ -645,8 +645,8 @@ function create() {
   global.wizard = fairySet[0] = new Fairy(
     this,
     100,
-    10,
-    1,
+    15,
+    3,
     1,
     60,
     20,
@@ -661,7 +661,7 @@ function create() {
     this,
     100,
     10,
-    1,
+    2,
     1,
     80,
     20,
@@ -674,7 +674,7 @@ function create() {
   global.ninja = fairySet[2] = new Fairy(
     this,
     100,
-    6,
+    5,
     1,
     3,
     60,
@@ -690,7 +690,7 @@ function create() {
     this,
     7200,
     10,
-    1,
+    2,
     10,
     60,
     10,
@@ -2500,30 +2500,30 @@ function enemySpawn(scene) {
 }
 
 function bombHitPlayer() {
-    if (ChoiceCat === 5) {
-        let rand = Math.floor(Math.random() * 20);
-        setSound.playSE(rand);
-    } else {
-        setSound.playSE(11);
+  if (ChoiceCat === 5) {
+    let rand = Math.floor(Math.random() * 20);
+    setSound.playSE(rand);
+  } else {
+    setSound.playSE(11);
+  }
+  if (player.invincible === false) {
+    player.invincible = true;
+    player.body.checkCollision.none = true;
+    player.health -= 5;
+    // 피해 1 줌
+    // stop_game -= 1;
+    if (player.health <= 0) {
+      GameOver();
+      $this.pause();
     }
-    if (player.invincible === false) {
-        player.invincible = true;
-        player.body.checkCollision.none = true;
-        player.health -= 5;
-        // 피해 1 줌
-        // stop_game -= 1;
-        if (player.health <= 0) {
-            GameOver();
-            $this.pause();
-        }
-    }
+  }
 }
 
 function bomb(bomb, target) {
-    target.health -= 50;
-    target.invincible = true;
+  target.health -= 50;
+  target.invincible = true;
 
-  if ((target.health <= 0) && (target.type !== "boss")) {
+  if (target.health <= 0 && target.type !== "boss") {
     if (target.monSpecie !== "slime") {
       if (target.monSpecie === "worm") {
         target.boomAnim();
@@ -2548,7 +2548,7 @@ function bomb(bomb, target) {
       target.destroy();
       monsterCount -= 1;
     }
-  } 
+  }
 }
 
 function slimePattern(scene, pt, x, y) {

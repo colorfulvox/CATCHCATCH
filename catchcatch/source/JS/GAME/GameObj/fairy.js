@@ -215,7 +215,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.stun += 0.5;
         break;
       case 4:
-        this.copyCount = 5;
+        this.copyCount = 10;
         break;
       case 5:
         this.maxBombCount++;
@@ -313,7 +313,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         this.stun += 0.5;
         break;
       case 4:
-        this.copyCount = 10;
+        this.copyCount = 20;
         break;
       case 5:
         this.maxBombCount++;
@@ -340,7 +340,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         break;
       // 집으로 귀환 가능
       case 4:
-        this.copyCount = 60;
+        this.copyCount = 40;
         this.skillCD = 900;
         this.skillSprite = 2;
         break;
@@ -679,7 +679,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           skill.setScale(this.skillSprite * 3);
           shw = skill.body.halfWidth;
           shh = skill.body.halfHeight;
-          skill.setCircle(shw*0.3, 0, shh - shw*0.3);
+          skill.setCircle(shw * 0.3, 0, shh - shw * 0.3);
           skill.body.offset.x += 22;
           skill.body.offset.y -= 13;
           skill.anims.play("magic2_1_1", true);
