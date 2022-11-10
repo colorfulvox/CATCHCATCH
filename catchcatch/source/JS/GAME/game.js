@@ -2686,12 +2686,10 @@ function slimePattern(scene, pt, x, y) {
 
 //map start
 function petAttackFunc(magic, monster) {
-  console.log(monster.health);
   if (!monster.invincible) {
     monster.invincible = true;
     monster.unInvincible();
-    monster.health -= magic.dmg[magic.stone];
-    console.log(monster.health);
+    monster.health -= magic.dmg;
     magic.destroy();
     if (monster.health <= 0 && monster.type !== "boss") {
       if (monster.monSpecie !== "slime") {
