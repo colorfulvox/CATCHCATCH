@@ -50,7 +50,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.monSpiece = monSpiece;
     switch (type) {
       case 0:
-        this.anim = monSpiece;
+        this.anim = this.monSpiece + "_turn";
         this.health = 1;
         this.weak = 0;
         break;
@@ -80,7 +80,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.anime();
+
     this.location = location;
     scene.events.on("update", () => {
       this.update();
@@ -131,6 +131,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         loop: true,
       });
     }
+
+    this.anime();
   }
 
   update() {
@@ -162,6 +164,16 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityY(50);
       } else if (this.y >= -100 && this.y <= 0) {
         this.setVelocityY(-50);
+      }
+    }
+    if (this.type === 0 && !this.anims.isPlaying) {
+      this.anim = this.monSpiece + "_left";
+      if (this.body.velocity.x < 0) {
+        this.anims.play(this.monSpiece + "_left", true);
+      } else if (this.body.velocity.x > 0) {
+        this.anims.play(this.monSpiece + "_right", true);
+      } else {
+        this.anims.play(this.monSpiece + "_turn", true);
       }
     }
   }
