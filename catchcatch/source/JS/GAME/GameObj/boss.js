@@ -15,12 +15,6 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
   ) {
     scene.time.addEvent({
       delay: 400,
-      callback: () => {
-        if (this.active === true) {
-          this.invincible = false;
-          this.anime();
-        }
-      },
       loop: true,
     });
     super(scene, randomX, randomY, bossSpecie);
@@ -43,5 +37,19 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
     } else if (player.ability == 2) {
       this.setTint(Phaser.Display.Color.RandomRGB().color).play(this.anim);
     }
+  }
+  unInvincible() {
+    this.myInvincibleEvent = thisScene.time.addEvent({
+      delay: 400,
+      callback: () => {
+        if (this.active === true) {
+          this.invincible = false;
+          this.anime();
+          thisScene.time.removeEvent(this.myInvincibleEvent);
+          this.myInvincibleEvent = undefined;
+        }
+      },
+      loop: false,
+    });
   }
 }
