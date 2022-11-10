@@ -331,6 +331,26 @@ function InitRanking() {
     MyRanking.appendChild(GradeSpace);
     GradeSpace.textContent = `${NewData[i][0]}`;
 
+    const areaspace = document.createElement("div");
+
+    if (NewData[i][3] === "광주") {
+      areaspace.textContent = "광주";
+      areaspace.className = "areaspace_1";
+    } else if (NewData[i][3] === "대전") {
+      areaspace.textContent = "대전";
+      areaspace.className = "areaspace_2";
+    } else if (NewData[i][3] === "구미") {
+      areaspace.textContent = "구미";
+      areaspace.className = "areaspace_3";
+    } else if (NewData[i][3] === "부울경") {
+      areaspace.textContent = "부울경";
+      areaspace.className = "areaspace_4";
+    } else if (NewData[i][3] === "서울") {
+      areaspace.textContent = "서울";
+    }
+
+    MyRanking.appendChild(areaspace);
+
     const NameSpace = document.createElement("div");
     NameSpace.className = "NameSpace";
     NameSpace.innerText = `${NewData[i][1]}`;

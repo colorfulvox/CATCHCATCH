@@ -201,6 +201,26 @@
   border: none;
 }
 
+.selectarea {
+  outline: none;
+  background: url("../../../public/images/ui/GameStartBtn.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  font-family: "neodgm";
+  font-weight: bold;
+  width: 70px;
+  height: 40px;
+  position: absolute;
+  left: 15px;
+  top: 45%;
+  color: white;
+}
+.opt {
+  background-color: rgb(81, 122, 255);
+}
+
 #toast {
   position: fixed;
   bottom: 30px;

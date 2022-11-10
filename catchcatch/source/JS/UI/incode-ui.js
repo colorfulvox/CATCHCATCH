@@ -44,7 +44,7 @@ export default function IncodeUI() {
   gameContainer.appendChild(pin);
   gameContainer.appendChild(buttonContainer);
 
-  // makeranking();
+  makeranking();
   // codegameclear();
 }
 
@@ -151,6 +151,38 @@ export function makeranking() {
   scorespace.textContent = global.score + " score";
   rankingpanel.appendChild(scorespace);
 
+  const selectarea = document.createElement("select");
+  selectarea.id = "selectarea";
+  selectarea.className = "selectarea";
+
+  const option_1 = document.createElement("option");
+  option_1.className = "opt";
+  option_1.value = "광주";
+  option_1.text = "광주";
+  selectarea.appendChild(option_1);
+  const option_2 = document.createElement("option");
+  option_2.className = "opt";
+  option_2.value = "대전";
+  option_2.text = "대전";
+  selectarea.appendChild(option_2);
+  const option_3 = document.createElement("option");
+  option_3.className = "opt";
+  option_3.value = "구미";
+  option_3.text = "구미";
+  selectarea.appendChild(option_3);
+  const option_4 = document.createElement("option");
+  option_4.className = "opt";
+  option_4.value = "부울경";
+  option_4.text = "부울경";
+  selectarea.appendChild(option_4);
+  const option_5 = document.createElement("option");
+  option_5.className = "opt";
+  option_5.value = "서울";
+  option_5.text = "서울";
+  selectarea.appendChild(option_5);
+
+  rankingpanel.appendChild(selectarea);
+
   inputspace = document.createElement("input");
   inputspace.setAttribute("class", "inputspace");
   inputspace.placeholder = "닉네임을 입력해주세요.";
@@ -180,10 +212,12 @@ function submitranking() {
   if (inputspace.value === "") {
     inputspace.placeholder = "닉네임을 먼저 입력하세요.";
   } else {
+    const selected = document.getElementById("selectarea");
     let Data = {
       action: "newranking",
       name: inputspace.value,
       score: global.score,
+      area: selected.options[selected.selectedIndex].value,
     };
     socket.send(JSON.stringify(Data));
     BacktoStage();
