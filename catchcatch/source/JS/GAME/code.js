@@ -651,8 +651,7 @@ function create() {
       break;
     case 6:
       maxMon = 15;
-      let randomNum = Math.floor(Math.random() * 3 + 5);
-      for (let i = 0; i < randomNum; i++) {
+      for (let i = 0; i < 8; i++) {
         catSpawn();
         let enemy = new Enemy(
           this,
