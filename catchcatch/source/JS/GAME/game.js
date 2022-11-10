@@ -1847,11 +1847,11 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alien", "alienPlus", 100, 55, monX, monY);
+        addMonster(this, "alien", "alienPlus", 100, 65, monX, monY);
       } else if (18000 < gameTimer) {
         addMonster(this, "alien", "alienFinal", 150, 75, monX, monY);
       } else {
-        addMonster(this, "alien", "alien", 30, 45, monX, monY);
+        addMonster(this, "alien", "alien", 30, 50, monX, monY);
       }
     }
     if (gameTimer > 5400 && gameTimer % 300 === 150) {
@@ -2190,7 +2190,6 @@ function update(time, delta) {
       mine.set_anime();
       mines.add(mine);
     }
-    console.log(mines);
   }
 }
 
@@ -2569,10 +2568,12 @@ function slimePattern(scene, pt, x, y) {
 
 //map start
 function petAttackFunc(magic, monster) {
+  console.log(monster.health);
   if (!monster.invincible) {
     monster.invincible = true;
     monster.unInvincible();
     monster.health -= magic.dmg;
+    console.log(monster.health);
     magic.destroy();
     if (monster.health <= 0 && monster.type !== "boss") {
       if (monster.monSpecie !== "slime") {
