@@ -41,7 +41,7 @@ export const config = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: false,
+      debug: true,
       fixedStep: false,
     },
   },
@@ -2185,8 +2185,8 @@ function update(time, delta) {
           (EndMineRangeY[mineShowTime] - StartMineRangeY[mineShowTime]) +
         StartMineRangeY[mineShowTime];
       mine = new Mine(this, x, y, "minecoin", 0);
-      mine.scale_Circle(1.2);
-      mine.setScale(0.8);
+      mine.setScale(1);
+      mine.scale_Circle();
       mine.set_anime();
       mines.add(mine);
     }
