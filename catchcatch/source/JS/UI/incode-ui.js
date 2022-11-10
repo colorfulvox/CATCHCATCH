@@ -82,7 +82,10 @@ function deletePin() {
 
 function copypinnumber() {
   copyStringToClipboard(global.PinNumber);
-
+  const modal = document.querySelector(".pinModal");
+  if (modal) {
+    deletePin();
+  }
   const gameContainer = document.querySelector("#game-container");
   const pin = document.querySelector(".pin");
   gameContainer.removeChild(pin);
