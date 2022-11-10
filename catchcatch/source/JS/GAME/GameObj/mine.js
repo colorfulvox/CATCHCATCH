@@ -19,10 +19,9 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
   }
 
   scale_Circle() {
-    this.setScale(1);
     let hw = this.body.halfWidth;
     let hh = this.body.halfHeight;
-    this.setCircle(hw * 1, hh - hw * 1, hh - hw * 1);
+    this.setCircle(hw * 2.8, (hh - hw) * 2.8, (hh - hw) * 2.8);
   }
 
   set_anime() {
@@ -30,7 +29,6 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
   }
 
   overlapOpen(mine, player) {
-    console.log(mine);
     var range = Phaser.Math.Distance.Between(mine.x, mine.y, 0, 0);
 
     if (gameTimer % 7200 === 0) {

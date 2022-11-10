@@ -41,7 +41,7 @@ export const config = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: false,
+      debug: true,
       fixedStep: false,
     },
   },
@@ -1847,11 +1847,11 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alien", "alienPlus", 100, 55, monX, monY);
+        addMonster(this, "alien", "alienPlus", 100, 65, monX, monY);
       } else if (18000 < gameTimer) {
         addMonster(this, "alien", "alienFinal", 150, 75, monX, monY);
       } else {
-        addMonster(this, "alien", "alien", 30, 45, monX, monY);
+        addMonster(this, "alien", "alien", 30, 50, monX, monY);
       }
     }
     if (gameTimer > 5400 && gameTimer % 300 === 150) {
@@ -2185,12 +2185,11 @@ function update(time, delta) {
           (EndMineRangeY[mineShowTime] - StartMineRangeY[mineShowTime]) +
         StartMineRangeY[mineShowTime];
       mine = new Mine(this, x, y, "minecoin", 0);
-      mine.scale_Circle(1.2);
-      mine.setScale(0.8);
+      mine.setScale(1);
+      mine.scale_Circle();
       mine.set_anime();
       mines.add(mine);
     }
-    console.log(mines);
   }
 }
 
@@ -2339,7 +2338,13 @@ function attack(magic, monster) {
           }
 
           monster.destroy();
-          player.expUp();
+          if (gameTimer < 5000) {
+            player.expUp();
+            player.expUp();
+          } else {
+            player.expUp();
+          }
+
           monsterCount -= 1;
         } else if (monster.monSpecie === "slime") {
           for (let i = 0; i < 2; i++) {
@@ -2378,7 +2383,12 @@ function attack(magic, monster) {
           monster.dieAnim();
         }
         monster.destroy();
-        player.expUp();
+        if (gameTimer < 5000) {
+          player.expUp();
+          player.expUp();
+        } else {
+          player.expUp();
+        }
         if (magic.fairy.fairyNum === 2) {
           let vampireNum = Math.floor(Math.random() * 100 + 1);
           if (vampireNum < 5) {
@@ -2473,7 +2483,12 @@ function bomb(bomb, target) {
           target.dieAnim();
         }
         target.destroy();
-        player.expUp();
+        if (gameTimer < 5000) {
+          player.expUp();
+          player.expUp();
+        } else {
+          player.expUp();
+        }
         monsterCount -= 1;
       } else if (target.monSpecie === "slime") {
         for (let i = 0; i < 2; i++) {
@@ -2552,8 +2567,49 @@ function slimePattern(scene, pt, x, y) {
 //enemy end
 
 //map start
-function petAttackFunc(magic, enemy) {
-  enemy.health -= magic.dmg;
-  magic.destroy();
+function petAttackFunc(magic, monster) {
+  console.log(monster.health);
+  if (!monster.invincible) {
+    monster.invincible = true;
+    monster.unInvincible();
+    monster.health -= magic.dmg;
+    console.log(monster.health);
+    magic.destroy();
+    if (monster.health <= 0 && monster.type !== "boss") {
+      if (monster.monSpecie !== "slime") {
+        if (
+          monster.monSpecie === "worm" ||
+          monster.monSpecie === "wormPlus" ||
+          monster.monSpecie === "wormFinal"
+        ) {
+          monster.boomAnim();
+        } else {
+          monster.dieAnim();
+        }
+        monster.destroy();
+        if (gameTimer < 5000) {
+          player.expUp();
+          player.expUp();
+        } else {
+          player.expUp();
+        }
+        monsterCount -= 1;
+      } else if (monster.monSpecie === "slime") {
+        for (let i = 0; i < 2; i++) {
+          addMonster(
+            thisScene,
+            "babySlime",
+            "slime",
+            150 + difficulty_hp,
+            125,
+            monster.x + i * 20,
+            monster.y
+          );
+        }
+        monster.destroy();
+        monsterCount -= 1;
+      }
+    }
+  }
 }
 //map end
