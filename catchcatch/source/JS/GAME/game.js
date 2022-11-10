@@ -1955,7 +1955,7 @@ function update(time, delta) {
       }
     }
 
-    gameTimer++;
+    gameTimer += 3;
     UpdateTimer();
 
     // 플레이어 기준랜덤 위치에 몬스터 생성
@@ -2024,7 +2024,7 @@ function update(time, delta) {
     }
 
     // 보스
-    let slimeSpawnTime = 18000;
+    let slimeSpawnTime = 10800;
     let golemSpawnTime = 21000;
     let fireGiantSpawnTime = 28000;
 
