@@ -81,6 +81,7 @@ let scoreText;
 // 마우스 포인터 관련
 export let input;
 let mouse;
+global.cheatMode = false;
 //player end
 
 //gametimer
@@ -1899,6 +1900,13 @@ function create() {
   this.physics.add.collider(monsterSet, wallLayer);
   //   this.physics.add.collider(monsterSet, treesLayer);
   //   this.physics.add.collider(bossSet, treesLayer);
+
+  if (cheatMode) {
+    player.maxExp = 100000;
+    for (let i = 0; i < 5; i++) {
+      fairySet[i].cheat();
+    }
+  }
 }
 
 function update(time, delta) {
@@ -2036,7 +2044,7 @@ function update(time, delta) {
       }
     }
 
-    gameTimer += 3;
+    gameTimer++;
     UpdateTimer();
 
     // 플레이어 기준랜덤 위치에 몬스터 생성
@@ -2046,36 +2054,47 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alien", "alienPlus", 100, 65, monX, monY);
+        addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "alien", "alienFinal", 150, 75, monX, monY);
+        addMonster(this, "alien", "alienFinal", 100, 75, monX, monY);
       } else {
         addMonster(this, "alien", "alien", 30, 50, monX, monY);
       }
     }
-    if (gameTimer > 5400 && gameTimer % 300 === 150) {
+    if (gameTimer > 1600 && gameTimer % 150 === 0) {
       // 2번 worm
       enemySpawn(randomLocation);
-      if (12000 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "wormPlus", "wormPlus", 150, 50, monX, monY);
-      } else if (18000 < gameTimer) {
-        addMonster(this, "wormFinal", "wormFinal", 200, 60, monX, monY);
+      if (12000 < gameTimer && gameTimer <= 25200) {
+        addMonster(this, "wormPlus", "wormPlus", 30, 50, monX, monY);
+      } else if (25200 < gameTimer) {
+        addMonster(this, "wormFinal", "wormFinal", 80, 60, monX, monY);
       } else if (gameTimer <= 12000) {
         addMonster(this, "worm", "worm", 10, 40, monX, monY);
       }
     }
-    if (gameTimer > 15000 && gameTimer % 300 === 0) {
+    if (cheatMode && gameTimer > 0) {
+      // 2번 worm
       enemySpawn(randomLocation);
-      addMonster(this, "sonic", "sonic", 150, 100, monX, monY);
+      if (12000 < gameTimer && gameTimer <= 25200) {
+        addMonster(this, "wormPlus", "wormPlus", 30, 50, monX, monY);
+      } else if (25200 < gameTimer) {
+        addMonster(this, "wormFinal", "wormFinal", 80, 60, monX, monY);
+      } else if (gameTimer <= 12000) {
+        addMonster(this, "worm", "worm", 10, 40, monX, monY);
+      }
     }
-    if (gameTimer > 21000 && gameTimer % 600 === 0) {
+    if (gameTimer > 12000 && gameTimer % 300 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "turtle", "turtle", 400, 50, monX, monY);
+      addMonster(this, "sonic", "sonic", 100, 85, monX, monY);
+    }
+    if (gameTimer > 23000 && gameTimer % 600 === 0) {
+      enemySpawn(randomLocation);
+      addMonster(this, "turtle", "turtle", 200, 50, monX, monY);
     }
 
-    if (gameTimer > 18000 && gameTimer % 200 === 0) {
+    if (gameTimer > 19000 && gameTimer % 600 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "slime", "slime", 240, 75, monX, monY);
+      addMonster(this, "slime", "slime", 150, 75, monX, monY);
     }
     // 몬스터 빅 웨이브
     if (gameTimer === 7700) {
@@ -2090,7 +2109,7 @@ function update(time, delta) {
       addMonster(this, "fly", "fly", 10, 50, monX, monY);
     } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "fly", 100, 50, monX, monY);
+      addMonster(this, "fly", "fly", 50, 50, monX, monY);
     }
 
     // 스폰 주기
@@ -2231,7 +2250,7 @@ function update(time, delta) {
       bossMagicSet.add(fireGiantAura);
     }
 
-    if (bossFireGiantActive && gameTimer % 120 === 0) {
+    if (bossFireGiantActive && (gameTimer % 120 === 0)) {
       let x = bossSet.children.entries[fireGiantIndex].x;
       let y = bossSet.children.entries[fireGiantIndex].y;
 
@@ -2268,7 +2287,7 @@ function update(time, delta) {
           bossSet.children.entries[i].velocity
         );
 
-        if (bossSet.children.entries[i].bossSpecie === "golem") {
+        if (bossSet.children.entries[i].monSpecie === "golem") {
           if (bossGolemActive && gameTimer % 240 === 0) {
             addMonster(
               this,
@@ -2282,7 +2301,7 @@ function update(time, delta) {
           }
         }
 
-        if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
+        if (bossSet.children.entries[i].monSpecie === "fireGiant") {
           if (bossFireGiantActive) {
             this.physics.moveToObject(
               bossMagicSet.children.entries[0],
@@ -2295,10 +2314,10 @@ function update(time, delta) {
           for (let i = 0; i < 5; i++) {
             player.expUp();
           }
-          if (bossSet.children.entries[i].bossSpecie !== "slimeKing") {
+          if (bossSet.children.entries[i].monSpecie !== "slimeKing") {
             global.coin += 10;
           } else global.coin += 2;
-          if (bossSet.children.entries[i].bossSpecie === "slimeKing") {
+          if (bossSet.children.entries[i].monSpecie === "slimeKing") {
             slimePattern(
               this,
               bossSet.children.entries[i].pt,
@@ -2307,11 +2326,11 @@ function update(time, delta) {
             );
           }
 
-          if (bossSet.children.entries[i].bossSpecie === "golem") {
+          if (bossSet.children.entries[i].monSpecie === "golem") {
             bossGolemActive = false;
           }
 
-          if (bossSet.children.entries[i].bossSpecie === "fireGiant") {
+          if (bossSet.children.entries[i].monSpecie === "fireGiant") {
             bossMagicSet.children.entries[0].destroy();
             bossFireGiantActive = false;
           }
@@ -2532,7 +2551,7 @@ function attack(magic, monster) {
           }
 
           monster.destroy();
-          if (gameTimer < 5000) {
+          if (gameTimer < 9000) {
             player.expUp();
             player.expUp();
           } else {
@@ -2546,8 +2565,8 @@ function attack(magic, monster) {
               thisScene,
               "babySlime",
               "slime",
-              150,
-              125,
+              50,
+              100,
               monster.x + i * 10,
               monster.y
             );
@@ -2577,7 +2596,7 @@ function attack(magic, monster) {
           monster.dieAnim();
         }
         monster.destroy();
-        if (gameTimer < 5000) {
+        if (gameTimer < 9000) {
           player.expUp();
           player.expUp();
         } else {
@@ -2599,8 +2618,8 @@ function attack(magic, monster) {
             thisScene,
             "babySlime",
             "slime",
-            150 + difficulty_hp,
-            125,
+            50 + difficulty_hp,
+            100,
             monster.x + i * 20,
             monster.y
           );
@@ -2661,9 +2680,9 @@ function enemySpawn(scene) {
 }
 
 function bomb(bomb, target) {
-  if (!target.invincible) {
+  if (!target.invincible && target.monSpecie != "golem") {
     target.invincible = true;
-    target.health -= 50;
+    target.health -= bomb.dmg;
     target.unInvincible();
     if (target.health <= 0 && target.type !== "boss") {
       if (target.monSpecie !== "slime") {
@@ -2677,7 +2696,7 @@ function bomb(bomb, target) {
           target.dieAnim();
         }
         target.destroy();
-        if (gameTimer < 5000) {
+        if (gameTimer < 9000) {
           player.expUp();
           player.expUp();
         } else {
@@ -2690,8 +2709,8 @@ function bomb(bomb, target) {
             thisScene,
             "babySlime",
             "slime",
-            150 + difficulty_hp,
-            125,
+            50 + difficulty_hp,
+            100,
             target.x + i * 20,
             target.y
           );
@@ -2779,7 +2798,7 @@ function petAttackFunc(magic, monster) {
           monster.dieAnim();
         }
         monster.destroy();
-        if (gameTimer < 5000) {
+        if (gameTimer < 9000) {
           player.expUp();
           player.expUp();
         } else {
@@ -2792,8 +2811,8 @@ function petAttackFunc(magic, monster) {
             thisScene,
             "babySlime",
             "slime",
-            150 + difficulty_hp,
-            125,
+            50 + difficulty_hp,
+            100,
             monster.x + i * 20,
             monster.y
           );

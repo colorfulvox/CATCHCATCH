@@ -7,7 +7,7 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
     velocity,
     randomX,
     randomY,
-    bossSpecie,
+    monSpecie,
     anim,
     scale,
     pt,
@@ -17,13 +17,13 @@ export default class Boss extends Phaser.Physics.Arcade.Sprite {
       delay: 400,
       loop: true,
     });
-    super(scene, randomX, randomY, bossSpecie);
+    super(scene, randomX, randomY, monSpecie);
     this.maxHealth = maxHealth;
     this.health = maxHealth;
     this.velocity = velocity;
     this.alpha = 1;
     this.anim = anim;
-    this.bossSpecie = bossSpecie;
+    this.monSpecie = monSpecie;
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.pt = pt;

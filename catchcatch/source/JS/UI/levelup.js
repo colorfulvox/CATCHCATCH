@@ -19,56 +19,32 @@ export default function levelup() {
     fire: {
       name: "불 고양이",
       pet: petFire,
-      text: [
-        "불 고양이 생성",
-        "플레이어 주변 랜덤 위치 범위형 불 토네이도(개수 증가 -> 1/3/6개) (15/12/10초쿨 5초지속)",
-        "공격주기 감소(쿨타임 감소)",
-      ],
+      text: ["불 고양이 소환", "화염 폭풍 증가", "화염 폭풍 추가 증가"],
     },
     normal: {
-      name: "일반 고양이",
+      name: "평범한 고양이",
       pet: petNormal,
-      text: [
-        "일반 고양이 생성",
-        "평타(랜덤방향으로)(개수증가 -> 1/2/3개)(3초쿨) + 플레이어의 일회용 보호막(부셔질 시 쿨타임 -> 3/2/1분)",
-        "공격주기 감소(쿨타임 감소)",
-      ],
+      text: ["평범한 고양이 소환", "탄환 수 증가", "탄환 수 추가 증가"],
     },
     thunder: {
-      name: "전기 고양이",
+      name: "번개 고양이",
       pet: petThunder,
-      text: [
-        "전기 고양이 생성",
-        "슬라임 탱탱볼 (개수 증가 -> 1/2/4개)(10/7/5초쿨)",
-        "공격주기 감소(쿨타임 감소)",
-      ],
+      text: ["번개 고양이 소환", "낙뢰 수 증가 ", "낙뢰 수 추가 증가"],
     },
     water: {
       name: "물 고양이",
       pet: petWater,
-      text: [
-        "물 고양이 생성",
-        "해일<콜라이더>(넉백)(방향 랜덤)(해일 개수 증가 -> 1/2/4개)(30/20/10초쿨 5초지속)",
-        "공격주기 감소(쿨타임 감소)",
-      ],
+      text: ["물 고양이 소환", "파도 개수 증가", "파도 개수 추가 증가"],
     },
     earth: {
       name: "땅 고양이",
       pet: petEarth,
-      text: [
-        "땅 고양이 생성",
-        "평타(랜덤방향으로)(개수증가 -> 1/2/3개)(3초쿨) + 애니비아 벽 (맞으면 막히게)(장판 길이 증가 -> 1/2/4배수)(15/12/10초쿨 5초지속)",
-        "공격주기 감소(쿨타임 감소)",
-      ],
+      text: ["땅 고양이 소환", "토벽 길이 증가", "토벽 길이 추가 증가"],
     },
     god: {
       name: "갓 고양이",
       pet: petGod,
-      text: [
-        "갓 고양이 생성",
-        "평타(랜덤방향으로)(개수 처음부터 3/6/9발)(1.5초쿨) + 카메라 화면 기준 적 삭제(1분쿨)",
-        "공격주기 감소(쿨타임 감소)",
-      ],
+      text: ["신 강림", "ھەقسىز شىزاڭ", "تيەنئەنمېننى ئېسىڭىزدە تۇتۇڭ"],
     },
     // 2 3 4 [5] 6 7 8 [9]
     wizard: {
@@ -78,12 +54,12 @@ export default function levelup() {
         "불마법 개수 증가",
         "공격 속도 증가",
         "관통 효과 적용",
-        "마법사 1차 강화",
+        "스킬 해금 - 범위 내 적을 피격하는 마법진 소환",
 
         "불마법 개수 증가",
         "공격 속도 증가",
         "관통 개수 증가",
-        "마법사 2차 강화",
+        "스킬 강화 - 마법진의 범위 증가",
       ],
     },
     reaper: {
@@ -93,12 +69,12 @@ export default function levelup() {
         "공격 범위 증가",
         "공격 속도 증가",
         "흡혈 효과 적용",
-        "사신 1차 강화",
+        "스킬 해금 - 일정 시간 공격속도 무제한",
 
         "공격 범위 증가",
         "공격 속도 증가",
         "흡혈 효과 증가",
-        "사신 2차 강화",
+        "요정 강화 - 공격을 할 시 검기를 날립니다.",
       ],
     },
     ninja: {
@@ -108,12 +84,12 @@ export default function levelup() {
         "사거리 증가",
         "공격 속도 증가",
         "기절 효과 적용",
-        "닌자 1차 강화",
+        "요정 강화 - 공격이 이제 3갈래로 나뉩니다.",
 
         "사거리 증가",
         "공격 속도 증가",
         "기절 효과 증가",
-        "닌자 2차 강화",
+        "요정 강화 - 공격이 일정 확률로 적을 즉사시킵니다.",
       ],
     },
     slime: {
@@ -123,12 +99,12 @@ export default function levelup() {
         "공격 속도 증가",
         "튕기는 횟수 증가",
         "복사 효과 적용",
-        "슬라임 1차 강화",
+        "스킬 해금 - 리스폰 위치로 순간이동합니다.",
 
         "공격 속도 증가",
         "튕기는 횟수 증가",
         "복사 효과 증가",
-        "슬라임 2차 강화",
+        "요정 강화 - 공격이 튕기는 확률이 대폭 증가합니다.",
       ],
     },
     witch: {
@@ -138,12 +114,12 @@ export default function levelup() {
         "설치 개수 증가Ⅰ",
         "폭팔 반경 증가",
         "설치 개수 증가Ⅱ",
-        "마녀 1차 강화",
+        "스킬 강화 - 점화 쿨타임이 50% 감소합니다.",
 
         "설치 개수 증가Ⅲ",
         "폭팔 반경 증가",
         "설치 개수 증가Ⅳ",
-        "마녀 2차 강화",
+        "요정 강화 - 이제 마우스 커서 지점에 폭탄을 설치합니다.",
       ],
     },
   };
@@ -224,6 +200,8 @@ export default function levelup() {
     levelImgandNameBox.setAttribute("class", "levelImgandNameBox");
     const levelupName = document.createElement("div");
     levelupName.setAttribute("class", "levelupName");
+    const level = document.createElement("div");
+    level.setAttribute("class", "level");
 
     if (randomIndexArray[i] > 5) {
       levelupContent.setAttribute("id", `${_propertyArr[randomIndexArray[i]]}`);
@@ -232,14 +210,15 @@ export default function levelup() {
           property[_propertyArr[randomIndexArray[i]]].fairy.level - 1
         ]
       }`;
+      level.innerText = `Lv.${
+        property[_propertyArr[randomIndexArray[i]]].fairy.level + 1
+      }`;
       levelupContent.style.backgroundImage =
         'url("images/ui/levelup/fairyupgrade_addName.png")';
       // 설명인데..
       levelupName.innerHTML = `[${
         property[_propertyArr[randomIndexArray[i]]].name
-      }] <br> Lv. ${
-        property[_propertyArr[randomIndexArray[i]]].fairy.level + 1
-      }`;
+      }]`;
       // levelupName.textContent += "Lv. 1";
     } else {
       levelupContent.style.backgroundImage =
@@ -250,9 +229,12 @@ export default function levelup() {
         property[_propertyArr[randomIndexArray[i]]].text[
           property[_propertyArr[randomIndexArray[i]]].pet.level
         ];
+      level.innerText = `Lv.${
+        property[_propertyArr[randomIndexArray[i]]].pet.level + 1
+      }`;
       levelupName.innerHTML = `${
         property[_propertyArr[randomIndexArray[i]]].name
-      } <br> Lv. ${property[_propertyArr[randomIndexArray[i]]].pet.level + 1}`;
+      }`;
       // levelupName.textContent += "Lv. 1";
     }
     levelupContent.style.backgroundRepeat = "no-repeat";
@@ -268,6 +250,7 @@ export default function levelup() {
 
     levelImgandNameBox.appendChild(levelupImg);
     levelImgandNameBox.appendChild(levelupName);
+    levelImgandNameBox.appendChild(level);
     levelupContent.appendChild(levelImgandNameBox);
     levelupContent.appendChild(levelupText);
     levelupContainer.appendChild(levelupContent);
@@ -278,40 +261,42 @@ export default function levelup() {
   // const levelupContainer = document.querySelector(".levelupContainer");
   const removeContainer = document.querySelector(".levelupContainer");
   for (let i = 0; i < 3; i++) {
-    contents[i].addEventListener("click", () => {
-      if (contents[i].id === "wizard") {
-        wizard.levelUp();
-        console.log(wizard);
-      } else if (contents[i].id === "reaper") {
-        reaper.levelUp();
-        console.log(reaper);
-      } else if (contents[i].id === "ninja") {
-        ninja.levelUp();
-        console.log(ninja);
-      } else if (contents[i].id === "slime") {
-        slime.levelUp();
-        console.log(slime);
-      } else if (contents[i].id === "witch") {
-        witch.levelUp();
-        console.log(witch);
-      } else if (contents[i].id === "normal") {
-        petNormal.levelUp();
-      } else if (contents[i].id === "fire") {
-        petFire.levelUp();
-      } else if (contents[i].id === "thunder") {
-        petThunder.levelUp();
-      } else if (contents[i].id === "water") {
-        petWater.levelUp();
-      } else if (contents[i].id === "earth") {
-        petEarth.levelUp();
-      } else if (contents[i].id === "god") {
-        petGod.levelUp();
-      }
-      player.expUpdate();
-      console.log(player.exp, player.maxExp);
-      isLevelup = false;
-      $this.resume();
-      gameContainer.removeChild(removeContainer);
-    });
+    setTimeout(() => {
+      contents[i].addEventListener("click", () => {
+        if (contents[i].id === "wizard") {
+          wizard.levelUp();
+          console.log(wizard);
+        } else if (contents[i].id === "reaper") {
+          reaper.levelUp();
+          console.log(reaper);
+        } else if (contents[i].id === "ninja") {
+          ninja.levelUp();
+          console.log(ninja);
+        } else if (contents[i].id === "slime") {
+          slime.levelUp();
+          console.log(slime);
+        } else if (contents[i].id === "witch") {
+          witch.levelUp();
+          console.log(witch);
+        } else if (contents[i].id === "normal") {
+          petNormal.levelUp();
+        } else if (contents[i].id === "fire") {
+          petFire.levelUp();
+        } else if (contents[i].id === "thunder") {
+          petThunder.levelUp();
+        } else if (contents[i].id === "water") {
+          petWater.levelUp();
+        } else if (contents[i].id === "earth") {
+          petEarth.levelUp();
+        } else if (contents[i].id === "god") {
+          petGod.levelUp();
+        }
+        player.expUpdate();
+        console.log(player.exp, player.maxExp);
+        isLevelup = false;
+        $this.resume();
+        gameContainer.removeChild(removeContainer);
+      });
+    }, 500);
   }
 }

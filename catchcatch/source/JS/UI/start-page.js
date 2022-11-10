@@ -39,6 +39,20 @@ const StartPageInit = () => {
   _app.style.backgroundPosition = "center";
   _app.style.backgroundRepeat = "no-repeat";
   _app.style.backgroundSize = "cover";
+  // 치트 모드
+  const cheat = document.createElement("div");
+  let cheatNum = 0;
+  cheat.setAttribute("class", "cheat");
+  cheat.addEventListener("click", () => {
+    cheatNum += 1;
+    if (cheatNum === 5) {
+      cheatMode = true;
+    } else {
+      cheatMode = false;
+    }
+    console.log(cheatNum, cheatMode);
+  });
+  _app.appendChild(cheat);
   // 로고 생성=======================================
   const _Logo = document.createElement("div");
   _Logo.className = "Logo";
@@ -262,7 +276,7 @@ export const StartPageOff = () => {
 
 // 캐릭터 선택 버튼 클릭 이벤트 리스너
 function GoSelectChar() {
-  if(setSound.nowBGM() === null){
+  if (setSound.nowBGM() === null) {
     setSound.setBGM(0);
   }
   setSound.playSE(16);
@@ -316,6 +330,26 @@ function InitRanking() {
     GradeSpace.className = "GradeSpace";
     MyRanking.appendChild(GradeSpace);
     GradeSpace.textContent = `${NewData[i][0]}`;
+
+    const areaspace = document.createElement("div");
+
+    if (NewData[i][3] === "광주") {
+      areaspace.textContent = "광주";
+      areaspace.className = "areaspace_1";
+    } else if (NewData[i][3] === "대전") {
+      areaspace.textContent = "대전";
+      areaspace.className = "areaspace_2";
+    } else if (NewData[i][3] === "구미") {
+      areaspace.textContent = "구미";
+      areaspace.className = "areaspace_3";
+    } else if (NewData[i][3] === "부울경") {
+      areaspace.textContent = "부울경";
+      areaspace.className = "areaspace_4";
+    } else if (NewData[i][3] === "서울") {
+      areaspace.textContent = "서울";
+    }
+
+    MyRanking.appendChild(areaspace);
 
     const NameSpace = document.createElement("div");
     NameSpace.className = "NameSpace";

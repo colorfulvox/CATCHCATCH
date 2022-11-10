@@ -1,7 +1,7 @@
 import "../../CSS/UI/inCodeUI.css";
 import Stage from "./stage.js";
 import { codeConfig } from "../GAME/code.js";
-import {setSound} from "../SOUND/sound";
+import { setSound } from "../SOUND/sound";
 
 let inputspace;
 
@@ -11,10 +11,14 @@ export default function IncodeUI() {
   const gameContainer = document.querySelector("#game-container");
 
   const pin = document.createElement("div");
+
   pin.setAttribute("class", "pin");
   pin.innerText = global.PinNumber;
   pin.style.textAlign = "center";
   pin.style.lineHeight = "60px";
+  pin.addEventListener("click", copypinnumber);
+  pin.addEventListener("mouseover", hoverPin);
+  pin.addEventListener("mouseout", deletePin);
   // pin.style.fontSize = "large";
 
   const buttonContainer = document.createElement("div");
@@ -42,8 +46,66 @@ export default function IncodeUI() {
   gameContainer.appendChild(pin);
   gameContainer.appendChild(buttonContainer);
 
-  // makeranking();
+  makeranking();
   // codegameclear();
+}
+
+let removeToast;
+
+function toast(string) {
+  const toast = document.getElementById("toast");
+
+  toast.classList.contains("reveal")
+    ? (clearTimeout(removeToast),
+      (removeToast = setTimeout(function () {
+        document.getElementById("toast").classList.remove("reveal");
+      }, 1000)))
+    : (removeToast = setTimeout(function () {
+        document.getElementById("toast").classList.remove("reveal");
+      }, 1000));
+  toast.classList.add("reveal"), (toast.innerText = string);
+}
+
+function hoverPin() {
+  const gameContainer = document.querySelector("#game-container");
+  const modal = document.createElement("div");
+  modal.setAttribute("class", "pinModal");
+  modal.innerText = "클릭하면 복사됩니다.";
+  gameContainer.appendChild(modal);
+}
+
+function deletePin() {
+  const gameContainer = document.querySelector("#game-container");
+  const modal = document.querySelector(".pinModal");
+  gameContainer.removeChild(modal);
+}
+
+function copypinnumber() {
+  copyStringToClipboard(global.PinNumber);
+  const modal = document.querySelector(".pinModal");
+  if (modal) {
+    deletePin();
+  }
+  const gameContainer = document.querySelector("#game-container");
+  const pin = document.querySelector(".pin");
+  gameContainer.removeChild(pin);
+
+  const toastspace = document.createElement("div");
+  toastspace.id = "toast";
+  gameContainer.appendChild(toastspace);
+
+  toast("클립보드 복사 완료!");
+}
+
+function copyStringToClipboard(string) {
+  function handler(event) {
+    event.clipboardData.setData("text/plain", string);
+    event.preventDefault();
+    document.removeEventListener("copy", handler, true);
+  }
+
+  document.addEventListener("copy", handler, true);
+  document.execCommand("copy");
 }
 
 function BacktoStage() {
@@ -56,7 +118,7 @@ function BacktoStage() {
   const resultpanel = document.querySelector(".resultpanel");
   const tempshowscore = document.querySelector(".showscore");
 
-  gameContainer.removeChild(pin);
+  if (pin != null) gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
   gameContainer.removeChild(tempshowscore);
 
@@ -80,7 +142,7 @@ function Replay() {
   const rankingpanel = document.querySelector(".rankingpanel");
   const resultpanel = document.querySelector(".resultpanel");
 
-  gameContainer.removeChild(pin);
+  if (pin != null) gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
   gameContainer.removeChild(tempshowscore);
 
@@ -107,6 +169,38 @@ export function makeranking() {
   scorespace.setAttribute("class", "scorespace");
   scorespace.textContent = global.score + " score";
   rankingpanel.appendChild(scorespace);
+
+  const selectarea = document.createElement("select");
+  selectarea.id = "selectarea";
+  selectarea.className = "selectarea";
+
+  const option_1 = document.createElement("option");
+  option_1.className = "opt";
+  option_1.value = "광주";
+  option_1.text = "광주";
+  selectarea.appendChild(option_1);
+  const option_2 = document.createElement("option");
+  option_2.className = "opt";
+  option_2.value = "대전";
+  option_2.text = "대전";
+  selectarea.appendChild(option_2);
+  const option_3 = document.createElement("option");
+  option_3.className = "opt";
+  option_3.value = "구미";
+  option_3.text = "구미";
+  selectarea.appendChild(option_3);
+  const option_4 = document.createElement("option");
+  option_4.className = "opt";
+  option_4.value = "부울경";
+  option_4.text = "부울경";
+  selectarea.appendChild(option_4);
+  const option_5 = document.createElement("option");
+  option_5.className = "opt";
+  option_5.value = "서울";
+  option_5.text = "서울";
+  selectarea.appendChild(option_5);
+
+  rankingpanel.appendChild(selectarea);
 
   inputspace = document.createElement("input");
   inputspace.setAttribute("class", "inputspace");
@@ -137,10 +231,12 @@ function submitranking() {
   if (inputspace.value === "") {
     inputspace.placeholder = "닉네임을 먼저 입력하세요.";
   } else {
+    const selected = document.getElementById("selectarea");
     let Data = {
       action: "newranking",
       name: inputspace.value,
       score: global.score,
+      area: selected.options[selected.selectedIndex].value,
     };
     socket.send(JSON.stringify(Data));
     BacktoStage();
