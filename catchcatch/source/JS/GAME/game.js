@@ -2169,7 +2169,7 @@ function update(time, delta) {
       bossMagicSet.add(fireGiantAura);
     }
 
-    if (bossFireGiantActive && gameTimer % 120 === 0) {
+    if (bossFireGiantActive && (gameTimer % 120 === 0)) {
       let x = bossSet.children.entries[fireGiantIndex].x;
       let y = bossSet.children.entries[fireGiantIndex].y;
 
