@@ -252,3 +252,12 @@
   border: none;
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
+
+.cheat {
+  width: 120px;
+  height: 100px;
+  position: absolute;
+  top: 270px;
+  left: 98px;
+  z-index: 2;
+}

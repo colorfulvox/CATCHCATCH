@@ -37,6 +37,8 @@ global.pause = false;
 global.isUpgrade = false;
 global.isLevelup = false;
 
+global.cheatMode = false;
+
 // 튜토리얼
 global.isTutorial = true;
 
@@ -56,7 +58,6 @@ global.isTutorial = true;
 function Init() {
   StartPageInit(); //스타트 페이지 init
   CharPageInit(); // 캐릭터 페이지 init
-
 }
 function SaveData() {
   localStorage.setItem("data", JSON.stringify(LocalData));
