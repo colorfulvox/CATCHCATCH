@@ -12,10 +12,10 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
   towerSkillAttackTimer = 0; //스킬 시간
   towerAS = [180, 180, 90]; //평타 기준 연사속도
   towerSkillAS = [[], [], [], [], [], []]; //평타 기준 연사속도
-  towerDmg = 13; //기본 대미지
+  towerDmg = 100; //기본 대미지
   towerSkillDmg = 6; //스킬 기본 대미지
-  towerWeaponSpeed = 500; //발사속도
-  towerSkillSpeed = 500; //발사속도
+  towerWeaponSpeed = 1500; //발사속도
+  towerSkillSpeed = 1500; //발사속도
   bulletLevel = 0;
   towerEvelop = 0;
   circleSize = 1.5;
