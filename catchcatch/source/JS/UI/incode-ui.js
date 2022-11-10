@@ -1,7 +1,7 @@
 import "../../CSS/UI/inCodeUI.css";
 import Stage from "./stage.js";
 import { codeConfig } from "../GAME/code.js";
-import {setSound} from "../SOUND/sound";
+import { setSound } from "../SOUND/sound";
 
 let inputspace;
 
@@ -11,10 +11,12 @@ export default function IncodeUI() {
   const gameContainer = document.querySelector("#game-container");
 
   const pin = document.createElement("div");
+
   pin.setAttribute("class", "pin");
   pin.innerText = global.PinNumber;
   pin.style.textAlign = "center";
   pin.style.lineHeight = "60px";
+  pin.addEventListener("click", copypinnumber);
   // pin.style.fontSize = "large";
 
   const buttonContainer = document.createElement("div");
@@ -46,6 +48,47 @@ export default function IncodeUI() {
   // codegameclear();
 }
 
+let removeToast;
+
+function toast(string) {
+  const toast = document.getElementById("toast");
+
+  toast.classList.contains("reveal")
+    ? (clearTimeout(removeToast),
+      (removeToast = setTimeout(function () {
+        document.getElementById("toast").classList.remove("reveal");
+      }, 1000)))
+    : (removeToast = setTimeout(function () {
+        document.getElementById("toast").classList.remove("reveal");
+      }, 1000));
+  toast.classList.add("reveal"), (toast.innerText = string);
+}
+
+function copypinnumber() {
+  copyStringToClipboard(global.PinNumber);
+
+  const gameContainer = document.querySelector("#game-container");
+  const pin = document.querySelector(".pin");
+  gameContainer.removeChild(pin);
+
+  const toastspace = document.createElement("div");
+  toastspace.id = "toast";
+  gameContainer.appendChild(toastspace);
+
+  toast("클립보드 복사 완료!");
+}
+
+function copyStringToClipboard(string) {
+  function handler(event) {
+    event.clipboardData.setData("text/plain", string);
+    event.preventDefault();
+    document.removeEventListener("copy", handler, true);
+  }
+
+  document.addEventListener("copy", handler, true);
+  document.execCommand("copy");
+}
+
 function BacktoStage() {
   const gameContainer = document.querySelector("#game-container");
   gameContainer.style.display = "none";
@@ -56,7 +99,7 @@ function BacktoStage() {
   const resultpanel = document.querySelector(".resultpanel");
   const tempshowscore = document.querySelector(".showscore");
 
-  gameContainer.removeChild(pin);
+  if (pin != null) gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
   gameContainer.removeChild(tempshowscore);
 
@@ -80,7 +123,7 @@ function Replay() {
   const rankingpanel = document.querySelector(".rankingpanel");
   const resultpanel = document.querySelector(".resultpanel");
 
-  gameContainer.removeChild(pin);
+  if (pin != null) gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
   gameContainer.removeChild(tempshowscore);
 

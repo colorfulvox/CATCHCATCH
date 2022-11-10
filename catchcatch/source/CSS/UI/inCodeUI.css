@@ -6,7 +6,7 @@
   height: 60px;
   transform: translateX(-50%) translateY(-50%);
   z-index: 1;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   background: url("../../../public/images/ui/Pinspace.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -15,6 +15,15 @@
   font-weight: bold;
   font-family: "KenneyBlocks";
   font-size: x-large;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.pin:hover {
+  background: url("../../../public/images/ui/Pinspace_act.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
 }
 
 .buttonContainer {
@@ -190,4 +199,27 @@
   background-position: center;
   background-size: contain;
   border: none;
+}
+
+#toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  padding: 15px 20px;
+  transform: translate(-50%, 10px);
+  border-radius: 30px;
+  overflow: hidden;
+  font-size: 0.8rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, visibility 0.5s, transform 0.5s;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  z-index: 10000;
+}
+
+#toast.reveal {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
 }
