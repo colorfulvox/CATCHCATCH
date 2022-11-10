@@ -1,7 +1,7 @@
 import "../../CSS/UI/stagepage.css";
 import { StartBtnOn } from "./start-page.js";
 import { codeConfig } from "../GAME/code.js";
-import {setSound} from "../SOUND/sound";
+import { setSound } from "../SOUND/sound";
 
 const diff = [1, 2, 3, 4, 5, 6];
 const fsize = ["30px"];
@@ -11,9 +11,11 @@ const txt = [
   "몬스터x10\n랜덤 위치+타입",
   "몬스터x10\n랜덤 위치+타입\n고양이x5",
   "몬스터x10\n랜덤 위치+타입\n고양이x5+이동",
-  "테스트",
+  "랭킹전 ",
 ];
 global.stageNum = 0;
+
+global.debugmode = false;
 
 export default function Stage() {
   const $app = document.querySelector("#app");
@@ -24,6 +26,16 @@ export default function Stage() {
   _BackIcon.className = "BackIcon";
   stagePage.appendChild(_BackIcon);
   _BackIcon.addEventListener("click", BackStart);
+
+  let debugmode = document.createElement("div");
+  debugmode.className = "debugmode";
+  stagePage.appendChild(debugmode);
+  debugmode.textContent = "디버깅 모드";
+
+  let debugicon = document.createElement("input");
+  debugicon.type = "checkbox";
+  debugicon.className = "debugicon";
+  debugmode.appendChild(debugicon);
 
   for (let i = 0; i < 6; i++) {
     const stage = document.createElement("div");
@@ -44,6 +56,7 @@ export default function Stage() {
     stageText.setAttribute("class", "stageText");
     stageText.innerText = txt[i];
     if (i === 0 || i === 5) stageText.style.marginTop = "50px";
+    if (i === 5) stageText.style.fontSize = "30px";
     if (i === 4 || i === 3) stageText.style.marginTop = "30px";
     // const stageDiff = document.createElement("div");
     // stageDiff.setAttribute("class", "stageDiff");
@@ -57,6 +70,10 @@ export default function Stage() {
 
     stagePage.appendChild(stage);
     stage.addEventListener("click", () => {
+      if (debugicon.checked === true) {
+        global.debugmode = true;
+      } else global.debugmode = false;
+
       setSound.playSE(24);
       stagePage.style.display = "none";
       stageNum = i + 1;
