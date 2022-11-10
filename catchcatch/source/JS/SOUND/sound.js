@@ -51,8 +51,8 @@ export class setSound {
         "sounds/se/se_appear_fire_giant.wav",
         // 16. 고양이 변경 버튼
         "sounds/se/se_cat_select.wav",
-        // 17. 코인 획득 소리
-        "sounds/se/se_coin.wav",
+        // 17. 생선 획득
+        "sounds/se/se_fish.wav",
         // 18. shift 업그레이드 버튼 소리
         "sounds/se/se_shift_upgrade.wav",
         // 19. 레벨업 창 팝업시 소리
