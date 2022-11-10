@@ -2194,6 +2194,7 @@ function update(time, delta) {
         StartMineRangeY[mineShowTime];
       mine = new Mine(this, x, y, "minecoin", 0);
       mine.scale_Circle();
+      mine.setDepth(1);
       mine.set_anime();
       mines.add(mine);
     }
