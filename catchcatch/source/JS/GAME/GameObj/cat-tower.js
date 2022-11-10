@@ -55,8 +55,8 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
     this.anims.play(towerSprite, true);
 
     //테스트용
-    this.level = 1;
-    this.invisible = "true";
+    // this.level = 1;
+    // this.invisible = "true";
 
     scene.events.on("update", () => {
       this.update();
