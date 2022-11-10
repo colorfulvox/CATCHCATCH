@@ -1821,8 +1821,9 @@ function create() {
   //   this.physics.add.collider(bossSet, treesLayer);
 
   if (cheatMode) {
+    player.maxExp = 1000;
     for (let i = 0; i < 5; i++) {
-      fairySet.children.entries[i].cheat();
+      fairySet[i].cheat();
     }
   }
 }
