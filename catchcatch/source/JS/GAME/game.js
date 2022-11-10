@@ -251,6 +251,16 @@ function preload() {
     frameWidth: 64,
     frameHeight: 64,
   });
+
+  this.load.spritesheet("catEarthMagic", "images/pet/earthMagic.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("catGodMagic", "images/pet/godMagic.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
   //pet end
 
   //tower end
@@ -1418,6 +1428,106 @@ function create() {
     frameRate: 8,
     repeat: 0,
   });
+
+  this.anims.create({
+    key: "1_idle_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "1_destory_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "2_idle_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "2_destory_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "3_idle_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "3_destory_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "4_idle_magic",
+    frames: this.anims.generateFrameNumbers("catEarthMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "4_destory_magic",
+    frames: this.anims.generateFrameNumbers("catEarthMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "5_idle_magic",
+    frames: this.anims.generateFrameNumbers("catGodMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "5_destory_magic",
+    frames: this.anims.generateFrameNumbers("catGodMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
   //pet end
 
   global.pets = this.add.group();
@@ -1442,8 +1552,8 @@ function create() {
     px,
     py,
     "1_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "1_idle_magic",
+    "1_destory_magic"
   );
   global.petFire = new CatTower(
     this,
@@ -1452,8 +1562,8 @@ function create() {
     px,
     py,
     "2_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "2_idle_magic",
+    "2_destory_magic"
   );
   global.petWater = new CatTower(
     this,
@@ -1462,8 +1572,8 @@ function create() {
     px,
     py,
     "3_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "3_idle_magic",
+    "3_destory_magic"
   );
   global.petEarth = new CatTower(
     this,
@@ -1472,8 +1582,8 @@ function create() {
     px,
     py,
     "4_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "4_idle_magic",
+    "4_destory_magic"
   );
   global.petGod = new CatTower(
     this,
@@ -1482,8 +1592,8 @@ function create() {
     px,
     py,
     "5_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "5_idle_magic",
+    "5_destory_magic"
   );
 
   petNormal.setDepth(10);
@@ -2580,7 +2690,7 @@ function petAttackFunc(magic, monster) {
   if (!monster.invincible) {
     monster.invincible = true;
     monster.unInvincible();
-    monster.health -= magic.dmg;
+    monster.health -= magic.dmg[magic.stone];
     console.log(monster.health);
     magic.destroy();
     if (monster.health <= 0 && monster.type !== "boss") {

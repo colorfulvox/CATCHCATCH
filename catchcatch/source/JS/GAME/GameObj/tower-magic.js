@@ -24,7 +24,7 @@ export default class TowerMagic extends Phaser.Physics.Arcade.Sprite {
       },
       loop: false,
     });
-    this.dmg = tower.towerDmg;
+    this.dmg = tower.towerDmg[tower.stone];
     // this.scale = 0.01;
     scene.add.existing(this);
     scene.physics.add.existing(this);
