@@ -10,7 +10,7 @@ export class setSound {
         // 3. 게임 승리
         "sounds/bgm/bgm_ending.wav",
         // 4. 코딩 모드
-        "sounds/bgm/bgm_main_coding.wav",
+        "sounds/bgm/bgm_code.wav",
         // 5. Nyan
         "sounds/bgm/bgm_nyan.wav",
     ];
@@ -82,9 +82,15 @@ export class setSound {
             this.pauseBGM();
         }
 
+        console.log(this._backGroundMusic);
+
         this._backGroundMusic = new Audio(setSound._backGroundMusicList[index]);
         this._backGroundMusic.loop = true;
         this._backGroundMusic.play();
+    }
+
+    static nowBGM(){
+        return this._backGroundMusic
     }
 
     static pauseBGM() {
