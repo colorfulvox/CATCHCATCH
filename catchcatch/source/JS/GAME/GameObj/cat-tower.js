@@ -14,8 +14,8 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
   towerSkillAS = [[], [], [], [], [], []]; //평타 기준 연사속도
   towerDmg = 100; //기본 대미지
   towerSkillDmg = 6; //스킬 기본 대미지
-  towerWeaponSpeed = 1500; //발사속도
-  towerSkillSpeed = 1500; //발사속도
+  towerWeaponSpeed = 1000; //발사속도
+  towerSkillSpeed = 500; //발사속도
   bulletLevel = 0;
   towerEvelop = 0;
   circleSize = 0.8;
@@ -61,8 +61,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
     scene.events.on("update", () => {
       this.update();
     });
-
-    console.log(this.level, this.invisible);
   }
 
   update() {
@@ -74,7 +72,9 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
     this.towerAttackTimer++;
     if (this.towerAttackTimer >= this.towerAS[this.stone]) {
       this.towerAttackTimer = 0;
+
       //노멀
+
       if (this.stone === 0 && this.level > 0 && this.invisible === "true") {
         for (let i = 0; i < this.level; i++) {
           let magic = new TowerMagic(this.scene, this);
