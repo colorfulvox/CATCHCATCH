@@ -243,6 +243,7 @@ function BuyChar() {
 }
 
 function MapLevel() {
+  setSound.playSE(16);
   if (ChoiceLevel === 0) {
     this.style.background =
       "url('images/ui/MapLevelHard.png') no-repeat center";

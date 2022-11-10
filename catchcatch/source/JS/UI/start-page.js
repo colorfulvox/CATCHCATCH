@@ -130,12 +130,15 @@ const StartPageInit = () => {
 
   //이벤트 리스너 추가------------
   if (_mode === true) {
+    // BGM
+    setSound.setBGM(0);
     Btn.addEventListener("click", GoSelectChar);
   } else {
+    setSound.setBGM(4);
     Btn.addEventListener("click", () => {
       console.log("코딩모드 시작");
       //   CodeStart();
-      setSound.setBGM(4);
+      setSound.playSE(16);
       GoStage();
       Stage();
     });
@@ -259,13 +262,16 @@ export const StartPageOff = () => {
 
 // 캐릭터 선택 버튼 클릭 이벤트 리스너
 function GoSelectChar() {
-  // BGM
-  setSound.setBGM(0);
+  if(setSound.nowBGM() === null){
+    setSound.setBGM(0);
+  }
+  setSound.playSE(16);
   StartBtnOff();
   CharSpaceOn();
 }
 
 function RankingListOn() {
+  setSound.playSE(16);
   let logo = document.getElementById("Logo");
   logo.style.display = "none";
   _RankingList.style.display = "flex";
@@ -281,6 +287,7 @@ function RankingListOff() {
 }
 
 function SearchResult(e) {
+  setSound.playSE(16);
   // console.log(InputArea.value);
   if (e.target.value) {
     NewData = RankingData.filter((el) => el.includes(e.target.value));
