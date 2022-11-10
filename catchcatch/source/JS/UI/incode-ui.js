@@ -17,6 +17,8 @@ export default function IncodeUI() {
   pin.style.textAlign = "center";
   pin.style.lineHeight = "60px";
   pin.addEventListener("click", copypinnumber);
+  pin.addEventListener("mouseover", hoverPin);
+  pin.addEventListener("mouseout", deletePin);
   // pin.style.fontSize = "large";
 
   const buttonContainer = document.createElement("div");
@@ -62,6 +64,20 @@ function toast(string) {
         document.getElementById("toast").classList.remove("reveal");
       }, 1000));
   toast.classList.add("reveal"), (toast.innerText = string);
+}
+
+function hoverPin() {
+  const gameContainer = document.querySelector("#game-container");
+  const modal = document.createElement("div");
+  modal.setAttribute("class", "pinModal");
+  modal.innerText = "클릭하면 복사됩니다.";
+  gameContainer.appendChild(modal);
+}
+
+function deletePin() {
+  const gameContainer = document.querySelector("#game-container");
+  const modal = document.querySelector(".pinModal");
+  gameContainer.removeChild(modal);
 }
 
 function copypinnumber() {
