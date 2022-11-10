@@ -21,7 +21,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   maxExp = 3;
   exp = 0;
   level = 1;
-  maxExpBonus = 5;
+  maxExpBonus = 3;
   coin = 100000;
   // 캐릭터 특수능력 일단 보류
   ability = 0;
@@ -172,14 +172,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   hitByEnemy(damage) {}
 
-  hitPlayer(player) {
+  hitPlayer(player, monster) {
     if (ChoiceCat === 5) {
       let rand = Math.floor(Math.random() * 20);
       setSound.playSE(rand);
     } else {
       setSound.playSE(11);
     }
-    if (player.invincible === false) {
+    if (player.invincible === false && monster.monSpecie === "worm") {
+      monster.boomAnim();
+      player.bombHitPlayer(player, monster);
+      monster.destroy();
+    } else if (player.invincible === false) {
       player.invincible = true;
       player.body.checkCollision.none = true;
       player.health -= 1;

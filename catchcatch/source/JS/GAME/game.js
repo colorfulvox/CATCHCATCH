@@ -2061,7 +2061,7 @@ function update(time, delta) {
         addMonster(this, "alien", "alien", 30, 50, monX, monY);
       }
     }
-    if (gameTimer > 1600 && gameTimer % 150 === 0) {
+    if (gameTimer > 100) {
       // 2번 worm
       enemySpawn(randomLocation);
       if (12000 < gameTimer && gameTimer <= 25200) {
