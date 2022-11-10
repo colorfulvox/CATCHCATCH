@@ -216,6 +216,8 @@ export default function levelup() {
     levelImgandNameBox.setAttribute("class", "levelImgandNameBox");
     const levelupName = document.createElement("div");
     levelupName.setAttribute("class", "levelupName");
+    const level = document.createElement("div");
+    level.setAttribute("class", "level");
 
     if (randomIndexArray[i] > 5) {
       levelupContent.setAttribute("id", `${_propertyArr[randomIndexArray[i]]}`);
@@ -224,14 +226,15 @@ export default function levelup() {
           property[_propertyArr[randomIndexArray[i]]].fairy.level - 1
         ]
       }`;
+      level.innerText = `Lv.${
+        property[_propertyArr[randomIndexArray[i]]].fairy.level + 1
+      }`;
       levelupContent.style.backgroundImage =
         'url("images/ui/levelup/fairyupgrade_addName.png")';
       // 설명인데..
       levelupName.innerHTML = `[${
         property[_propertyArr[randomIndexArray[i]]].name
-      }] <br> Lv. ${
-        property[_propertyArr[randomIndexArray[i]]].fairy.level + 1
-      }`;
+      }]`;
       // levelupName.textContent += "Lv. 1";
     } else {
       levelupContent.style.backgroundImage =
@@ -242,9 +245,12 @@ export default function levelup() {
         property[_propertyArr[randomIndexArray[i]]].text[
           property[_propertyArr[randomIndexArray[i]]].pet.level
         ];
+      level.innerText = `Lv.${
+        property[_propertyArr[randomIndexArray[i]]].pet.level + 1
+      }`;
       levelupName.innerHTML = `${
         property[_propertyArr[randomIndexArray[i]]].name
-      } <br> Lv. ${property[_propertyArr[randomIndexArray[i]]].pet.level + 1}`;
+      }`;
       // levelupName.textContent += "Lv. 1";
     }
     levelupContent.style.backgroundRepeat = "no-repeat";
@@ -260,6 +266,7 @@ export default function levelup() {
 
     levelImgandNameBox.appendChild(levelupImg);
     levelImgandNameBox.appendChild(levelupName);
+    levelImgandNameBox.appendChild(level);
     levelupContent.appendChild(levelImgandNameBox);
     levelupContent.appendChild(levelupText);
     levelupContainer.appendChild(levelupContent);

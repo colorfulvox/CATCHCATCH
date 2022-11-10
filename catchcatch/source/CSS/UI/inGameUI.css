@@ -190,7 +190,7 @@
   width: 360px;
   height: 80px;
   position: absolute;
-  bottom: 10px;
+  bottom: -5%;
   left: 50%;
   justify-content: space-between;
   transform: translateX(-50%) translateY(-50%);
@@ -296,7 +296,7 @@ html {
 .tutorialNumber {
   position: absolute;
   width: 470px;
-  bottom: 23%;
+  bottom: 17%;
   left: 54%;
   transform: translateX(-50%) translateY(+50%);
 }

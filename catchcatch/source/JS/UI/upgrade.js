@@ -36,11 +36,6 @@ export default function initUpgrade() {
   if (!isUpgrade) {
     window.addEventListener("keydown", sceneHandler);
   }
-  towerType.addEventListener("click", () => {
-    weaponType.style.backgroundImage = "url('images/ui/weaponicon.png')";
-    towerType.style.backgroundImage = "url('images/ui/towericon_act.png')";
-    tower();
-  });
   weaponType.addEventListener("click", () => {
     weaponType.style.backgroundImage = "url('images/ui/weaponicon_act.png')";
     towerType.style.backgroundImage = "url('images/ui/towericon.png')";
@@ -54,7 +49,6 @@ export default function initUpgrade() {
 
   upgradeType.appendChild(homeBtn);
   upgradeType.appendChild(weaponType);
-  upgradeType.appendChild(towerType);
   upgradeContainer.appendChild(upgradeType);
   upgradeContainer.appendChild(upgradeContent);
   gameContainer.appendChild(upgradeContainer);
