@@ -29,7 +29,6 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
   }
 
   overlapOpen(mine, player) {
-    console.log(mine);
     var range = Phaser.Math.Distance.Between(mine.x, mine.y, 0, 0);
 
     if (gameTimer % 7200 === 0) {
