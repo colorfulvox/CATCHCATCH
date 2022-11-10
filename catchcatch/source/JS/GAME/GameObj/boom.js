@@ -1,6 +1,7 @@
 import { setSound } from "../../SOUND/sound";
 
 export default class Boom extends Phaser.Physics.Arcade.Sprite {
+  dmg;
   constructor(scene, x, y, monSpecie) {
     // magic5_1를 나중에 폭발 스프라이트 애니메이션  key로 바꾸기
     super(scene, x, y, "monster_boom");
@@ -16,10 +17,13 @@ export default class Boom extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
     if (monSpecie === "worm") {
       this.setScale(2);
+      this.dmg = 50;
     } else if (monSpecie === "wormPlus") {
       this.setScale(3);
+      this.dmg = 100;
     } else {
       this.setScale(4);
+      this.dmg = 200;
     }
 
     let hw = this.body.halfWidth;

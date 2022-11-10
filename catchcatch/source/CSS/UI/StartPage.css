@@ -261,3 +261,79 @@
   left: 200px;
   z-index: 2;
 }
+
+.areaspace_1 {
+  background: url("../../../public/images/ui/areaspace/1.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+
+  width: 80px;
+  height: 50px;
+  /* border: 2px solid black; */
+  text-align: center;
+  line-height: 50px;
+  font-family: "neodgm";
+  color: black;
+}
+.areaspace_2 {
+  background: url("../../../public/images/ui/areaspace/2.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+
+  width: 80px;
+  height: 50px;
+  /* border: 2px solid black; */
+  text-align: center;
+  line-height: 50px;
+  font-family: "neodgm";
+  color: black;
+}
+.areaspace_3 {
+  background: url("../../../public/images/ui/areaspace/3.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+
+  width: 80px;
+  height: 50px;
+  /* border: 2px solid black; */
+  text-align: center;
+  line-height: 50px;
+  font-family: "neodgm";
+  color: black;
+}
+.areaspace_4 {
+  background: url("../../../public/images/ui/areaspace/4.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+
+  width: 80px;
+  height: 50px;
+  /* border: 2px solid black; */
+  text-align: center;
+  line-height: 50px;
+  font-family: "neodgm";
+  color: black;
+}
+.areaspace_5 {
+  background: url("../../../public/images/ui/areaspace/5.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+
+  width: 80px;
+  height: 50px;
+  /* border: 2px solid black; */
+  text-align: center;
+  line-height: 50px;
+  font-family: "neodgm";
+  color: black;
+}
