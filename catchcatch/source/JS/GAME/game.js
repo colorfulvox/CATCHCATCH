@@ -2061,7 +2061,7 @@ function update(time, delta) {
         addMonster(this, "alien", "alien", 30, 50, monX, monY);
       }
     }
-    if (gameTimer > 100) {
+    if (gameTimer > 1200 && gameTimer % 120 === 0) {
       // 2번 worm
       enemySpawn(randomLocation);
       if (12000 < gameTimer && gameTimer <= 25200) {
@@ -2250,7 +2250,7 @@ function update(time, delta) {
       bossMagicSet.add(fireGiantAura);
     }
 
-    if (bossFireGiantActive && (gameTimer % 120 === 0)) {
+    if (bossFireGiantActive && gameTimer % 120 === 0) {
       let x = bossSet.children.entries[fireGiantIndex].x;
       let y = bossSet.children.entries[fireGiantIndex].y;
 
