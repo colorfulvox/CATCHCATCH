@@ -36,11 +36,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.health = health;
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    scene.anims.create({
-      key: "turn",
-      frames: this.anims.generateFrameNumbers(catname, { start: 0, end: 0 }),
-      frameRate: 10,
-    });
   }
 
   hitPlayer(player, alien) {
