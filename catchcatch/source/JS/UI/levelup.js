@@ -21,7 +21,7 @@ export default function levelup() {
       pet: petFire,
       text: [
         "불 고양이 생성",
-        "플레이어 주변 랜덤 위치 범위형 불 토네이도(개수 증가 -> 1/3/6개) (15/12/10초쿨 5초지속)",
+        "화염 폭풍 개수 증가",
         "공격주기 감소(쿨타임 감소)",
       ],
     },
@@ -30,7 +30,7 @@ export default function levelup() {
       pet: petNormal,
       text: [
         "일반 고양이 생성",
-        "평타(랜덤방향으로)(개수증가 -> 1/2/3개)(3초쿨) + 플레이어의 일회용 보호막(부셔질 시 쿨타임 -> 3/2/1분)",
+        "보호막 개수 증가",
         "공격주기 감소(쿨타임 감소)",
       ],
     },
@@ -39,34 +39,26 @@ export default function levelup() {
       pet: petThunder,
       text: [
         "전기 고양이 생성",
-        "슬라임 탱탱볼 (개수 증가 -> 1/2/4개)(10/7/5초쿨)",
+        "전기 구슬 생성 증가",
         "공격주기 감소(쿨타임 감소)",
       ],
     },
     water: {
       name: "물 고양이",
       pet: petWater,
-      text: [
-        "물 고양이 생성",
-        "해일<콜라이더>(넉백)(방향 랜덤)(해일 개수 증가 -> 1/2/4개)(30/20/10초쿨 5초지속)",
-        "공격주기 감소(쿨타임 감소)",
-      ],
+      text: ["물 고양이 생성", "파도 개수 증가", "공격주기 감소(쿨타임 감소)"],
     },
     earth: {
       name: "땅 고양이",
       pet: petEarth,
-      text: [
-        "땅 고양이 생성",
-        "평타(랜덤방향으로)(개수증가 -> 1/2/3개)(3초쿨) + 애니비아 벽 (맞으면 막히게)(장판 길이 증가 -> 1/2/4배수)(15/12/10초쿨 5초지속)",
-        "공격주기 감소(쿨타임 감소)",
-      ],
+      text: ["땅 고양이 생성", "토벽 길이 증가", "공격주기 감소(쿨타임 감소)"],
     },
     god: {
       name: "갓 고양이",
       pet: petGod,
       text: [
         "갓 고양이 생성",
-        "평타(랜덤방향으로)(개수 처음부터 3/6/9발)(1.5초쿨) + 카메라 화면 기준 적 삭제(1분쿨)",
+        "스킬 쿨타임 감소",
         "공격주기 감소(쿨타임 감소)",
       ],
     },
@@ -278,40 +270,42 @@ export default function levelup() {
   // const levelupContainer = document.querySelector(".levelupContainer");
   const removeContainer = document.querySelector(".levelupContainer");
   for (let i = 0; i < 3; i++) {
-    contents[i].addEventListener("click", () => {
-      if (contents[i].id === "wizard") {
-        wizard.levelUp();
-        console.log(wizard);
-      } else if (contents[i].id === "reaper") {
-        reaper.levelUp();
-        console.log(reaper);
-      } else if (contents[i].id === "ninja") {
-        ninja.levelUp();
-        console.log(ninja);
-      } else if (contents[i].id === "slime") {
-        slime.levelUp();
-        console.log(slime);
-      } else if (contents[i].id === "witch") {
-        witch.levelUp();
-        console.log(witch);
-      } else if (contents[i].id === "normal") {
-        petNormal.levelUp();
-      } else if (contents[i].id === "fire") {
-        petFire.levelUp();
-      } else if (contents[i].id === "thunder") {
-        petThunder.levelUp();
-      } else if (contents[i].id === "water") {
-        petWater.levelUp();
-      } else if (contents[i].id === "earth") {
-        petEarth.levelUp();
-      } else if (contents[i].id === "god") {
-        petGod.levelUp();
-      }
-      player.expUpdate();
-      console.log(player.exp, player.maxExp);
-      isLevelup = false;
-      $this.resume();
-      gameContainer.removeChild(removeContainer);
-    });
+    setTimeout(() => {
+      contents[i].addEventListener("click", () => {
+        if (contents[i].id === "wizard") {
+          wizard.levelUp();
+          console.log(wizard);
+        } else if (contents[i].id === "reaper") {
+          reaper.levelUp();
+          console.log(reaper);
+        } else if (contents[i].id === "ninja") {
+          ninja.levelUp();
+          console.log(ninja);
+        } else if (contents[i].id === "slime") {
+          slime.levelUp();
+          console.log(slime);
+        } else if (contents[i].id === "witch") {
+          witch.levelUp();
+          console.log(witch);
+        } else if (contents[i].id === "normal") {
+          petNormal.levelUp();
+        } else if (contents[i].id === "fire") {
+          petFire.levelUp();
+        } else if (contents[i].id === "thunder") {
+          petThunder.levelUp();
+        } else if (contents[i].id === "water") {
+          petWater.levelUp();
+        } else if (contents[i].id === "earth") {
+          petEarth.levelUp();
+        } else if (contents[i].id === "god") {
+          petGod.levelUp();
+        }
+        player.expUpdate();
+        console.log(player.exp, player.maxExp);
+        isLevelup = false;
+        $this.resume();
+        gameContainer.removeChild(removeContainer);
+      });
+    }, 500);
   }
 }

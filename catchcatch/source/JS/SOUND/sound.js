@@ -10,7 +10,7 @@ export class setSound {
         // 3. 게임 승리
         "sounds/bgm/bgm_ending.wav",
         // 4. 코딩 모드
-        "sounds/bgm/bgm_main_coding.wav",
+        "sounds/bgm/bgm_code.wav",
         // 5. Nyan
         "sounds/bgm/bgm_nyan.wav",
     ];
@@ -51,8 +51,8 @@ export class setSound {
         "sounds/se/se_appear_fire_giant.wav",
         // 16. 고양이 변경 버튼
         "sounds/se/se_cat_select.wav",
-        // 17. 코인 획득 소리
-        "sounds/se/se_coin.wav",
+        // 17. 생선 획득
+        "sounds/se/se_fish.wav",
         // 18. shift 업그레이드 버튼 소리
         "sounds/se/se_shift_upgrade.wav",
         // 19. 레벨업 창 팝업시 소리
@@ -82,9 +82,15 @@ export class setSound {
             this.pauseBGM();
         }
 
+        console.log(this._backGroundMusic);
+
         this._backGroundMusic = new Audio(setSound._backGroundMusicList[index]);
         this._backGroundMusic.loop = true;
         this._backGroundMusic.play();
+    }
+
+    static nowBGM(){
+        return this._backGroundMusic
     }
 
     static pauseBGM() {

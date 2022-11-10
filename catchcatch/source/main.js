@@ -56,7 +56,6 @@ global.isTutorial = true;
 function Init() {
   StartPageInit(); //스타트 페이지 init
   CharPageInit(); // 캐릭터 페이지 init
-
 }
 function SaveData() {
   localStorage.setItem("data", JSON.stringify(LocalData));

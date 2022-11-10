@@ -72,12 +72,18 @@ export default function ingameUi() {
     gameContainer.appendChild(space);
     gameContainer.appendChild(skill);
 
+    const stat = document.createElement("img");
+    stat.setAttribute("class", "tutorialStat");
+    stat.src = "images/ui/tutorial/tutorial_shift.png";
+    gameContainer.appendChild(stat);
+
     setTimeout(() => {
       gameContainer.removeChild(img);
       gameContainer.removeChild(space);
       gameContainer.removeChild(skill);
       gameContainer.removeChild(mouse);
-    }, 6000);
+      gameContainer.removeChild(stat);
+    }, 10000);
   }
   gameContainer.appendChild(coolContainer);
 }

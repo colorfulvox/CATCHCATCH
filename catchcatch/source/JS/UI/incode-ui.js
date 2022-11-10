@@ -76,8 +76,16 @@ function Replay() {
   const gameContainer = document.querySelector("#game-container");
   const pin = document.querySelector(".pin");
   const buttonContainer = document.querySelector(".buttonContainer");
+  const tempshowscore = document.querySelector(".showscore");
+  const rankingpanel = document.querySelector(".rankingpanel");
+  const resultpanel = document.querySelector(".resultpanel");
+
   gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
+  gameContainer.removeChild(tempshowscore);
+
+  if (rankingpanel != null) gameContainer.removeChild(rankingpanel);
+  if (resultpanel != null) gameContainer.removeChild(resultpanel);
   codeGame.destroy(true);
   codeGame = null;
   codeGame = new Phaser.Game(codeConfig);

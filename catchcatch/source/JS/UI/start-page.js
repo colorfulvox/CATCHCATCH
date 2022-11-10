@@ -39,6 +39,20 @@ const StartPageInit = () => {
   _app.style.backgroundPosition = "center";
   _app.style.backgroundRepeat = "no-repeat";
   _app.style.backgroundSize = "cover";
+  // 치트 모드
+  const cheat = document.createElement("div");
+  let cheatNum = 0;
+  cheat.setAttribute("class", "cheat");
+  cheat.addEventListener("click", () => {
+    cheatNum += 1;
+    if (cheatNum === 5) {
+      cheatMode = true;
+    } else {
+      cheatMode = false;
+    }
+    console.log(cheatNum, cheatMode);
+  });
+  _app.appendChild(cheat);
   // 로고 생성=======================================
   const _Logo = document.createElement("div");
   _Logo.className = "Logo";
@@ -130,12 +144,15 @@ const StartPageInit = () => {
 
   //이벤트 리스너 추가------------
   if (_mode === true) {
+    // BGM
+    setSound.setBGM(0);
     Btn.addEventListener("click", GoSelectChar);
   } else {
+    setSound.setBGM(4);
     Btn.addEventListener("click", () => {
       console.log("코딩모드 시작");
       //   CodeStart();
-      setSound.setBGM(4);
+      setSound.playSE(16);
       GoStage();
       Stage();
     });
@@ -259,13 +276,16 @@ export const StartPageOff = () => {
 
 // 캐릭터 선택 버튼 클릭 이벤트 리스너
 function GoSelectChar() {
-  // BGM
-  setSound.setBGM(0);
+  if (setSound.nowBGM() === null) {
+    setSound.setBGM(0);
+  }
+  setSound.playSE(16);
   StartBtnOff();
   CharSpaceOn();
 }
 
 function RankingListOn() {
+  setSound.playSE(16);
   let logo = document.getElementById("Logo");
   logo.style.display = "none";
   _RankingList.style.display = "flex";
@@ -281,6 +301,7 @@ function RankingListOff() {
 }
 
 function SearchResult(e) {
+  setSound.playSE(16);
   // console.log(InputArea.value);
   if (e.target.value) {
     NewData = RankingData.filter((el) => el.includes(e.target.value));

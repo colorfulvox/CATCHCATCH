@@ -41,7 +41,7 @@ export const config = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: true,
+      debug: false,
       fixedStep: false,
     },
   },
@@ -81,6 +81,7 @@ let scoreText;
 // 마우스 포인터 관련
 export let input;
 let mouse;
+global.cheatMode = false;
 //player end
 
 //gametimer
@@ -248,6 +249,16 @@ function preload() {
   });
   //petmagic
   this.load.spritesheet("catNormalMagic", "images/pet/normalMagic.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("catEarthMagic", "images/pet/earthMagic.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("catGodMagic", "images/pet/godMagic.png", {
     frameWidth: 64,
     frameHeight: 64,
   });
@@ -1418,6 +1429,106 @@ function create() {
     frameRate: 8,
     repeat: 0,
   });
+
+  this.anims.create({
+    key: "1_idle_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "1_destory_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "2_idle_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "2_destory_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "3_idle_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "3_destory_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "4_idle_magic",
+    frames: this.anims.generateFrameNumbers("catEarthMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "4_destory_magic",
+    frames: this.anims.generateFrameNumbers("catEarthMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "5_idle_magic",
+    frames: this.anims.generateFrameNumbers("catGodMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "5_destory_magic",
+    frames: this.anims.generateFrameNumbers("catGodMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
   //pet end
 
   global.pets = this.add.group();
@@ -1442,8 +1553,8 @@ function create() {
     px,
     py,
     "1_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "1_idle_magic",
+    "1_destory_magic"
   );
   global.petFire = new CatTower(
     this,
@@ -1452,8 +1563,8 @@ function create() {
     px,
     py,
     "2_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "2_idle_magic",
+    "2_destory_magic"
   );
   global.petWater = new CatTower(
     this,
@@ -1462,8 +1573,8 @@ function create() {
     px,
     py,
     "3_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "3_idle_magic",
+    "3_destory_magic"
   );
   global.petEarth = new CatTower(
     this,
@@ -1472,8 +1583,8 @@ function create() {
     px,
     py,
     "4_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "4_idle_magic",
+    "4_destory_magic"
   );
   global.petGod = new CatTower(
     this,
@@ -1482,8 +1593,8 @@ function create() {
     px,
     py,
     "5_idle_pet",
-    "0_idle_magic",
-    "0_destory_magic"
+    "5_idle_magic",
+    "5_destory_magic"
   );
 
   petNormal.setDepth(10);
@@ -1499,6 +1610,14 @@ function create() {
   petWater.setVisible(false);
   petEarth.setVisible(false);
   petGod.setVisible(false);
+
+  //디버그용
+  // petNormal.setVisible(true);
+  // petThunder.setVisible(true);
+  // petFire.setVisible(true);
+  // petWater.setVisible(true);
+  // petEarth.setVisible(true);
+  // petGod.setVisible(true);
 
   pets.add(petNormal);
   pets.add(petThunder);
@@ -1700,6 +1819,13 @@ function create() {
   //   this.physics.add.collider(monsterSet, treesLayer);
   //   this.physics.add.collider(monsterSet, propsLayer);
   //   this.physics.add.collider(bossSet, treesLayer);
+
+  if (cheatMode) {
+    player.maxExp = 1000;
+    for (let i = 0; i < 5; i++) {
+      fairySet[i].cheat();
+    }
+  }
 }
 
 function update(time, delta) {
@@ -1847,9 +1973,9 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alien", "alienPlus", 100, 65, monX, monY);
+        addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "alien", "alienFinal", 150, 75, monX, monY);
+        addMonster(this, "alien", "alienFinal", 100, 75, monX, monY);
       } else {
         addMonster(this, "alien", "alien", 30, 50, monX, monY);
       }
@@ -1858,25 +1984,36 @@ function update(time, delta) {
       // 2번 worm
       enemySpawn(randomLocation);
       if (12000 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "wormPlus", "wormPlus", 150, 50, monX, monY);
+        addMonster(this, "wormPlus", "wormPlus", 30, 50, monX, monY);
       } else if (18000 < gameTimer) {
-        addMonster(this, "wormFinal", "wormFinal", 200, 60, monX, monY);
+        addMonster(this, "wormFinal", "wormFinal", 80, 60, monX, monY);
+      } else if (gameTimer <= 12000) {
+        addMonster(this, "worm", "worm", 10, 40, monX, monY);
+      }
+    }
+    if (cheatMode && gameTimer > 0) {
+      // 2번 worm
+      enemySpawn(randomLocation);
+      if (12000 < gameTimer && gameTimer <= 18000) {
+        addMonster(this, "wormPlus", "wormPlus", 30, 50, monX, monY);
+      } else if (18000 < gameTimer) {
+        addMonster(this, "wormFinal", "wormFinal", 80, 60, monX, monY);
       } else if (gameTimer <= 12000) {
         addMonster(this, "worm", "worm", 10, 40, monX, monY);
       }
     }
     if (gameTimer > 15000 && gameTimer % 300 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "sonic", "sonic", 150, 100, monX, monY);
+      addMonster(this, "sonic", "sonic", 100, 85, monX, monY);
     }
     if (gameTimer > 21000 && gameTimer % 600 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "turtle", "turtle", 400, 50, monX, monY);
+      addMonster(this, "turtle", "turtle", 200, 50, monX, monY);
     }
 
-    if (gameTimer > 18000 && gameTimer % 200 === 0) {
+    if (gameTimer > 18000 && gameTimer % 600 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "slime", "slime", 240, 75, monX, monY);
+      addMonster(this, "slime", "slime", 150, 75, monX, monY);
     }
     // 몬스터 빅 웨이브
     if (gameTimer === 7700) {
@@ -1891,7 +2028,7 @@ function update(time, delta) {
       addMonster(this, "fly", "fly", 10, 50, monX, monY);
     } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "fly", "fly", 100, 50, monX, monY);
+      addMonster(this, "fly", "fly", 50, 50, monX, monY);
     }
 
     // 스폰 주기
@@ -1906,7 +2043,7 @@ function update(time, delta) {
     }
 
     // 보스
-    let slimeSpawnTime = 18000;
+    let slimeSpawnTime = 10800;
     let golemSpawnTime = 21000;
     let fireGiantSpawnTime = 28000;
 
@@ -2185,8 +2322,8 @@ function update(time, delta) {
           (EndMineRangeY[mineShowTime] - StartMineRangeY[mineShowTime]) +
         StartMineRangeY[mineShowTime];
       mine = new Mine(this, x, y, "minecoin", 0);
-      mine.setScale(1);
       mine.scale_Circle();
+      mine.setDepth(1);
       mine.set_anime();
       mines.add(mine);
     }
@@ -2338,7 +2475,7 @@ function attack(magic, monster) {
           }
 
           monster.destroy();
-          if (gameTimer < 5000) {
+          if (gameTimer < 9000) {
             player.expUp();
             player.expUp();
           } else {
@@ -2352,8 +2489,8 @@ function attack(magic, monster) {
               thisScene,
               "babySlime",
               "slime",
-              150,
-              125,
+              50,
+              100,
               monster.x + i * 10,
               monster.y
             );
@@ -2383,7 +2520,7 @@ function attack(magic, monster) {
           monster.dieAnim();
         }
         monster.destroy();
-        if (gameTimer < 5000) {
+        if (gameTimer < 9000) {
           player.expUp();
           player.expUp();
         } else {
@@ -2405,8 +2542,8 @@ function attack(magic, monster) {
             thisScene,
             "babySlime",
             "slime",
-            150 + difficulty_hp,
-            125,
+            50 + difficulty_hp,
+            100,
             monster.x + i * 20,
             monster.y
           );
@@ -2483,7 +2620,7 @@ function bomb(bomb, target) {
           target.dieAnim();
         }
         target.destroy();
-        if (gameTimer < 5000) {
+        if (gameTimer < 9000) {
           player.expUp();
           player.expUp();
         } else {
@@ -2496,8 +2633,8 @@ function bomb(bomb, target) {
             thisScene,
             "babySlime",
             "slime",
-            150 + difficulty_hp,
-            125,
+            50 + difficulty_hp,
+            100,
             target.x + i * 20,
             target.y
           );
@@ -2568,12 +2705,10 @@ function slimePattern(scene, pt, x, y) {
 
 //map start
 function petAttackFunc(magic, monster) {
-  console.log(monster.health);
   if (!monster.invincible) {
     monster.invincible = true;
     monster.unInvincible();
     monster.health -= magic.dmg;
-    console.log(monster.health);
     magic.destroy();
     if (monster.health <= 0 && monster.type !== "boss") {
       if (monster.monSpecie !== "slime") {
@@ -2587,7 +2722,7 @@ function petAttackFunc(magic, monster) {
           monster.dieAnim();
         }
         monster.destroy();
-        if (gameTimer < 5000) {
+        if (gameTimer < 9000) {
           player.expUp();
           player.expUp();
         } else {
@@ -2600,8 +2735,8 @@ function petAttackFunc(magic, monster) {
             thisScene,
             "babySlime",
             "slime",
-            150 + difficulty_hp,
-            125,
+            50 + difficulty_hp,
+            100,
             monster.x + i * 20,
             monster.y
           );
