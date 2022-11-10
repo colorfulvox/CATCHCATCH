@@ -7,7 +7,7 @@ import Magic from "./CodeObj/magic.js";
 import { showscore } from "../UI/incode-ui.js";
 import { setSound } from "../SOUND/sound";
 
-export const codeConfig = {
+export let codeConfig = {
   type: Phaser.AUTO,
   width: 600,
   height: 600,
@@ -29,7 +29,7 @@ export const codeConfig = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: true,
+      debug: debugmode,
       fixedStep: false,
     },
   },
@@ -68,6 +68,36 @@ let monTimer = 30;
 var monster;
 global.codeMonsterSet = "";
 global.codeEnemySet = "";
+
+export function config() {
+  codeConfig = {
+    type: Phaser.AUTO,
+    width: 600,
+    height: 600,
+    parent: "game-container",
+    backgroundColor: "black",
+    resolution: window.devicePixelRatio,
+    pixelArt: true,
+    roundPixels: true,
+    audio: {
+      disableWebAudio: true,
+    },
+    scene: {
+      //scene 제어에
+      preload: preload,
+      create: create,
+      update: update,
+    },
+    physics: {
+      default: "arcade",
+      arcade: {
+        fps: 60,
+        debug: debugmode,
+        fixedStep: false,
+      },
+    },
+  };
+}
 
 function preload() {
   //map start
@@ -190,6 +220,7 @@ function preload() {
 
 function create() {
   // resource load start
+  console.log(debugmode);
   IncodeUI();
   monCount = 0;
   chunks = [];
@@ -670,7 +701,7 @@ function create() {
 
   this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
   this.physics.add.overlap(player, codeMonsterSet, playerHit);
-  this.scene.pause();
+  // this.scene.pause();
 }
 
 function update(time, delta) {
