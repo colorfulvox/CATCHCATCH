@@ -1,5 +1,5 @@
 import { cursors, mapSize } from "../game.js";
-import { GameOver } from "../../UI/ingame-ui.js";
+import { GameOver, updateExp } from "../../UI/ingame-ui.js";
 import levelup from "../../UI/levelup.js";
 import { setSound } from "../../SOUND/sound";
 
@@ -95,6 +95,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.level++;
         isLevelup = true;
         this.speed += 1;
+        updateExp();
         levelup();
       }
     }

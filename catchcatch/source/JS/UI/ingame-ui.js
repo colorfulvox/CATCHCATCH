@@ -25,9 +25,14 @@ export default function ingameUi() {
   const gameContainer = document.querySelector("#game-container");
   // const progress = document.createElement("progress");
 
+  const levelText = document.createElement("div");
+  levelText.setAttribute("class", "levelText");
+  levelText.innerText = `Lv.${player.level}`;
+  gameContainer.appendChild(levelText);
+
   _timerTxt.setAttribute("class", "Timer");
   gameContainer.appendChild(_timerTxt);
-  _minute = 0;
+  _minute = 10;
   _second = 0;
 
   _timerTxt.textContent = `${_minute}:${_second}`;
@@ -89,14 +94,8 @@ export default function ingameUi() {
 }
 
 export function updateExp() {
-  // const progress = document.querySelector("#progress");
-  const heal = document.querySelector(".healTxt");
-  const dmgMul = document.querySelector(".dmgMulTxt");
-  const speed = document.querySelector(".speedTxt");
-  heal.innerText = `Lv.${player.healLevel}`;
-  dmgMul.innerText = `Lv.${player.dmgMulLevel}`;
-  speed.innerText = `Lv.${player.speedLevel} `;
-  // progress.setAttribute("value", player.exp);
+  const levelText = document.querySelector(".levelText");
+  levelText.innerText = `Lv.${player.level}`;
 }
 
 export function GameOver() {
@@ -126,10 +125,10 @@ export function GameOver() {
 
 export function UpdateTimer() {
   if (global.gameTimer !== 0 && global.gameTimer % 60 === 0) {
-    ++_second;
-    if (_second === 60) {
-      ++_minute;
-      _second = 0;
+    --_second;
+    if (_second === -1) {
+      --_minute;
+      _second = 59;
     }
   }
   if (_second < 10) {
@@ -140,7 +139,7 @@ export function UpdateTimer() {
     else _timerTxt.textContent = `0${_minute}:${_second}`;
   } else _timerTxt.textContent = `w${_minute}:${_second}`;
 
-  if (_minute === 20) {
+  if (_minute === 0 && _second === 0) {
     $this.pause();
     GameClear();
     //게임클리어
