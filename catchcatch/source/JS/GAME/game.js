@@ -41,7 +41,7 @@ export const config = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: true,
+      debug: false,
       fixedStep: false,
     },
   },
@@ -1500,6 +1500,14 @@ function create() {
   petEarth.setVisible(false);
   petGod.setVisible(false);
 
+  //디버그용
+  petNormal.setVisible(true);
+  petThunder.setVisible(true);
+  petFire.setVisible(true);
+  petWater.setVisible(true);
+  petEarth.setVisible(true);
+  petGod.setVisible(true);
+
   pets.add(petNormal);
   pets.add(petThunder);
   pets.add(petFire);
@@ -2185,7 +2193,6 @@ function update(time, delta) {
           (EndMineRangeY[mineShowTime] - StartMineRangeY[mineShowTime]) +
         StartMineRangeY[mineShowTime];
       mine = new Mine(this, x, y, "minecoin", 0);
-      mine.setScale(1);
       mine.scale_Circle();
       mine.set_anime();
       mines.add(mine);

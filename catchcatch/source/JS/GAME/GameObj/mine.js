@@ -29,19 +29,13 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
   }
 
   overlapOpen(mine, player) {
-    console.log(mine);
+    console.log("hi");
     var range = Phaser.Math.Distance.Between(mine.x, mine.y, 0, 0);
 
-    if (gameTimer % 7200 === 0) {
-      mine.coinTime = gameTimer / 7200;
+    if (player.health < 20) {
+      player.health += 1;
     }
-    if (0 <= range && range < 500) {
-      player.coin += 1 + mine.coinTime;
-    } else if (500 <= range && range < 5000) {
-      player.coin += 2 + mine.coinTime;
-    } else {
-      player.coin += 3 + mine.coinTime;
-    }
+
     if (ChoiceCat === 5) {
       let rand = Math.floor(Math.random() * 20);
       setSound.playSE(rand);
