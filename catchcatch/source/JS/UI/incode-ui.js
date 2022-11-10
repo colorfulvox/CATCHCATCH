@@ -1,6 +1,7 @@
 import "../../CSS/UI/inCodeUI.css";
 import Stage from "./stage.js";
 import { codeConfig } from "../GAME/code.js";
+import {setSound} from "../SOUND/sound";
 
 let inputspace;
 
@@ -71,6 +72,7 @@ function BacktoStage() {
 }
 
 function Replay() {
+  setSound.playSE(24);
   const gameContainer = document.querySelector("#game-container");
   const pin = document.querySelector(".pin");
   const buttonContainer = document.querySelector(".buttonContainer");

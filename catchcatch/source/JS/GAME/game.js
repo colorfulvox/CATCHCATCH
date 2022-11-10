@@ -92,12 +92,12 @@ let tileset_flower = "";
 let tileset_plant = "";
 let tileset_props = "";
 let tileset_basic = "";
-let flowersLayer = "";
-let treesLayer = "";
-let grassLayer = "";
-let propsLayer = "";
 let runeLayer = "";
+let grassLayer = "";
+let flowersLayer = "";
 let fieldLayer = "";
+// let treesLayer = "";
+// let propsLayer = "";
 //map end
 export let camera;
 
@@ -219,7 +219,6 @@ function preload() {
     frameWidth: 38,
     frameHeight: 64,
   });
-  this.load.image("can", "images/cattower/can.png");
   this.load.image("skill", "images/cattower/skill.png");
 
   //pet start
@@ -247,6 +246,11 @@ function preload() {
     frameWidth: 48,
     frameHeight: 48,
   });
+  //petmagic
+  this.load.spritesheet("catNormalMagic", "images/pet/normalMagic.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
   //pet end
 
   //tower end
@@ -255,9 +259,9 @@ function preload() {
   //navi end
 
   //mine start
-  this.load.spritesheet("mineani", "images/mine/coin.png", {
-    frameWidth: 32,
-    frameHeight: 32,
+  this.load.spritesheet("mineani", "images/hole/new_hole.png", {
+    frameWidth: 100,
+    frameHeight: 100,
   });
   //mine end
 
@@ -604,12 +608,12 @@ function create() {
   fieldLayer = map.createLayer("field", tileset_basic, 0, 0);
   grassLayer = map.createLayer("grass", tileset_plant, 0, 0);
   flowersLayer = map.createLayer("flowers", tileset_flower, 0, 0);
-  propsLayer = map.createLayer("props", tileset_props, 0, 0);
-  treesLayer = map.createLayer("trees", tileset_plant, 0, 0);
+  //   propsLayer = map.createLayer("props", tileset_props, 0, 0);
+  //   treesLayer = map.createLayer("trees", tileset_plant, 0, 0);
   runeLayer = map.createLayer("rune", tileset_props, 0, 0);
 
-  propsLayer.setCollisionByProperty({ collides: true });
-  treesLayer.setCollisionByProperty({ collides: true });
+  //   propsLayer.setCollisionByProperty({ collides: true });
+  //   treesLayer.setCollisionByProperty({ collides: true });
   //map end
 
   UICam = this.cameras.add(
@@ -643,8 +647,8 @@ function create() {
 
   //player start
   player = new Player(this, 1, 20, 20, "cat" + (ChoiceCat + 1));
-  this.physics.add.collider(player, propsLayer);
-  this.physics.add.collider(player, treesLayer);
+  //   this.physics.add.collider(player, propsLayer);
+  //   this.physics.add.collider(player, treesLayer);
   player.ability = ChoiceCat + 1;
   player.setScale(0.7);
   // player.setDepth(2);
@@ -1203,6 +1207,10 @@ function create() {
   thisScene.physics.add.overlap(bombDead, player, player.bombHitPlayer);
 
   //map start
+  thisScene.physics.add.overlap(petAttacks, bossSet, petAttackFunc);
+  thisScene.physics.add.overlap(petAttacks, monsterSet, petAttackFunc);
+  //   thisScene.physics.add.overlap(petSkillAttacks, bossSet, attack);
+  //   thisScene.physics.add.overlap(petSkillAttacks, monsterSet, attack);
   //map end
 
   // ============== 몬스터 스프라이트 애니메이션 목록 ==================
@@ -1389,6 +1397,27 @@ function create() {
     frameRate: 8,
     repeat: -1,
   });
+
+  //petmagic
+  this.anims.create({
+    key: "0_idle_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 0,
+      end: 1,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "0_destory_magic",
+    frames: this.anims.generateFrameNumbers("catNormalMagic", {
+      start: 2,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
   //pet end
 
   global.pets = this.add.group();
@@ -1396,12 +1425,66 @@ function create() {
   let px = player.x;
   let py = player.y;
 
-  global.petNormal = new CatTower(this, 0, 0, px, py, "0_idle_pet", "can");
-  global.petThunder = new CatTower(this, 1, 0, px, py, "1_idle_pet", "can");
-  global.petFire = new CatTower(this, 2, 0, px, py, "2_idle_pet", "can");
-  global.petWater = new CatTower(this, 3, 0, px, py, "3_idle_pet", "can");
-  global.petEarth = new CatTower(this, 4, 0, px, py, "4_idle_pet", "can");
-  global.petGod = new CatTower(this, 5, 0, px, py, "5_idle_pet", "can");
+  global.petNormal = new CatTower(
+    this,
+    0,
+    0,
+    px,
+    py,
+    "0_idle_pet",
+    "0_idle_magic",
+    "0_destory_magic"
+  );
+  global.petThunder = new CatTower(
+    this,
+    1,
+    0,
+    px,
+    py,
+    "1_idle_pet",
+    "0_idle_magic",
+    "0_destory_magic"
+  );
+  global.petFire = new CatTower(
+    this,
+    2,
+    0,
+    px,
+    py,
+    "2_idle_pet",
+    "0_idle_magic",
+    "0_destory_magic"
+  );
+  global.petWater = new CatTower(
+    this,
+    3,
+    0,
+    px,
+    py,
+    "3_idle_pet",
+    "0_idle_magic",
+    "0_destory_magic"
+  );
+  global.petEarth = new CatTower(
+    this,
+    4,
+    0,
+    px,
+    py,
+    "4_idle_pet",
+    "0_idle_magic",
+    "0_destory_magic"
+  );
+  global.petGod = new CatTower(
+    this,
+    5,
+    0,
+    px,
+    py,
+    "5_idle_pet",
+    "0_idle_magic",
+    "0_destory_magic"
+  );
 
   petNormal.setDepth(10);
   petThunder.setDepth(10);
@@ -1416,6 +1499,14 @@ function create() {
   petWater.setVisible(false);
   petEarth.setVisible(false);
   petGod.setVisible(false);
+
+  //디버그용
+  petNormal.setVisible(true);
+  petThunder.setVisible(true);
+  petFire.setVisible(true);
+  petWater.setVisible(true);
+  petEarth.setVisible(true);
+  petGod.setVisible(true);
 
   pets.add(petNormal);
   pets.add(petThunder);
@@ -1571,7 +1662,7 @@ function create() {
     key: "minecoin",
     frames: this.anims.generateFrameNumbers("mineani", {
       start: 0,
-      end: 3,
+      end: 7,
     }),
     frameRate: 8,
     repeat: -1,
@@ -1613,10 +1704,10 @@ function create() {
     difficulty_vel = 20;
   }
 
-  this.physics.add.collider(bossSet, propsLayer);
-  this.physics.add.collider(monsterSet, treesLayer);
-  this.physics.add.collider(monsterSet, propsLayer);
-  this.physics.add.collider(bossSet, treesLayer);
+  //   this.physics.add.collider(bossSet, propsLayer);
+  //   this.physics.add.collider(monsterSet, treesLayer);
+  //   this.physics.add.collider(monsterSet, propsLayer);
+  //   this.physics.add.collider(bossSet, treesLayer);
 }
 
 function update(time, delta) {
@@ -1764,11 +1855,11 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alien", "alienPlus", 100, 55, monX, monY);
+        addMonster(this, "alien", "alienPlus", 100, 65, monX, monY);
       } else if (18000 < gameTimer) {
         addMonster(this, "alien", "alienFinal", 150, 75, monX, monY);
       } else {
-        addMonster(this, "alien", "alien", 30, 45, monX, monY);
+        addMonster(this, "alien", "alien", 30, 50, monX, monY);
       }
     }
     if (gameTimer > 5400 && gameTimer % 300 === 150) {
@@ -2065,10 +2156,10 @@ function update(time, delta) {
   } //exp bar end
   UICam.ignore([
     map,
+    // treesLayer,
+    // propsLayer,
     flowersLayer,
-    treesLayer,
     grassLayer,
-    propsLayer,
     runeLayer,
     fieldLayer,
     player,
@@ -2103,10 +2194,10 @@ function update(time, delta) {
         StartMineRangeY[mineShowTime];
       mine = new Mine(this, x, y, "minecoin", 0);
       mine.scale_Circle();
+      mine.setDepth(1);
       mine.set_anime();
       mines.add(mine);
     }
-    console.log(mines);
   }
 }
 
@@ -2255,7 +2346,13 @@ function attack(magic, monster) {
           }
 
           monster.destroy();
-          player.expUp();
+          if (gameTimer < 5000) {
+            player.expUp();
+            player.expUp();
+          } else {
+            player.expUp();
+          }
+
           monsterCount -= 1;
         } else if (monster.monSpecie === "slime") {
           for (let i = 0; i < 2; i++) {
@@ -2294,7 +2391,12 @@ function attack(magic, monster) {
           monster.dieAnim();
         }
         monster.destroy();
-        player.expUp();
+        if (gameTimer < 5000) {
+          player.expUp();
+          player.expUp();
+        } else {
+          player.expUp();
+        }
         if (magic.fairy.fairyNum === 2) {
           let vampireNum = Math.floor(Math.random() * 100 + 1);
           if (vampireNum < 5) {
@@ -2389,7 +2491,12 @@ function bomb(bomb, target) {
           target.dieAnim();
         }
         target.destroy();
-        player.expUp();
+        if (gameTimer < 5000) {
+          player.expUp();
+          player.expUp();
+        } else {
+          player.expUp();
+        }
         monsterCount -= 1;
       } else if (target.monSpecie === "slime") {
         for (let i = 0; i < 2; i++) {
@@ -2468,5 +2575,49 @@ function slimePattern(scene, pt, x, y) {
 //enemy end
 
 //map start
-
+function petAttackFunc(magic, monster) {
+  console.log(monster.health);
+  if (!monster.invincible) {
+    monster.invincible = true;
+    monster.unInvincible();
+    monster.health -= magic.dmg;
+    console.log(monster.health);
+    magic.destroy();
+    if (monster.health <= 0 && monster.type !== "boss") {
+      if (monster.monSpecie !== "slime") {
+        if (
+          monster.monSpecie === "worm" ||
+          monster.monSpecie === "wormPlus" ||
+          monster.monSpecie === "wormFinal"
+        ) {
+          monster.boomAnim();
+        } else {
+          monster.dieAnim();
+        }
+        monster.destroy();
+        if (gameTimer < 5000) {
+          player.expUp();
+          player.expUp();
+        } else {
+          player.expUp();
+        }
+        monsterCount -= 1;
+      } else if (monster.monSpecie === "slime") {
+        for (let i = 0; i < 2; i++) {
+          addMonster(
+            thisScene,
+            "babySlime",
+            "slime",
+            150 + difficulty_hp,
+            125,
+            monster.x + i * 20,
+            monster.y
+          );
+        }
+        monster.destroy();
+        monsterCount -= 1;
+      }
+    }
+  }
+}
 //map end

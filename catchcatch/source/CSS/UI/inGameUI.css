@@ -314,6 +314,13 @@ html {
   right: 9%;
 }
 
+.tutorialStat {
+  position: absolute;
+  bottom: 7%;
+  left: 12.5%;
+  width: 200px;
+}
+
 .back {
   display: none;
   overflow-y: hidden;

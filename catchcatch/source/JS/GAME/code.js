@@ -5,6 +5,8 @@ import IncodeUI, { makeranking, codegameclear } from "../UI/incode-ui.js";
 import Enemy from "./CodeObj/enemy.js";
 import Magic from "./CodeObj/magic.js";
 import { showscore } from "../UI/incode-ui.js";
+import { setSound } from "../SOUND/sound";
+
 export const codeConfig = {
   type: Phaser.AUTO,
   width: 600,
@@ -66,6 +68,7 @@ let monTimer = 30;
 var monster;
 global.codeMonsterSet = "";
 global.codeEnemySet = "";
+
 function preload() {
   //map start
   this.load.image("sprWater", "images/map/sprWater.png");
@@ -893,6 +896,7 @@ function dataSend() {
         IsRunning = true;
         socket.send(JSON.stringify(Data));
       } else if (!codeStart) {
+        setSound.playSE(26);
         console.log("Game End, Score : " + score);
         Data = {
           action: "endGame",
@@ -909,6 +913,7 @@ function dataSend() {
     }
   }
 }
+
 // sock end
 export function attack(isAttack, angle, element) {
   if (isAttack) {
@@ -916,6 +921,7 @@ export function attack(isAttack, angle, element) {
     let y = Math.sin(angle * (Math.PI / 180));
 
     let magic = new Magic(codeScene, element);
+    setSound.playSE(25);
     magic.anims.play("magic" + element);
     magicSet.add(magic);
     codeScene.physics.moveTo(magic, x, y, 500);
@@ -937,6 +943,11 @@ function monsterHit(magic, monster) {
     magic.destroy();
 
     if (monster.health <= 0) {
+      if (monster.type !== 0) {
+        setSound.playSE(23);
+      } else {
+        setSound.playSE(27);
+      }
       score += 100;
       monster.destroy();
       console.log(score);
@@ -984,6 +995,7 @@ function catSpawn() {
     monY = Phaser.Math.Between(player.y - 220, player.y + 220);
   }
 }
+
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));

@@ -49,7 +49,7 @@ export default function initUpgrade() {
 
   const homeBtn = document.createElement("div");
   homeBtn.setAttribute("class", "homeBtn");
-  homeBtn.style.backgroundImage = "url('images/ui/weaponicon_act.png')";
+  homeBtn.style.backgroundImage = "url('images/ui/homeslot.png')";
   homeBtn.addEventListener("click", GoHome);
 
   upgradeType.appendChild(homeBtn);
