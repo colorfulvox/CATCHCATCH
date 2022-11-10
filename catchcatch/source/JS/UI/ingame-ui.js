@@ -124,6 +124,9 @@ export function GameOver() {
 }
 
 export function UpdateTimer() {
+  if (_minute < 1) {
+    _timerTxt.style.color = "red";
+  }
   if (global.gameTimer !== 0 && global.gameTimer % 60 === 0) {
     --_second;
     if (_second === -1) {
