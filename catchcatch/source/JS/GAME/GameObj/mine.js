@@ -7,13 +7,22 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
   mineSprite;
 
   constructor(scene, mineX, mineY, minesprite, cointimes) {
-    super(scene, mineX, mineY, minesprite, cointimes);
+    super(scene, mineX, mineY - 400, minesprite, cointimes);
 
     this.scene = scene;
     this.mineSprite = minesprite;
     this.coinTime = cointimes;
 
     scene.add.existing(this);
+
+    scene.tweens.add({
+      targets: this,
+      x: mineX,
+      y: mineY,
+      duration: 2000,
+      ease: "Bounce.Out",
+    });
+
     scene.physics.add.existing(this);
     scene.physics.add.overlap(this, player, this.overlapOpen);
   }
@@ -31,8 +40,9 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
   overlapOpen(mine, player) {
     var range = Phaser.Math.Distance.Between(mine.x, mine.y, 0, 0);
 
-    if (player.health < 20) {
-      player.health += 1;
+    player.health += 2;
+    if (player.health >= 20) {
+      player.health = 20;
     }
 
     if (ChoiceCat === 5) {

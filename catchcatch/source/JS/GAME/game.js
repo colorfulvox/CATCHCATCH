@@ -96,6 +96,7 @@ let runeLayer = "";
 let grassLayer = "";
 let flowersLayer = "";
 let fieldLayer = "";
+let wallLayer = "";
 // let treesLayer = "";
 // let propsLayer = "";
 //map end
@@ -153,20 +154,11 @@ global.petSkillAttacks = "";
 
 //mine start
 let mine;
-let mineShowTime = 0;
-let mineCount = [3, 15, 60, 120, 400, 500, 500, 550, 800, 1000];
-let StartMineRangeX = [
-  -400, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
-];
-let StartMineRangeY = [
-  -400, -500, -1200, -5000, -7200, -15000, -32000, -45000, -52000, -72000,
-];
-let EndMineRangeX = [
-  500, 1200, 5000, 7200, 15000, 32000, 45000, 52000, 72000, 100000,
-];
-let EndMineRangeY = [
-  500, 1200, 5000, 7200, 15000, 32000, 45000, 52000, 72000, 100000,
-];
+let mineCount = 5;
+let StartMineRangeX = -3000;
+let StartMineRangeY = -3000;
+let EndMineRangeX = 3000;
+let EndMineRangeY = 3000;
 
 global.mines = "";
 
@@ -258,6 +250,31 @@ function preload() {
   });
 
   this.load.spritesheet("catGodMagic", "images/pet/godMagic.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
+  this.load.spritesheet("catNormalSkill", "images/pet/normalSkill.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+  this.load.spritesheet("catThunderSkill", "images/pet/thunderSkill.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+  this.load.spritesheet("catFireSkill", "images/pet/fireSkill.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+  this.load.spritesheet("catWaterSkill", "images/pet/waterSkill.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+  this.load.spritesheet("catEarthSkill", "images/pet/earthSkill.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+  this.load.spritesheet("catGodSkill", "images/pet/godSkill.png", {
     frameWidth: 64,
     frameHeight: 64,
   });
@@ -621,8 +638,9 @@ function create() {
   //   propsLayer = map.createLayer("props", tileset_props, 0, 0);
   //   treesLayer = map.createLayer("trees", tileset_plant, 0, 0);
   runeLayer = map.createLayer("rune", tileset_props, 0, 0);
+  wallLayer = map.createLayer("wall", tileset_flower, 0, 0);
 
-  //   propsLayer.setCollisionByProperty({ collides: true });
+  wallLayer.setCollisionByProperty({ collides: true });
   //   treesLayer.setCollisionByProperty({ collides: true });
   //map end
 
@@ -657,7 +675,7 @@ function create() {
 
   //player start
   player = new Player(this, 1, 20, 20, "cat" + (ChoiceCat + 1));
-  //   this.physics.add.collider(player, propsLayer);
+  this.physics.add.collider(player, wallLayer);
   //   this.physics.add.collider(player, treesLayer);
   player.ability = ChoiceCat + 1;
   player.setScale(0.7);
@@ -1219,8 +1237,7 @@ function create() {
   //map start
   thisScene.physics.add.overlap(petAttacks, bossSet, petAttackFunc);
   thisScene.physics.add.overlap(petAttacks, monsterSet, petAttackFunc);
-  //   thisScene.physics.add.overlap(petSkillAttacks, bossSet, attack);
-  //   thisScene.physics.add.overlap(petSkillAttacks, monsterSet, attack);
+
   //map end
 
   // ============== 몬스터 스프라이트 애니메이션 목록 ==================
@@ -1528,6 +1545,64 @@ function create() {
     frameRate: 8,
     repeat: 0,
   });
+
+  this.anims.create({
+    key: "0_idle_skill",
+    frames: this.anims.generateFrameNumbers("catNormalSkill", {
+      start: 0,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "1_idle_skill",
+    frames: this.anims.generateFrameNumbers("catThunderSkill", {
+      start: 0,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "2_idle_skill",
+    frames: this.anims.generateFrameNumbers("catFireSkill", {
+      start: 0,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "3_idle_skill",
+    frames: this.anims.generateFrameNumbers("catWaterSkill", {
+      start: 0,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "4_idle_skill",
+    frames: this.anims.generateFrameNumbers("catEarthSkill", {
+      start: 0,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+  this.anims.create({
+    key: "5_idle_skill",
+    frames: this.anims.generateFrameNumbers("catGodSkill", {
+      start: 0,
+      end: 5,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
   //pet end
 
   global.pets = this.add.group();
@@ -1543,7 +1618,8 @@ function create() {
     py,
     "0_idle_pet",
     "0_idle_magic",
-    "0_destory_magic"
+    "0_destory_magic",
+    "0_idle_skill"
   );
   global.petThunder = new CatTower(
     this,
@@ -1553,7 +1629,8 @@ function create() {
     py,
     "1_idle_pet",
     "1_idle_magic",
-    "1_destory_magic"
+    "1_destory_magic",
+    "1_idle_skill"
   );
   global.petFire = new CatTower(
     this,
@@ -1563,7 +1640,8 @@ function create() {
     py,
     "2_idle_pet",
     "2_idle_magic",
-    "2_destory_magic"
+    "2_destory_magic",
+    "2_idle_skill"
   );
   global.petWater = new CatTower(
     this,
@@ -1573,7 +1651,8 @@ function create() {
     py,
     "3_idle_pet",
     "3_idle_magic",
-    "3_destory_magic"
+    "3_destory_magic",
+    "3_idle_skill"
   );
   global.petEarth = new CatTower(
     this,
@@ -1583,7 +1662,8 @@ function create() {
     py,
     "4_idle_pet",
     "4_idle_magic",
-    "4_destory_magic"
+    "4_destory_magic",
+    "4_idle_skill"
   );
   global.petGod = new CatTower(
     this,
@@ -1593,7 +1673,8 @@ function create() {
     py,
     "5_idle_pet",
     "5_idle_magic",
-    "5_destory_magic"
+    "5_destory_magic",
+    "5_idle_skill"
   );
 
   petNormal.setDepth(10);
@@ -1814,9 +1895,9 @@ function create() {
     difficulty_vel = 20;
   }
 
-  //   this.physics.add.collider(bossSet, propsLayer);
+  this.physics.add.collider(bossSet, wallLayer);
+  this.physics.add.collider(monsterSet, wallLayer);
   //   this.physics.add.collider(monsterSet, treesLayer);
-  //   this.physics.add.collider(monsterSet, propsLayer);
   //   this.physics.add.collider(bossSet, treesLayer);
 }
 
@@ -2292,19 +2373,14 @@ function update(time, delta) {
   ]);
 
   if (gameTimer % 600 === 0) {
-    ++mineShowTime;
-    for (let i = 0; i < mineCount[mineShowTime]; i++) {
+    for (let i = 0; i < mineCount; i++) {
       let x =
-        Math.random() *
-          (EndMineRangeX[mineShowTime] - StartMineRangeX[mineShowTime]) +
-        StartMineRangeX[mineShowTime];
+        Math.random() * (EndMineRangeX - StartMineRangeX) + StartMineRangeX;
       let y =
-        Math.random() *
-          (EndMineRangeY[mineShowTime] - StartMineRangeY[mineShowTime]) +
-        StartMineRangeY[mineShowTime];
+        Math.random() * (EndMineRangeY - StartMineRangeY) + StartMineRangeY;
       mine = new Mine(this, x, y, "minecoin", 0);
-      mine.scale_Circle();
       mine.setDepth(1);
+      mine.scale_Circle();
       mine.set_anime();
       mines.add(mine);
     }
