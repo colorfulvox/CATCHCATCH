@@ -11,15 +11,19 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
   towerAttackTimer = 0; //평타 시간
   towerSkillAttackTimer = 0; //스킬 시간
   towerAS = [180, 0, 0, 0, 360, 90]; //평타 기준 연사속도
-  towerSkillAS = [[], [], [], [], [], []]; //평타 기준 연사속도
+  towerSkillAS = [
+    [10800, 7200, 3600],
+    [600, 420, 300],
+    [900, 720, 600],
+    [1800, 1200, 6000],
+    [900, 720, 600],
+    [3600, 3600, 3600],
+  ]; //평타 기준 연사속도
   towerDmg = [50, 50, 50, 50, 100, 50]; //기본 대미지
   towerSkillDmg = 6; //스킬 기본 대미지
   towerWeaponSpeed = 1000; //발사속도
   towerSkillSpeed = 500; //발사속도
-  bulletLevel = 0;
-  towerEvelop = 0;
   circleSize = 0.8;
-  circleSizeLevel = 0;
   timedEvent;
 
   constructor(
@@ -70,6 +74,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
       this.flipX = false;
     }
     this.towerAttackTimer++;
+    this.towerSkillAttackTimer++;
     if (this.towerAttackTimer >= this.towerAS[this.stone]) {
       this.towerAttackTimer = 0;
 
@@ -146,6 +151,45 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
           let y = Math.sin(angle * (Math.PI / 180));
           this.scene.physics.moveTo(magic, this.x + x, this.y + y, 300);
         }
+      }
+    }
+    if (
+      this.towerSkillAttackTimer >= this.towerSkillAS[this.stone][this.level]
+    ) {
+      this.towerSkillAttackTimer = 0;
+
+      //노멀
+
+      if (this.stone === 0 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {
+          let skill = new TowerSkill(this.scene, this);
+          petSkillAttacks.add(skill);
+          magic.anims.play(this.weaponSprite);
+          let angle = Math.floor(Math.random() * 360);
+          let x = Math.cos(angle * (Math.PI / 180));
+          let y = Math.sin(angle * (Math.PI / 180));
+          this.scene.physics.moveTo(magic, this.x + x, this.y + y, 300);
+        }
+      }
+      //전기
+      if (this.stone === 1 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {}
+      }
+      //불
+      if (this.stone === 2 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {}
+      }
+      //물
+      if (this.stone === 3 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {}
+      }
+      //땅
+      if (this.stone === 4 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {}
+      }
+      //갓
+      if (this.stone === 5 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level * 3; i++) {}
       }
     }
 
