@@ -37,8 +37,6 @@ global.pause = false;
 global.isUpgrade = false;
 global.isLevelup = false;
 
-global.cheatMode = false;
-
 // 튜토리얼
 global.isTutorial = true;
 

@@ -83,7 +83,7 @@ export default function ingameUi() {
       gameContainer.removeChild(skill);
       gameContainer.removeChild(mouse);
       gameContainer.removeChild(stat);
-    }, 7000);
+    }, 10000);
   }
   gameContainer.appendChild(coolContainer);
 }
