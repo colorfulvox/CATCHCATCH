@@ -72,8 +72,8 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
     this.anims.play(towerSprite, true);
 
     //테스트용
-    this.level = 2;
-    this.invisible = "true";
+    // this.level = 2;
+    // this.invisible = "true";
 
     scene.events.on("update", () => {
       this.update();
@@ -88,59 +88,59 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
     }
     this.towerAttackTimer++;
     this.towerSkillAttackTimer++;
-    // if (this.towerAttackTimer >= this.towerAS[this.stone]) {
-    //   this.towerAttackTimer = 0;
+    if (this.towerAttackTimer >= this.towerAS[this.stone]) {
+      this.towerAttackTimer = 0;
 
-    //   //노멀
+      //노멀
 
-    //   if (this.stone === 0 && this.level > 0 && this.invisible === "true") {
-    //     for (let i = 0; i < this.level; i++) {
-    //       let magic = new TowerMagic(this.scene, this);
-    //       petAttacks.add(magic);
-    //       magic.anims.play(this.weaponSprite);
-    //       let angle = Math.floor(Math.random() * 360);
-    //       let x = Math.cos(angle * (Math.PI / 180));
-    //       let y = Math.sin(angle * (Math.PI / 180));
-    //       this.scene.physics.moveTo(magic, this.x + x, this.y + y, 300);
-    //     }
-    //   }
-    //   //전기
-    //   if (this.stone === 1 && this.level > 0 && this.invisible === "true") {
-    //     for (let i = 0; i < this.level; i++) {}
-    //   }
-    //   //불
-    //   if (this.stone === 2 && this.level > 0 && this.invisible === "true") {
-    //     for (let i = 0; i < this.level; i++) {}
-    //   }
-    //   //물
-    //   if (this.stone === 3 && this.level > 0 && this.invisible === "true") {
-    //     for (let i = 0; i < this.level; i++) {}
-    //   }
-    //   //땅
-    //   if (this.stone === 4 && this.level > 0 && this.invisible === "true") {
-    //     for (let i = 0; i < this.level; i++) {
-    //       let magic = new TowerMagic(this.scene, this);
-    //       petAttacks.add(magic);
-    //       magic.anims.play(this.weaponSprite);
-    //       let angle = Math.floor(Math.random() * 360);
-    //       let x = Math.cos(angle * (Math.PI / 180));
-    //       let y = Math.sin(angle * (Math.PI / 180));
-    //       this.scene.physics.moveTo(magic, this.x + x, this.y + y, 300);
-    //     }
-    //   }
-    //   //갓
-    //   if (this.stone === 5 && this.level > 0 && this.invisible === "true") {
-    //     for (let i = 0; i < this.level * 3; i++) {
-    //       let magic = new TowerMagic(this.scene, this);
-    //       petAttacks.add(magic);
-    //       magic.anims.play(this.weaponSprite);
-    //       let angle = Math.floor(Math.random() * 360);
-    //       let x = Math.cos(angle * (Math.PI / 180));
-    //       let y = Math.sin(angle * (Math.PI / 180));
-    //       this.scene.physics.moveTo(magic, this.x + x, this.y + y, 300);
-    //     }
-    //   }
-    // }
+      if (this.stone === 0 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {
+          let magic = new TowerMagic(this.scene, this);
+          petAttacks.add(magic);
+          magic.anims.play(this.weaponSprite);
+          let angle = Math.floor(Math.random() * 360);
+          let x = Math.cos(angle * (Math.PI / 180));
+          let y = Math.sin(angle * (Math.PI / 180));
+          this.scene.physics.moveTo(magic, this.x + x, this.y + y, 300);
+        }
+      }
+      //전기
+      if (this.stone === 1 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {}
+      }
+      //불
+      if (this.stone === 2 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {}
+      }
+      //물
+      if (this.stone === 3 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {}
+      }
+      //땅
+      if (this.stone === 4 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level; i++) {
+          let magic = new TowerMagic(this.scene, this);
+          petAttacks.add(magic);
+          magic.anims.play(this.weaponSprite);
+          let angle = Math.floor(Math.random() * 360);
+          let x = Math.cos(angle * (Math.PI / 180));
+          let y = Math.sin(angle * (Math.PI / 180));
+          this.scene.physics.moveTo(magic, this.x + x, this.y + y, 300);
+        }
+      }
+      //갓
+      if (this.stone === 5 && this.level > 0 && this.invisible === "true") {
+        for (let i = 0; i < this.level * 3; i++) {
+          let magic = new TowerMagic(this.scene, this);
+          petAttacks.add(magic);
+          magic.anims.play(this.weaponSprite);
+          let angle = Math.floor(Math.random() * 360);
+          let x = Math.cos(angle * (Math.PI / 180));
+          let y = Math.sin(angle * (Math.PI / 180));
+          this.scene.physics.moveTo(magic, this.x + x, this.y + y, 300);
+        }
+      }
+    }
     if (
       this.towerSkillAttackTimer >= this.towerSkillAS[this.stone][this.level]
     ) {
