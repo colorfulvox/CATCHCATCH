@@ -28,5 +28,25 @@ export default class TowerMagic extends Phaser.Physics.Arcade.Sprite {
     // this.scale = 0.01;
     scene.add.existing(this);
     scene.physics.add.existing(this);
+
+    this.setScale(1);
+    let hw = this.body.halfWidth;
+    let hh = this.body.halfHeight;
+
+    if (tower.stone === 0) {
+      this.setCircle(hw * 0.5, (hh - hw) * 0.5, (hh - hw) * 0.5);
+      this.body.offset.x = 23;
+      this.body.offset.y = 23;
+    } else if (tower.stone === 4) {
+      this.setScale(3);
+      this.setCircle(hw * 0.5, (hh - hw) * 0.5, (hh - hw) * 0.5);
+      this.body.offset.x = 23;
+      this.body.offset.y = 23;
+    } else if (tower.stone === 5) {
+      this.setScale(1.5);
+      this.setCircle(hw * 1, (hh - hw) * 0.5, (hh - hw) * 0.5);
+      this.body.offset.x = 15;
+      this.body.offset.y = 14;
+    }
   }
 }
