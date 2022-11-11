@@ -2387,7 +2387,6 @@ function update(time, delta) {
       enemySpawn(randomLocation);
       addMonster(this, "wormFever", "wormFever", 10, 40, monX, monY);
       feverTime--;
-      console.log(killCount);
     } else if (feverTime <= 0) {
       feverLock = false;
     }
