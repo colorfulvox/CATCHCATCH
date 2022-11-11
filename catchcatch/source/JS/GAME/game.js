@@ -464,7 +464,7 @@ function preload() {
     frameHeight: 142,
   });
 
-  this.load.spritesheet("fairy1_2", "images/fairy/fairy1_red.png", {
+  this.load.spritesheet("fairy1_2", "images/fairy/fairy1_Red.png", {
     frameWidth: 150,
     frameHeight: 142,
   });
