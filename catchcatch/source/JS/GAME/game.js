@@ -41,7 +41,7 @@ export const config = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: true,
+      debug: false,
       fixedStep: false,
     },
   },
@@ -1694,12 +1694,12 @@ function create() {
   petGod.setVisible(false);
 
   //디버그용
-  // petNormal.setVisible(true);
-  // petThunder.setVisible(true);
-  // petFire.setVisible(true);
-  // petWater.setVisible(true);
-  // petEarth.setVisible(true);
-  // petGod.setVisible(true);
+  petNormal.setVisible(true);
+  petThunder.setVisible(true);
+  petFire.setVisible(true);
+  petWater.setVisible(true);
+  petEarth.setVisible(true);
+  petGod.setVisible(true);
 
   pets.add(petNormal);
   pets.add(petThunder);
