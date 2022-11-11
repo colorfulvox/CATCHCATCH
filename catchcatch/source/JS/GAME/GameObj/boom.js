@@ -25,7 +25,7 @@ export default class Boom extends Phaser.Physics.Arcade.Sprite {
       this.setScale(4);
       this.dmg = 200;
     } else {
-      this.setScale(5);
+      this.setScale(3);
       this.dmg = 500;
     }
 
@@ -35,7 +35,11 @@ export default class Boom extends Phaser.Physics.Arcade.Sprite {
     this.setCircle(hw, 0, hh - hw);
     UICam.ignore(this);
     setSound.playSE(22);
-    this.play("monster_boom");
+    if (monSpecie != "wormFever") {
+      this.play("monster_boom");
+    } else {
+      this.play("monster_fever");
+    }
     scene.time.addEvent({
       delay: 100,
       callback: () => {
