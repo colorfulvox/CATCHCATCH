@@ -2378,7 +2378,7 @@ function update(time, delta) {
     }
 
     // 피버 타임
-    if (killCount != 0 && killCount % 10 === 0 && feverLock == false) {
+    if (killCount != 0 && killCount % 80 === 0 && feverLock == false) {
       feverTime = 600;
       feverLock = true;
     }
