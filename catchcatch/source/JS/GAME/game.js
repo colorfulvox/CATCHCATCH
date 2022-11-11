@@ -123,6 +123,8 @@ let fireGiantIndex;
 
 let monsterSpawn = 300;
 
+let killCount = 0;
+
 // 보스
 let slimeKing;
 let golem;
@@ -139,7 +141,8 @@ let monX;
 let monY;
 global.monsterCount = 0;
 let randomLocation = 0;
-let timer;
+let feverTime = 0;
+let feverLock = false;
 let randomMonster = 0;
 
 // 임시 구멍
@@ -591,6 +594,12 @@ function preload() {
     frameWidth: 48,
     frameHeight: 48,
   });
+
+  this.load.spritesheet("wormFever", "images/monster/wormFever.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
   //   보스
   this.load.spritesheet("slimeKing", "images/boss/slimeKing.png", {
     frameWidth: 96,
@@ -1284,6 +1293,13 @@ function create() {
   this.anims.create({
     key: "wormFinal",
     frames: this.anims.generateFrameNumbers("wormFinal", { start: 0, end: 2 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "wormFever",
+    frames: this.anims.generateFrameNumbers("wormFever", { start: 0, end: 2 }),
     frameRate: 3,
     repeat: -1,
   });
@@ -2313,7 +2329,7 @@ function update(time, delta) {
         }
         if (bossSet.children.entries[i].health <= 0) {
           for (let i = 0; i < 5; i++) {
-            player.expUp();
+            player.expUp(1);
           }
           if (bossSet.children.entries[i].monSpecie !== "slimeKing") {
             global.coin += 10;
@@ -2342,6 +2358,21 @@ function update(time, delta) {
           }
         }
       }
+    }
+
+    // 피버 타임
+    if (killCount != 0 && killCount % 10 === 0 && feverLock == false) {
+      feverTime = 300;
+      feverLock = true;
+    }
+
+    if (feverTime != 0) {
+      enemySpawn(randomLocation);
+      addMonster(this, "wormFever", "wormFever", 10, 40, monX, monY);
+      feverTime--;
+      console.log(killCount);
+    } else if (feverTime <= 0) {
+      feverLock = false;
     }
 
     //enemy end
@@ -2409,11 +2440,7 @@ function update(time, delta) {
 
 //player start
 function changeSlot() {
-  if (
-    cursors.slot1.isDown &&
-    nowFairy !== 0 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot1.isDown && nowFairy !== 0) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 0;
@@ -2422,11 +2449,7 @@ function changeSlot() {
     fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
-  if (
-    cursors.slot2.isDown &&
-    nowFairy !== 1 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot2.isDown && nowFairy !== 1) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 1;
@@ -2435,11 +2458,7 @@ function changeSlot() {
     fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
-  if (
-    cursors.slot3.isDown &&
-    nowFairy !== 2 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot3.isDown && nowFairy !== 2) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 2;
@@ -2448,11 +2467,7 @@ function changeSlot() {
     fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
-  if (
-    cursors.slot4.isDown &&
-    nowFairy !== 3 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot4.isDown && nowFairy !== 3) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 3;
@@ -2461,11 +2476,7 @@ function changeSlot() {
     fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
-  if (
-    cursors.slot5.isDown &&
-    nowFairy !== 4 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot5.isDown && nowFairy !== 4) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 4;
@@ -2544,22 +2555,27 @@ function attack(magic, monster) {
           if (
             monster.monSpecie === "worm" ||
             monster.monSpecie === "wormPlus" ||
-            monster.monSpecie === "wormFinal"
+            monster.monSpecie === "wormFinal" ||
+            monster.monSpecie === "wormFever"
           ) {
             monster.boomAnim();
           } else {
             monster.dieAnim();
+            Count;
           }
-
+          if (monster.monSpecie === "wormFever") {
+            killCount--;
+          }
           monster.destroy();
           if (gameTimer < 9000) {
-            player.expUp();
-            player.expUp();
+            player.expUp(1);
+            player.expUp(1);
           } else {
-            player.expUp();
+            player.expUp(1);
           }
 
           monsterCount -= 1;
+          killCount += 1;
         } else if (monster.monSpecie === "slime") {
           for (let i = 0; i < 2; i++) {
             addMonster(
@@ -2574,6 +2590,7 @@ function attack(magic, monster) {
           }
           monster.destroy();
           monsterCount -= 1;
+          killCount += 1;
         }
       }
     }
@@ -2590,7 +2607,8 @@ function attack(magic, monster) {
         if (
           monster.monSpecie === "worm" ||
           monster.monSpecie === "wormPlus" ||
-          monster.monSpecie === "wormFinal"
+          monster.monSpecie === "wormFinal" ||
+          monster.monSpecie === "wormFever"
         ) {
           monster.boomAnim();
         } else {
@@ -2598,10 +2616,10 @@ function attack(magic, monster) {
         }
         monster.destroy();
         if (gameTimer < 9000) {
-          player.expUp();
-          player.expUp();
+          player.expUp(1);
+          player.expUp(1);
         } else {
-          player.expUp();
+          player.expUp(1);
         }
         if (magic.fairy.fairyNum === 2) {
           let vampireNum = Math.floor(Math.random() * 100 + 1);
@@ -2613,6 +2631,7 @@ function attack(magic, monster) {
           }
         }
         monsterCount -= 1;
+        killCount += 1;
       } else if (monster.monSpecie === "slime") {
         for (let i = 0; i < 2; i++) {
           addMonster(
@@ -2627,6 +2646,7 @@ function attack(magic, monster) {
         }
         monster.destroy();
         monsterCount -= 1;
+        killCount += 1;
       }
     }
   }
@@ -2690,20 +2710,25 @@ function bomb(bomb, target) {
         if (
           target.monSpecie === "worm" ||
           target.monSpecie === "wormPlus" ||
-          target.monSpecie === "wormFinal"
+          target.monSpecie === "wormFinal" ||
+          target.monSpecie === "wormFever"
         ) {
           target.boomAnim();
         } else {
           target.dieAnim();
         }
+        if (target.monSpecie === "wormFever") {
+          killCount--;
+        }
         target.destroy();
         if (gameTimer < 9000) {
-          player.expUp();
-          player.expUp();
+          player.expUp(1);
+          player.expUp(1);
         } else {
-          player.expUp();
+          player.expUp(1);
         }
         monsterCount -= 1;
+        killCount += 1;
       } else if (target.monSpecie === "slime") {
         for (let i = 0; i < 2; i++) {
           addMonster(
@@ -2718,6 +2743,7 @@ function bomb(bomb, target) {
         }
         target.destroy();
         monsterCount -= 1;
+        killCount += 1;
       }
     }
   }
@@ -2792,20 +2818,25 @@ function petAttackFunc(magic, monster) {
         if (
           monster.monSpecie === "worm" ||
           monster.monSpecie === "wormPlus" ||
-          monster.monSpecie === "wormFinal"
+          monster.monSpecie === "wormFinal" ||
+          monster.monSpecie === "wormFever"
         ) {
           monster.boomAnim();
         } else {
           monster.dieAnim();
         }
+        if (monster.monSpecie === "wormFever") {
+          killCount--;
+        }
         monster.destroy();
         if (gameTimer < 9000) {
-          player.expUp();
-          player.expUp();
+          player.expUp(1);
+          player.expUp(1);
         } else {
-          player.expUp();
+          player.expUp(1);
         }
         monsterCount -= 1;
+        killCount += 1;
       } else if (monster.monSpecie === "slime") {
         for (let i = 0; i < 2; i++) {
           addMonster(
@@ -2820,6 +2851,7 @@ function petAttackFunc(magic, monster) {
         }
         monster.destroy();
         monsterCount -= 1;
+        killCount += 1;
       }
     }
   }
