@@ -5,6 +5,10 @@ body {
   height: 100%;
   font-family: "neodgm";
   cursor: url("../../../public/images/cursor/mouseNone.png"), pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #app {
   width: 100%;

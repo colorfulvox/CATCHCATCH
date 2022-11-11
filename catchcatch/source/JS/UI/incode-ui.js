@@ -46,7 +46,7 @@ export default function IncodeUI() {
   gameContainer.appendChild(pin);
   gameContainer.appendChild(buttonContainer);
 
-  makeranking();
+  // makeranking();
   // codegameclear();
 }
 
@@ -235,7 +235,7 @@ function submitranking() {
     let Data = {
       action: "newranking",
       name: inputspace.value,
-      score: global.score,
+      score: 5000,
       area: selected.options[selected.selectedIndex].value,
     };
     socket.send(JSON.stringify(Data));
