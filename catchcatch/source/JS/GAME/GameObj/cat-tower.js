@@ -300,9 +300,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
 
   levelUp() {
     this.level++;
-    if (this.level > 2) {
-      this.level = 2;
-    }
   }
 
   overlaphit() {}

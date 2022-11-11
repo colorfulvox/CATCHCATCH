@@ -198,7 +198,7 @@
   /* border: 2px solid black; */
   text-align: center;
   line-height: 45px;
-  font-size: xx-large;
+  font-size: x-large;
   color: black;
   font-weight: bold;
   font-family: "KenneyBlocks";
@@ -207,12 +207,12 @@
   color: rgb(255, 74, 74);
 }
 .NameSpace {
-  width: 130px;
+  width: 200px;
   height: 50px;
   /* border: 2px solid black; */
   text-align: center;
   font-weight: bold;
-  font-size: x-large;
+  font-size: large;
   /* font-family: ""; */
   line-height: 50px;
   margin-right: 10px;
@@ -269,7 +269,7 @@
   background-size: contain;
   border: none;
 
-  width: 80px;
+  width: 120px;
   height: 50px;
   /* border: 2px solid black; */
   text-align: center;
@@ -284,7 +284,7 @@
   background-size: contain;
   border: none;
 
-  width: 80px;
+  width: 120px;
   height: 50px;
   /* border: 2px solid black; */
   text-align: center;
@@ -299,7 +299,7 @@
   background-size: contain;
   border: none;
 
-  width: 80px;
+  width: 120px;
   height: 50px;
   /* border: 2px solid black; */
   text-align: center;
@@ -314,7 +314,7 @@
   background-size: contain;
   border: none;
 
-  width: 80px;
+  width: 120px;
   height: 50px;
   /* border: 2px solid black; */
   text-align: center;
@@ -329,7 +329,7 @@
   background-size: contain;
   border: none;
 
-  width: 80px;
+  width: 120px;
   height: 50px;
   /* border: 2px solid black; */
   text-align: center;

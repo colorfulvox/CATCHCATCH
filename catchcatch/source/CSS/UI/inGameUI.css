@@ -168,19 +168,47 @@
   transform: translateX(-50%) translateY(-50%);
   width: 500px;
   height: 300px;
-  border: 2px solid white;
-  background-color: white;
+  background: url("../../../public/images/ui/clearspace.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+
+  /* border: 2px solid white; */
+  /* background-color: white; */
 }
 
 .ClearText {
-  margin-left: 40px;
-  font-size: xxx-large;
-  font-family: "KenneyBlocks";
+  margin-bottom: 70px;
+  width: 360px;
+  height: 60px;
+  background: url("../../../public/images/ui/Gameclear.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
+
+.FailText {
+  margin-bottom: 70px;
+  width: 360px;
+  height: 60px;
+  background: url("../../../public/images/ui/gameover.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
 }
 
 .GoHomeBtn {
   width: 150px;
   height: 50px;
+  background: url("../../../public/images/ui/homeicon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
 .coolContainer {
