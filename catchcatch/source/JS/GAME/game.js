@@ -140,7 +140,7 @@ let monX;
 let monY;
 global.monsterCount = 0;
 let randomLocation = 0;
-let feverTime;
+let feverTime = 0;
 let feverLock = false;
 let randomMonster = 0;
 
@@ -2339,23 +2339,23 @@ function update(time, delta) {
     }
 
     // 피버 타임
-    if (killCount != 0 && killCount / 100 === 0 && feverLock == false) {
+    if (killCount != 0 && killCount % 10 === 0 && feverLock == false) {
       feverTime = 1500;
       feverLock = true;
+    }
 
-      if (feverTime != 0) {
-        enemySpawn(randomLocation);
-        if (12000 < gameTimer && gameTimer <= 25200) {
-          addMonster(this, "wormPlus", "wormPlus", 30, 50, monX, monY);
-        } else if (25200 < gameTimer) {
-          addMonster(this, "wormFinal", "wormFinal", 80, 60, monX, monY);
-        } else if (gameTimer <= 12000) {
-          addMonster(this, "worm", "worm", 10, 40, monX, monY);
-        }
-        feverTime--;
-      } else if (feverTime <= 0) {
-        feverLock = false;
+    if (feverTime != 0) {
+      enemySpawn(randomLocation);
+      if (12000 < gameTimer && gameTimer <= 25200) {
+        addMonster(this, "wormPlus", "wormPlus", 30, 50, monX, monY);
+      } else if (25200 < gameTimer) {
+        addMonster(this, "wormFinal", "wormFinal", 80, 60, monX, monY);
+      } else if (gameTimer <= 12000) {
+        addMonster(this, "worm", "worm", 10, 40, monX, monY);
       }
+      feverTime--;
+    } else if (feverTime <= 0) {
+      feverLock = false;
     }
 
     //enemy end
