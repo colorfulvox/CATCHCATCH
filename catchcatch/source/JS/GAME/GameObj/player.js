@@ -213,7 +213,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     } else {
       setSound.playSE(11);
     }
-    if (!player.invincible) {
+    if (!player.invincible && bombDead.monSpecie != "wormFever") {
       player.invincible = true;
       player.body.checkCollision.none = true;
       player.health -= 3;

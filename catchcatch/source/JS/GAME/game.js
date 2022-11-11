@@ -545,6 +545,11 @@ function preload() {
     frameHeight: 64,
   });
 
+  this.load.spritesheet("monster_fever", "images/monster/monster_fever.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
   this.load.spritesheet("alien", "images/monster/alien.png", {
     frameWidth: 20,
     frameHeight: 20,
@@ -1369,6 +1374,16 @@ function create() {
   this.anims.create({
     key: "monster_boom",
     frames: this.anims.generateFrameNumbers("monster_boom", {
+      start: 0,
+      end: 7,
+    }),
+    frameRate: 12,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "monster_fever",
+    frames: this.anims.generateFrameNumbers("monster_fever", {
       start: 0,
       end: 7,
     }),
@@ -2364,7 +2379,7 @@ function update(time, delta) {
 
     // 피버 타임
     if (killCount != 0 && killCount % 10 === 0 && feverLock == false) {
-      feverTime = 300;
+      feverTime = 600;
       feverLock = true;
     }
 
@@ -2567,15 +2582,16 @@ function attack(magic, monster) {
           }
           if (monster.monSpecie === "wormFever") {
             killCount--;
-          }
-          monster.destroy();
-          if (gameTimer < 9000) {
-            player.expUp(1);
-            player.expUp(1);
+            player.expUP(0.1);
           } else {
-            player.expUp(1);
+            monster.destroy();
+            if (gameTimer < 9000) {
+              player.expUp(1);
+              player.expUp(1);
+            } else {
+              player.expUp(1);
+            }
           }
-
           monsterCount -= 1;
           killCount += 1;
         } else if (monster.monSpecie === "slime") {
@@ -2616,13 +2632,18 @@ function attack(magic, monster) {
         } else {
           monster.dieAnim();
         }
-        monster.destroy();
-        if (gameTimer < 9000) {
-          player.expUp(1);
-          player.expUp(1);
+        if (monster.monSpecie === "wormFever") {
+          killCount -= 1;
+          player.expUp(0.1);
         } else {
-          player.expUp(1);
+          if (gameTimer < 9000) {
+            player.expUp(1);
+            player.expUp(1);
+          } else {
+            player.expUp(1);
+          }
         }
+        monster.destroy();
         if (magic.fairy.fairyNum === 2) {
           let vampireNum = Math.floor(Math.random() * 100 + 1);
           if (vampireNum < 5) {
@@ -2721,14 +2742,15 @@ function bomb(bomb, target) {
         }
         if (target.monSpecie === "wormFever") {
           killCount--;
+          player.expUp(0.1);
+        } else {
+          if (gameTimer < 9000) {
+            player.expUp(2);
+          } else {
+            player.expUp(1);
+          }
         }
         target.destroy();
-        if (gameTimer < 9000) {
-          player.expUp(1);
-          player.expUp(1);
-        } else {
-          player.expUp(1);
-        }
         monsterCount -= 1;
         killCount += 1;
       } else if (target.monSpecie === "slime") {
@@ -2829,13 +2851,23 @@ function petAttackFunc(magic, monster) {
         }
         if (monster.monSpecie === "wormFever") {
           killCount--;
+          player.expUp(0.1);
+        } else {
+          if (gameTimer < 9000) {
+            player.expUp(1);
+            player.expUp(1);
+          } else {
+            player.expUp(1);
+          }
         }
         monster.destroy();
+
         if (gameTimer < 9000) {
           player.expUp(2);
         } else {
           player.expUp(1);
         }
+
         monsterCount -= 1;
         killCount += 1;
       } else if (monster.monSpecie === "slime") {
