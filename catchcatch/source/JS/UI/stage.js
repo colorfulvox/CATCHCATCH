@@ -48,7 +48,7 @@ export default function Stage() {
     for (let j = 0; j < diff[i]; ++j) {
       const stagestar = document.createElement("img");
       stagestar.setAttribute("class", "stagestar");
-      stagestar.src = "/images/ui/StageStar.png";
+      stagestar.src = "images/ui/StageStar.png";
 
       stagelevel.appendChild(stagestar);
     }
