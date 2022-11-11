@@ -2307,7 +2307,7 @@ function update(time, delta) {
         }
         if (bossSet.children.entries[i].health <= 0) {
           for (let i = 0; i < 5; i++) {
-            player.expUp();
+            player.expUp(1);
           }
           if (bossSet.children.entries[i].monSpecie !== "slimeKing") {
             global.coin += 10;
@@ -2548,10 +2548,10 @@ function attack(magic, monster) {
 
           monster.destroy();
           if (gameTimer < 9000) {
-            player.expUp();
-            player.expUp();
+            player.expUp(1);
+            player.expUp(1);
           } else {
-            player.expUp();
+            player.expUp(1);
           }
 
           monsterCount -= 1;
@@ -2595,10 +2595,10 @@ function attack(magic, monster) {
         }
         monster.destroy();
         if (gameTimer < 9000) {
-          player.expUp();
-          player.expUp();
+          player.expUp(1);
+          player.expUp(1);
         } else {
-          player.expUp();
+          player.expUp(1);
         }
         if (magic.fairy.fairyNum === 2) {
           let vampireNum = Math.floor(Math.random() * 100 + 1);
@@ -2697,10 +2697,10 @@ function bomb(bomb, target) {
         }
         target.destroy();
         if (gameTimer < 9000) {
-          player.expUp();
-          player.expUp();
+          player.expUp(1);
+          player.expUp(1);
         } else {
-          player.expUp();
+          player.expUp(1);
         }
         monsterCount -= 1;
         killCount += 1;
@@ -2801,10 +2801,10 @@ function petAttackFunc(magic, monster) {
         }
         monster.destroy();
         if (gameTimer < 9000) {
-          player.expUp();
-          player.expUp();
+          player.expUp(1);
+          player.expUp(1);
         } else {
-          player.expUp();
+          player.expUp(1);
         }
         monsterCount -= 1;
         killCount += 1;

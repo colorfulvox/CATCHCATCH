@@ -60,8 +60,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  expUp() {
-    this.exp++;
+  expUp(i) {
+    this.exp += i;
     this.expUpdate();
   }
 
