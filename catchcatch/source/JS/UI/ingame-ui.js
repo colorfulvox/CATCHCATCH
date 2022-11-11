@@ -100,27 +100,25 @@ export function updateExp() {
 
 export function GameOver() {
   const gameContainer = document.querySelector("#game-container");
-  const gameOverContainer = document.createElement("div");
-  gameOverContainer.setAttribute("class", "gameOverContainer");
-  const gameOver = document.createElement("div");
-  gameOver.setAttribute("class", "gameOver");
-  gameOver.innerText = "GAME OVER";
-  const again = document.createElement("div");
-  again.innerText = "다시하기";
-  again.setAttribute("class", "again");
-  again.addEventListener("click", () => {
-    // gameContainer.innerHTML = "";
-    // gameContainer.style.display = "none";
-    // const startPage = document.querySelector(".StartPage");
-    // startPage.style.display = "flex";
-    // gameContainer.removeChild(gameoverContainer);
-    // CharSpaceOn();
-    // $this.restart();
-    window.location.reload();
-  });
-  gameOverContainer.appendChild(gameOver);
-  gameOverContainer.appendChild(again);
-  gameContainer.appendChild(gameOverContainer);
+
+  const GameClearSpace = document.createElement("div");
+  GameClearSpace.setAttribute("class", "GameClearSpace");
+
+  const FailText = document.createElement("div");
+  FailText.setAttribute("class", "FailText");
+  // ClearText.textContent = "GameClear!";
+
+  GameClearSpace.appendChild(FailText);
+
+  const GoHomeBtn = document.createElement("button");
+  GoHomeBtn.setAttribute("class", "GoHomeBtn");
+  // GoHomeBtn.style.backgroundImage = "url('images/ui/homeslot.png')";
+
+  GoHomeBtn.addEventListener("click", GoHome);
+
+  GameClearSpace.appendChild(GoHomeBtn);
+
+  gameContainer.appendChild(GameClearSpace);
 }
 
 export function UpdateTimer() {
@@ -158,13 +156,13 @@ function GameClear() {
 
   const ClearText = document.createElement("div");
   ClearText.setAttribute("class", "ClearText");
-  ClearText.textContent = "GameClear!";
+  // ClearText.textContent = "GameClear!";
 
   GameClearSpace.appendChild(ClearText);
 
   const GoHomeBtn = document.createElement("button");
   GoHomeBtn.setAttribute("class", "GoHomeBtn");
-  GoHomeBtn.textContent = "홈으로";
+  GoHomeBtn.style.backgroundImage = "url('images/ui/homeslot.png')";
 
   GoHomeBtn.addEventListener("click", GoHome);
 
