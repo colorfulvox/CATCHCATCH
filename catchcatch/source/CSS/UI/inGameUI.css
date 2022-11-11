@@ -316,9 +316,9 @@ html {
 }
 .tutorialMouse {
   position: absolute;
-  width: 320px;
+  width: 250px;
   top: 50%;
-  right: 15%;
+  right: 20%;
   transform: translateX(+50%) translateY(-50%);
 }
 .tutorialNumber {
