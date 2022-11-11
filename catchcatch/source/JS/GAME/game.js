@@ -2400,11 +2400,7 @@ function update(time, delta) {
 
 //player start
 function changeSlot() {
-  if (
-    cursors.slot1.isDown &&
-    nowFairy !== 0 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot1.isDown && nowFairy !== 0) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 0;
@@ -2413,11 +2409,7 @@ function changeSlot() {
     fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
-  if (
-    cursors.slot2.isDown &&
-    nowFairy !== 1 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot2.isDown && nowFairy !== 1) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 1;
@@ -2426,11 +2418,7 @@ function changeSlot() {
     fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
-  if (
-    cursors.slot3.isDown &&
-    nowFairy !== 2 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot3.isDown && nowFairy !== 2) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 2;
@@ -2439,11 +2427,7 @@ function changeSlot() {
     fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
-  if (
-    cursors.slot4.isDown &&
-    nowFairy !== 3 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot4.isDown && nowFairy !== 3) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 3;
@@ -2452,11 +2436,7 @@ function changeSlot() {
     fairySet[nowFairy].anims.play(fairySet[nowFairy].idleKey, true);
   }
 
-  if (
-    cursors.slot5.isDown &&
-    nowFairy !== 4 &&
-    /idle/.test(fairySet[nowFairy].anims.currentAnim.key)
-  ) {
+  if (cursors.slot5.isDown && nowFairy !== 4) {
     fairySet[nowFairy].x = -10000;
     fairySet[nowFairy].y = -10000;
     nowFairy = 4;
