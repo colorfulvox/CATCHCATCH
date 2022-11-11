@@ -15,7 +15,7 @@ export default class TowerSkill extends Phaser.Physics.Arcade.Sprite {
       loop: false,
       startAt: delayTime,
     });
-    this.dmg = tower.towerSkillDmg;
+    this.dmg = tower.towerSkillDmg[tower.stone];
     this.scale = scaleSize;
 
     scene.add.existing(this);
