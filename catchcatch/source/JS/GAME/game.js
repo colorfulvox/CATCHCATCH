@@ -1692,14 +1692,6 @@ function create() {
   petEarth.setVisible(false);
   petGod.setVisible(false);
 
-  //디버그용
-  // petNormal.setVisible(true);
-  // petThunder.setVisible(true);
-  // petFire.setVisible(true);
-  // petWater.setVisible(true);
-  // petEarth.setVisible(true);
-  // petGod.setVisible(true);
-
   pets.add(petNormal);
   pets.add(petThunder);
   pets.add(petFire);
