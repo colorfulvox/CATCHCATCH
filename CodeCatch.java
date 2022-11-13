@@ -50,7 +50,7 @@ public class CodeCatch {
 
 	public static void main(String[] args) throws URISyntaxException {
 
-		WebSocketClient mWs = new WebSocketClient(new URI("ws://k7c106.p.ssafy.io:8080"), new Draft_6455()) {
+		WebSocketClient mWs = new WebSocketClient(new URI("wss://www.catchcatch.kr/api"), new Draft_6455()) {
 
 			@Override
 			public void onClose(int arg0, String arg1, boolean arg2) {

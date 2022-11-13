@@ -18,7 +18,7 @@ let CatchObj; //전달 받는 오브젝트 정보
 const { exit } = require("process");
 // 수정 하시면 안됩니다! -------------------------------------------------------------------------------
 const WebSocket = require("ws");
-const socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
+const socket = new WebSocket("wss://www.catchcatch.kr/api");
 
 function run() {
   socket.onopen = function () {

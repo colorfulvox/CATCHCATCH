@@ -86,7 +86,7 @@ async def run(websocket):
             await websocket.send(attackinfo)
 async def connect():
   # 웹 소켓에 접속을 합니다.
-  async with websockets.connect("ws://k7c106.p.ssafy.io:8080") as websocket:
+  async with websockets.connect("wss://www.catchcatch.kr/api") as websocket:
     # 10번을 반복하면서 웹 소켓 서버로 메시지를 전송합니다.
     await run(websocket)
 # 비동기로 서버에 접속한다.

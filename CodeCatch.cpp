@@ -1,4 +1,4 @@
-﻿/*
+/*
 [사용 방법]
 -Visual Studio 2019 버전 전용-
 1. 새로운 프로젝트를 만드세요.
@@ -45,7 +45,7 @@ int main()
 {
 	bool IsConnect = false;
 	try {
-		client.connect(U("ws://k7c106.p.ssafy.io:8080")).wait();
+		client.connect(U("wss://www.catchcatch.kr/api")).wait();
 		cout << "서버와의 연결에 성공하셨습니다." << endl;
 		cout << "---------------------------------" << endl;
 	}
