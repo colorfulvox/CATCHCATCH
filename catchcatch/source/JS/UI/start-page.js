@@ -68,7 +68,7 @@ const StartPageInit = () => {
     _mode = !_mode;
     StartPageInit();
     if (!_mode) {
-      socket = new WebSocket("ws://k7c106.p.ssafy.io:8080");
+      socket = new WebSocket("wss://www.catchcatch.kr/api");
 
       socket.onopen = function () {
         IsStarted = false;
