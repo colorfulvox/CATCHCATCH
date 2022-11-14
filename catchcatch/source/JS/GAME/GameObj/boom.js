@@ -22,7 +22,7 @@ export default class Boom extends Phaser.Physics.Arcade.Sprite {
       this.setScale(3);
       this.dmg = 100;
     } else if (monSpecie === "wormFinal") {
-      this.setScale(4);
+      this.setScale(3.5);
       this.dmg = 200;
     } else {
       this.setScale(3);
