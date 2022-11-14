@@ -123,7 +123,7 @@ let fireGiantIndex;
 
 let monsterSpawn = 300;
 
-let killCount = 0;
+global.killCount = 0;
 
 // 보스
 let slimeKing;
