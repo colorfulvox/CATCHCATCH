@@ -126,7 +126,9 @@ export function GameOver() {
   resultspace.appendChild(cantxt);
 
   let cancount = parseInt(global.killCount / 50);
+  cancount += inGameCoin;
   cantxt.textContent = "x" + cancount;
+
   // cantxt.textContent = "x20";
   global.LocalData.Coin += cancount;
   SaveData();

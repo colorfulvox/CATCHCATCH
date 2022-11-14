@@ -41,8 +41,8 @@ export default class Mine extends Phaser.Physics.Arcade.Sprite {
     var range = Phaser.Math.Distance.Between(mine.x, mine.y, 0, 0);
 
     player.health += 2;
-    if (player.health >= 20) {
-      player.health = 20;
+    if (player.health >= 10) {
+      player.health = 10;
     }
 
     if (ChoiceCat === 5) {

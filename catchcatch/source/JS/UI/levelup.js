@@ -125,7 +125,7 @@ export default function levelup() {
       ],
     },
     heal: { name: "회복", text: "체력 5 회복" },
-    coin: { name: "캔", text: "캔 10개 획득" },
+    coin: { name: "캔", text: "캔 1개 획득" },
   };
   if (ChoiceCat === 5) {
     let rand = Math.floor(Math.random() * 20);
@@ -322,6 +322,13 @@ export default function levelup() {
           petEarth.levelUp();
         } else if (contents[i].id === "god") {
           petGod.levelUp();
+        } else if (contents[i].id === "heal") {
+          player.health += 5;
+          if (player.health >= 10) {
+            player.health = 10;
+          }
+        } else if (contents[i].id === "coin") {
+          inGameCoin += 1;
         }
         player.expUpdate();
         console.log(player.exp, player.maxExp);
