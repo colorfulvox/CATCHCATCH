@@ -207,6 +207,11 @@ function Slide() {
 function SlideLeft() {
   if (CharIndex > 0) {
     --CharIndex;
+    const _app = document.getElementById("app");
+    _app.style.background = `url("images/ui/${CharIndex}.gif")`;
+    _app.style.backgroundPosition = "center";
+    _app.style.backgroundRepeat = "no-repeat";
+    _app.style.backgroundSize = "cover";
     Slide();
   }
 }
@@ -214,6 +219,11 @@ function SlideLeft() {
 function SlideRight() {
   if (CharIndex < 6) {
     ++CharIndex;
+    const _app = document.getElementById("app");
+    _app.style.background = `url("images/ui/${CharIndex}.gif")`;
+    _app.style.backgroundPosition = "center";
+    _app.style.backgroundRepeat = "no-repeat";
+    _app.style.backgroundSize = "cover";
     Slide();
   }
 }

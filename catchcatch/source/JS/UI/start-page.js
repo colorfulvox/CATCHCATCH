@@ -37,7 +37,7 @@ const StartPageInit = () => {
   _app.removeChild(_StartPage);
   _app.appendChild(_StartPage);
   _StartPage.innerHTML = "";
-  _app.style.background = "url('images/ui/Background.gif')";
+  _app.style.background = "url('images/ui/0.gif')";
   _app.style.backgroundPosition = "center";
   _app.style.backgroundRepeat = "no-repeat";
   _app.style.backgroundSize = "cover";
