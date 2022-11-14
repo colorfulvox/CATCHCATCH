@@ -124,35 +124,27 @@ function preload() {
   // player end
 
   //attack sprite start
-  this.load.spritesheet(
-    "magic1",
-    "images/attack/weapon/code_tower_normal.png",
-    {
-      frameWidth: 64,
-      frameHeight: 64,
-      endFrame: 5,
-    }
-  );
-  this.load.spritesheet(
-    "magic2",
-    "images/attack/weapon/code_tower_thunder.png",
-    {
-      frameWidth: 64,
-      frameHeight: 64,
-      endFrame: 5,
-    }
-  );
-  this.load.spritesheet("magic3", "images/attack/weapon/code_tower_fire.png", {
+  this.load.spritesheet("magic1", "images/attack/weapon/normalMagic.png", {
     frameWidth: 64,
     frameHeight: 64,
     endFrame: 5,
   });
-  this.load.spritesheet("magic4", "images/attack/weapon/code_tower_water.png", {
+  this.load.spritesheet("magic2", "images/attack/weapon/thunderMagic.png", {
     frameWidth: 64,
     frameHeight: 64,
     endFrame: 5,
   });
-  this.load.spritesheet("magic5", "images/attack/weapon/code_tower_earth.png", {
+  this.load.spritesheet("magic3", "images/attack/weapon/fireMagic.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+    endFrame: 5,
+  });
+  this.load.spritesheet("magic4", "images/attack/weapon/waterMagic.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+    endFrame: 5,
+  });
+  this.load.spritesheet("magic5", "images/attack/weapon/earthMagic.png", {
     frameWidth: 64,
     frameHeight: 64,
     endFrame: 5,
@@ -280,31 +272,31 @@ function create() {
 
   this.anims.create({
     key: "magic1",
-    frames: this.anims.generateFrameNumbers("magic1", { start: 0, end: 5 }),
+    frames: this.anims.generateFrameNumbers("magic1", { start: 1, end: 1 }),
     frameRate: 20,
     repeat: -1,
   });
   this.anims.create({
     key: "magic2",
-    frames: this.anims.generateFrameNumbers("magic2", { start: 0, end: 5 }),
+    frames: this.anims.generateFrameNumbers("magic2", { start: 1, end: 1 }),
     frameRate: 20,
     repeat: -1,
   });
   this.anims.create({
     key: "magic3",
-    frames: this.anims.generateFrameNumbers("magic3", { start: 0, end: 5 }),
+    frames: this.anims.generateFrameNumbers("magic3", { start: 1, end: 1 }),
     frameRate: 20,
     repeat: -1,
   });
   this.anims.create({
     key: "magic4",
-    frames: this.anims.generateFrameNumbers("magic4", { start: 0, end: 5 }),
+    frames: this.anims.generateFrameNumbers("magic4", { start: 1, end: 1 }),
     frameRate: 20,
     repeat: -1,
   });
   this.anims.create({
     key: "magic5",
-    frames: this.anims.generateFrameNumbers("magic5", { start: 0, end: 5 }),
+    frames: this.anims.generateFrameNumbers("magic5", { start: 1, end: 1 }),
     frameRate: 20,
     repeat: -1,
   });
