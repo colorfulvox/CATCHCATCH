@@ -160,7 +160,7 @@ global.petSkillAttacks = "";
 
 //mine start
 let mine;
-let mineCount = 5;
+let mineCount = 2;
 let StartMineRangeX = -3000;
 let StartMineRangeY = -3000;
 let EndMineRangeX = 3000;
