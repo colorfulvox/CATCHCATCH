@@ -41,7 +41,7 @@ export const config = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: false,
+      debug: true,
       fixedStep: false,
     },
   },
@@ -630,6 +630,30 @@ function preload() {
     frameHeight: 8,
   });
 
+  this.load.spritesheet("normalSlime", "images/monster/normalSlime.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
+  this.load.spritesheet("fireSlime", "images/monster/fireSlime.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
+  this.load.spritesheet("earthSlime", "images/monster/earthSlime.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
+  this.load.spritesheet("thunderSlime", "images/monster/thunderSlime.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
+  this.load.spritesheet("waterSlime", "images/monster/waterSlime.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
   //   보스
   this.load.spritesheet("slimeKing", "images/boss/slimeKing.png", {
     frameWidth: 96,
@@ -1388,6 +1412,47 @@ function create() {
     key: "invader_3",
     frames: this.anims.generateFrameNumbers("invader_3", { start: 0, end: 1 }),
     frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "normalSlime",
+    frames: this.anims.generateFrameNumbers("normalSlime", {
+      start: 0,
+      end: 6,
+    }),
+    frameRate: 9,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "earthSlime",
+    frames: this.anims.generateFrameNumbers("earthSlime", { start: 0, end: 6 }),
+    frameRate: 9,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "waterSlime",
+    frames: this.anims.generateFrameNumbers("waterSlime", { start: 0, end: 6 }),
+    frameRate: 9,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "thunderSlime",
+    frames: this.anims.generateFrameNumbers("thunderSlime", {
+      start: 0,
+      end: 6,
+    }),
+    frameRate: 9,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "fireSlime",
+    frames: this.anims.generateFrameNumbers("fireSlime", { start: 0, end: 6 }),
+    frameRate: 9,
     repeat: -1,
   });
   // boss
@@ -2152,18 +2217,24 @@ function update(time, delta) {
       if (10800 < gameTimer && gameTimer <= 21000) {
         if (player.ability === 2) {
           addMonster(this, "alien", "invader_2", 60, 65, monX, monY);
+        } else if (player.ability === 5) {
+          addMonster(this, "alien", "random_slime", 60, 65, monX, monY);
         } else {
           addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
         }
       } else if (21000 < gameTimer) {
         if (player.ability === 2) {
           addMonster(this, "alien", "invader_3", 100, 75, monX, monY);
+        } else if (player.ability === 5) {
+          addMonster(this, "alien", "random_slime", 100, 75, monX, monY);
         } else {
           addMonster(this, "alien", "alienFinal", 100, 75, monX, monY);
         }
       } else {
         if (player.ability === 2) {
           addMonster(this, "alien", "invader", 40, 50, monX, monY);
+        } else if (player.ability === 5) {
+          addMonster(this, "alien", "random_slime", 40, 50, monX, monY);
         } else {
           addMonster(this, "alien", "alien", 40, 50, monX, monY);
         }
@@ -2755,6 +2826,20 @@ function attack(magic, monster) {
 }
 
 function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
+  if (monAnime === "random_slime") {
+    let randomSlime = Math.floor(Math.random() * 5) + 1;
+    if (randomSlime === 1) {
+      monAnime = "normalSlime";
+    } else if (randomSlime === 2) {
+      monAnime = "earthSlime";
+    } else if (randomSlime === 3) {
+      monAnime = "waterSlime";
+    } else if (randomSlime === 4) {
+      monAnime = "thunderSlime";
+    } else {
+      monAnime = "fireSlime";
+    }
+  }
   monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime).setInteractive(
     { cursor: "url(images/cursor/aimHover.png), pointer" }
   );
@@ -2774,18 +2859,23 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
   ) {
     monster.scale = 3;
   }
-  monster.setDepth(2);
-  monsterCount += 1;
+
   let mw = monster.body.halfWidth;
   let mh = monster.body.halfHeight;
+  monster.setDepth(2);
+  monsterCount += 1;
 
-  monster.setCircle(mh / 2, mw - mh / 2, mw);
   if (player.ability === 2 && monster.monSpecie === "alien") {
     monster.setScale(4);
-    mw = monster.body.halfWidth;
-    mh = monster.body.halfHeight;
-
     monster.setCircle(mw * 0.8, 0, mh - mw);
+  } else if (player.ability === 5 && monster.monSpecie === "alien") {
+    monster.setScale(1);
+    monster.setCircle(mw * 1.5, 0, mh - mw);
+    console.log(monster);
+    monster.body.offset.x += 10;
+    monster.body.offset.y += 10;
+  } else {
+    monster.setCircle(mh / 2, mw - mh / 2, mw);
   }
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
