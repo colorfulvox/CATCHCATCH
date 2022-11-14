@@ -61,3 +61,14 @@
   left: 35%;
   /* border: 1px solid rebeccapurple; */
 }
+
+.que {
+  background-color: aliceblue;
+  font-size: 100px;
+  position: absolute;
+  z-index: 3;
+  width: 225px;
+  height: 225px;
+  text-align: center;
+  line-height: 225px;
+}

@@ -101,7 +101,7 @@ export default function levelup() {
         "공격 속도 증가",
         "튕기는 횟수 증가",
         "복사 효과 적용",
-        "스킬 해금 \n리스폰 위치로 \n순간이동합니다.",
+        "스킬 해금 \n원형범위에 \n대미지를 입힙니다.",
 
         "공격 속도 증가",
         "튕기는 횟수 증가",
@@ -234,7 +234,7 @@ export default function levelup() {
       //   property[_propertyArr[randomIndexArray[i]]].fairy.level + 1
       // }`;
       levelupContent.style.backgroundImage =
-        'url("images/ui/levelup/fairyupgrade_addName.png")';
+        'url("images/ui/levelup/tunaspace.png")';
       // 설명인데..
       levelupName.innerHTML = `[${
         property[_propertyArr[randomIndexArray[i]]].name
@@ -273,12 +273,25 @@ export default function levelup() {
     levelupContent.appendChild(levelImgandNameBox);
     levelupContent.appendChild(levelupText);
     levelupContainer.appendChild(levelupContent);
+    if (ChoiceCat === 3) {
+      const div = document.createElement("div");
+      div.setAttribute("class", "que");
+      div.innerText = "?";
+      div.setAttribute("id", `${_propertyArr[randomIndexArray[i]]}`);
+      levelupContent.appendChild(div);
+    }
   }
 
   gameContainer.appendChild(levelupContainer);
-  const contents = document.querySelectorAll(".levelupContent");
+  let contents;
+  if (ChoiceCat === 3) {
+    contents = document.querySelectorAll(".que");
+  } else {
+    contents = document.querySelectorAll(".levelupContent");
+  }
   // const levelupContainer = document.querySelector(".levelupContainer");
   const removeContainer = document.querySelector(".levelupContainer");
+
   for (let i = 0; i < randomIndexArray.length; i++) {
     setTimeout(() => {
       contents[i].addEventListener("click", () => {
