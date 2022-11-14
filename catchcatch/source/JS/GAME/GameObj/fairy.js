@@ -327,6 +327,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
     this.evo2 = true;
     this.idleKey = `fairy${this.fairyNum}_2_idle`;
     this.attackKey = `fairy${this.fairyNum}_2_attack`;
+    levelCount += 1;
     switch (this.fairyNum) {
       case 1:
         this.spriteScale = 1;

@@ -256,20 +256,20 @@ export function messageBoss(boss) {
   const gameContainer = document.querySelector("#game-container");
   const div = document.createElement("div");
   div.setAttribute("class", "bossMessage");
-  console.log(boss);
   if (boss === "슬라임 킹") {
     div.innerHTML = `<p style="color: red">${boss} 보스가 등장합니다.</p>`;
   } else if (boss === "골렘") {
     div.innerHTML = `<p style="color: red">${boss} 보스가 등장합니다.</p>`;
   } else if (boss === "불거인") {
     div.innerHTML = `<p style="color: red">${boss} 보스가 등장합니다.</p>`;
+  } else if (boss === "피버") {
+    div.innerHTML = `<p class="fever">FEVER Time</P>`;
   } else {
     div.innerHTML = `<p style="color: red">${boss}가 몰려옵니다.</p>`;
   }
   gameContainer.appendChild(div);
   setTimeout(() => {
     div.innerHTML = "";
-    console.log(123);
   }, 10000);
 }
 

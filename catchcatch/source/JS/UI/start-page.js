@@ -291,9 +291,7 @@ export const StartPageOff = () => {
 
 // 캐릭터 선택 버튼 클릭 이벤트 리스너
 function GoSelectChar() {
-  if (setSound.nowBGM() === null) {
-    setSound.setBGM(0);
-  }
+  setSound.setBGM(0);
   setSound.playSE(16);
   StartBtnOff();
   CharSpaceOn();

@@ -160,7 +160,7 @@ global.petSkillAttacks = "";
 
 //mine start
 let mine;
-let mineCount = 5;
+let mineCount = 2;
 let StartMineRangeX = -3000;
 let StartMineRangeY = -3000;
 let EndMineRangeX = 3000;
@@ -315,6 +315,10 @@ function preload() {
   this.load.spritesheet("cat4", "images/cat/cat4.png", {
     frameWidth: 96,
     frameHeight: 100,
+  });
+  this.load.spritesheet("rainbow", "images/cat/rainbow_270x150.png", {
+    frameWidth: 135,
+    frameHeight: 150,
   });
   this.load.spritesheet("cat5", "images/cat/cat5.png", {
     frameWidth: 96,
@@ -551,6 +555,11 @@ function preload() {
     frameHeight: 64,
   });
 
+  this.load.spritesheet("invader_die", "images/monster/invader_die.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
   this.load.spritesheet("alien", "images/monster/alien.png", {
     frameWidth: 20,
     frameHeight: 20,
@@ -606,6 +615,21 @@ function preload() {
     frameHeight: 48,
   });
 
+  this.load.spritesheet("invader", "images/monster/invader.png", {
+    frameWidth: 8,
+    frameHeight: 8,
+  });
+
+  this.load.spritesheet("invader_2", "images/monster/invader_2.png", {
+    frameWidth: 10,
+    frameHeight: 7,
+  });
+
+  this.load.spritesheet("invader_3", "images/monster/invader_3.png", {
+    frameWidth: 11,
+    frameHeight: 8,
+  });
+
   //   보스
   this.load.spritesheet("slimeKing", "images/boss/slimeKing.png", {
     frameWidth: 96,
@@ -630,9 +654,20 @@ function preload() {
 }
 
 function create() {
-  this.input.setDefaultCursor("url(/images/cursor/aimNone.png), pointer");
-  setSound.setBGM(1);
+  this.anims.create({
+    key: "rainbow",
+    frames: this.anims.generateFrameNumbers("rainbow", { start: 0, end: 1 }),
+    frameRate: 8,
+    repeat: -1,
+  });
 
+  this.input.setDefaultCursor("url(/images/cursor/aimNone.png), pointer");
+
+  if (ChoiceCat === 4) {
+    setSound.setBGM(5);
+  } else {
+    setSound.setBGM(1);
+  }
   thisScene = this;
   //map start
   map = this.make.tilemap({ key: "map" });
@@ -692,7 +727,7 @@ function create() {
   //   this.physics.add.collider(player, treesLayer);
   player.ability = ChoiceCat + 1;
   player.setScale(0.7);
-  // player.setDepth(2);
+  player.setDepth(3);
   let hw = player.body.halfWidth;
   let hh = player.body.halfHeight;
 
@@ -1335,6 +1370,27 @@ function create() {
     frameRate: 3,
     repeat: -1,
   });
+
+  this.anims.create({
+    key: "invader",
+    frames: this.anims.generateFrameNumbers("invader", { start: 0, end: 1 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "invader_2",
+    frames: this.anims.generateFrameNumbers("invader_2", { start: 0, end: 1 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "invader_3",
+    frames: this.anims.generateFrameNumbers("invader_3", { start: 0, end: 1 }),
+    frameRate: 3,
+    repeat: -1,
+  });
   // boss
 
   this.anims.create({
@@ -1381,6 +1437,16 @@ function create() {
   this.anims.create({
     key: "monster_fever",
     frames: this.anims.generateFrameNumbers("monster_fever", {
+      start: 0,
+      end: 7,
+    }),
+    frameRate: 12,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "invader_die",
+    frames: this.anims.generateFrameNumbers("invader_die", {
       start: 0,
       end: 7,
     }),
@@ -2084,12 +2150,24 @@ function update(time, delta) {
     if (gameTimer > 300 && gameTimer % monsterSpawn === 0) {
       // 1번 zombie
       enemySpawn(randomLocation);
-      if (10800 < gameTimer && gameTimer <= 18000) {
-        addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
-      } else if (18000 < gameTimer) {
-        addMonster(this, "alien", "alienFinal", 100, 75, monX, monY);
+      if (10800 < gameTimer && gameTimer <= 21000) {
+        if (player.ability === 2) {
+          addMonster(this, "invader", "invader_2", 60, 65, monX, monY);
+        } else {
+          addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
+        }
+      } else if (21000 < gameTimer) {
+        if (player.ability === 2) {
+          addMonster(this, "alien", "invader_3", 100, 75, monX, monY);
+        } else {
+          addMonster(this, "alien", "alienFinal", 100, 75, monX, monY);
+        }
       } else {
-        addMonster(this, "alien", "alien", 30, 50, monX, monY);
+        if (player.ability === 2) {
+          addMonster(this, "alien", "invader", 40, 50, monX, monY);
+        } else {
+          addMonster(this, "alien", "alien", 40, 50, monX, monY);
+        }
       }
     }
     if (gameTimer > 1200 && gameTimer % 120 === 0) {
@@ -2206,8 +2284,8 @@ function update(time, delta) {
       }
       golem = new Boss(
         this,
-        500,
-        30,
+        1000,
+        50,
         player.x + 1500,
         player.y + 1500,
         "golem",
@@ -2239,8 +2317,8 @@ function update(time, delta) {
       }
       fireGiant = new Boss(
         this,
-        500,
-        10,
+        1500,
+        30,
         player.x - 600,
         player.y - 600,
         "fireGiant",
@@ -2382,13 +2460,14 @@ function update(time, delta) {
     ) {
       feverTime = 600;
       feverLock = true;
+      messageBoss("피버");
+      fever_late += 20;
     }
 
     if (feverTime != 0) {
       enemySpawn(randomLocation);
       addMonster(this, "wormFever", "wormFever", 10, 40, monX, monY);
       feverTime--;
-      fever_late += 20;
     } else if (feverTime <= 0) {
       feverLock = false;
     }
@@ -2702,6 +2781,13 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
   let mh = monster.body.halfHeight;
 
   monster.setCircle(mh / 2, mw - mh / 2, mw);
+  if (player.ability === 2 && monster.monSpecie === "alien") {
+    monster.setScale(5);
+    mw = monster.body.halfWidth;
+    mh = monster.body.halfHeight;
+
+    monster.setCircle(mw * 0.8, 0, mh - mw);
+  }
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
   monster.anime(player);

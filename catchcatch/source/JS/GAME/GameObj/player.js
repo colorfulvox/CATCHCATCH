@@ -33,12 +33,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   invincible = false;
   type = "player";
   myInvincibleEvent = undefined;
+  rainbow;
+  catName;
   constructor(scene, dmgMul, maxHealth, health, catName) {
     super(scene, 1024, 1024, catName);
     this.alpha = 1;
     this.dmgMul = dmgMul;
     this.maxHealth = maxHealth;
     this.health = health;
+    this.catName = catName;
     scene.add.existing(this);
     scene.physics.add.existing(this);
     scene.anims.create({
@@ -58,6 +61,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       frameRate: 10,
       repeat: -1,
     });
+    if (catName === "cat5") {
+      this.rainbow = scene.add.sprite(this.x - 10, this.y, "rainbow");
+      UICam.ignore(this.rainbow);
+      this.rainbow.setScale(0.4, 0.45);
+      this.rainbow.setDepth(1);
+      this.rainbow.anims.play("rainbow");
+    }
   }
 
   expUp(i) {
@@ -166,6 +176,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityX(-speedDiag);
       this.body.setVelocityY(speedDiag);
     }
+
+    console.log(this);
+
+    if (this.catName === "cat5") {
+      this.rainbow.setVisible(true);
+      if (this.anims.currentAnim.key === "turn") {
+        this.rainbow.setVisible(false);
+      } else if (this.flipX === true) {
+        this.rainbow.x = this.x + 20;
+        this.rainbow.y = this.y + 2;
+      } else if (this.flipX === false) {
+        this.rainbow.x = this.x - 20;
+        this.rainbow.y = this.y + 2;
+      }
+    }
+
     hpBar.setPosition(this.x - 30, this.y + 40);
     hpBarBG.setPosition(this.x - 30, this.y + 40);
   }
@@ -216,7 +242,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (!player.invincible && bombDead.monSpecie != "wormFever") {
       player.invincible = true;
       player.body.checkCollision.none = true;
-      player.health -= 3;
+      player.health -= 1;
       player.unInvincible();
       // 피해 1 줌
       // stop_game -= 1;

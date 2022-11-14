@@ -14,11 +14,11 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
   towerAS = [180, 0, 0, 0, 360, 90]; //총알 연사속도
   towerSkillAS = [
     [600, 600, 600],
-    [600, 420, 300],
-    [900, 720, 600],
     [1800, 1200, 600],
-    [900, 720, 600],
-    [600, 600, 600],
+    [1800, 1200, 600],
+    [1800, 1200, 600],
+    [1800, 1200, 600],
+    [3600, 3600, 3600],
   ]; //스킬 연사속도
   towerDmg = [50, 0, 0, 0, 100, 50]; //총알 대미지
   towerSkillDmg = [0, 50, 50, 0, 0, 99999]; //스킬 대미지
@@ -31,12 +31,12 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
     [1, 1, 1],
   ]; //스킬 소환 개수
   towerSkilldelay = [
-    [1, 1, 1],
-    [1, 1, 1],
-    [900, 720, 600],
-    [1800, 1200, 600],
-    [900, 720, 600],
-    [1, 1, 1],
+    [6000, 6000, 6000],
+    [6000, 11000, 15000],
+    [6000, 11000, 15000],
+    [6000, 11000, 15000],
+    [6000, 11000, 15000],
+    [1000, 1000, 1000],
   ];
   circleSize = 0.8;
   timedEvent;
@@ -142,7 +142,8 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
       }
     }
     if (
-      this.towerSkillAttackTimer >= this.towerSkillAS[this.stone][this.level]
+      this.towerSkillAttackTimer >=
+      this.towerSkillAS[this.stone][this.level - 1]
     ) {
       this.towerSkillAttackTimer = 0;
 
@@ -165,7 +166,11 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
       }
       //전기
       if (this.stone === 1 && this.level > 0 && this.invisible === "true") {
-        for (let i = 0; i < this.towerSkillcount[this.stone][this.level]; i++) {
+        for (
+          let i = 0;
+          i < this.towerSkillcount[this.stone][this.level - 1];
+          i++
+        ) {
           let angle = Math.floor(Math.random() * 360);
           let x = Math.cos(angle * (Math.PI / 180)) * 300;
           let y = Math.sin(angle * (Math.PI / 180)) * 200;
@@ -189,7 +194,14 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
       }
       //불
       if (this.stone === 2 && this.level > 0 && this.invisible === "true") {
-        for (let i = 0; i < this.towerSkillcount[this.stone][this.level]; i++) {
+        console.log(
+          this.stone + " : " + this.towerSkillcount[this.stone][this.level - 1]
+        );
+        for (
+          let i = 0;
+          i < this.towerSkillcount[this.stone][this.level - 1];
+          i++
+        ) {
           let angle = Math.floor(Math.random() * 360);
           let x = Math.cos(angle * (Math.PI / 180)) * 300;
           let y = Math.sin(angle * (Math.PI / 180)) * 200;
@@ -213,7 +225,11 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
       }
       //물
       if (this.stone === 3 && this.level > 0 && this.invisible === "true") {
-        for (let i = 0; i < this.towerSkillcount[this.stone][this.level]; i++) {
+        for (
+          let i = 0;
+          i < this.towerSkillcount[this.stone][this.level - 1];
+          i++
+        ) {
           let angle = Math.floor(Math.random() * 360);
           let x = Math.cos(angle * (Math.PI / 180));
           let y = Math.sin(angle * (Math.PI / 180));
@@ -238,10 +254,17 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
       }
       //땅
       if (this.stone === 4 && this.level > 0 && this.invisible === "true") {
+        console.log(
+          this.stone + " : " + this.towerSkillcount[this.stone][this.level - 1]
+        );
         let angle = Math.floor(Math.random() * 360);
         let x = Math.cos(angle * (Math.PI / 180)) * 300;
         let y = Math.sin(angle * (Math.PI / 180)) * 200;
-        for (let i = 0; i < this.towerSkillcount[this.stone][this.level]; i++) {
+        for (
+          let i = 0;
+          i < this.towerSkillcount[this.stone][this.level - 1];
+          i++
+        ) {
           let skill = new TowerSkill(
             this.scene,
             this,
@@ -269,7 +292,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
           player.x,
           player.y,
           1,
-          2000,
+          1000,
           2
         );
 
@@ -280,7 +303,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
         skill.body.offset.x = -5;
         skill.body.offset.y = -3;
         skill.anims.play(this.skillSprite);
-        thisScene.physics.add.overlap(skill, bossSet, petSkillAttackFunc);
+        // thisScene.physics.add.overlap(skill, bossSet, petSkillAttackFunc);
         thisScene.physics.add.overlap(skill, monsterSet, petSkillAttackFunc);
       }
     }
@@ -300,6 +323,9 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
 
   levelUp() {
     this.level++;
+    if (this.level === 3) {
+      levelCount += 1;
+    }
   }
 
   overlaphit() {}

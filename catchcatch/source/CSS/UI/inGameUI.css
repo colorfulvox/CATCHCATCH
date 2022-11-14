@@ -138,6 +138,15 @@
   z-index: 1;
 }
 
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .gameOver {
   font-size: 100px;
 }
@@ -173,7 +182,8 @@
   background-position: center;
   background-size: contain;
   border: none;
-
+  animation: fadein 3s;
+  /* -webkit-animation: fadein 3s; */
   /* border: 2px solid white; */
   /* background-color: white; */
 }
@@ -402,4 +412,47 @@ html {
   z-index: 10;
   width: 60px;
   height: 60px;
+}
+
+.fever {
+  font-size: 50px;
+  /* Standar Syntax */
+  animation: rainbow 3s infinite;
+}
+
+/* Standar Syntax */
+@keyframes rainbow {
+  0% {
+    color: orange;
+  }
+  10% {
+    color: purple;
+  }
+  20% {
+    color: red;
+  }
+  30% {
+    color: CadetBlue;
+  }
+  40% {
+    color: yellow;
+  }
+  50% {
+    color: coral;
+  }
+  60% {
+    color: green;
+  }
+  70% {
+    color: cyan;
+  }
+  80% {
+    color: DeepPink;
+  }
+  90% {
+    color: DodgerBlue;
+  }
+  100% {
+    color: orange;
+  }
 }
