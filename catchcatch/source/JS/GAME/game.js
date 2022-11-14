@@ -2137,7 +2137,7 @@ function update(time, delta) {
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 21000) {
         if (player.ability === 2) {
-          addMonster(this, "invader", "invader_2", 60, 65, monX, monY);
+          addMonster(this, "alien", "invader_2", 60, 65, monX, monY);
         } else {
           addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
         }
@@ -2767,7 +2767,7 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
 
   monster.setCircle(mh / 2, mw - mh / 2, mw);
   if (player.ability === 2 && monster.monSpecie === "alien") {
-    monster.setScale(5);
+    monster.setScale(4);
     mw = monster.body.halfWidth;
     mh = monster.body.halfHeight;
 
