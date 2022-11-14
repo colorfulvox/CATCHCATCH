@@ -24,7 +24,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
   towerSkillDmg = [0, 30, 20, 0, 0, 99999]; //스킬 대미지
   towerSkillcount = [
     [1, 1, 1],
-    [1, 2, 4],
+    [8, 32, 64],
     [1, 3, 6],
     [1, 2, 4],
     [1, 2, 4],
@@ -32,7 +32,7 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
   ]; //스킬 소환 개수
   towerSkilldelay = [
     [3000, 4000, 5000],
-    [3000, 4000, 5000],
+    [1000, 1000, 1000],
     [3000, 4000, 5000],
     [6000, 11000, 15000],
     [3000, 4000, 5000],
