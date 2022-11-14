@@ -1,5 +1,6 @@
 import "../../CSS/UI/inGameUI.css";
 import { CharSpaceOn } from "./char-space.js";
+import { SaveData } from "../../main.js";
 
 let _timerTxt = document.createElement("div");
 let _minute = 0;
@@ -123,7 +124,12 @@ export function GameOver() {
   const cantxt = document.createElement("div");
   cantxt.setAttribute("class", "cantxt");
   resultspace.appendChild(cantxt);
-  cantxt.textContent = "x" + global.killCount;
+
+  let cancount = parseInt(global.killCount / 50);
+  cantxt.textContent = "x" + cancount;
+  // cantxt.textContent = "x20";
+  global.LocalData.Coin += cancount;
+  SaveData();
 
   const GoHomeBtn = document.createElement("button");
   GoHomeBtn.setAttribute("class", "GoHomeBtn");

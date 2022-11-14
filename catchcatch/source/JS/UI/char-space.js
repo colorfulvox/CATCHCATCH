@@ -26,7 +26,7 @@ const _catText = [
   "랜덤박스",
   "Nyan Cat!",
   "이게 뭔 소리여",
-  "멋있는 추희원",
+  "추희원 그는 신인가?",
 ];
 
 const CharPageInit = () => {
@@ -60,7 +60,7 @@ const CharPageInit = () => {
   _buyBtn = document.createElement("button");
   _buyBtn.className = "BuyBtn";
   _settingSpace.appendChild(_buyBtn);
-  _buyBtn.textContent = "100 Can!";
+  _buyBtn.textContent = "50 Can!";
   _buyBtn.style.display = "none";
   _buyBtn.addEventListener("click", BuyChar);
 
@@ -117,7 +117,7 @@ const CharPageInit = () => {
     if (LocalData.Cat[i] !== false)
       _CharName.innerText = `[${_catNameList[i]}]
       ${_catText[i]}`;
-    else _CharName.innerText = `[" + " ???? " + "]\n${_catText[i]}`;
+    else _CharName.innerText = "[" + " ???? " + "]" + `\n${_catText[i]}`;
     _CharTemp.appendChild(_CharName);
 
     _slideList.appendChild(_CharTemp);
@@ -198,27 +198,35 @@ let CharIndex = 0;
 
 function Slide() {
   _slideList.style.left = -CharIndex * 190 + "px";
+
   if (LocalData.Cat[CharIndex] !== false) {
     ChoiceCat = CharIndex;
     const target = document.getElementById("GameStartBtn");
     target.disabled = false;
     _buyBtn.style.display = "none";
+
+    const _app = document.getElementById("app");
+    _app.style.background = `url("images/ui/${CharIndex}.gif")`;
+    _app.style.backgroundPosition = "center";
+    _app.style.backgroundRepeat = "no-repeat";
+    _app.style.backgroundSize = "cover";
   } else {
     ChoiceCat = -1;
     const target = document.getElementById("GameStartBtn");
     target.disabled = true;
     _buyBtn.style.display = "inline-block";
+
+    const _app = document.getElementById("app");
+    _app.style.background = `url("images/ui/0.gif")`;
+    _app.style.backgroundPosition = "center";
+    _app.style.backgroundRepeat = "no-repeat";
+    _app.style.backgroundSize = "cover";
   }
 }
 
 function SlideLeft() {
   if (CharIndex > 0) {
     --CharIndex;
-    const _app = document.getElementById("app");
-    _app.style.background = `url("images/ui/${CharIndex}.gif")`;
-    _app.style.backgroundPosition = "center";
-    _app.style.backgroundRepeat = "no-repeat";
-    _app.style.backgroundSize = "cover";
     Slide();
   }
 }
@@ -226,18 +234,13 @@ function SlideLeft() {
 function SlideRight() {
   if (CharIndex < 6) {
     ++CharIndex;
-    const _app = document.getElementById("app");
-    _app.style.background = `url("images/ui/${CharIndex}.gif")`;
-    _app.style.backgroundPosition = "center";
-    _app.style.backgroundRepeat = "no-repeat";
-    _app.style.backgroundSize = "cover";
     Slide();
   }
 }
 
 function BuyChar() {
-  if (LocalData.Coin >= 100) {
-    LocalData.Coin -= 100;
+  if (LocalData.Coin >= 50) {
+    LocalData.Coin -= 50;
     LocalData.Cat[CharIndex] = true;
     ChoiceCat = CharIndex;
 
@@ -246,7 +249,14 @@ function BuyChar() {
     const ChangeCharImg = document.getElementById(`CharImg_${CharIndex}`);
     ChangeCharImg.src = `images/CharImg/${CharIndex}.png`;
     const ChangeCharName = document.getElementById(`CharName_${CharIndex}`);
-    ChangeCharName.textContent = "[" + _catNameList[CharIndex] + "]";
+    ChangeCharName.innerText =
+      "[" + _catNameList[CharIndex] + "]" + `\n${_catText[CharIndex]}`;
+
+    const _app = document.getElementById("app");
+    _app.style.background = `url("images/ui/${CharIndex}.gif")`;
+    _app.style.backgroundPosition = "center";
+    _app.style.backgroundRepeat = "no-repeat";
+    _app.style.backgroundSize = "cover";
 
     this.style.display = "none";
     const target = document.getElementById("GameStartBtn");
