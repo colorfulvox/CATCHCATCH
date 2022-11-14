@@ -33,12 +33,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   invincible = false;
   type = "player";
   myInvincibleEvent = undefined;
+  rainbow;
+  catName;
   constructor(scene, dmgMul, maxHealth, health, catName) {
     super(scene, 1024, 1024, catName);
     this.alpha = 1;
     this.dmgMul = dmgMul;
     this.maxHealth = maxHealth;
     this.health = health;
+    this.catName = catName;
     scene.add.existing(this);
     scene.physics.add.existing(this);
     scene.anims.create({
@@ -58,6 +61,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       frameRate: 10,
       repeat: -1,
     });
+    if (catName === "cat5") {
+      this.rainbow = scene.add.sprite(this.x - 10, this.y, "rainbow");
+      UICam.ignore(this.rainbow);
+      this.rainbow.setScale(0.4, 0.7);
+      this.rainbow.setDepth(1);
+      this.rainbow.anims.play("rainbow");
+    }
   }
 
   expUp(i) {
@@ -166,6 +176,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityX(-speedDiag);
       this.body.setVelocityY(speedDiag);
     }
+    if (this.catName === "cat5") {
+      this.rainbow.setVisible(true);
+      if (this.body.velocity.x > 0) {
+        this.rainbow.x = this.x - 20;
+        this.rainbow.y = this.y - 5;
+      } else if (this.body.velocity.x < 0) {
+        this.rainbow.x = this.x + 20;
+        this.rainbow.y = this.y - 5;
+      } else if (this.body.velocity.y !== 0) {
+        this.rainbow.x = this.x - 20;
+        this.rainbow.y = this.y - 5;
+      } else {
+        this.rainbow.setVisible(false);
+      }
+    }
+
     hpBar.setPosition(this.x - 30, this.y + 40);
     hpBarBG.setPosition(this.x - 30, this.y + 40);
   }
