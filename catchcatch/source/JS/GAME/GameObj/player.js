@@ -64,7 +64,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (catName === "cat5") {
       this.rainbow = scene.add.sprite(this.x - 10, this.y, "rainbow");
       UICam.ignore(this.rainbow);
-      this.rainbow.setScale(0.4, 0.7);
+      this.rainbow.setScale(0.4, 0.45);
       this.rainbow.setDepth(1);
       this.rainbow.anims.play("rainbow");
     }
@@ -185,10 +185,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.rainbow.setVisible(false);
       } else if (this.flipX === true) {
         this.rainbow.x = this.x + 20;
-        this.rainbow.y = this.y - 5;
+        this.rainbow.y = this.y + 2;
       } else if (this.flipX === false) {
         this.rainbow.x = this.x - 20;
-        this.rainbow.y = this.y - 5;
+        this.rainbow.y = this.y + 2;
       }
     }
 
@@ -213,7 +213,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     } else if (player.invincible === false) {
       player.invincible = true;
       player.body.checkCollision.none = true;
-      player.health -= 1;
+      if (!shield) {
+        player.health -= 1;
+      } else {
+        shield = false;
+      }
       // 피해 1 줌
       // stop_game -= 1;
       if (player.health <= 0) {
@@ -242,7 +246,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (!player.invincible && bombDead.monSpecie != "wormFever") {
       player.invincible = true;
       player.body.checkCollision.none = true;
-      player.health -= 1;
+      if (!shield) {
+        player.health -= 1;
+      } else {
+        shield = false;
+      }
       player.unInvincible();
       // 피해 1 줌
       // stop_game -= 1;

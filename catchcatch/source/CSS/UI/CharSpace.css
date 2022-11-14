@@ -160,22 +160,18 @@
 
 .CharTemp {
   width: 190px;
-  height: 160px;
+  height: 190px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 .CharImg {
-  position: absolute;
-  top: 20%;
-  left: 34.8%;
-  width: 150px;
-  height: 150px;
-  margin: -50px 0 0 -50px;
+  width: 120px;
+  height: 120px;
 }
 .CharName {
-  position: absolute;
-  bottom: 3%;
-  left: 29%;
-
   text-align: center;
   color: white;
   font-size: large;
