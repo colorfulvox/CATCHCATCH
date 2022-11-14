@@ -2084,12 +2084,12 @@ function update(time, delta) {
     if (gameTimer > 300 && gameTimer % monsterSpawn === 0) {
       // 1번 zombie
       enemySpawn(randomLocation);
-      if (10800 < gameTimer && gameTimer <= 18000) {
+      if (10800 < gameTimer && gameTimer <= 21000) {
         addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
-      } else if (18000 < gameTimer) {
+      } else if (21000 < gameTimer) {
         addMonster(this, "alien", "alienFinal", 100, 75, monX, monY);
       } else {
-        addMonster(this, "alien", "alien", 30, 50, monX, monY);
+        addMonster(this, "alien", "alien", 40, 50, monX, monY);
       }
     }
     if (gameTimer > 1200 && gameTimer % 120 === 0) {
@@ -2206,8 +2206,8 @@ function update(time, delta) {
       }
       golem = new Boss(
         this,
-        500,
-        30,
+        1000,
+        50,
         player.x + 1500,
         player.y + 1500,
         "golem",
@@ -2239,8 +2239,8 @@ function update(time, delta) {
       }
       fireGiant = new Boss(
         this,
-        500,
-        10,
+        1500,
+        30,
         player.x - 600,
         player.y - 600,
         "fireGiant",
