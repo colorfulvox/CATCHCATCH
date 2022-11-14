@@ -555,6 +555,11 @@ function preload() {
     frameHeight: 64,
   });
 
+  this.load.spritesheet("invader_die", "images/monster/invader_die.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+
   this.load.spritesheet("alien", "images/monster/alien.png", {
     frameWidth: 20,
     frameHeight: 20,
@@ -608,6 +613,21 @@ function preload() {
   this.load.spritesheet("wormFever", "images/monster/wormFever.png", {
     frameWidth: 48,
     frameHeight: 48,
+  });
+
+  this.load.spritesheet("invader", "images/monster/invader.png", {
+    frameWidth: 8,
+    frameHeight: 8,
+  });
+
+  this.load.spritesheet("invader_2", "images/monster/invader_2.png", {
+    frameWidth: 10,
+    frameHeight: 7,
+  });
+
+  this.load.spritesheet("invader_3", "images/monster/invader_3.png", {
+    frameWidth: 11,
+    frameHeight: 8,
   });
 
   //   보스
@@ -1350,6 +1370,27 @@ function create() {
     frameRate: 3,
     repeat: -1,
   });
+
+  this.anims.create({
+    key: "invader",
+    frames: this.anims.generateFrameNumbers("invader", { start: 0, end: 1 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "invader_2",
+    frames: this.anims.generateFrameNumbers("invader_2", { start: 0, end: 1 }),
+    frameRate: 3,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "invader_3",
+    frames: this.anims.generateFrameNumbers("invader_3", { start: 0, end: 1 }),
+    frameRate: 3,
+    repeat: -1,
+  });
   // boss
 
   this.anims.create({
@@ -1396,6 +1437,16 @@ function create() {
   this.anims.create({
     key: "monster_fever",
     frames: this.anims.generateFrameNumbers("monster_fever", {
+      start: 0,
+      end: 7,
+    }),
+    frameRate: 12,
+    repeat: 0,
+  });
+
+  this.anims.create({
+    key: "invader_die",
+    frames: this.anims.generateFrameNumbers("invader_die", {
       start: 0,
       end: 7,
     }),
@@ -2100,11 +2151,23 @@ function update(time, delta) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 21000) {
-        addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
+        if (player.ability === 2) {
+          addMonster(this, "invader", "invader_2", 60, 65, monX, monY);
+        } else {
+          addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
+        }
       } else if (21000 < gameTimer) {
-        addMonster(this, "alien", "alienFinal", 100, 75, monX, monY);
+        if (player.ability === 2) {
+          addMonster(this, "alien", "invader_3", 100, 75, monX, monY);
+        } else {
+          addMonster(this, "alien", "alienFinal", 100, 75, monX, monY);
+        }
       } else {
-        addMonster(this, "alien", "alien", 40, 50, monX, monY);
+        if (player.ability === 2) {
+          addMonster(this, "alien", "invader", 40, 50, monX, monY);
+        } else {
+          addMonster(this, "alien", "alien", 40, 50, monX, monY);
+        }
       }
     }
     if (gameTimer > 1200 && gameTimer % 120 === 0) {
@@ -2398,13 +2461,13 @@ function update(time, delta) {
       feverTime = 600;
       feverLock = true;
       messageBoss("피버");
+      fever_late += 20;
     }
 
     if (feverTime != 0) {
       enemySpawn(randomLocation);
       addMonster(this, "wormFever", "wormFever", 10, 40, monX, monY);
       feverTime--;
-      fever_late += 20;
     } else if (feverTime <= 0) {
       feverLock = false;
     }
@@ -2718,6 +2781,13 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
   let mh = monster.body.halfHeight;
 
   monster.setCircle(mh / 2, mw - mh / 2, mw);
+  if (player.ability === 2 && monster.monSpecie === "alien") {
+    monster.setScale(5);
+    mw = monster.body.halfWidth;
+    mh = monster.body.halfHeight;
+
+    monster.setCircle(mw * 0.8, 0, mh - mw);
+  }
   monsterSet.add(monster);
   scene.physics.add.collider(monsterSet, monster);
   monster.anime(player);
