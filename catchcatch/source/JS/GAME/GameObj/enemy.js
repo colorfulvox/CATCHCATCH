@@ -56,7 +56,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     if (player.ability !== 2) {
       this.clearTint().play(this.anim);
     } else if (player.ability === 2) {
-      this.setTint(Phaser.Display.Color.RandomRGB().color).play(this.anim);
+      if (this.monSpecie === "alien") {
+        this.setTint(Phaser.Display.Color.RandomRGB().color).play(this.anim);
+      }
     }
   }
 
