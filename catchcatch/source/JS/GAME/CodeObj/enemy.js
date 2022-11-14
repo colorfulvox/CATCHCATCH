@@ -14,7 +14,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   velo = 100;
   constructor(scene, velo, randomX, randomY, monSpiece, anim, type, location) {
     scene.time.addEvent({
-      delay: 400,
+      delay: 1000,
       callback: () => {
         if (this.active === true) {
           this.invincible = false;
@@ -86,17 +86,20 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.update();
     });
     this.setScale(0.8);
-    if (this.monSpiece === "babySlime") {
-      this.setScale(2);
-    } else if (this.monSpiece === "alien" || this.monSpiece === "alienPlus") {
-      this.setScale(2.5);
-    } else if (
-      this.monSpiece === "turtle" ||
-      this.monSpiece === "sonic" ||
-      this.monSpiece === "slime"
-    ) {
-      this.setScale(3);
+    if (this.type !== 0) {
+      this.setScale(1.2);
     }
+    // if (this.monSpiece === "babySlime") {
+    //   this.setScale(2);
+    // } else if (this.monSpiece === "alien" || this.monSpiece === "alienPlus") {
+    //   this.setScale(2.5);
+    // } else if (
+    //   this.monSpiece === "turtle" ||
+    //   this.monSpiece === "sonic" ||
+    //   this.monSpiece === "slime"
+    // ) {
+    //   this.setScale(3);
+    // }
 
     let hh = this.body.halfHeight;
     let hw = this.body.halfWidth;
@@ -137,6 +140,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.body.debugBodyColor = 0xb21d0a;
     }
     this.anime();
+    this.setDepth(3);
   }
 
   update() {
