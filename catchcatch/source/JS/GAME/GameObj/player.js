@@ -177,8 +177,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.body.setVelocityY(speedDiag);
     }
 
-    console.log(this);
-
     if (this.catName === "cat5") {
       this.rainbow.setVisible(true);
       if (this.anims.currentAnim.key === "turn") {
