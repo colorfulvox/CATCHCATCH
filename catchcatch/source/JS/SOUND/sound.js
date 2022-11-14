@@ -11,8 +11,8 @@ export class setSound {
     "sounds/bgm/bgm_ending.wav",
     // 4. 코딩 모드
     "sounds/bgm/bgm_code.wav",
-    // 5. Nyan
-    "sounds/bgm/bgm_nyan.wav",
+    // 5. 진냥이
+    "sounds/bgm/bgm_zin.wav",
   ];
 
   // SE
