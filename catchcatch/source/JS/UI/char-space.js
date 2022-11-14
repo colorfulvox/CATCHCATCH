@@ -114,10 +114,10 @@ const CharPageInit = () => {
     _CharName.className = "CharName";
     _CharName.id = `CharName_${i}`;
 
-    if (LocalData.Cat[i] !== false)
+    if (LocalData.Cat[i] != false)
       _CharName.innerText = `[${_catNameList[i]}]
       ${_catText[i]}`;
-    else _CharName.innerText = "[" + " ???? " + "]" + `\n${_catText[i]}`;
+    else _CharName.innerText = "[" + " ???? " + "]"; //+ `\n${_catText[i]}`;
     _CharTemp.appendChild(_CharName);
 
     _slideList.appendChild(_CharTemp);
