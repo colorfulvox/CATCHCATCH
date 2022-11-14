@@ -234,7 +234,7 @@ export default function levelup() {
       //   property[_propertyArr[randomIndexArray[i]]].fairy.level + 1
       // }`;
       levelupContent.style.backgroundImage =
-        'url("images/ui/levelup/fairyupgrade_addName.png")';
+        'url("images/ui/levelup/tunaspace.png")';
       // 설명인데..
       levelupName.innerHTML = `[${
         property[_propertyArr[randomIndexArray[i]]].name
@@ -273,12 +273,25 @@ export default function levelup() {
     levelupContent.appendChild(levelImgandNameBox);
     levelupContent.appendChild(levelupText);
     levelupContainer.appendChild(levelupContent);
+    if (ChoiceCat === 3) {
+      const div = document.createElement("div");
+      div.setAttribute("class", "que");
+      div.innerText = "?";
+      div.setAttribute("id", `${_propertyArr[randomIndexArray[i]]}`);
+      levelupContent.appendChild(div);
+    }
   }
 
   gameContainer.appendChild(levelupContainer);
-  const contents = document.querySelectorAll(".levelupContent");
+  let contents;
+  if (ChoiceCat === 3) {
+    contents = document.querySelectorAll(".que");
+  } else {
+    contents = document.querySelectorAll(".levelupContent");
+  }
   // const levelupContainer = document.querySelector(".levelupContainer");
   const removeContainer = document.querySelector(".levelupContainer");
+
   for (let i = 0; i < randomIndexArray.length; i++) {
     setTimeout(() => {
       contents[i].addEventListener("click", () => {
