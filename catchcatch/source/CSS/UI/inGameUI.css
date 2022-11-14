@@ -190,7 +190,7 @@
 }
 
 .FailText {
-  margin-bottom: 70px;
+  /* margin-bottom: 70px; */
   width: 360px;
   height: 60px;
   background: url("../../../public/images/ui/gameover.png");
@@ -223,6 +223,39 @@
   justify-content: space-between;
   transform: translateX(-50%) translateY(-50%);
   /* border: 2px solid red; */
+}
+
+.resultspace {
+  position: relative;
+  width: 260px;
+  height: 50px;
+  right: 20px;
+  bottom: 20px;
+  /* border: 2px solid black; */
+}
+
+.canimg {
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: url("../../../public/images/canicon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
+
+.cantxt {
+  position: absolute;
+  top: 50px;
+  left: 70%;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: x-large;
+  font-family: "KenneyBlocks";
+  font-weight: bold;
 }
 
 html {
@@ -369,4 +402,47 @@ html {
   z-index: 10;
   width: 60px;
   height: 60px;
+}
+
+.fever {
+  font-size: 50px;
+  /* Standar Syntax */
+  animation: rainbow 3s infinite;
+}
+
+/* Standar Syntax */
+@keyframes rainbow {
+  0% {
+    color: orange;
+  }
+  10% {
+    color: purple;
+  }
+  20% {
+    color: red;
+  }
+  30% {
+    color: CadetBlue;
+  }
+  40% {
+    color: yellow;
+  }
+  50% {
+    color: coral;
+  }
+  60% {
+    color: green;
+  }
+  70% {
+    color: cyan;
+  }
+  80% {
+    color: DeepPink;
+  }
+  90% {
+    color: DodgerBlue;
+  }
+  100% {
+    color: orange;
+  }
 }

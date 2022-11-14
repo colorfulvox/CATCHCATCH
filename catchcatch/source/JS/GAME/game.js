@@ -123,7 +123,7 @@ let fireGiantIndex;
 
 let monsterSpawn = 300;
 
-let killCount = 0;
+global.killCount = 0;
 
 // 보스
 let slimeKing;
@@ -2382,15 +2382,18 @@ function update(time, delta) {
     ) {
       feverTime = 600;
       feverLock = true;
-      fever_late += 30;
+      messageBoss("피버");
     }
+
     if (feverTime != 0) {
       enemySpawn(randomLocation);
       addMonster(this, "wormFever", "wormFever", 10, 40, monX, monY);
       feverTime--;
+      fever_late += 20;
     } else if (feverTime <= 0) {
       feverLock = false;
     }
+
     //enemy end
 
     //tower start
