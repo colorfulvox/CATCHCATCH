@@ -10,5 +10,6 @@ export default class Magic extends Phaser.Physics.Arcade.Sprite {
     let hh = this.body.halfHeight;
     let hw = this.body.halfWidth;
     this.setCircle(hw, 0, hh - hw);
+    this.setDepth(3);
   }
 }

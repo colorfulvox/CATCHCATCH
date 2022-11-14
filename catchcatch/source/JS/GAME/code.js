@@ -94,6 +94,7 @@ export function config() {
       arcade: {
         fps: 60,
         debug: debugmode,
+        debugShowVelocity: false,
         fixedStep: false,
       },
     },
@@ -105,6 +106,7 @@ function preload() {
   this.load.image("sprWater", "images/map/sprWater.png");
   this.load.image("sprSand", "images/map/sprSand.png");
   this.load.image("sprGrass", "images/map/sprGrass.png");
+  this.load.image("ssafy", "images/map/ssafy.png");
   //map end
   let frameTime = 0;
 
@@ -114,6 +116,7 @@ function preload() {
     frameWidth: 38,
     frameHeight: 64,
   });
+
   this.load.spritesheet("tower2", "images/cattower/lucky_ssafy.png", {
     frameWidth: 38,
     frameHeight: 64,
@@ -157,7 +160,7 @@ function preload() {
   //attack sprite end
 
   //object sprite start
-  this.load.spritesheet("cat1", "images/cat/cat1.png", {
+  this.load.spritesheet("cat1", "images/cat/cat8.png", {
     frameWidth: 96,
     frameHeight: 100,
   });
@@ -191,29 +194,29 @@ function preload() {
     frameHeight: 64,
   });
 
-  this.load.spritesheet("alien", "images/monster/alien.png", {
-    frameWidth: 20,
-    frameHeight: 20,
-  });
-
-  this.load.spritesheet("worm", "images/monster/worm.png", {
+  this.load.spritesheet("alien", "images/monster/normalSlime.png", {
     frameWidth: 48,
     frameHeight: 48,
   });
 
-  this.load.spritesheet("sonic", "images/monster/sonic.png", {
-    frameWidth: 32,
-    frameHeight: 32,
+  this.load.spritesheet("worm", "images/monster/thunderSlime.png", {
+    frameWidth: 48,
+    frameHeight: 48,
   });
 
-  this.load.spritesheet("turtle", "images/monster/turtle.png", {
-    frameWidth: 32,
-    frameHeight: 32,
+  this.load.spritesheet("sonic", "images/monster/fireSlime.png", {
+    frameWidth: 48,
+    frameHeight: 48,
   });
 
-  this.load.spritesheet("slime", "images/monster/slime.png", {
-    frameWidth: 16,
-    frameHeight: 16,
+  this.load.spritesheet("turtle", "images/monster/waterSlime.png", {
+    frameWidth: 48,
+    frameHeight: 48,
+  });
+
+  this.load.spritesheet("slime", "images/monster/earthSlime.png", {
+    frameWidth: 48,
+    frameHeight: 48,
   });
 
   //object sprite end
@@ -242,36 +245,36 @@ function create() {
   // ============== 몬스터 스프라이트 애니메이션 목록 ==================
   this.anims.create({
     key: "alien",
-    frames: this.anims.generateFrameNumbers("alien", { start: 9, end: 14 }),
-    frameRate: 3,
+    frames: this.anims.generateFrameNumbers("alien", { start: 0, end: 6 }),
+    frameRate: 7,
     repeat: -1, // -1은 무한 반복 의미
   });
 
   this.anims.create({
     key: "worm",
-    frames: this.anims.generateFrameNumbers("worm", { start: 0, end: 2 }),
-    frameRate: 3,
+    frames: this.anims.generateFrameNumbers("worm", { start: 0, end: 6 }),
+    frameRate: 7,
     repeat: -1,
   });
 
   this.anims.create({
     key: "sonic",
-    frames: this.anims.generateFrameNumbers("sonic", { start: 0, end: 1 }),
-    frameRate: 4,
+    frames: this.anims.generateFrameNumbers("sonic", { start: 0, end: 6 }),
+    frameRate: 7,
     repeat: -1,
   });
 
   this.anims.create({
     key: "turtle",
-    frames: this.anims.generateFrameNumbers("turtle", { start: 0, end: 1 }),
-    frameRate: 3,
+    frames: this.anims.generateFrameNumbers("turtle", { start: 0, end: 6 }),
+    frameRate: 7,
     repeat: -1,
   });
 
   this.anims.create({
     key: "slime",
-    frames: this.anims.generateFrameNumbers("slime", { start: 7, end: 14 }),
-    frameRate: 3,
+    frames: this.anims.generateFrameNumbers("slime", { start: 0, end: 6 }),
+    frameRate: 7,
     repeat: -1,
   });
 
@@ -319,7 +322,7 @@ function create() {
       start: 1,
       end: 7,
     }),
-    frameRate: 17,
+    frameRate: 14,
     repeat: -1,
   });
   this.anims.create({
@@ -328,7 +331,7 @@ function create() {
       start: 1,
       end: 7,
     }),
-    frameRate: 17,
+    frameRate: 14,
     repeat: -1,
   });
   this.anims.create({
@@ -489,13 +492,16 @@ function create() {
     repeat: -1,
   });
   // resource load end
-
+  var ssafy = this.add.image(0, 0, "ssafy");
+  ssafy.setDepth(2);
+  ssafy.setAlpha(0.5);
   //player start
   player = new Player(this, 10, 10, "tower" + Math.floor(Math.random() * 2));
   let playerRandom = Math.floor(Math.random() * 2 + 1);
   player.play("tower" + playerRandom + "_idle");
   player.setScale(2);
   player.setDepth(3);
+  player.body.debugBodyColor = 0x7f921b;
   //player end
   codeScene = this;
   //map start
