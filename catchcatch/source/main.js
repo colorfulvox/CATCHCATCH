@@ -20,7 +20,7 @@ if (global.LocalData === null) {
   localStorage.setItem(
     "data",
     JSON.stringify({
-      Coin: 10000,
+      Coin: 100,
       Cat: [true, false, false, false, false, false, false],
     })
   );
@@ -55,7 +55,6 @@ global.isTutorial = true;
 
 function Init() {
   StartPageInit(); //스타트 페이지 init
-  CharPageInit(); // 캐릭터 페이지 init
 }
 function SaveData() {
   localStorage.setItem("data", JSON.stringify(LocalData));

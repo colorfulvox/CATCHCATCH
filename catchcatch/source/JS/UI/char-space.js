@@ -3,7 +3,7 @@ import { StartBtnOn } from "./start-page";
 import { SaveData } from "../../main.js";
 import { config } from "../GAME/game.js";
 import { codeConfig } from "../GAME/code.js";
-import {setSound} from "../SOUND/sound";
+import { setSound } from "../SOUND/sound";
 
 let _settingSpace;
 
@@ -231,6 +231,7 @@ function BuyChar() {
     ChangeCharImg.src = `images/CharImg/${CharIndex}.png`;
     const ChangeCharName = document.getElementById(`CharName_${CharIndex}`);
     ChangeCharName.textContent = "[" + _catNameList[CharIndex] + "]";
+    const CharTemps = document.querySelectorAll(".CharTemp");
 
     this.style.display = "none";
     const target = document.getElementById("GameStartBtn");
