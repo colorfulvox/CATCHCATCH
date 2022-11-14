@@ -319,7 +319,7 @@ function create() {
       start: 1,
       end: 7,
     }),
-    frameRate: 10,
+    frameRate: 17,
     repeat: -1,
   });
   this.anims.create({
@@ -328,7 +328,7 @@ function create() {
       start: 1,
       end: 7,
     }),
-    frameRate: 10,
+    frameRate: 17,
     repeat: -1,
   });
   this.anims.create({
@@ -702,7 +702,7 @@ function create() {
 
   this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
   this.physics.add.overlap(player, codeMonsterSet, playerHit);
-  // this.scene.pause();
+  this.scene.pause();
 }
 
 function update(time, delta) {
