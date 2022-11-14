@@ -3,7 +3,6 @@ import { StartBtnOn } from "./start-page";
 import { SaveData } from "../../main.js";
 import { config } from "../GAME/game.js";
 import { codeConfig } from "../GAME/code.js";
-import { setSound } from "../SOUND/sound";
 
 let _settingSpace;
 
@@ -19,6 +18,15 @@ const _catNameList = [
   "진냥이",
   "규냥이",
   "희냥이",
+];
+const _catText = [
+  "고양이 설명",
+  "고양이 설명",
+  "고양이 설명",
+  "고양이 설명",
+  "고양이 설명",
+  "고양이 설명",
+  "고양이 설명",
 ];
 
 const CharPageInit = () => {
@@ -107,8 +115,9 @@ const CharPageInit = () => {
     _CharName.id = `CharName_${i}`;
 
     if (LocalData.Cat[i] !== false)
-      _CharName.textContent = "[" + _catNameList[i] + "]";
-    else _CharName.textContent = "[" + " ???? " + "]";
+      _CharName.innerText = `[${_catNameList[i]}]
+      ${_catText[i]}`;
+    else _CharName.innerText = `[" + " ???? " + "]\n${_catText[i]}`;
     _CharTemp.appendChild(_CharName);
 
     _slideList.appendChild(_CharTemp);
@@ -162,7 +171,6 @@ function BackStart() {
 }
 
 function GameStart() {
-  setSound.playSE(10);
   //app 자체를 false해야되나?
   if (ChoiceCat === -1) console.log("시작 불가");
   const StartPage = document.querySelector(".StartPage");
@@ -189,7 +197,6 @@ export function GoStage() {
 let CharIndex = 0;
 
 function Slide() {
-  setSound.playSE(16);
   _slideList.style.left = -CharIndex * 190 + "px";
   if (LocalData.Cat[CharIndex] !== false) {
     ChoiceCat = CharIndex;
@@ -220,7 +227,6 @@ function SlideRight() {
 
 function BuyChar() {
   if (LocalData.Coin >= 100) {
-    setSound.playSE(18);
     LocalData.Coin -= 100;
     LocalData.Cat[CharIndex] = true;
     ChoiceCat = CharIndex;
@@ -231,7 +237,6 @@ function BuyChar() {
     ChangeCharImg.src = `images/CharImg/${CharIndex}.png`;
     const ChangeCharName = document.getElementById(`CharName_${CharIndex}`);
     ChangeCharName.textContent = "[" + _catNameList[CharIndex] + "]";
-    const CharTemps = document.querySelectorAll(".CharTemp");
 
     this.style.display = "none";
     const target = document.getElementById("GameStartBtn");
@@ -244,7 +249,6 @@ function BuyChar() {
 }
 
 function MapLevel() {
-  setSound.playSE(16);
   if (ChoiceLevel === 0) {
     this.style.background =
       "url('images/ui/MapLevelHard.png') no-repeat center";
