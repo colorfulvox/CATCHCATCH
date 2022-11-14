@@ -2735,15 +2735,12 @@ function attack(magic, monster) {
             player.expUP(0.1);
           } else {
             monster.destroy();
-            if (gameTimer < 9000) {
-              player.expUp(1);
-              player.expUp(1);
-            } else {
-              player.expUp(1);
-            }
+            player.expUp(1);
           }
           monsterCount -= 1;
-          killCount += 1;
+          if (monster.monSpecie !== "fly") {
+            killCount += 1;
+          }
         } else if (monster.monSpecie === "slime") {
           for (let i = 0; i < 2; i++) {
             addMonster(
@@ -2786,12 +2783,7 @@ function attack(magic, monster) {
           killCount -= 1;
           player.expUp(0.1);
         } else {
-          if (gameTimer < 9000) {
-            player.expUp(1);
-            player.expUp(1);
-          } else {
-            player.expUp(1);
-          }
+          player.expUp(1);
         }
         monster.destroy();
         if (magic.fairy.fairyNum === 2) {
@@ -2804,7 +2796,7 @@ function attack(magic, monster) {
           }
         }
         monsterCount -= 1;
-        killCount += 1;
+        killCount += 10;
       } else if (monster.monSpecie === "slime") {
         for (let i = 0; i < 2; i++) {
           addMonster(
@@ -2920,11 +2912,7 @@ function bomb(bomb, target) {
           killCount--;
           player.expUp(0.1);
         } else {
-          if (gameTimer < 9000) {
-            player.expUp(2);
-          } else {
-            player.expUp(1);
-          }
+          player.expUp(1);
         }
         target.destroy();
         monsterCount -= 1;
@@ -3029,20 +3017,11 @@ function petAttackFunc(magic, monster) {
           killCount--;
           player.expUp(0.1);
         } else {
-          if (gameTimer < 9000) {
-            player.expUp(1);
-            player.expUp(1);
-          } else {
-            player.expUp(1);
-          }
+          player.expUp(1);
         }
         monster.destroy();
 
-        if (gameTimer < 9000) {
-          player.expUp(2);
-        } else {
-          player.expUp(1);
-        }
+        player.expUp(1);
 
         monsterCount -= 1;
         killCount += 1;
@@ -3084,11 +3063,9 @@ export function petSkillAttackFunc(skill, monster) {
           monster.dieAnim();
         }
         monster.destroy();
-        if (gameTimer < 9000) {
-          player.expUp(2);
-        } else {
-          player.expUp(1);
-        }
+
+        player.expUp(1);
+
         monsterCount -= 1;
       } else if (monster.monSpecie === "slime") {
         for (let i = 0; i < 2; i++) {
