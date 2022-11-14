@@ -38,6 +38,8 @@ global.isUpgrade = false;
 global.isLevelup = false;
 global.levelCount = 0;
 
+global.inGameCoin = 0;
+
 // 튜토리얼
 global.isTutorial = true;
 

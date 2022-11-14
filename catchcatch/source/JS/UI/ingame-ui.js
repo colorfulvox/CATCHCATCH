@@ -126,7 +126,9 @@ export function GameOver() {
   resultspace.appendChild(cantxt);
 
   let cancount = parseInt(global.killCount / 50);
+  cancount += inGameCoin;
   cantxt.textContent = "x" + cancount;
+
   // cantxt.textContent = "x20";
   global.LocalData.Coin += cancount;
   SaveData();
@@ -192,7 +194,12 @@ function GameClear() {
   const cantxt = document.createElement("div");
   cantxt.setAttribute("class", "cantxt");
   resultspace.appendChild(cantxt);
-  cantxt.textContent = global.killCount;
+
+  let cancount = parseInt(global.killCount / 50);
+  cantxt.textContent = "x" + cancount;
+  // cantxt.textContent = "x20";
+  global.LocalData.Coin += cancount;
+  SaveData();
 
   const GoHomeBtn = document.createElement("button");
   GoHomeBtn.setAttribute("class", "GoHomeBtn");
