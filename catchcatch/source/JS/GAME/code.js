@@ -30,6 +30,7 @@ export let codeConfig = {
     arcade: {
       fps: 60,
       debug: debugmode,
+      debugShowVelocity: true,
       fixedStep: false,
     },
   },
@@ -701,7 +702,7 @@ function create() {
 
   this.physics.add.overlap(magicSet, codeMonsterSet, monsterHit);
   this.physics.add.overlap(player, codeMonsterSet, playerHit);
-  this.scene.pause();
+  // this.scene.pause();
 }
 
 function update(time, delta) {

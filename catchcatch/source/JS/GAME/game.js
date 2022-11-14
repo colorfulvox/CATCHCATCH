@@ -672,24 +672,23 @@ function create() {
   //map start
   map = this.make.tilemap({ key: "map" });
 
-  // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
-  // Phaser's cache (i.e. the name you used in preload)
-  tileset_flower = map.addTilesetImage("flower", "flower");
-  tileset_plant = map.addTilesetImage("plant", "plant");
-  tileset_props = map.addTilesetImage("props", "props");
-  tileset_basic = map.addTilesetImage("basic", "basic");
+  if (ChoiceCat !== 6) {
+    // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
+    // Phaser's cache (i.e. the name you used in preload)
+    tileset_flower = map.addTilesetImage("flower", "flower");
+    tileset_plant = map.addTilesetImage("plant", "plant");
+    tileset_props = map.addTilesetImage("props", "props");
+    tileset_basic = map.addTilesetImage("basic", "basic");
 
-  // Parameters: layer name (or index) from Tiled, tileset, x, y
-  fieldLayer = map.createLayer("field", tileset_basic, 0, 0);
-  grassLayer = map.createLayer("grass", tileset_plant, 0, 0);
-  flowersLayer = map.createLayer("flowers", tileset_flower, 0, 0);
-  //   propsLayer = map.createLayer("props", tileset_props, 0, 0);
-  //   treesLayer = map.createLayer("trees", tileset_plant, 0, 0);
-  runeLayer = map.createLayer("rune", tileset_props, 0, 0);
-  wallLayer = map.createLayer("wall", tileset_flower, 0, 0);
+    // Parameters: layer name (or index) from Tiled, tileset, x, y
+    fieldLayer = map.createLayer("field", tileset_basic, 0, 0);
+    grassLayer = map.createLayer("grass", tileset_plant, 0, 0);
+    flowersLayer = map.createLayer("flowers", tileset_flower, 0, 0);
+    runeLayer = map.createLayer("rune", tileset_props, 0, 0);
+    wallLayer = map.createLayer("wall", tileset_flower, 0, 0);
 
-  wallLayer.setCollisionByProperty({ collides: true });
-  //   treesLayer.setCollisionByProperty({ collides: true });
+    wallLayer.setCollisionByProperty({ collides: true });
+  }
   //map end
 
   UICam = this.cameras.add(

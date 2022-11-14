@@ -26,7 +26,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     switch (type) {
       case 0:
         let randomNum = Math.floor(Math.random() * 7 + 1);
-        monSpiece = "cat" + randomNum;
+        monSpiece = "cat1";
         break;
       case 1:
         monSpiece = "alien";
@@ -131,7 +131,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         loop: true,
       });
     }
-
+    if (this.type === 0) {
+      this.body.debugBodyColor = 0x0000ff;
+    } else {
+      this.body.debugBodyColor = 0xb21d0a;
+    }
     this.anime();
   }
 
