@@ -36,6 +36,7 @@ global.level = 0;
 global.pause = false;
 global.isUpgrade = false;
 global.isLevelup = false;
+global.levelCount = 0;
 
 // 튜토리얼
 global.isTutorial = true;
