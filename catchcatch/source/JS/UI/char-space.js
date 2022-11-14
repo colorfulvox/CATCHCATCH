@@ -26,7 +26,7 @@ const _catText = [
   "랜덤박스",
   "Nyan Cat!",
   "이게 뭔 소리여",
-  "추희원 그는 신인가?",
+  "해치웠나...?",
 ];
 
 const CharPageInit = () => {
@@ -117,7 +117,7 @@ const CharPageInit = () => {
     if (LocalData.Cat[i] != false)
       _CharName.innerText = `[${_catNameList[i]}]
       ${_catText[i]}`;
-    else _CharName.innerText = "[" + " ???? " + "]"; //+ `\n${_catText[i]}`;
+    else _CharName.innerText = "[" + " ???? " + "]" + `\n${_catText[i]}`;
     _CharTemp.appendChild(_CharName);
 
     _slideList.appendChild(_CharTemp);
