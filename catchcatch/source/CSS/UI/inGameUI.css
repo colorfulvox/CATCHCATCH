@@ -261,7 +261,7 @@
 .cantxt {
   position: absolute;
   top: 50px;
-  left: 70%;
+  left: 75%;
   transform: translateX(-50%) translateY(-50%);
   font-size: x-large;
   font-family: "KenneyBlocks";

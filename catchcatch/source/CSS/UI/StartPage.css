@@ -68,6 +68,26 @@
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
+.CodeStartBtn {
+  background: url("../../../public/images/ui/blue_click.png") center no-repeat;
+
+  background-size: contain;
+  font-size: x-large;
+  font-family: "KenneyBlocks";
+  width: 260px;
+  height: 70px;
+  border: none;
+  color: white;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.CodeStartBtn:active {
+  background: url("../../../public/images/ui/blue_active.png") center no-repeat;
+  background-size: contain;
+  color: gray;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
 .RankingContainer {
   display: flex;
   flex-direction: column;

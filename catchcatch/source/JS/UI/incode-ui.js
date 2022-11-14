@@ -235,7 +235,7 @@ function submitranking() {
     let Data = {
       action: "newranking",
       name: inputspace.value,
-      score: 5000,
+      score: score,
       area: selected.options[selected.selectedIndex].value,
     };
     socket.send(JSON.stringify(Data));
