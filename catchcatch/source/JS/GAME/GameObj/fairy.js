@@ -332,10 +332,10 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       case 1:
         this.spriteScale = 1;
         this.skillSprite = 5;
-        this.skillCD = 300;
+        this.skillCD = 450;
         break;
       case 2:
-        this.skillCD = 300;
+        this.skillCD = 600;
         break;
       case 3:
         this.isTriple = true;
@@ -343,7 +343,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
       // 집으로 귀환 가능
       case 4:
         this.copyCount = 40;
-        this.skillCD = 300;
+        this.skillCD = 450;
         this.skillSprite = 2;
         break;
       // 스페이스바로 즉시 폭발 가능
