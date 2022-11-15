@@ -354,6 +354,7 @@ html {
   transform: translateX(-50%) translateY(-50%);
   font-size: 30px;
   text-align: center;
+  text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
 }
 
 .tutorialKey {
