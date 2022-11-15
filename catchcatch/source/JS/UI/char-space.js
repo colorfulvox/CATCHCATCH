@@ -172,7 +172,7 @@ function BackStart() {
 
 function GameStart() {
   //app 자체를 false해야되나?
-  if (ChoiceCat === -1) console.log("시작 불가");
+  if (ChoiceCat === -1) "시작 불가";
   const StartPage = document.querySelector(".StartPage");
   StartPage.style.display = "none";
   let game = new Phaser.Game(config);

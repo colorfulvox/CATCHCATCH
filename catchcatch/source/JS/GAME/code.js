@@ -216,7 +216,6 @@ function preload() {
 
 function create() {
   // resource load start
-  console.log(debugmode);
   IncodeUI();
   monCount = 0;
   chunks = [];
@@ -926,7 +925,6 @@ function dataSend() {
         socket.send(JSON.stringify(Data));
       } else if (!codeStart) {
         setSound.playSE(26);
-        console.log("Game End, Score : " + score);
         Data = {
           action: "endGame",
           pinnumber: PinNumber,
@@ -979,7 +977,6 @@ function monsterHit(magic, monster) {
       }
       score += 100;
       monster.destroy();
-      console.log(score);
     }
   }
 }

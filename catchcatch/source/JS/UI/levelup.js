@@ -53,12 +53,12 @@ export default function levelup() {
       name: "위저드",
       fairy: wizard,
       text: [
-        "불마법 개수 증가",
+        "탄환 개수 증가",
         "공격 속도 증가",
         "관통 효과 적용",
-        "스킬 해금 \n범위 내 적을 피격하는 마법진 소환",
+        "스킬 해금 \n범위 내 적을 공격하는 마법진 소환",
 
-        "불마법 개수 증가",
+        "탄환 개수 증가",
         "공격 속도 증가",
         "관통 개수 증가",
         "스킬 강화 \n마법진의 범위 증가",
@@ -114,12 +114,12 @@ export default function levelup() {
       fairy: witch,
       text: [
         "설치 개수 증가Ⅰ",
-        "폭팔 반경 증가",
+        "폭발 반경 증가",
         "설치 개수 증가Ⅱ",
         "스킬 강화 \n스킬 쿨타임이 \n50% 감소합니다.",
 
         "설치 개수 증가Ⅲ",
-        "폭팔 반경 증가",
+        "폭발 반경 증가",
         "설치 개수 증가Ⅳ",
         "요정 강화 \n이제 마우스 커서에\n폭탄을 설치합니다.",
       ],
@@ -183,7 +183,6 @@ export default function levelup() {
       }
     }
   }
-  console.log(levelCount, randomIndexArray);
   const gameContainer = document.querySelector("#game-container");
 
   // const levelupContainer = document.createElement("div");
@@ -243,7 +242,6 @@ export default function levelup() {
     } else {
       levelupContent.style.backgroundImage =
         'url("images/ui/levelup/petupgrade_addName.png")';
-      console.log(property[_propertyArr[randomIndexArray[i]]]);
       levelupContent.setAttribute("id", `${_propertyArr[randomIndexArray[i]]}`);
       levelupText.innerText =
         property[_propertyArr[randomIndexArray[i]]].text[
@@ -298,19 +296,14 @@ export default function levelup() {
       contents[i].addEventListener("click", () => {
         if (contents[i].id === "wizard") {
           wizard.levelUp();
-          console.log(wizard);
         } else if (contents[i].id === "reaper") {
           reaper.levelUp();
-          console.log(reaper);
         } else if (contents[i].id === "ninja") {
           ninja.levelUp();
-          console.log(ninja);
         } else if (contents[i].id === "slime") {
           slime.levelUp();
-          console.log(slime);
         } else if (contents[i].id === "witch") {
           witch.levelUp();
-          console.log(witch);
         } else if (contents[i].id === "normal") {
           petNormal.levelUp();
         } else if (contents[i].id === "fire") {
@@ -332,7 +325,6 @@ export default function levelup() {
           inGameCoin += 1;
         }
         player.expUpdate();
-        console.log(player.exp, player.maxExp);
         isLevelup = false;
         $this.resume();
         gameContainer.removeChild(removeContainer);
