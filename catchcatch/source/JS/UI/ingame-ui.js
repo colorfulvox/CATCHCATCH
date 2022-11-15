@@ -125,7 +125,14 @@ export function GameOver() {
   cantxt.setAttribute("class", "cantxt");
   resultspace.appendChild(cantxt);
 
-  let cancount = parseInt(global.killCount / 30);
+  let cancount;
+  if (ChoiceLevel === 0) {
+    cancount = parseInt(global.killCount / 30);
+  } else if (ChoiceLevel === 1) {
+    cancount = parseInt(global.killCount / 25);
+  } else if (ChoiceLevel === 2) {
+    cancount = parseInt(global.killCount / 20);
+  }
   cancount += inGameCoin;
   cantxt.textContent = "x" + cancount;
 
