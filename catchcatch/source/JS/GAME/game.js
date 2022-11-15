@@ -2275,7 +2275,7 @@ function update(time, delta) {
         addMonster(this, "worm", "worm", 10, 40, monX, monY);
       }
     }
-    if (gameTimer > 12000 && gameTimer % 300 === 0) {
+    if (gameTimer > 12000 && gameTimer % 500 === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "sonic", "sonic", 200, 85, monX, monY);
     }
