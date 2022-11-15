@@ -946,7 +946,9 @@ export function attack(isAttack, angle, element) {
   if (isAttack) {
     let x = Math.cos(angle * (Math.PI / 180));
     let y = Math.sin(angle * (Math.PI / 180));
-
+    if (element < 1 || element > 5) {
+      element = 1;
+    }
     let magic = new Magic(codeScene, element);
     setSound.playSE(25);
     magic.anims.play("magic" + element);
@@ -982,6 +984,7 @@ function monsterHit(magic, monster) {
 }
 
 function playerHit(player, monster) {
+  camera.shake(100, 0.01); //camera
   monster.destroy();
   score -= 50;
 }
