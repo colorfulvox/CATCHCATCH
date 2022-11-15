@@ -686,7 +686,6 @@ function create() {
     };
     socket.send(JSON.stringify(Data));
   };
-  console.log(socket);
   // mineCount = 2;
   // StartMineRangeX = -3000;
   // StartMineRangeY = -3000;
@@ -2073,15 +2072,15 @@ function create() {
 
   // 난이도
   if (global.ChoiceLevel === 1) {
-    difficulty_hp = 10;
-    difficulty_spawn = 10;
+    difficulty_hp = 20;
+    difficulty_spawn = 15;
     difficulty_vel = 10;
   }
 
   if (global.ChoiceLevel === 2) {
-    difficulty_hp = 20;
-    difficulty_spawn = 20;
-    difficulty_vel = 20;
+    difficulty_hp = 30;
+    difficulty_spawn = 30;
+    difficulty_vel = 10;
   }
 
   // this.physics.add.collider(bossSet, wallLayer);
@@ -2225,7 +2224,7 @@ function update(time, delta) {
         this.physics.moveToObject(
           monsterSet.children.entries[i],
           player,
-          monsterSet.children.entries[i].velocity
+          monsterSet.children.entries[i].velocity + difficulty_vel
         );
       }
     }
@@ -2236,7 +2235,10 @@ function update(time, delta) {
     // 플레이어 기준랜덤 위치에 몬스터 생성
     // 생성규칙: 몬스터이름, 애니메이션, 체력, 속도, x,y,타입,딜레이
     // monsterSpawn 초기값은 300
-    if (gameTimer > 300 && gameTimer % monsterSpawn === 0) {
+    if (
+      gameTimer > 300 &&
+      gameTimer % (monsterSpawn - difficulty_spawn) === 0
+    ) {
       // 1번 zombie
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 21000) {
@@ -2265,7 +2267,7 @@ function update(time, delta) {
         }
       }
     }
-    if (gameTimer > 1200 && gameTimer % 120 === 0) {
+    if (gameTimer > 1200 && gameTimer % (120 - difficulty_spawn) === 0) {
       // 2번 worm
       enemySpawn(randomLocation);
       if (12000 < gameTimer && gameTimer <= 25200) {
@@ -2287,16 +2289,16 @@ function update(time, delta) {
         addMonster(this, "worm", "worm", 10, 40, monX, monY);
       }
     }
-    if (gameTimer > 12000 && gameTimer % 500 === 0) {
+    if (gameTimer > 12000 && gameTimer % (500 - difficulty_spawn) === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "sonic", "sonic", 200, 85, monX, monY);
     }
-    if (gameTimer > 23000 && gameTimer % 600 === 0) {
+    if (gameTimer > 23000 && gameTimer % (600 - difficulty_spawn) === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "turtle", "turtle", 400, 50, monX, monY);
     }
 
-    if (gameTimer > 19000 && gameTimer % 600 === 0) {
+    if (gameTimer > 19000 && gameTimer % (600 - difficulty_spawn) === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "slime", "slime", 250, 75, monX, monY);
     }
@@ -2364,7 +2366,7 @@ function update(time, delta) {
       let bossY = dxy[bossRand][1] * 500;
       slimeKing = new Boss(
         this,
-        300,
+        300 + difficulty_hp * 5,
         70,
         player.x + bossX,
         player.y + bossY,
@@ -2400,8 +2402,8 @@ function update(time, delta) {
       let bossY = dxy[bossRand][1] * 1500;
       golem = new Boss(
         this,
-        1500,
-        80,
+        1500 + difficulty_hp * 5,
+        100,
         player.x + bossX,
         player.y + bossY,
         "golem",
@@ -2438,7 +2440,7 @@ function update(time, delta) {
 
       fireGiant = new Boss(
         this,
-        2000,
+        2000 + difficulty_hp * 5,
         35,
         player.x + bossX,
         player.y + bossY,
@@ -2523,7 +2525,7 @@ function update(time, delta) {
               this,
               "wormPlus",
               "wormPlus",
-              100,
+              100 + difficulty_hp,
               50,
               bossSet.children.entries[i].x,
               bossSet.children.entries[i].y + 150
@@ -2576,13 +2578,17 @@ function update(time, delta) {
     // 피버 타임
     if (
       killCount != 0 &&
-      killCount % (80 + fever_late) === 0 &&
+      killCount % (100 + fever_late) === 0 &&
       feverLock == false
     ) {
       feverTime = 600;
       feverLock = true;
       messageBoss("피버");
-      fever_late += 25;
+      if (gameTimer > 18000) {
+        fever_late += 50;
+      } else {
+        fever_late += 10;
+      }
     }
 
     if (feverTime != 0) {
@@ -2883,9 +2889,15 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
       monAnime = "fireSlime";
     }
   }
-  monster = new Enemy(scene, hp, velo, x, y, mon_name, monAnime).setInteractive(
-    { cursor: "url(images/cursor/aimHover.png), pointer" }
-  );
+  monster = new Enemy(
+    scene,
+    hp + difficulty_hp,
+    velo + difficulty_vel,
+    x,
+    y,
+    mon_name,
+    monAnime
+  ).setInteractive({ cursor: "url(images/cursor/aimHover.png), pointer" });
   if (monster.monSpecie === "babySlime") {
     monster.scale = 2;
   } else if (
