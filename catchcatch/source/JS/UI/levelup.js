@@ -183,6 +183,7 @@ export default function levelup() {
       }
     }
   }
+  console.log(levelCount, randomIndexArray);
   const gameContainer = document.querySelector("#game-container");
 
   // const levelupContainer = document.createElement("div");
