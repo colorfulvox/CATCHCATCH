@@ -82,8 +82,6 @@ export class setSound {
       this.pauseBGM();
     }
 
-    console.log(this._backGroundMusic);
-
     this._backGroundMusic = new Audio(setSound._backGroundMusicList[index]);
     this._backGroundMusic.loop = true;
     let promise = this._backGroundMusic.play();
@@ -108,7 +106,6 @@ export class setSound {
   }
 
   static playSE(index) {
-    // console.log("효과음");
     let soundEffect = new Audio(setSound._soundEffectList[index]);
     soundEffect.play();
   }

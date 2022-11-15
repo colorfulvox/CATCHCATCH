@@ -203,11 +203,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
         }
         //불
         if (this.stone === 2 && this.level > 0 && this.invisible === "true") {
-          console.log(
-            this.stone +
-              " : " +
-              this.towerSkillcount[this.stone][this.level - 1]
-          );
           for (
             let i = 0;
             i < this.towerSkillcount[this.stone][this.level - 1];
@@ -269,11 +264,6 @@ export default class CatTower extends Phaser.Physics.Arcade.Sprite {
         }
         //땅
         if (this.stone === 4 && this.level > 0 && this.invisible === "true") {
-          console.log(
-            this.stone +
-              " : " +
-              this.towerSkillcount[this.stone][this.level - 1]
-          );
           let angle = Math.floor(Math.random() * 360);
           let x = Math.cos(angle * (Math.PI / 180)) * 300;
           let y = Math.sin(angle * (Math.PI / 180)) * 200;

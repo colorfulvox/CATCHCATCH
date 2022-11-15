@@ -4,7 +4,6 @@ import { setSound } from "../SOUND/sound";
 import { GoHome } from "./ingame-ui.js";
 
 export default function initUpgrade() {
-  // console.log(this.)
   if (ChoiceCat === 5) {
     let rand = Math.floor(Math.random() * 20);
     setSound.playSE(rand);
