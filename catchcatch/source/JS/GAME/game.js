@@ -2229,11 +2229,11 @@ function update(time, delta) {
       enemySpawn(randomLocation);
       if (10800 < gameTimer && gameTimer <= 21000) {
         if (player.ability === 2) {
-          addMonster(this, "alien", "invader_2", 60, 65, monX, monY);
+          addMonster(this, "alien", "invader_2", 70, 65, monX, monY);
         } else if (player.ability === 5) {
-          addMonster(this, "alien", "random_slime", 60, 65, monX, monY);
+          addMonster(this, "alien", "random_slime", 70, 65, monX, monY);
         } else {
-          addMonster(this, "alien", "alienPlus", 60, 65, monX, monY);
+          addMonster(this, "alien", "alienPlus", 70, 65, monX, monY);
         }
       } else if (21000 < gameTimer) {
         if (player.ability === 2) {
@@ -2275,18 +2275,18 @@ function update(time, delta) {
         addMonster(this, "worm", "worm", 10, 40, monX, monY);
       }
     }
-    if (gameTimer > 12000 && gameTimer % 300 === 0) {
+    if (gameTimer > 12000 && gameTimer % 500 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "sonic", "sonic", 100, 85, monX, monY);
+      addMonster(this, "sonic", "sonic", 200, 85, monX, monY);
     }
     if (gameTimer > 23000 && gameTimer % 600 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "turtle", "turtle", 200, 50, monX, monY);
+      addMonster(this, "turtle", "turtle", 400, 50, monX, monY);
     }
 
     if (gameTimer > 19000 && gameTimer % 600 === 0) {
       enemySpawn(randomLocation);
-      addMonster(this, "slime", "slime", 150, 75, monX, monY);
+      addMonster(this, "slime", "slime", 250, 75, monX, monY);
     }
     // 몬스터 빅 웨이브
     if (gameTimer === 7700) {
@@ -2296,9 +2296,16 @@ function update(time, delta) {
       messageBoss("빅 웨이브");
     }
 
+    if (gameTimer === 13700) {
+      messageBoss("빅 웨이브");
+    }
+
     if (gameTimer > 8000 && gameTimer < 8300 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "fly", "fly", 10, 50, monX, monY);
+    } else if (14000 < gameTimer && gameTimer < 15000 && gameTimer % 3 === 0) {
+      enemySpawn(randomLocation);
+      addMonster(this, "fly", "fly", 30, 50, monX, monY);
     } else if (20000 < gameTimer && gameTimer < 21000 && gameTimer % 3 === 0) {
       enemySpawn(randomLocation);
       addMonster(this, "fly", "fly", 50, 50, monX, monY);
@@ -2320,6 +2327,8 @@ function update(time, delta) {
     let golemSpawnTime = 21000;
     let fireGiantSpawnTime = 28000;
 
+    let dxy = [[1,1],[-1,-1],[1,-1],[-1,1]];
+
     // 슬라임
     if (gameTimer === slimeSpawnTime - 600) {
       messageBoss("슬라임 킹");
@@ -2332,12 +2341,16 @@ function update(time, delta) {
       } else {
         setSound.playSE(13);
       }
+
+      let bossRand = Math.floor(Math.random() * 4);
+      let bossX = dxy[bossRand][0] * 500;
+      let bossY = dxy[bossRand][1] * 500;
       slimeKing = new Boss(
         this,
         300,
         70,
-        player.x + 500,
-        player.y + 500,
+        player.x + bossX,
+        player.y + bossY,
         "slimeKing",
         "slimeKing",
         3,
@@ -2365,12 +2378,15 @@ function update(time, delta) {
       } else {
         setSound.playSE(14);
       }
+      let bossRand = Math.floor(Math.random() * 4);
+      let bossX = dxy[bossRand][0] * 1500;
+      let bossY = dxy[bossRand][1] * 1500;
       golem = new Boss(
         this,
-        1000,
-        50,
-        player.x + 1500,
-        player.y + 1500,
+        1500,
+        80,
+        player.x + bossX,
+        player.y + bossY,
         "golem",
         "golem",
         3,
@@ -2398,12 +2414,17 @@ function update(time, delta) {
       } else {
         setSound.playSE(15);
       }
+
+      let bossRand = Math.floor(Math.random() * 4);
+      let bossX = dxy[bossRand][0] * 600;
+      let bossY = dxy[bossRand][1] * 600;
+
       fireGiant = new Boss(
         this,
-        1500,
-        30,
-        player.x - 600,
-        player.y - 600,
+        2000,
+        35,
+        player.x + bossX,
+        player.y + bossY,
         "fireGiant",
         "fireGiant",
         3,
@@ -2480,7 +2501,7 @@ function update(time, delta) {
         );
 
         if (bossSet.children.entries[i].monSpecie === "golem") {
-          if (bossGolemActive && gameTimer % 240 === 0) {
+          if (bossGolemActive && gameTimer % 60 === 0) {
             addMonster(
               this,
               "wormPlus",

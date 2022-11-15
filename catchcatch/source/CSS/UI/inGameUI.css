@@ -258,6 +258,13 @@
   border: none;
 }
 
+.fairy > img {
+  margin-top: 5px;
+  margin-left: 2.5px;
+  border-radius: 10px;
+  width: 55px;
+}
+
 .cantxt {
   position: absolute;
   top: 50px;
