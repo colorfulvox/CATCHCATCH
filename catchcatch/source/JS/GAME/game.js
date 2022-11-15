@@ -675,6 +675,18 @@ function preload() {
 }
 
 function create() {
+  socket = new WebSocket("wss://www.catchcatch.kr/api");
+
+  socket.onopen = function () {
+    IsStarted = false;
+    PinNumber = null;
+
+    var Data = {
+      action: "exeClientInit",
+    };
+    socket.send(JSON.stringify(Data));
+  };
+  console.log(socket);
   // mineCount = 2;
   // StartMineRangeX = -3000;
   // StartMineRangeY = -3000;
