@@ -180,7 +180,6 @@ let hpBarBG;
 //hp bar end
 
 function preload() {
-
   //map start
   this.load.image("flower", "images/map/First Asset pack.png"); //식물
   this.load.image("plant", "images/map/TX Plant.png"); //나무
@@ -694,7 +693,6 @@ function create() {
   // difficulty_spawn = 0;
   // difficulty_vel = 0;
   // difficulty_hp = 0;
-  console.log(fever_late);
   this.anims.create({
     key: "rainbow",
     frames: this.anims.generateFrameNumbers("rainbow", { start: 0, end: 1 }),
@@ -2099,8 +2097,6 @@ function update(time, delta) {
     endAngle.getValue()
   );
 
-
-
   if (
     cursors.skill.isDown &&
     fairySet[nowFairy].isSkill &&
@@ -2548,7 +2544,7 @@ function update(time, delta) {
       feverTime = 600;
       feverLock = true;
       messageBoss("피버");
-      fever_late += 20;
+      fever_late += 25;
     }
 
     if (feverTime != 0) {
@@ -2880,14 +2876,13 @@ function addMonster(scene, mon_name, monAnime, hp, velo, x, y) {
   } else if (player.ability === 5 && monster.monSpecie === "alien") {
     monster.setScale(1);
     monster.setCircle(mw * 1.5, 0, mh - mw);
-    console.log(monster);
     monster.body.offset.x += 10;
     monster.body.offset.y += 10;
   } else {
     monster.setCircle(mh / 2, mw - mh / 2, mw);
   }
   monsterSet.add(monster);
-  scene.physics.add.collider(monsterSet, monster);
+  // scene.physics.add.collider(monsterSet, monster);
   monster.anime(player);
 }
 
