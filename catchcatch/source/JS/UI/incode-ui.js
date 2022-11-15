@@ -130,6 +130,11 @@ function BacktoStage() {
   app.removeChild(stagePage);
   codeGame.destroy(true);
   codeGame = null;
+  let Data = {
+    action: "endGame",
+    pinnumber: PinNumber,
+  };
+  socket.send(JSON.stringify(Data));
   Stage();
 }
 
