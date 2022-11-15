@@ -45,7 +45,8 @@ const StartPageInit = () => {
   _app.style.backgroundSize = "cover";
   // 치트 모드
   const download = document.createElement("a");
-  download.href = "https://www.naver.com";
+  download.href =
+    "https://drive.google.com/file/d/12gQtlDPyUwm3EAY32dTci7qzM-1WI-_H/view?usp=share_link`";
   download.target = "_blank";
   download.setAttribute("class", "download");
   const downImg = document.createElement("img");
