@@ -51,7 +51,7 @@ export default function ingameUi() {
     div.classList.add(`${fairyName[idx]}`);
     img.classList.add(`${fairyActive[idx]}`);
     img.innerText = "요정";
-    div.appendChildf(img);
+    div.appendChild(img);
     const back = document.createElement("div");
     back.setAttribute("class", `${fairyBack[idx]}`);
     back.classList.add(`back`);
