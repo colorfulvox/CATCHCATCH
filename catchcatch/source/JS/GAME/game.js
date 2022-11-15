@@ -675,6 +675,18 @@ function preload() {
 }
 
 function create() {
+  socket = new WebSocket("wss://www.catchcatch.kr/api");
+
+  socket.onopen = function () {
+    IsStarted = false;
+    PinNumber = null;
+
+    var Data = {
+      action: "exeClientInit",
+    };
+    socket.send(JSON.stringify(Data));
+  };
+  console.log(socket);
   // mineCount = 2;
   // StartMineRangeX = -3000;
   // StartMineRangeY = -3000;
@@ -2327,7 +2339,12 @@ function update(time, delta) {
     let golemSpawnTime = 21000;
     let fireGiantSpawnTime = 28000;
 
-    let dxy = [[1,1],[-1,-1],[1,-1],[-1,1]];
+    let dxy = [
+      [1, 1],
+      [-1, -1],
+      [1, -1],
+      [-1, 1],
+    ];
 
     // 슬라임
     if (gameTimer === slimeSpawnTime - 600) {
