@@ -57,15 +57,12 @@ let difficulty_hp = 0;
 let cats;
 // 플레이어 객체
 global.player = "";
-global.shield = true;
+global.shield = false;
 // 타워
 
-// 캐릭터 선택 시 변경될 변수
-let catNumber = 0;
 // 요정
 let nowFairy = 0;
 let fairySet = [, , , , ,];
-let fairy;
 global.thisScene = "";
 // 공격 및 공격 딜레이 관련
 global.control = false;
@@ -183,6 +180,7 @@ let hpBarBG;
 //hp bar end
 
 function preload() {
+
   //map start
   this.load.image("flower", "images/map/First Asset pack.png"); //식물
   this.load.image("plant", "images/map/TX Plant.png"); //나무
@@ -678,6 +676,25 @@ function preload() {
 }
 
 function create() {
+  // mineCount = 2;
+  // StartMineRangeX = -3000;
+  // StartMineRangeY = -3000;
+  // EndMineRangeX = 3000;
+  // EndMineRangeY = 3000;
+  // monsterCount = 0;
+  // randomLocation = 0;
+  // feverTime = 0;
+  // feverLock = false;
+  // fever_late = 0;
+  // randomMonster = 0;
+  // killCount = 0;
+  // monsterSpawn = 300;
+  // coin = 0;
+  // shield = false;
+  // difficulty_spawn = 0;
+  // difficulty_vel = 0;
+  // difficulty_hp = 0;
+  console.log(fever_late);
   this.anims.create({
     key: "rainbow",
     frames: this.anims.generateFrameNumbers("rainbow", { start: 0, end: 1 }),
@@ -2082,19 +2099,7 @@ function update(time, delta) {
     endAngle.getValue()
   );
 
-  for (let i = 0; i < 5; i++) {
-    if (fairySet[i].timer < fairySet[i].skillCD) {
-      fairySet[i].timer++;
-      if (fairySet[i].skillUse === true) {
-        useSkill(i);
-      }
-    } else {
-      if (fairySet[i].skillUse === true) {
-        fairySet[i].skillUse = false;
-        canSkill(i);
-      }
-    }
-  }
+
 
   if (
     cursors.skill.isDown &&
@@ -2119,7 +2124,19 @@ function update(time, delta) {
 
   if (frameTime > 16.5) {
     frameTime = 0;
-
+    for (let i = 0; i < 5; i++) {
+      if (fairySet[i].timer < fairySet[i].skillCD) {
+        fairySet[i].timer++;
+        if (fairySet[i].skillUse === true) {
+          useSkill(i);
+        }
+      } else {
+        if (fairySet[i].skillUse === true) {
+          fairySet[i].skillUse = false;
+          canSkill(i);
+        }
+      }
+    }
     //map start
     this.cameras.main.startFollow(player, false);
     UICam.startFollow(player, false);
@@ -2735,15 +2752,12 @@ function attack(magic, monster) {
             player.expUP(0.1);
           } else {
             monster.destroy();
-            if (gameTimer < 9000) {
-              player.expUp(1);
-              player.expUp(1);
-            } else {
-              player.expUp(1);
-            }
+            player.expUp(1);
           }
           monsterCount -= 1;
-          killCount += 1;
+          if (monster.monSpecie !== "fly") {
+            killCount += 1;
+          }
         } else if (monster.monSpecie === "slime") {
           for (let i = 0; i < 2; i++) {
             addMonster(
@@ -2786,12 +2800,7 @@ function attack(magic, monster) {
           killCount -= 1;
           player.expUp(0.1);
         } else {
-          if (gameTimer < 9000) {
-            player.expUp(1);
-            player.expUp(1);
-          } else {
-            player.expUp(1);
-          }
+          player.expUp(1);
         }
         monster.destroy();
         if (magic.fairy.fairyNum === 2) {
@@ -2920,11 +2929,7 @@ function bomb(bomb, target) {
           killCount--;
           player.expUp(0.1);
         } else {
-          if (gameTimer < 9000) {
-            player.expUp(2);
-          } else {
-            player.expUp(1);
-          }
+          player.expUp(1);
         }
         target.destroy();
         monsterCount -= 1;
@@ -3029,20 +3034,11 @@ function petAttackFunc(magic, monster) {
           killCount--;
           player.expUp(0.1);
         } else {
-          if (gameTimer < 9000) {
-            player.expUp(1);
-            player.expUp(1);
-          } else {
-            player.expUp(1);
-          }
+          player.expUp(1);
         }
         monster.destroy();
 
-        if (gameTimer < 9000) {
-          player.expUp(2);
-        } else {
-          player.expUp(1);
-        }
+        player.expUp(1);
 
         monsterCount -= 1;
         killCount += 1;
@@ -3084,11 +3080,9 @@ export function petSkillAttackFunc(skill, monster) {
           monster.dieAnim();
         }
         monster.destroy();
-        if (gameTimer < 9000) {
-          player.expUp(2);
-        } else {
-          player.expUp(1);
-        }
+
+        player.expUp(1);
+
         monsterCount -= 1;
       } else if (monster.monSpecie === "slime") {
         for (let i = 0; i < 2; i++) {
