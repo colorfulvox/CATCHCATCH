@@ -5,7 +5,7 @@
 2. 도구 >> NuGet 패키지 관리자 >> 솔루션용 NuGet 패키지 관리
 3. 찾아보기 클릭
 4. 해당 패키지를 검색후 설치 해주세요. (반드시 해당 프로젝트를 체크하고 설치) 
-    boost 
+    boost (스크롤을 최상단으로 이동해 boost로 적힌 파일을 설치해주세요)
     cpprestsdk.v142
     openssl-vc142
 	JsonCpp.Windows
@@ -46,13 +46,13 @@ int main()
 	bool IsConnect = false;
 	try {
 		client.connect(U("wss://www.catchcatch.kr/api")).wait();
-		cout << "서버와의 연결에 성공하셨습니다." << endl;
+		cout << "Successful connection with server." << endl;
 		cout << "---------------------------------" << endl;
 	}
 
 	catch (std::exception const& e)
 	{
-		cout << "서버와의 연결에 실패하셨습니다."<<endl;
+		cout << "Connection with server failed."<<endl;
 		cout << "---------------------------------" << endl;
 		exit(1);
 	}
@@ -73,7 +73,7 @@ int main()
 	}
 	catch(std::exception const& e)
 	{
-		cout << "핀 번호 전달에 실패하셨습니다."<<endl;
+		cout << "Pin number forwarding failed."<<endl;
 		cout << "---------------------------------" << endl;
 		exit(1);
 	}
@@ -92,7 +92,7 @@ int main()
 					if (_data["action"] == "ConnectFail")
 					{
 						
-						cout << "CatchCatch와의 연결에 실패하셨습니다."<<endl;
+						cout << "Connection with CodeCatch failed"<<endl;
 						cout << "---------------------------------" << endl;
 						exit(1);
 					}
@@ -118,7 +118,7 @@ int main()
 		}
 		catch (std::exception const& e)
 		{
-			cout << "서버와의 연결이 끊어졌습니다." << endl;
+			cout << "The connection to the server has been lost." << endl;
 			cout << "---------------------------------" << endl;
 			exit(1);
 		}
@@ -127,13 +127,14 @@ int main()
 }
 //-----------------------------------------------------------------------------------------
 void play(CatchObj *catchobj,int objsize)
-// catchobj : 전달 받는 오브젝트 정보
-// CatchObj[i][0] -> 객체 x 위치 좌표
-// CatchObj[i][1] -> 객체 y 위치 좌표
-// CatchObj[i][2] -> 객체 타입 정보
-
-// objsize : 객체 사이즈
 {
+	// catchobj : 전달 받는 오브젝트 정보
+	// CatchObj[i][0] -> 객체 x 위치 좌표
+	// CatchObj[i][1] -> 객체 y 위치 좌표
+	// CatchObj[i][2] -> 객체 타입 정보
+
+	// objsize : 객체 사이즈
+
 	// catchObject는 x, y, type를 매개변수로 가지고 있는 객체의 배열입니다
 	// x,y는 객체의 좌표갑, type는 객체의 속성, radius는 객체 충돌 원의 반지름입니다.
 	// 플레이어의 좌표는 0,0입니다.
@@ -184,7 +185,7 @@ void PlaySend()
 	}
 	catch (std::exception const& e)
 	{
-		cout << "데이터 전달에 실패했습니다." << endl;
+		cout << "Data forwarding failed." << endl;
 		cout << "---------------------------------" << endl;
 		exit(1);
 	}
