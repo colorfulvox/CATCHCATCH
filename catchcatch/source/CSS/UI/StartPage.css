@@ -357,3 +357,13 @@
   font-family: "neodgm";
   color: black;
 }
+
+.download {
+  position: absolute;
+  top: 30px;
+  right: -120px;
+}
+
+.downImg {
+  width: 60px;
+}
