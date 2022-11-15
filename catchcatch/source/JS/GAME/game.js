@@ -686,7 +686,6 @@ function create() {
     };
     socket.send(JSON.stringify(Data));
   };
-  console.log(socket);
   // mineCount = 2;
   // StartMineRangeX = -3000;
   // StartMineRangeY = -3000;
