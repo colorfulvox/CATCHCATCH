@@ -237,7 +237,7 @@
   /* font-family: ""; */
   line-height: 50px;
   margin-right: 10px;
-  margin-left: 12px;
+  /* margin-left: 12px; */
 }
 
 .ScoreSpace {
@@ -249,6 +249,7 @@
   font-family: "KenneyBlocks";
   line-height: 45px;
   color: rgb(46, 112, 255);
+  margin-right: 20px;
 }
 
 .RankingBack {
