@@ -169,7 +169,7 @@
   background-position: center;
   background-size: cover;
   border: none;
-
+  padding: 0;
   font-weight: bold;
   font-family: "neodgm";
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
@@ -385,4 +385,12 @@
 
 .downImg {
   width: 60px;
+}
+
+.tapBtn {
+  margin-right: 5px;
+  font-size: 13px;
+  padding: 0;
+  width: 40px;
+  height: 40px;
 }

@@ -256,6 +256,28 @@ const StartPageInit = () => {
     InputSpace.appendChild(InputArea);
     InputArea.addEventListener("change", SearchResult);
 
+    const eight = document.createElement("button");
+    eight.className = "tapBtn";
+    eight.addEventListener("click", () => {
+      ChangeTap("Eight");
+    });
+    eight.innerText = "8기";
+    InputSpace.appendChild(eight);
+    const seven = document.createElement("button");
+    seven.className = "tapBtn";
+    seven.addEventListener("click", () => {
+      ChangeTap("Seven");
+    });
+    seven.innerText = "7기";
+    InputSpace.appendChild(seven);
+    const All = document.createElement("button");
+    All.className = "tapBtn";
+    All.addEventListener("click", () => {
+      ChangeTap("All");
+    });
+    All.innerText = "전체";
+    InputSpace.appendChild(All);
+
     // RankingListTxt.push([GradeSpace, NameSpace, ScoreSpace]);
 
     // MySpace.appendChild(MyRanking);
@@ -408,6 +430,20 @@ function SearchResult(e) {
   InitRanking();
 }
 
+function ChangeTap(tap) {
+  if (tap === "All") {
+    NewData = RankingData;
+  } else if (tap === "Eight") {
+    NewData = RankingData.filter((el) => el[3] === "8기");
+  } else {
+    NewData = RankingData.filter((el) => el[3] !== "8기");
+  }
+  const RankingContainer = document.querySelector(".RankingContainer");
+  const RankingList = document.querySelector(".RankingList");
+  RankingList.removeChild(RankingContainer);
+  InitRanking();
+}
+
 function InitRanking() {
   const RankingContainer = document.createElement("div");
   RankingContainer.setAttribute("class", "RankingContainer");
@@ -423,7 +459,7 @@ function InitRanking() {
     const GradeSpace = document.createElement("div");
     GradeSpace.className = "GradeSpace";
     MyRanking.appendChild(GradeSpace);
-    GradeSpace.textContent = `${NewData[i][0]}`;
+    GradeSpace.textContent = `${i + 1}`;
 
     const areaspace = document.createElement("div");
 
