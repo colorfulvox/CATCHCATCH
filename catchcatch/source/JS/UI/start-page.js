@@ -46,7 +46,7 @@ const StartPageInit = () => {
   // 치트 모드
   const download = document.createElement("a");
   download.href =
-    "https://drive.google.com/file/d/1F80fDXLW4OsULtJJWctVRGVlL2F9BZ5D/view?usp=share_link";
+    "https://drive.google.com/file/d/1mUlZDrQIrt5d9NrJ106BBRxizqERDhZM/view?usp=share_link";
   download.target = "_blank";
   download.setAttribute("class", "download");
   const downImg = document.createElement("img");
