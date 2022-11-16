@@ -257,21 +257,21 @@ const StartPageInit = () => {
     InputArea.addEventListener("change", SearchResult);
 
     const eight = document.createElement("button");
-    eight.className = "tapBtn";
+    eight.className = "eight_tapBtn";
     eight.addEventListener("click", () => {
       ChangeTap("Eight");
     });
     eight.innerText = "8기";
     InputSpace.appendChild(eight);
     const seven = document.createElement("button");
-    seven.className = "tapBtn";
+    seven.className = "seven_tapBtn";
     seven.addEventListener("click", () => {
       ChangeTap("Seven");
     });
     seven.innerText = "7기";
     InputSpace.appendChild(seven);
     const All = document.createElement("button");
-    All.className = "tapBtn";
+    All.className = "all_tapBtn";
     All.addEventListener("click", () => {
       ChangeTap("All");
     });

@@ -147,6 +147,7 @@
 }
 .InputArea {
   margin-right: 10px;
+  margin-left: 10px;
   width: 150px;
   height: 25px;
   font-size: large;
@@ -387,10 +388,89 @@
   width: 60px;
 }
 
-.tapBtn {
+.all_tapBtn {
+  text-align: center;
+  line-height: 40px;
+  font-family: "neodgm";
+  font-weight: bold;
+  color: black;
+  background: url("../../../public/images/ui/allbtn.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: none;
   margin-right: 5px;
   font-size: 13px;
   padding: 0;
   width: 40px;
   height: 40px;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.all_tapBtn:active {
+  color: gray;
+  background: url("../../../public/images/ui/allbtn_click.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.seven_tapBtn {
+  text-align: center;
+  line-height: 40px;
+  font-family: "neodgm";
+  font-weight: bold;
+  color: black;
+  background: url("../../../public/images/ui/serachBtn.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: none;
+  margin-right: 5px;
+  font-size: 13px;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.seven_tapBtn:active {
+  color: gray;
+  background: url("../../../public/images/ui/serachBtnclick.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.eight_tapBtn {
+  text-align: center;
+  line-height: 40px;
+  font-family: "neodgm";
+  font-weight: bold;
+  color: black;
+  background: url("../../../public/images/ui/8thbtn.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: none;
+  margin-right: 5px;
+  font-size: 13px;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
+}
+
+.eight_tapBtn:active {
+  color: gray;
+  background: url("../../../public/images/ui/8thbtn_click.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
