@@ -46,7 +46,7 @@ export default function IncodeUI() {
   gameContainer.appendChild(pin);
   gameContainer.appendChild(buttonContainer);
 
-  // makeranking();
+  makeranking();
   // codegameclear();
 }
 
@@ -238,8 +238,11 @@ export function makeranking() {
 }
 
 function submitranking() {
+  console.log(inputspace.value.length);
   if (inputspace.value === "") {
     inputspace.placeholder = "닉네임을 먼저 입력하세요.";
+  } else if (inputspace.value.length > 7) {
+    alert("닉네임은 최대 7자입니다.");
   } else {
     const selected = document.getElementById("selectarea");
     let Data = {
