@@ -398,7 +398,7 @@ function RankingListOff() {
 function SearchResult(e) {
   setSound.playSE(16);
   if (e.target.value) {
-    NewData = RankingData.filter((el) => el.includes(e.target.value));
+    NewData = RankingData.filter((el) => el[1].includes(e.target.value));
   } else {
     NewData = RankingData;
   }
