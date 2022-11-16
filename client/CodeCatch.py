@@ -3,7 +3,7 @@
 # 2. python CodeCatch.py로 실행
 # -----------------------------------------------
 
-PinNumber = "________"  # 화면에 나타난 PinNumber를 입력해 주세요.
+PinNumber = "13647689"  # 화면에 나타난 PinNumber를 입력해 주세요.
 
 import asyncio
 import json
