@@ -30,7 +30,7 @@
 }
 .StartPage .StartBtnList {
   width: 100%;
-  height: 200px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -58,6 +58,7 @@
   height: 70px;
   border: none;
   color: white;
+  padding: 0;
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 

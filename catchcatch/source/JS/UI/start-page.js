@@ -45,8 +45,7 @@ const StartPageInit = () => {
   _app.style.backgroundSize = "cover";
   // 치트 모드
   const download = document.createElement("a");
-  download.href =
-    "https://drive.google.com/file/d/1UBVWUn2pdRmPv_wLLZwFXB6WOkkah6LS/view?usp=sharing";
+  download.href = "https://www.naver.com";
   download.target = "_blank";
   download.setAttribute("class", "download");
   const downImg = document.createElement("img");
@@ -79,6 +78,54 @@ const StartPageInit = () => {
     _mode = !_mode;
     StartPageInit();
     if (!_mode) {
+      socket = new WebSocket("wss://www.catchcatch.kr/api");
+
+      socket.onopen = function () {
+        IsStarted = false;
+        PinNumber = null;
+
+        var Data = {
+          action: "exeClientInit",
+        };
+        socket.send(JSON.stringify(Data));
+      };
+
+      socket.onmessage = function (data) {
+        var msg = JSON.parse(data.data.toString());
+
+        if (msg.action === "PinNumber") {
+          PinNumber = msg.pinnumber;
+          RankingData = JSON.parse(JSON.stringify(msg.ranking));
+          RankingData = RankingData.map((el, idx) => {
+            return [idx + 1, ...el];
+          });
+          NewData = RankingData;
+          InitRanking();
+          // UpdateRanking();
+        }
+        // 게임 시작시 1초 마다 서버에게 데이터를 보내는걸 시작한다.
+        else if (msg.action === "StartGame") {
+          IsStarted = true;
+          IsRunning = false;
+          codeScene.scene.resume();
+        }
+        // 1번의 cycle이 끝나면 보낸다.
+        else if (msg.action === "codeData") {
+          //여기서 바뀐 정보를 전달 받는다.
+          attack(msg.attack, msg.angle, msg.type);
+          IsRunning = false;
+        } else if (msg.action === "RankingUpdate") {
+          RankingData = JSON.parse(JSON.stringify(msg.ranking));
+          RankingData = RankingData.map((el, idx) => {
+            return [idx + 1, ...el];
+          });
+          NewData = RankingData;
+          const RankingContainer = document.querySelector(".RankingContainer");
+          const RankingList = document.querySelector(".RankingList");
+          RankingList.removeChild(RankingContainer);
+          InitRanking();
+        }
+      };
     }
   });
 
@@ -99,11 +146,22 @@ const StartPageInit = () => {
   // 시작하기 버튼 ====================================
   const _GoSelectChar = document.createElement("div");
   _GoSelectChar.className = "GoSelectCharId";
+  const _CodeChar = document.createElement("div");
+
   let Btn = document.createElement("button");
-  if (_mode) Btn.className = "StartBtn";
-  else Btn.className = "CodeStartBtn";
 
   Btn.textContent = "GameStart";
+  const codeBtn = document.createElement("button");
+  _CodeChar.appendChild(codeBtn);
+  if (_mode) {
+    Btn.className = "StartBtn";
+    codeBtn.className = "StartBtn";
+    codeBtn.textContent = "CODE CATCH";
+  } else {
+    Btn.className = "CodeStartBtn";
+    codeBtn.className = "CodeStartBtn";
+    codeBtn.textContent = "CATCH CATCH";
+  }
 
   //이벤트 리스너 추가------------
   if (_mode === true) {
@@ -140,6 +198,9 @@ const StartPageInit = () => {
   _GoSelectChar.appendChild(Btn);
 
   _StartBtn.appendChild(_GoSelectChar); //시작하기 버튼 추가;
+  if (_mode) {
+    _StartBtn.appendChild(_CodeChar); //시작하기 버튼 추가;
+  }
   //================================================
 
   // 랭킹 ============================================
@@ -217,7 +278,65 @@ const StartPageInit = () => {
     _StartBtn.appendChild(_Ranked);
     CharPageInit();
   }
+  if (_mode === false) {
+    _StartBtn.appendChild(_CodeChar); //시작하기 버튼 추가;
+  }
   //=================================================
+  _CodeChar.addEventListener("click", () => {
+    _mode = !_mode;
+    StartPageInit();
+    if (!_mode) {
+      socket = new WebSocket("wss://www.catchcatch.kr/api");
+
+      socket.onopen = function () {
+        IsStarted = false;
+        PinNumber = null;
+
+        var Data = {
+          action: "exeClientInit",
+        };
+        socket.send(JSON.stringify(Data));
+      };
+
+      socket.onmessage = function (data) {
+        console.log(data.data);
+        var msg = JSON.parse(data.data.toString());
+
+        if (msg.action === "PinNumber") {
+          PinNumber = msg.pinnumber;
+          RankingData = JSON.parse(JSON.stringify(msg.ranking));
+          RankingData = RankingData.map((el, idx) => {
+            return [idx + 1, ...el];
+          });
+          NewData = RankingData;
+          InitRanking();
+          // UpdateRanking();
+        }
+        // 게임 시작시 1초 마다 서버에게 데이터를 보내는걸 시작한다.
+        else if (msg.action === "StartGame") {
+          IsStarted = true;
+          IsRunning = false;
+          codeScene.scene.resume();
+        }
+        // 1번의 cycle이 끝나면 보낸다.
+        else if (msg.action === "codeData") {
+          //여기서 바뀐 정보를 전달 받는다.
+          attack(msg.attack, msg.angle, msg.type);
+          IsRunning = false;
+        } else if (msg.action === "RankingUpdate") {
+          RankingData = JSON.parse(JSON.stringify(msg.ranking));
+          RankingData = RankingData.map((el, idx) => {
+            return [idx + 1, ...el];
+          });
+          NewData = RankingData;
+          const RankingContainer = document.querySelector(".RankingContainer");
+          const RankingList = document.querySelector(".RankingList");
+          RankingList.removeChild(RankingContainer);
+          InitRanking();
+        }
+      };
+    }
+  });
   StartPageOn();
 };
 export default StartPageInit;
