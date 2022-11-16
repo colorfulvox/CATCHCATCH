@@ -37,7 +37,7 @@
   background: url("../../../public/images/canicon.png") no-repeat center;
   background-size: 50px 70px;
   position: absolute;
-  overflow: hidden;
+  /* overflow: hidden; */
   width: 50px;
   height: 50px;
   right: 5px;
@@ -45,10 +45,12 @@
   /* border: 2px solid wheat; */
 }
 .CanCount {
+  text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
   color: yellow;
   position: absolute;
-  left: 20%;
+  left: 15%;
   bottom: -2px;
+  font-size: 20px;
 }
 .BuyBtn {
   position: absolute;
@@ -174,7 +176,7 @@
 .CharName {
   text-align: center;
   color: white;
-  font-size: large;
+  font-size: 14px;
 }
 
 .OtherBtn {
