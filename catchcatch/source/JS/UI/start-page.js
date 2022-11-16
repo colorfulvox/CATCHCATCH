@@ -480,7 +480,7 @@ function InitRanking() {
       areaspace.className = "areaspace_5";
     } else if (NewData[i][3] === "8기") {
       areaspace.textContent = "8기";
-      areaspace.className = "areaspace_6";
+      areaspace.className = "areaspace_4";
     }
 
     MyRanking.appendChild(areaspace);
