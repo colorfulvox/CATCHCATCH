@@ -4,6 +4,7 @@ import { sockConnect } from "./CodeObj/Execlient.js";
 import IncodeUI, { makeranking, codegameclear } from "../UI/incode-ui.js";
 import Enemy from "./CodeObj/enemy.js";
 import Magic from "./CodeObj/magic.js";
+
 import { showscore } from "../UI/incode-ui.js";
 import { setSound } from "../SOUND/sound";
 
@@ -266,6 +267,16 @@ function create() {
     key: "slime",
     frames: this.anims.generateFrameNumbers("slime", { start: 0, end: 6 }),
     frameRate: 7,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "monster_die",
+    frames: this.anims.generateFrameNumbers("monster_die", {
+      start: 0,
+      end: 5,
+    }),
+    frameRate: 12,
     repeat: -1,
   });
 
@@ -968,6 +979,7 @@ function monsterHit(magic, monster) {
     } else {
       monster.invincible = true;
       monster.health -= 1;
+      monster.setTint(0xff0000);
     }
     magic.destroy();
 
@@ -978,6 +990,7 @@ function monsterHit(magic, monster) {
         setSound.playSE(27);
       }
       score += 100;
+      monster.die_anim();
       monster.destroy();
     }
   }
