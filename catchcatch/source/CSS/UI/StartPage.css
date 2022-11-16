@@ -241,15 +241,17 @@
 }
 
 .ScoreSpace {
-  width: 130px;
+  width: 90px;
   height: 50px;
+  max-width: 90px;
+  min-width: 90px;
   /* border: 2px solid black; */
-  text-align: center;
+  text-align: end;
   font-size: x-large;
   font-family: "KenneyBlocks";
   line-height: 45px;
   color: rgb(46, 112, 255);
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .RankingBack {
