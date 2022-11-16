@@ -113,6 +113,7 @@ const StartPageInit = () => {
         attack(msg.attack, msg.angle, msg.type);
         IsRunning = false;
       } else if (msg.action === "RankingUpdate") {
+        console.log(msg.data);
         RankingData = JSON.parse(JSON.stringify(msg.ranking));
         RankingData = RankingData.map((el, idx) => {
           return [idx + 1, ...el];

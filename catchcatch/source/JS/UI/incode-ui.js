@@ -238,7 +238,6 @@ export function makeranking() {
 }
 
 function submitranking() {
-  console.log(inputspace.value.length);
   if (inputspace.value === "") {
     inputspace.placeholder = "닉네임을 먼저 입력하세요.";
   } else if (inputspace.value.length > 7) {
