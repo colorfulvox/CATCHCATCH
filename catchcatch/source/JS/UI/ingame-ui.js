@@ -292,7 +292,7 @@ export function messageBoss(boss) {
   } else if (boss === "불거인") {
     div.innerHTML = `<p style="color: red">${boss} 보스가 등장합니다.</p>`;
   } else if (boss === "피버") {
-    div.innerHTML = `<p class="fever">FEVER Time</P>`;
+    div.innerHTML = `<p class="fever">FEVER TIME</P>`;
   } else {
     div.innerHTML = `<p style="color: red">${boss}가 몰려옵니다.</p>`;
   }
