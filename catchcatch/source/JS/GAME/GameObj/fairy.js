@@ -342,7 +342,7 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
         break;
       // 집으로 귀환 가능
       case 4:
-        this.copyCount = 40;
+        this.copyCount = 65;
         this.skillCD = 450;
         this.skillSprite = 2;
         break;
@@ -507,37 +507,37 @@ export default class Fairy extends Phaser.Physics.Arcade.Sprite {
           }
 
           if (angle_mouse >= 0) {
-            if (0 <= angle_mouse - 30 <= 90) {
+            if (0 <= angle_mouse - 15 <= 90) {
               this.vxm =
-                this.x + d * Math.cos(((angle_mouse - 30) * Math.PI) / 180);
+                this.x + d * Math.cos(((angle_mouse - 15) * Math.PI) / 180);
               this.vym =
-                this.y - d * Math.sin(((angle_mouse - 30) * Math.PI) / 180);
+                this.y - d * Math.sin(((angle_mouse - 15) * Math.PI) / 180);
             }
 
-            if (0 <= angle_mouse + 30 <= 90) {
+            if (0 <= angle_mouse + 15 <= 90) {
               this.vxp =
-                this.x + d * Math.cos(((angle_mouse + 30) * Math.PI) / 180);
+                this.x + d * Math.cos(((angle_mouse + 15) * Math.PI) / 180);
               this.vyp =
-                this.y - d * Math.sin(((angle_mouse + 30) * Math.PI) / 180);
+                this.y - d * Math.sin(((angle_mouse + 15) * Math.PI) / 180);
             }
           } else {
-            if (0 <= angle_mouse + 30) {
+            if (0 <= angle_mouse + 15) {
               this.vxm =
-                this.x + d * Math.cos(((angle_mouse + 30) * Math.PI) / 180);
+                this.x + d * Math.cos(((angle_mouse + 15) * Math.PI) / 180);
               this.vym =
-                this.y - d * Math.sin(((angle_mouse + 30) * Math.PI) / 180);
-            } else if (-180 < angle_mouse + 30) {
+                this.y - d * Math.sin(((angle_mouse + 15) * Math.PI) / 180);
+            } else if (-180 < angle_mouse + 15) {
               this.vxm =
-                this.x + d * Math.cos((-(angle_mouse + 30) * Math.PI) / 180);
+                this.x + d * Math.cos((-(angle_mouse + 15) * Math.PI) / 180);
               this.vym =
-                this.y + d * Math.sin((-(angle_mouse + 30) * Math.PI) / 180);
+                this.y + d * Math.sin((-(angle_mouse + 15) * Math.PI) / 180);
             }
             this.vxp =
               this.x -
-              d * Math.cos(((180 - (angle_mouse - 30)) * Math.PI) / 180);
+              d * Math.cos(((180 - (angle_mouse - 15)) * Math.PI) / 180);
             this.vyp =
               this.y -
-              d * Math.sin(((180 - (angle_mouse - 30)) * Math.PI) / 180);
+              d * Math.sin(((180 - (angle_mouse - 15)) * Math.PI) / 180);
           }
         }
         break;

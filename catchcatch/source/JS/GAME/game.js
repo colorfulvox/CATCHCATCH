@@ -864,8 +864,8 @@ function create() {
   global.witch = fairySet[4] = new Fairy(
     this,
     600,
+    8,
     5,
-    1,
     3,
     40,
     10,
