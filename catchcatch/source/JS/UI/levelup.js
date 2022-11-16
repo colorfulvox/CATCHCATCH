@@ -124,7 +124,7 @@ export default function levelup() {
         "요정 강화 \n이제 마우스 커서에\n폭탄을 설치합니다.",
       ],
     },
-    heal: { name: "회복", text: "체력 5 회복" },
+    heal: { name: "회복", text: "체력 3 회복" },
     coin: { name: "캔", text: "캔 1개 획득" },
   };
   if (ChoiceCat === 5) {
@@ -317,7 +317,7 @@ export default function levelup() {
         } else if (contents[i].id === "god") {
           petGod.levelUp();
         } else if (contents[i].id === "heal") {
-          player.health += 5;
+          player.health += 3;
           if (player.health >= 10) {
             player.health = 10;
           }
