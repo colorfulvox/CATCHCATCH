@@ -46,7 +46,7 @@ export default function IncodeUI() {
   gameContainer.appendChild(pin);
   gameContainer.appendChild(buttonContainer);
 
-  makeranking();
+  // makeranking();
   // codegameclear();
 }
 
