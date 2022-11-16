@@ -233,10 +233,11 @@
   /* border: 2px solid black; */
   text-align: center;
   font-weight: bold;
-  font-size: large;
+  font-size: 17px;
   /* font-family: ""; */
   line-height: 50px;
   margin-right: 10px;
+  margin-left: 12px;
 }
 
 .ScoreSpace {

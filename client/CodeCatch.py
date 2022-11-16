@@ -5,7 +5,7 @@ import json
 # python CodeCatch.py로 실행
 import websockets
  # 화면에 나타난 PinNumber를 입력해 주세요.
-PinNumber = "38171568"
+PinNumber = "00206674"
 attack = False # Bool
 angle = 0   # 0~360
 type = 0    # 0~4
