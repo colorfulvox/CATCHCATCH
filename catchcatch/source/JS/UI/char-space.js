@@ -26,7 +26,7 @@ const _catText = [
   "랜덤박스",
   "Nyan Cat!",
   "이게 뭔 소리여",
-  "해치웠나...?",
+  "불 좀 꺼줄래?",
 ];
 
 const CharPageInit = () => {
