@@ -204,6 +204,11 @@ export function makeranking() {
   option_5.value = "서울";
   option_5.text = "서울";
   selectarea.appendChild(option_5);
+  const option_6 = document.createElement("option");
+  option_6.className = "opt";
+  option_6.value = "8기";
+  option_6.text = "8기";
+  selectarea.appendChild(option_6);
 
   rankingpanel.appendChild(selectarea);
 

@@ -442,6 +442,9 @@ function InitRanking() {
     } else if (NewData[i][3] === "서울") {
       areaspace.textContent = "서울";
       areaspace.className = "areaspace_5";
+    } else if (NewData[i][3] === "8기") {
+      areaspace.textContent = "8기";
+      areaspace.className = "areaspace_6";
     }
 
     MyRanking.appendChild(areaspace);
