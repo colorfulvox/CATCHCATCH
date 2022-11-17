@@ -310,3 +310,12 @@
   left: 9%;
   cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
+
+.storytext {
+  position: absolute;
+  left: 20px;
+  bottom: 0px;
+  font-size: small;
+  color: white;
+  font-weight: bold;
+}

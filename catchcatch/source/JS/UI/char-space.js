@@ -151,8 +151,13 @@ const CharPageInit = () => {
   let _storyactive = document.createElement("input");
   _storyactive.setAttribute("class", "storycheck");
   _storyactive.type = "checkbox";
+  if (localStorage.getItem("first") === null) _storyactive.checked = true;
   _storyactive.addEventListener("change", storyactive);
-  // _storyactive.textContent = "스토리";
+
+  let storytext = document.createElement("div");
+  storytext.textContent = "스토리";
+  storytext.setAttribute("class", "storytext");
+  _OtherBtn.appendChild(storytext);
 
   _OtherBtn.appendChild(_storyactive);
 
@@ -188,7 +193,7 @@ function GameStart() {
   //여기서 만화를 보여준다. ---------------
   // console.log(localStorage.getItem("first"));
   if (localStorage.getItem("first") === null) {
-    localStorage.setItem("first", "ok");
+    // localStorage.setItem("first", "ok");
     const _app = document.getElementById("app");
     const cartoonspace = document.createElement("div");
     cartoonspace.setAttribute("class", "cartoonspace");
@@ -377,7 +382,6 @@ function storyactive() {
 
   if (localStorage.getItem("first") === null) {
     localStorage.setItem("first", "ok");
-
     toast("스토리 비활성화");
   } else {
     localStorage.removeItem("first");
