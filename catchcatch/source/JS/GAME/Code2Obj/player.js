@@ -17,8 +17,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, maxHealth, i, j, x, y, catname) {
     super(scene, x, y, catname);
     this.alpha = 1;
-    this.dx = x;
-    this.dy = y;
+    this.dx = i;
+    this.dy = j;
     this.maxHealth = maxHealth;
     this.health = maxHealth;
 
