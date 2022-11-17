@@ -10,6 +10,8 @@ let _slideList;
 let _buyBtn;
 let _gameStartBtn;
 let _canCount;
+
+let page;
 const _catNameList = [
   "캐　츠",
   "용냥이",
@@ -28,6 +30,7 @@ const _catText = [
   "효과음이 랜덤으로 바뀐다.",
   "불 좀 꺼줄래?",
 ];
+let pagecnt = 0;
 
 const CharPageInit = () => {
   //여기서 미리 서버 정보를 가져온다. ---------------------------
@@ -145,6 +148,14 @@ const CharPageInit = () => {
   _LevelBtn.addEventListener("click", MapLevel);
   _OtherBtn.appendChild(_LevelBtn);
 
+  let _storyactive = document.createElement("input");
+  _storyactive.setAttribute("class", "storycheck");
+  _storyactive.type = "checkbox";
+  _storyactive.addEventListener("change", storyactive);
+  // _storyactive.textContent = "스토리";
+
+  _OtherBtn.appendChild(_storyactive);
+
   _gameStartBtn = document.createElement("button");
   _gameStartBtn.className = "GameStartBtn";
   _gameStartBtn.id = "GameStartBtn";
@@ -173,11 +184,50 @@ function BackStart() {
 function GameStart() {
   //app 자체를 false해야되나?
   if (ChoiceCat === -1) "시작 불가";
-  const StartPage = document.querySelector(".StartPage");
-  StartPage.style.display = "none";
-  let game = new Phaser.Game(config);
-  const gameContainer = document.querySelector("#game-container");
-  gameContainer.style.display = "block";
+
+  //여기서 만화를 보여준다. ---------------
+  // console.log(localStorage.getItem("first"));
+  if (localStorage.getItem("first") === null) {
+    localStorage.setItem("first", "ok");
+    const _app = document.getElementById("app");
+    const cartoonspace = document.createElement("div");
+    cartoonspace.setAttribute("class", "cartoonspace");
+
+    const leftbtn = document.createElement("button");
+    leftbtn.setAttribute("class", "leftpagebtn");
+    leftbtn.addEventListener("click", leftpage);
+
+    cartoonspace.appendChild(leftbtn);
+    pagecnt = 1;
+
+    page = document.createElement("img");
+    page.setAttribute("class", "page");
+    page.style.background = `url('images/cartoon/${pagecnt}.png')`;
+    page.style.backgroundRepeat = "no-repeat";
+    page.style.backgroundPosition = "center";
+    page.style.backgroundSize = "contain";
+    cartoonspace.appendChild(page);
+
+    const rightbtn = document.createElement("button");
+    rightbtn.setAttribute("class", "rightpagebtn");
+    cartoonspace.appendChild(rightbtn);
+
+    rightbtn.addEventListener("click", rightpage);
+
+    // const page2 = document.createElement("img");
+    // page2.setAttribute("class", "page2");
+    // cartoonspace.appendChild(page2);
+
+    _app.appendChild(cartoonspace);
+  } else {
+    //--------------------------------
+
+    const StartPage = document.querySelector(".StartPage");
+    StartPage.style.display = "none";
+    let game = new Phaser.Game(config);
+    const gameContainer = document.querySelector("#game-container");
+    gameContainer.style.display = "block";
+  }
 }
 
 export function CodeStart() {
@@ -288,4 +338,65 @@ function MapLevel() {
     this.textContent = "NORMAL";
     ChoiceLevel = 0;
   }
+}
+
+function leftpage() {
+  if (pagecnt > 1) {
+    --pagecnt;
+    page.style.background = `url('images/cartoon/${pagecnt}.png')`;
+    page.style.backgroundRepeat = "no-repeat";
+    page.style.backgroundPosition = "center";
+    page.style.backgroundSize = "contain";
+  }
+}
+
+function rightpage() {
+  if (pagecnt < 4) {
+    ++pagecnt;
+    page.style.background = `url('images/cartoon/${pagecnt}.png')`;
+    page.style.backgroundRepeat = "no-repeat";
+    page.style.backgroundPosition = "center";
+    page.style.backgroundSize = "contain";
+  } else if (pagecnt == 4) {
+    const cartoonspace = document.querySelector(".cartoonspace");
+    cartoonspace.remove();
+
+    const StartPage = document.querySelector(".StartPage");
+    StartPage.style.display = "none";
+    let game = new Phaser.Game(config);
+    const gameContainer = document.querySelector("#game-container");
+    gameContainer.style.display = "block";
+  }
+}
+
+function storyactive() {
+  const toastspace = document.createElement("div");
+  toastspace.id = "toast";
+  const _app = document.getElementById("app");
+  _app.appendChild(toastspace);
+
+  if (localStorage.getItem("first") === null) {
+    localStorage.setItem("first", "ok");
+
+    toast("스토리 비활성화");
+  } else {
+    localStorage.removeItem("first");
+    toast("스토리 활성화");
+  }
+}
+
+let removeToast;
+
+function toast(string) {
+  const toast = document.getElementById("toast");
+
+  toast.classList.contains("reveal")
+    ? (clearTimeout(removeToast),
+      (removeToast = setTimeout(function () {
+        document.getElementById("toast").classList.remove("reveal");
+      }, 1000)))
+    : (removeToast = setTimeout(function () {
+        document.getElementById("toast").classList.remove("reveal");
+      }, 1000));
+  toast.classList.add("reveal"), (toast.innerText = string);
 }
