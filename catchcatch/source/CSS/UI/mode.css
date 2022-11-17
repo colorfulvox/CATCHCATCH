@@ -1,0 +1,39 @@
+.modePage {
+  width: 750px;
+  height: 500px;
+  background: url("../../../public/images/ui/Stagebackground.png");
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.modeTitle {
+  width: 700px;
+  height: 100px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  border: 2px solid red;
+  text-align: center;
+  line-height: 100px;
+  font-size: 40px;
+}
+
+.modeContainer {
+  width: 700px;
+  height: 300px;
+  border: 2px solid blue;
+  position: absolute;
+  display: flex;
+  top: 65%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.modeEl {
+  width: 350px;
+  height: 300px;
+  border: 2px solid purple;
+}
