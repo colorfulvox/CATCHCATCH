@@ -8,6 +8,7 @@ import Stage from "./stage.js";
 let _RankingList;
 import { setSound } from "../SOUND/sound";
 import { attack } from "../GAME/code.js";
+import Mode from "./mode.js";
 
 let _Logo;
 
@@ -191,7 +192,8 @@ const StartPageInit = () => {
       //   CodeStart();
       setSound.playSE(16);
       GoStage();
-      Stage();
+      Mode();
+      // Stage();
     });
   }
   //-------------------------
