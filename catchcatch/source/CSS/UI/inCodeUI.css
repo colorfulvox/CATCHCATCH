@@ -90,15 +90,23 @@
   position: absolute;
   top: 20px;
   right: 10px;
-  width: 200px;
+  width: 240px;
   height: 50px;
   /* border: 2px solid white; */
   color: white;
   font-weight: bold;
   font-family: "KenneyBlocks";
-  font-size: x-large;
+  font-size: 35px;
   text-align: center;
   line-height: 50px;
+}
+
+.lifeContainer {
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  width: 240px;
+  height: 50px;
 }
 
 .buttonContainer > div {

@@ -38,7 +38,18 @@ export default function IncodeUI() {
   showscore.setAttribute("class", "showscore");
   showscore.textContent = "0 Score";
 
+  const lifeContainer = document.createElement("div");
+  lifeContainer.setAttribute("class", "lifeContainer");
+
+  for (let i = 0; i < 3; i++) {
+    const img = document.createElement("img");
+    img.setAttribute("class", "lifeImg");
+    img.src = "images/ui/heart.png";
+    lifeContainer.appendChild(img);
+  }
+
   gameContainer.appendChild(showscore);
+  gameContainer.appendChild(lifeContainer);
 
   buttonContainer.appendChild(backBtn);
   buttonContainer.appendChild(reBtn);
@@ -51,6 +62,12 @@ export default function IncodeUI() {
 }
 
 let removeToast;
+
+function LoseLife() {
+  const lifeContainer = document.querySelector(".lifeContainer");
+  const life = document.querySelector(".lifeImg");
+  lifeContainer.removeChild(life);
+}
 
 function toast(string) {
   const toast = document.getElementById("toast");
