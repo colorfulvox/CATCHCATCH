@@ -63,7 +63,7 @@ export default function IncodeUI() {
 
 let removeToast;
 
-function LoseLife() {
+export function LoseLife() {
   const lifeContainer = document.querySelector(".lifeContainer");
   const life = document.querySelector(".lifeImg");
   lifeContainer.removeChild(life);
