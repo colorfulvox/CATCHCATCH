@@ -36,8 +36,9 @@ export default function Mode() {
   survive.setAttribute("class", "modeEl2");
   modeContainer.appendChild(survive);
   survive.addEventListener("click", () => {
-    Stage("survive");
-    modePage.style.display = "none";
+    alert("Coming Soon");
+    // Stage("survive");
+    // modePage.style.display = "none";
   });
 
   $app.appendChild(modePage);
