@@ -15,7 +15,7 @@ export default function Mode() {
   const modeTitle = document.createElement("div");
   modeTitle.setAttribute("class", "modeTitle");
   modePage.appendChild(modeTitle);
-  modeTitle.innerText = "모드 선택";
+  modeTitle.innerText = "MODE";
 
   const modeContainer = document.createElement("div");
   modeContainer.setAttribute("class", "modeContainer");
@@ -23,6 +23,8 @@ export default function Mode() {
 
   const defense = document.createElement("div");
   defense.setAttribute("class", "modeEl");
+  defense.textContent = "디펜스 모드";
+
   modeContainer.appendChild(defense);
   defense.addEventListener("click", () => {
     Stage("defense");
@@ -30,7 +32,8 @@ export default function Mode() {
   });
 
   const survive = document.createElement("div");
-  survive.setAttribute("class", "modeEl");
+  survive.textContent = `턴제 모드`;
+  survive.setAttribute("class", "modeEl2");
   modeContainer.appendChild(survive);
   survive.addEventListener("click", () => {
     Stage("survive");
