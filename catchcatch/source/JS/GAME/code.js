@@ -690,12 +690,12 @@ function create() {
       }
       break;
     case 6:
-      maxMon = 15;
+      maxMon = 30;
       for (let i = 0; i < 8; i++) {
         catSpawn();
         let enemy = new Enemy(
           this,
-          60,
+          120,
           monX,
           monY,
           "cat1",
@@ -722,14 +722,14 @@ function update(time, delta) {
     frameTime = 0;
     timer++;
     monTimer++;
-    if (timer > 60) {
+    if (timer > 30) {
       timer = 0;
       if (IsStarted) {
         dataSend();
       }
     }
 
-    if (monTimer > 40) {
+    if (monTimer > 30) {
       monTimer = 0;
 
       switch (stageNum) {
@@ -866,7 +866,7 @@ function update(time, delta) {
             let typeNum = Math.floor(Math.random() * 5 + 1);
             let enemy = new Enemy(
               this,
-              40,
+              80,
               monX,
               monY,
               "alien",
@@ -964,7 +964,7 @@ export function attack(isAttack, angle, element) {
     setSound.playSE(25);
     magic.anims.play("magic" + element);
     magicSet.add(magic);
-    codeScene.physics.moveTo(magic, x, y, 500);
+    codeScene.physics.moveTo(magic, x, y, 1000);
   }
 }
 
