@@ -14,5 +14,6 @@ export default class Explosion extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
     this.scale = 2;
     this.play("monster_die");
+    this.setDepth(3);
   }
 }
