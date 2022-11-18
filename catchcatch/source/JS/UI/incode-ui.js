@@ -140,6 +140,12 @@ function BacktoStage() {
   const pin = document.querySelector(".pin");
   const buttonContainer = document.querySelector(".buttonContainer");
 
+  const oldLifeContainer = document.querySelector(".lifeContainer");
+
+  if (oldLifeContainer) {
+    gameContainer.removeChild(oldLifeContainer);
+  }
+
   const rankingpanel = document.querySelector(".rankingpanel");
   const resultpanel = document.querySelector(".resultpanel");
   const tempshowscore = document.querySelector(".showscore");
@@ -172,6 +178,12 @@ function Replay() {
   const tempshowscore = document.querySelector(".showscore");
   const rankingpanel = document.querySelector(".rankingpanel");
   const resultpanel = document.querySelector(".resultpanel");
+
+  const oldLifeContainer = document.querySelector(".lifeContainer");
+
+  if (oldLifeContainer) {
+    gameContainer.removeChild(oldLifeContainer);
+  }
 
   if (pin != null) gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
