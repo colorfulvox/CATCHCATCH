@@ -2,16 +2,20 @@ import "../../CSS/UI/inCodeUI.css";
 import Stage from "./stage.js";
 import { codeConfig } from "../GAME/code.js";
 import { setSound } from "../SOUND/sound";
+import Mode from "./mode.js";
+import { codeConfig2 } from "../GAME/code2.js";
 
 let inputspace;
 
 export let showscore;
 
-export default function IncodeUI() {
+let mode;
+
+export default function IncodeUI(newMode) {
   const gameContainer = document.querySelector("#game-container");
   const oldLifeContainer = document.querySelector(".lifeContainer");
   const pin = document.createElement("div");
-
+  mode = newMode;
   if (oldLifeContainer) {
     gameContainer.removeChild(oldLifeContainer);
   }
@@ -38,21 +42,31 @@ export default function IncodeUI() {
   reBtn.setAttribute("class", "reBtn");
   reBtn.addEventListener("click", Replay);
 
-  showscore = document.createElement("div");
-  showscore.setAttribute("class", "showscore");
-  showscore.textContent = "0 Score";
-
   const lifeContainer = document.createElement("div");
-  lifeContainer.setAttribute("class", "lifeContainer");
 
-  for (let i = 0; i < 3; i++) {
-    const img = document.createElement("img");
-    img.setAttribute("class", "lifeImg");
-    img.src = "images/ui/heart.png";
-    lifeContainer.appendChild(img);
+  if (mode === "디펜스") {
+    lifeContainer.setAttribute("class", "lifeContainer");
+    const showscore = document.createElement("div");
+    showscore.setAttribute("class", "showscore");
+    showscore.textContent = "0 Score";
+
+    for (let i = 0; i < 3; i++) {
+      const img = document.createElement("img");
+      img.setAttribute("class", "lifeImg");
+      img.src = "images/ui/heart.png";
+      lifeContainer.appendChild(img);
+    }
+
+    gameContainer.appendChild(showscore);
+  } else {
+    lifeContainer.setAttribute("class", "lifeContainer2");
+    for (let i = 0; i < 5; i++) {
+      const img = document.createElement("img");
+      img.setAttribute("class", "lifeImg");
+      img.src = "images/ui/heart.png";
+      lifeContainer.appendChild(img);
+    }
   }
-
-  gameContainer.appendChild(showscore);
   gameContainer.appendChild(lifeContainer);
 
   buttonContainer.appendChild(backBtn);
@@ -68,13 +82,24 @@ export default function IncodeUI() {
 let removeToast;
 
 export function LoseLife() {
-  health -= 1;
-  if (health < 0) {
-    null;
+  if (mode === "디펜스") {
+    health -= 1;
+    if (health < 0) {
+      null;
+    } else {
+      const lifeContainer = document.querySelector(".lifeContainer");
+      const life = document.querySelector(".lifeImg");
+      lifeContainer.removeChild(life);
+    }
   } else {
-    const lifeContainer = document.querySelector(".lifeContainer");
-    const life = document.querySelector(".lifeImg");
-    lifeContainer.removeChild(life);
+    health2 -= 1;
+    if (health2 < 0) {
+      null;
+    } else {
+      const lifeContainer = document.querySelector(".lifeContainer");
+      const life = document.querySelector(".lifeImg");
+      lifeContainer.removeChild(life);
+    }
   }
 }
 
@@ -104,6 +129,12 @@ function deletePin() {
   const gameContainer = document.querySelector("#game-container");
   const modal = document.querySelector(".pinModal");
   gameContainer.removeChild(modal);
+  if (mode === "턴") {
+    const showTurn = document.createElement("div");
+    showTurn.setAttribute("class", "showTurn");
+    showTurn.textContent = "0 TURN";
+    gameContainer.appendChild(showTurn);
+  }
 }
 
 function copypinnumber() {
@@ -136,64 +167,45 @@ function copyStringToClipboard(string) {
 
 function BacktoStage() {
   const gameContainer = document.querySelector("#game-container");
+  gameContainer.innerHTML = "";
   gameContainer.style.display = "none";
-  const pin = document.querySelector(".pin");
-  const buttonContainer = document.querySelector(".buttonContainer");
-
-  const oldLifeContainer = document.querySelector(".lifeContainer");
-
-  if (oldLifeContainer) {
-    gameContainer.removeChild(oldLifeContainer);
+  if (mode === "디펜스") {
+    codeGame.destroy(true);
+    codeGame = null;
+    codeScene = "";
+  } else {
+    codeGame2.destroy(true);
+    codeScene2 = "";
   }
-
-  const rankingpanel = document.querySelector(".rankingpanel");
-  const resultpanel = document.querySelector(".resultpanel");
-  const tempshowscore = document.querySelector(".showscore");
-
-  if (pin != null) gameContainer.removeChild(pin);
-  gameContainer.removeChild(buttonContainer);
-  gameContainer.removeChild(tempshowscore);
-
-  if (rankingpanel != null) gameContainer.removeChild(rankingpanel);
-  if (resultpanel != null) gameContainer.removeChild(resultpanel);
-
-  const app = document.querySelector("#app");
-  const stagePage = document.querySelector(".stagePage");
-  app.removeChild(stagePage);
-  codeGame.destroy(true);
-  codeGame = null;
   let Data = {
     action: "endGame",
     pinnumber: PinNumber,
   };
   socket.send(JSON.stringify(Data));
-  Stage();
+  const app = document.querySelector("#app");
+  if (mode === "디펜스") {
+    const stagePage = document.querySelector(".stagePage");
+    app.removeChild(stagePage);
+    Stage();
+  } else {
+    const modePage = document.querySelector(".modePage");
+    app.removeChild(modePage);
+    Mode();
+  }
 }
 
 function Replay() {
   setSound.playSE(24);
   const gameContainer = document.querySelector("#game-container");
-  const pin = document.querySelector(".pin");
-  const buttonContainer = document.querySelector(".buttonContainer");
-  const tempshowscore = document.querySelector(".showscore");
-  const rankingpanel = document.querySelector(".rankingpanel");
-  const resultpanel = document.querySelector(".resultpanel");
-
-  const oldLifeContainer = document.querySelector(".lifeContainer");
-
-  if (oldLifeContainer) {
-    gameContainer.removeChild(oldLifeContainer);
+  gameContainer.innerHTML = "";
+  if (mode === "디펜스") {
+    codeGame.destroy(true);
+    codeGame = null;
+    codeGame = new Phaser.Game(codeConfig);
+  } else {
+    codeGame2.destroy(true);
+    codeGame2 = new Phaser.Game(codeConfig2);
   }
-
-  if (pin != null) gameContainer.removeChild(pin);
-  gameContainer.removeChild(buttonContainer);
-  gameContainer.removeChild(tempshowscore);
-
-  if (rankingpanel != null) gameContainer.removeChild(rankingpanel);
-  if (resultpanel != null) gameContainer.removeChild(resultpanel);
-  codeGame.destroy(true);
-  codeGame = null;
-  codeGame = new Phaser.Game(codeConfig);
   let Data = {
     action: "endGame",
     pinnumber: PinNumber,
@@ -321,4 +333,9 @@ export function codegameclear() {
 
 function cancelranking() {
   BacktoStage();
+}
+
+export function UpdateTurn(n) {
+  const showTurn = document.querySelector(".showTurn");
+  showTurn.innerText = `${n} TURN`;
 }

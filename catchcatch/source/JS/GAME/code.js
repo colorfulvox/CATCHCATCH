@@ -221,7 +221,7 @@ function preload() {
 
 function create() {
   // resource load start
-  IncodeUI();
+  IncodeUI("디펜스");
   monCount = 0;
   chunks = [];
   score = 0;
