@@ -1,6 +1,7 @@
 import "../../CSS/UI/stagepage.css";
 import { StartBtnOn } from "./start-page.js";
 import { codeConfig, config } from "../GAME/code.js";
+import { codeConfig2 } from "../GAME/code2.js";
 import { setSound } from "../SOUND/sound";
 
 const diff = [1, 2, 3, 4, 5, 6];
@@ -77,7 +78,7 @@ export default function Stage() {
       setSound.playSE(24);
       stagePage.style.display = "none";
       stageNum = i + 1;
-      global.codeGame = new Phaser.Game(codeConfig);
+      global.codeGame = new Phaser.Game(codeConfig2);
       const gameContainer = document.querySelector("#game-container");
       gameContainer.style.display = "block";
     });
