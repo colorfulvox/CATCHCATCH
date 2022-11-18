@@ -1,6 +1,7 @@
 import "../../CSS/UI/mode.css";
 import { StartBtnOn } from "./start-page.js";
 import Stage from "./stage.js";
+import { codeConfig2 } from "../GAME/code2.js";
 
 export default function Mode() {
   const $app = document.querySelector("#app");
@@ -36,9 +37,11 @@ export default function Mode() {
   survive.setAttribute("class", "modeEl2");
   modeContainer.appendChild(survive);
   survive.addEventListener("click", () => {
-    alert("Coming Soon");
-    // Stage("survive");
-    // modePage.style.display = "none";
+    // alert("Coming Soon");
+    modePage.style.display = "none";
+    global.codeGame2 = new Phaser.Game(codeConfig2);
+    const gameContainer = document.querySelector("#game-container");
+    gameContainer.style.display = "block";
   });
 
   $app.appendChild(modePage);
