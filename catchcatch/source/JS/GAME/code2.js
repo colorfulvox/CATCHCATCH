@@ -64,7 +64,7 @@ export function config() {
     },
   };
 }
-
+global.health2 = 5;
 var chunks = [];
 global.codeScene2 = "";
 let codeStart;
