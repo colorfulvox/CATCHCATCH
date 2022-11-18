@@ -53,7 +53,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     let hh = this.body.halfHeight;
     let hw = this.body.halfWidth;
-    this.setCircle(hw, 0, hh - hw);
+    this.setCircle(hw*0.5, hh - hw*0.5, hh - hw*0.5);
 
     if (this.type === 0) {
       this.body.debugBodyColor = 0x0000ff;

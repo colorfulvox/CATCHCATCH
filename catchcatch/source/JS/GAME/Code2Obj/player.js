@@ -1,5 +1,7 @@
 import { LoseLife } from "../../UI/incode-ui.js";
 import { camera } from "../code2.js";
+import Attack from "./attack.js";
+import Barrier from "./Barrier.js";
 
 export const Direction = Object.freeze({
   Up: "Up",
@@ -39,7 +41,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       frameRate: 10,
       repeat: -1,
     });
-
+    this.body.checkCollision.none = true;
   }
 
   action(key, direction) {
@@ -58,6 +60,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 
   move(direction) {
+    console.log(1234);
     switch (direction) {
       // 오른쪽
       case 1:
@@ -233,66 +236,56 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
   attack(direction) {
+    console.log(direction);
     switch (direction) {
-      // 오른쪽
-      case 0:
-        if (dx < 6) {
-          this.dx++;
-          this.setPosition(
-            global.map[this.dy][this.dx][0],
-            global.map[this.dy][this.dx][1]
-          );
-        }
-        break;
       // ↖ -1-1
-      case 1:
-        for (let i = 0; i < 7; i++){
-          
-        }
+      case 1: 
+        this.magic(225);
         break;
-      // ↑
+      // ↑ -1 0
       case 2:
-
+        this.magic(270);
         break;
-      // ↗
+      // ↗ -1 1
       case 3:
-
+        this.magic(315);
         break;
-      // ←
+      // ← 0 -1
       case 4:
+        this.magic(180);
         break;
-      // →
+      // → - +1
       case 5:
-
+        this.magic(0);
         break;
-      // ↙
+      // ↙ +1 -1
       case 6:
-
+        this.magic(135);
         break;
-      //  ↓ 
+      //  ↓ +1 0
       case 7:
-
+        this.magic(90);
         break;
-      // ↘
+      // ↘ +1 +1
       case 8:
-
+        this.magic(45);
         break;
     }
   }
   defense() {
     this.isDefense = true;
+    let barrier = new Barrier(codeScene2, map[this.dy][this.dx][0],map[this.dy][this.dx][1], this );
+    barrier.setDepth(10);
   }
 
-  hitPlayer(player, alien) {
-    if (player.invincible === false) {
-      player.invincible = true;
-      player.body.checkCollision.none = true;
-      player.health -= 1;
-      // 피해 1 줌
-      // stop_game -= 1;
-      if (player.health <= 0) {
-        gameover();
-      }
-    }
+  magic(angle) {
+    let attack = new Attack(codeScene2, map[this.dy][this.dx][0],map[this.dy][this.dx][1]);
+    code2magicSet.add(attack);
+    attack.setDepth(10);
+    let x = Math.cos(angle * (Math.PI / 180));
+    let y = Math.sin(angle * (Math.PI / 180));
+    attack.rotation += angle / 60;
+    codeScene2.physics.moveTo(attack, map[this.dy][this.dx][0] + x, map[this.dy][this.dx][1] + y, 500);
   }
+
 }

@@ -134,10 +134,9 @@ const StartPageInit = () => {
         // move일 경우
         console.log(2);
         if (msg.cmd === 0) {
-
           action("move", msg.movedir);
         } else if (msg.cmd === 1) {
-          action("atack", msg.attackdir);
+          action("attack", msg.attackdir);
         } else {
           action("defense", -1);
         }

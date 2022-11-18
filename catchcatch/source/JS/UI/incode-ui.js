@@ -96,7 +96,7 @@ export function LoseLife() {
     if (health2 < 0) {
       null;
     } else {
-      const lifeContainer = document.querySelector(".lifeContainer");
+      const lifeContainer = document.querySelector(".lifeContainer2");
       const life = document.querySelector(".lifeImg");
       lifeContainer.removeChild(life);
     }

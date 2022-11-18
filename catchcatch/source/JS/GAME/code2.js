@@ -5,6 +5,7 @@ import { setSound } from "../SOUND/sound";
 import Enemy from "./Code2Obj/enemy.js";
 import Player from "./Code2Obj/player.js";
 import Beam from "./Code2Obj/beam.js";
+import Attack from "./Code2Obj/attack.js";
 export let codeConfig2 = {
   type: Phaser.AUTO,
   width: 600,
@@ -27,7 +28,7 @@ export let codeConfig2 = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: false,
+      debug: true,
       debugShowVelocity: true,
       fixedStep: false,
     },
@@ -79,6 +80,8 @@ global.map = [[[]]];
 global.sendmap = [[]];
 global.objmap = [[]];
 let code2MonsterSet;
+let code2ObjSet;
+global.code2magicSet = "";
 function preload() {
   //map start
   this.load.image("sprWater", "images/map/sprWater.png");
@@ -134,6 +137,14 @@ function preload() {
     frameWidth: 100,
     frameHeight: 100,
   });
+  this.load.spritesheet("barrier", "images/code2/barrier.png", {
+    frameWidth: 101,
+    frameHeight: 101,
+  });
+  this.load.spritesheet("attack", "images/code2/attack.png", {
+    frameWidth: 100,
+    frameHeight: 100,
+  });
   // 몬스터
   this.load.spritesheet("monster_die", "images/monster/monster_die2.png", {
     frameWidth: 64,
@@ -167,6 +178,12 @@ function create() {
     repeat: -1,
   });
   this.anims.create({
+    key: "attack",
+    frames: this.anims.generateFrameNumbers("attack", { start: 0, end: 9 }),
+    frameRate: 15,
+    repeat: -1,
+  });
+  this.anims.create({
     key: "slime_idle",
     frames: this.anims.generateFrameNumbers("slime", { start: 0, end: 3 }),
     frameRate: 7,
@@ -184,8 +201,16 @@ function create() {
     frameRate: 13,
     repeat: 1,
   });
+  this.anims.create({
+    key: "barrier",
+    frames: this.anims.generateFrameNumbers("barrier", { start: 0, end: 17 }),
+    frameRate: 15,
+    repeat: 1,
+  });
   code2MonsterSet = this.physics.add.group();
-
+  code2ObjSet = this.physics.add.group();
+  code2magicSet = this.physics.add.group();
+  this.physics.add.overlap(code2magicSet, code2ObjSet, monsterHit);
   this.cameras.main.setZoom(0.85);
   // resource load end
   // var ssafy = this.add.image(0, 0, "ssafy");
@@ -225,7 +250,7 @@ function create() {
   let posY = Math.floor(Math.random() * 7);
   player = new Player(
     this,
-    3,
+    5,
     posX,
     posY,
     map[posY][posX][0],
@@ -370,6 +395,7 @@ function create() {
     sendmap[posY][posX] = 3;
     objmap[posY][posX] = enemy;
     code2MonsterSet.add(enemy);
+    code2ObjSet.add(enemy);
   }
 
   for (let i = 0; i < 3; i++) {
@@ -390,88 +416,9 @@ function create() {
     );
     sendmap[posY][posX] = 2;
     objmap[posY][posX] = enemy;
+    code2ObjSet.add(enemy);
   }
 
-  // 랜덤 빔 시작
-  // let randomNum = Math.floor(Math.random() * 7);
-  // let width = 0;
-  // for (let i = 0; i < 7; i++){
-  //   width += 100;
-  //   if (sendmap[randomNum][i] === 2) break;
-  //   if (sendmap[randomNum][i] === 1) {
-  //     sendmap[randomNum][i] = 5;
-  //   } else {
-  //     sendmap[randomNum][i] = 4;
-  //   }
-
-  // }
-  // warning1.fillStyle(0xff0000);
-  // warning1.fillRect(map[randomNum][0][0] - 50, map[randomNum][0][1] - 50, width, 100);
-  // warning1.setAlpha(0.4);
-  // randomNum = Math.floor(Math.random() * 7);
-  // let height = 0;
-  // for (let i = 0; i < 7; i++){
-  //   height += 100;
-  //   if (sendmap[i][randomNum] === 2) break;
-  //   if (sendmap[i][randomNum] === 1) {
-  //     sendmap[i][randomNum] = 5;
-  //   } else {
-  //     sendmap[i][randomNum] = 4;
-  //   }
-  // }
-
-  // warning2.fillStyle(0xff0000);
-  // warning2.fillRect(map[0][randomNum][0] - 50, map[0][randomNum][1] - 50, 100, height);
-  // warning2.setAlpha(0.4);
-
-  // randomNum = Math.floor(Math.random() * 2);
-  // if (randomNum === 0) {
-  //     randomNum = Math.floor(Math.random() * 7);
-  //     if (sendmap[randomNum][0] === 4) {
-  //       randomNum = Math.floor(Math.random() * 7);
-  //     }
-  //     if (sendmap[randomNum][0] === 4) {
-  //       randomNum = Math.floor(Math.random() * 7);
-  //     }
-  //   width = 0;
-  //   for (let i = 0; i < 7; i++){
-  //     width += 100;
-  //     if (sendmap[randomNum][i] === 2) break;
-  //     if (sendmap[randomNum][i] === 1) {
-  //       sendmap[randomNum][i] = 5;
-  //     } else {
-  //       sendmap[randomNum][i] = 4;
-  //     }
-  //   }
-  //   warning3.fillStyle(0xff0000);
-  //   warning3.fillRect(map[randomNum][0][0] - 50, map[randomNum][0][1] - 50, width, 100);
-  //   warning3.setAlpha(0.4);
-  // } else {
-  //   randomNum = Math.floor(Math.random() * 7);
-  //   if (sendmap[0][randomNum] === 4) {
-  //     randomNum = Math.floor(Math.random() * 7);
-  //   }
-  //   if (sendmap[0][randomNum] === 4) {
-  //     randomNum = Math.floor(Math.random() * 7);
-  //   }
-  //   height = 0;
-  //   for (let i = 0; i < 7; i++){
-  //     height += 100;
-  //     if (sendmap[i][randomNum] === 2) break;
-  //     if (sendmap[i][randomNum] === 1) {
-  //       sendmap[i][randomNum] = 5;
-  //     } else {
-  //       sendmap[i][randomNum] = 4;
-  //     }
-  //   }
-
-  //   warning3.fillStyle(0xff0000);
-  //   warning3.fillRect(map[0][randomNum][0] - 50, map[0][randomNum][1] - 50, 100, height);
-  //   warning3.setAlpha(0.4);
-  // }
-  // 랜덤 빔 끝
-  console.log(objmap);
-  console.log(sendmap);
   this.scene.pause();
 }
 
@@ -479,7 +426,16 @@ function update(time, delta) {
   frameTime += delta;
 
   if (frameTime > 16.5) {
+    if (player.health <= 0) {
+      console.log("GameOver!");
+      this.scene.pause();
+    }
+    if (code2MonsterSet.children.entries.length <= 0) {
+      console.log("GameClear!");
+      this.scene.pause();
+    }
     if (code2timer % 240 === 0) {
+      player.isDefense = false;
       warning1 = this.add.graphics();
       warning2 = this.add.graphics();
       warning3 = this.add.graphics();
@@ -618,12 +574,25 @@ function dataSend() {
   }
 }
 
+function monsterHit(magic, enemy) {
+  if (enemy.type === 0) {
+    magic.destroy();
+  } else {
+    if (enemy.type === 1) {
+      sendmap[enemy.dy][enemy.dx] = 0;
+      objmap[enemy.dy][enemy.dx] = 0;
+      enemy.destroy();
+      magic.destroy();
+    }
+  }
+}
+
 // sock end
 export function action(action, direction) {
   player.action(action, direction);
   console.log(sendmap);
   codeScene2.time.addEvent({
-    delay: 1200,
+    delay: 1500,
     callback: () => {
       warning1.destroy();
       warning2.destroy();
@@ -635,8 +604,15 @@ export function action(action, direction) {
             sendmap[i][j] = 0;
           } else if (sendmap[i][j] === 5) {
             let beam = new Beam(codeScene2, map[i][j][0], map[i][j][1]);
-            player.health--;
-            LoseLife();
+            if (player.isDefense) {
+              player.health--;
+              LoseLife();
+            } else {
+              player.health -= 2;
+              LoseLife();
+              LoseLife();
+            }
+
             camera.shake(100, 0.01);
             sendmap[i][j] = 1;
           }
