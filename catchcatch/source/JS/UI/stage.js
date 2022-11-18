@@ -92,10 +92,9 @@ function BackStart() {
 }
 
 function OffStage() {
-  const stagePage = document.querySelector(".stagePage");
-  const StartPage = document.querySelector(".StartPage");
+  const modePage = document.querySelector(".modePage");
   const app = document.querySelector("#app");
-  StartPage.style.display = "flex";
+  const stagePage = document.querySelector(".stagePage");
+  modePage.style.display = "block";
   app.removeChild(stagePage);
-  StartBtnOn();
 }

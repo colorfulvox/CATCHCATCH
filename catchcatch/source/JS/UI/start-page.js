@@ -9,6 +9,7 @@ let _RankingList;
 import { setSound } from "../SOUND/sound";
 import { attack } from "../GAME/code.js";
 import { action } from "../GAME/code2";
+import Mode from "./mode.js";
 
 let _Logo;
 
@@ -47,7 +48,7 @@ const StartPageInit = () => {
   // 치트 모드
   const download = document.createElement("a");
   download.href =
-    "https://drive.google.com/file/d/1mUlZDrQIrt5d9NrJ106BBRxizqERDhZM/view?usp=share_link";
+    "https://drive.google.com/file/d/1xWOmEkLiRuFsr70Bg3x5XmNYLDCqpSbM/view?usp=share_link";
   download.target = "_blank";
   download.setAttribute("class", "download");
   const downImg = document.createElement("img");
@@ -205,7 +206,8 @@ const StartPageInit = () => {
       //   CodeStart();
       setSound.playSE(16);
       GoStage();
-      Stage();
+      Mode();
+      // Stage();
     });
   }
   //-------------------------

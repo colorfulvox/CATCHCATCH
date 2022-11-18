@@ -4,8 +4,7 @@ import { sockConnect } from "./CodeObj/Execlient.js";
 import IncodeUI, { makeranking, codegameclear } from "../UI/incode-ui.js";
 import Enemy from "./CodeObj/enemy.js";
 import Magic from "./CodeObj/magic.js";
-
-import { showscore } from "../UI/incode-ui.js";
+import { showscore, LoseLife } from "../UI/incode-ui.js";
 import { setSound } from "../SOUND/sound";
 
 export let codeConfig = {
@@ -66,6 +65,11 @@ export var camera;
 let frameTime = 0;
 let timer = 0;
 let monTimer = 30;
+let spawnTimer = 0;
+let monSpawn = 0;
+// 목숨제
+global.health = 3;
+
 // 몬스터 변수 선언
 var monster;
 global.codeMonsterSet = "";
@@ -221,6 +225,9 @@ function create() {
   monCount = 0;
   chunks = [];
   score = 0;
+  health = 3;
+  spawnTimer = 0;
+  monSpawn = 30;
   codeStart = true;
   this.anims.create({
     key: "tower1_idle",
@@ -690,12 +697,12 @@ function create() {
       }
       break;
     case 6:
-      maxMon = 15;
+      maxMon = 30;
       for (let i = 0; i < 8; i++) {
         catSpawn();
         let enemy = new Enemy(
           this,
-          60,
+          120,
           monX,
           monY,
           "cat1",
@@ -722,14 +729,25 @@ function update(time, delta) {
     frameTime = 0;
     timer++;
     monTimer++;
-    if (timer > 60) {
+    spawnTimer++;
+    if (timer > 30) {
       timer = 0;
-      if (IsStarted) {
+      if (IsStarted && stageNum != 6) {
         dataSend();
+      } else {
+        ranking_dataSend();
       }
     }
 
-    if (monTimer > 40) {
+    if (spawnTimer < 1500) {
+      monSpawn = 30;
+    } else if (spawnTimer > 1500 && spawnTimer < 3000) {
+      monSpawn = 20;
+    } else if (spawnTimer > 3000) {
+      monSpawn = 10;
+    }
+
+    if (monTimer > monSpawn) {
       monTimer = 0;
 
       switch (stageNum) {
@@ -861,12 +879,12 @@ function update(time, delta) {
           }
           break;
         case 6:
-          if (monCount < maxMon) {
+          if (health > 0) {
             enemySpawn();
             let typeNum = Math.floor(Math.random() * 5 + 1);
             let enemy = new Enemy(
               this,
-              40,
+              80,
               monX,
               monY,
               "alien",
@@ -952,7 +970,58 @@ function dataSend() {
   }
 }
 
+function ranking_dataSend() {
+  if (socket.bufferedAmount == 0) {
+    if (IsStarted != false && IsRunning != true) {
+      if (health > 0) {
+        let objList = [[]];
+        let obj = codeMonsterSet.children.entries;
+
+        for (let i = 0; i < codeMonsterSet.children.entries.length; i++) {
+          objList.push([
+            obj[i].x,
+            obj[i].y,
+            obj[i].type,
+            obj[i].body.halfWidth,
+          ]);
+        }
+        for (let i = 0; i < objList.length; i++) {
+          if (objList[i] == 0) {
+            objList.splice(i, 1);
+            i--;
+          }
+        }
+
+        shuffle(objList);
+
+        var Data = {
+          action: "exeData",
+          pinnumber: PinNumber,
+          catchobj: objList,
+        };
+        codeStart = false;
+        IsRunning = true;
+        socket.send(JSON.stringify(Data));
+      } else if (!codeStart) {
+        setSound.playSE(26);
+        Data = {
+          action: "endGame",
+          pinnumber: PinNumber,
+        };
+        socket.send(JSON.stringify(Data));
+        IsStarted = false;
+        if (stageNum === 6) {
+          makeranking();
+        } else {
+          codegameclear();
+        }
+      }
+    }
+  }
+}
+
 // sock end
+
 export function attack(isAttack, angle, element) {
   if (isAttack) {
     let x = Math.cos(angle * (Math.PI / 180));
@@ -964,13 +1033,13 @@ export function attack(isAttack, angle, element) {
     setSound.playSE(25);
     magic.anims.play("magic" + element);
     magicSet.add(magic);
-    codeScene.physics.moveTo(magic, x, y, 500);
+    codeScene.physics.moveTo(magic, x, y, 1000);
   }
 }
 
 function monsterHit(magic, monster) {
   if (monster.type === 0) {
-    score -= 300;
+    LoseLife();
   }
 
   if (!monster.invincible) {
@@ -999,7 +1068,7 @@ function monsterHit(magic, monster) {
 function playerHit(player, monster) {
   camera.shake(100, 0.01); //camera
   monster.destroy();
-  score -= 50;
+  LoseLife();
 }
 
 // sock end

@@ -9,8 +9,12 @@ export let showscore;
 
 export default function IncodeUI() {
   const gameContainer = document.querySelector("#game-container");
-
+  const oldLifeContainer = document.querySelector(".lifeContainer");
   const pin = document.createElement("div");
+
+  if (oldLifeContainer) {
+    gameContainer.removeChild(oldLifeContainer);
+  }
 
   pin.setAttribute("class", "pin");
   pin.innerText = global.PinNumber;
@@ -38,7 +42,18 @@ export default function IncodeUI() {
   showscore.setAttribute("class", "showscore");
   showscore.textContent = "0 Score";
 
+  const lifeContainer = document.createElement("div");
+  lifeContainer.setAttribute("class", "lifeContainer");
+
+  for (let i = 0; i < 3; i++) {
+    const img = document.createElement("img");
+    img.setAttribute("class", "lifeImg");
+    img.src = "images/ui/heart.png";
+    lifeContainer.appendChild(img);
+  }
+
   gameContainer.appendChild(showscore);
+  gameContainer.appendChild(lifeContainer);
 
   buttonContainer.appendChild(backBtn);
   buttonContainer.appendChild(reBtn);
@@ -51,6 +66,17 @@ export default function IncodeUI() {
 }
 
 let removeToast;
+
+export function LoseLife() {
+  health -= 1;
+  if (health < 0) {
+    null;
+  } else {
+    const lifeContainer = document.querySelector(".lifeContainer");
+    const life = document.querySelector(".lifeImg");
+    lifeContainer.removeChild(life);
+  }
+}
 
 function toast(string) {
   const toast = document.getElementById("toast");
@@ -114,6 +140,12 @@ function BacktoStage() {
   const pin = document.querySelector(".pin");
   const buttonContainer = document.querySelector(".buttonContainer");
 
+  const oldLifeContainer = document.querySelector(".lifeContainer");
+
+  if (oldLifeContainer) {
+    gameContainer.removeChild(oldLifeContainer);
+  }
+
   const rankingpanel = document.querySelector(".rankingpanel");
   const resultpanel = document.querySelector(".resultpanel");
   const tempshowscore = document.querySelector(".showscore");
@@ -146,6 +178,12 @@ function Replay() {
   const tempshowscore = document.querySelector(".showscore");
   const rankingpanel = document.querySelector(".rankingpanel");
   const resultpanel = document.querySelector(".resultpanel");
+
+  const oldLifeContainer = document.querySelector(".lifeContainer");
+
+  if (oldLifeContainer) {
+    gameContainer.removeChild(oldLifeContainer);
+  }
 
   if (pin != null) gameContainer.removeChild(pin);
   gameContainer.removeChild(buttonContainer);
