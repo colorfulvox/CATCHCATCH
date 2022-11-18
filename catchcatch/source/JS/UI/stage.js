@@ -78,7 +78,7 @@ export default function Stage() {
       setSound.playSE(24);
       stagePage.style.display = "none";
       stageNum = i + 1;
-      global.codeGame = new Phaser.Game(codeConfig2);
+      global.codeGame = new Phaser.Game(codeConfig);
       const gameContainer = document.querySelector("#game-container");
       gameContainer.style.display = "block";
     });
