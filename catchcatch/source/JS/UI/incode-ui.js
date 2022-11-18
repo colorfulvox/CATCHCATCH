@@ -46,7 +46,7 @@ export default function IncodeUI(newMode) {
 
   if (mode === "디펜스") {
     lifeContainer.setAttribute("class", "lifeContainer");
-    const showscore = document.createElement("div");
+    showscore = document.createElement("div");
     showscore.setAttribute("class", "showscore");
     showscore.textContent = "0 Score";
 
