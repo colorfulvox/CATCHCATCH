@@ -1,5 +1,5 @@
 import { Chunk, Tile } from "./entities.js";
-import IncodeUI, { makeranking, codegameclear } from "../UI/incode-ui.js";
+import IncodeUI, { makeranking, codegameclear, UpdateTurn, LoseLife } from "../UI/incode-ui.js";
 import { showscore } from "../UI/incode-ui.js";
 import { setSound } from "../SOUND/sound";
 import Enemy from "./Code2Obj/enemy.js";
@@ -73,6 +73,7 @@ let frameTime = 0;
 let warning1;
 let warning2;
 let warning3;
+let turn;
 let code2timer = 0;
 global.map = [[[]]];
 global.sendmap = [[]];
@@ -147,6 +148,8 @@ function preload() {
 }
 
 function create() {
+  turn = 0;
+  health2 = 5;
   code2timer = 0;
   codeScene2 = this;
   map = [[[]]];
@@ -371,8 +374,8 @@ function create() {
 
   for (let i = 0; i < 3; i++) {
     while (true) {
-      posX = Math.floor(Math.random() * 7);
-      posY = Math.floor(Math.random() * 7);
+      posX = Math.floor(Math.random() * 5+1);
+      posY = Math.floor(Math.random() * 5+1);
       if (sendmap[posY][posX] === 0) {
         break;
       }
@@ -481,6 +484,8 @@ function update(time, delta) {
       warning2 = this.add.graphics();
       warning3 = this.add.graphics();
       code2timer = 0;
+      turn++;
+      UpdateTurn(turn);
       dataSend();
       let randomNum = Math.floor(Math.random() * 7);
       let width = 0;
@@ -631,6 +636,7 @@ export function action(action, direction) {
           } else if (sendmap[i][j] === 5) {
             let beam = new Beam(codeScene2, map[i][j][0], map[i][j][1]);
             player.health--;
+            LoseLife();
             camera.shake(100, 0.01);
             sendmap[i][j] = 1;
           }

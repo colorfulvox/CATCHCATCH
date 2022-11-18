@@ -1,3 +1,4 @@
+import { LoseLife } from "../../UI/incode-ui.js";
 import { camera } from "../code2.js";
 
 export const Direction = Object.freeze({
@@ -93,6 +94,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                   objmap[this.dy][this.dx].destroy();
                   camera.shake(100, 0.01); //camera
                   objmap[this.dy][this.dx].health--;
+                  LoseLife();
                   sendmap[this.dy][this.dx] = 1;
                   objmap[this.dy][this.dx] = this;
                 }
@@ -134,6 +136,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 objmap[this.dy][this.dx].destroy();
                 camera.shake(100, 0.01); //camera
                 objmap[this.dy][this.dx].health--;
+                LoseLife();
                 sendmap[this.dy][this.dx] = 1;
                 objmap[this.dy][this.dx] = this;
               }
@@ -175,6 +178,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                   objmap[this.dy][this.dx].destroy();
                   camera.shake(100, 0.01); //camera
                   objmap[this.dy][this.dx].health--;
+                  LoseLife();
                   sendmap[this.dy][this.dx] = 1;
                   objmap[this.dy][this.dx] = this;
                 }
@@ -216,6 +220,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                   objmap[this.dy][this.dx].destroy();
                   camera.shake(100, 0.01); //camera
                   objmap[this.dy][this.dx].health--;
+                  LoseLife();
                   sendmap[this.dy][this.dx] = 1;
                   objmap[this.dy][this.dx] = this;
                 }

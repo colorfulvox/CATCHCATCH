@@ -1,3 +1,4 @@
+import { LoseLife } from "../../UI/incode-ui.js";
 import { camera } from "../code2.js";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
@@ -94,6 +95,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                   this.destroy();
                   camera.shake(100, 0.01); //camera
                   objmap[this.dy][this.dx].health--;
+                  LoseLife();
                 }
               },
               loop: false,
@@ -129,6 +131,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.destroy();
                 camera.shake(100, 0.01); //camera
                 objmap[this.dy][this.dx].health--;
+                LoseLife();
               }
             },
             loop: false,
@@ -164,6 +167,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                   this.destroy();
                   camera.shake(100, 0.01); //camera
                   objmap[this.dy][this.dx].health--;
+                  LoseLife();
                 }
               },
               loop: false,
@@ -199,6 +203,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                   this.destroy();
                   camera.shake(100, 0.01); //camera
                   objmap[this.dy][this.dx].health--;
+                  LoseLife();
                 }
               },
               loop: false,
