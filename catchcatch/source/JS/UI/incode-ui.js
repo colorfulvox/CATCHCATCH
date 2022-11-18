@@ -3,6 +3,7 @@ import Stage from "./stage.js";
 import { codeConfig } from "../GAME/code.js";
 import { setSound } from "../SOUND/sound";
 import Mode from "./mode.js";
+import { codeConfig2 } from "../GAME/code2.js";
 
 let inputspace;
 
@@ -10,11 +11,11 @@ export let showscore;
 
 let mode;
 
-export default function IncodeUI(mode) {
+export default function IncodeUI(newMode) {
   const gameContainer = document.querySelector("#game-container");
   const oldLifeContainer = document.querySelector(".lifeContainer");
   const pin = document.createElement("div");
-  mode = mode;
+  mode = newMode;
   if (oldLifeContainer) {
     gameContainer.removeChild(oldLifeContainer);
   }
@@ -42,10 +43,10 @@ export default function IncodeUI(mode) {
   reBtn.addEventListener("click", Replay);
 
   const lifeContainer = document.createElement("div");
-  lifeContainer.setAttribute("class", "lifeContainer");
 
   if (mode === "디펜스") {
-    showscore = document.createElement("div");
+    lifeContainer.setAttribute("class", "lifeContainer");
+    const showscore = document.createElement("div");
     showscore.setAttribute("class", "showscore");
     showscore.textContent = "0 Score";
 
@@ -58,6 +59,7 @@ export default function IncodeUI(mode) {
 
     gameContainer.appendChild(showscore);
   } else {
+    lifeContainer.setAttribute("class", "lifeContainer2");
     for (let i = 0; i < 5; i++) {
       const img = document.createElement("img");
       img.setAttribute("class", "lifeImg");
@@ -80,13 +82,24 @@ export default function IncodeUI(mode) {
 let removeToast;
 
 export function LoseLife() {
-  health -= 1;
-  if (health < 0) {
-    null;
+  if (mode === "디펜스") {
+    health -= 1;
+    if (health < 0) {
+      null;
+    } else {
+      const lifeContainer = document.querySelector(".lifeContainer");
+      const life = document.querySelector(".lifeImg");
+      lifeContainer.removeChild(life);
+    }
   } else {
-    const lifeContainer = document.querySelector(".lifeContainer");
-    const life = document.querySelector(".lifeImg");
-    lifeContainer.removeChild(life);
+    health2 -= 1;
+    if (health2 < 0) {
+      null;
+    } else {
+      const lifeContainer = document.querySelector(".lifeContainer");
+      const life = document.querySelector(".lifeImg");
+      lifeContainer.removeChild(life);
+    }
   }
 }
 
@@ -117,7 +130,7 @@ function deletePin() {
   const modal = document.querySelector(".pinModal");
   gameContainer.removeChild(modal);
   if (mode === "턴") {
-    showTurn = document.createElement("div");
+    const showTurn = document.createElement("div");
     showTurn.setAttribute("class", "showTurn");
     showTurn.textContent = "0 TURN";
     gameContainer.appendChild(showTurn);
@@ -156,8 +169,14 @@ function BacktoStage() {
   const gameContainer = document.querySelector("#game-container");
   gameContainer.innerHTML = "";
   gameContainer.style.display = "none";
-  codeGame.destroy(true);
-  codeGame = null;
+  if (mode === "디펜스") {
+    codeGame.destroy(true);
+    codeGame = null;
+    codeScene = "";
+  } else {
+    codeGame2.destroy(true);
+    codeScene2 = "";
+  }
   let Data = {
     action: "endGame",
     pinnumber: PinNumber,
@@ -179,9 +198,14 @@ function Replay() {
   setSound.playSE(24);
   const gameContainer = document.querySelector("#game-container");
   gameContainer.innerHTML = "";
-  codeGame.destroy(true);
-  codeGame = null;
-  codeGame = new Phaser.Game(codeConfig);
+  if (mode === "디펜스") {
+    codeGame.destroy(true);
+    codeGame = null;
+    codeGame = new Phaser.Game(codeConfig);
+  } else {
+    codeGame2.destroy(true);
+    codeGame2 = new Phaser.Game(codeConfig2);
+  }
   let Data = {
     action: "endGame",
     pinnumber: PinNumber,
@@ -309,4 +333,9 @@ export function codegameclear() {
 
 function cancelranking() {
   BacktoStage();
+}
+
+export function UpdateTurn(n) {
+  const showTurn = document.querySelector(".showTurn");
+  showTurn.innerText = `${n} TURN`;
 }
