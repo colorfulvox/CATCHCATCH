@@ -1,6 +1,7 @@
 import "../../CSS/UI/stagepage.css";
 import { StartBtnOn } from "./start-page.js";
 import { codeConfig, config } from "../GAME/code.js";
+import { codeConfig2 } from "../GAME/code2.js";
 import { setSound } from "../SOUND/sound";
 
 const diff = [1, 2, 3, 4, 5, 6];

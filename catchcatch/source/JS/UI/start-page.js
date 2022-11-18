@@ -8,6 +8,7 @@ import Stage from "./stage.js";
 let _RankingList;
 import { setSound } from "../SOUND/sound";
 import { attack } from "../GAME/code.js";
+import { action } from "../GAME/code2";
 import Mode from "./mode.js";
 
 let _Logo;
@@ -123,6 +124,19 @@ const StartPageInit = () => {
         const RankingList = document.querySelector(".RankingList");
         RankingList.removeChild(RankingContainer);
         InitRanking();
+      }else if (msg.action === "codeData2") {
+        //여기서 바뀐 정보를 전달 받는다.
+        // move일 경우
+        console.log(2);
+        if (msg.cmd === 0) {
+
+          action("move", msg.movedir);
+        } else if (msg.cmd === 1) {
+          action("atack", msg.attackdir);
+        } else {
+          action("defense", -1);
+        }
+        IsRunning = false;
       }
     };
   }
