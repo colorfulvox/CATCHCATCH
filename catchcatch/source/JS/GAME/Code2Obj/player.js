@@ -1,3 +1,4 @@
+import { camera } from "../code2.js";
 
 export const Direction = Object.freeze({
   Up: "Up",
@@ -7,12 +8,13 @@ export const Direction = Object.freeze({
 });
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-  maxHealth = 20;
-  health = 20;
+  maxHealth = 5;
+  health = 5;
   healthLevel = 1;
   isDefense = false;
   dx;
   dy;
+  type = -1;
   // 캐릭터 특수능력 일단 보류
   invincible = false;
   constructor(scene, maxHealth, i, j, x, y, catname) {
@@ -59,12 +61,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       // 오른쪽
       case 1:
         if (this.dx < 6) {
-          if(objmap[this.dy][this.dx+1] === 0 || objmap[this.dy][this.dx+1].type !== 0){
+          if (objmap[this.dy][this.dx + 1] === 0 || objmap[this.dy][this.dx + 1].type !== 0) {
+            if (sendmap[this.dy][this.dx] === 5) {
+              sendmap[this.dy][this.dx] = 4;
+            }else{
               sendmap[this.dy][this.dx] = 0;
-              objmap[this.dy][this.dx] = 0;
-              this.dx++;
-              sendmap[this.dy][this.dx] = 1;
+            }
+            objmap[this.dy][this.dx] = 0;
+            this.dx++;
+            if (objmap[this.dy][this.dx].type !== 1) {
+              if (sendmap[this.dy][this.dx] === 4) {
+                sendmap[this.dy][this.dx] = 5;
+              } else {
+                sendmap[this.dy][this.dx] = 1;
+              }
               objmap[this.dy][this.dx] = this;
+            }
               codeScene2.tweens.add({
                 targets: this,
                 x: map[this.dy][this.dx][0],
@@ -77,6 +89,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               delay: 1200,
               callback: () => {
                 this.anims.play("turn");
+                if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
+                  objmap[this.dy][this.dx].destroy();
+                  camera.shake(100, 0.01); //camera
+                  objmap[this.dy][this.dx].health--;
+                  sendmap[this.dy][this.dx] = 1;
+                  objmap[this.dy][this.dx] = this;
+                }
               },
               loop: false,
             });
@@ -88,11 +107,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (this.dx > 0) {
           this.flipX = true;
           if (objmap[this.dy][this.dx - 1] === 0 || objmap[this.dy][this.dx - 1].type !== 0) {
-            sendmap[this.dy][this.dx] = 0;
+            if (sendmap[this.dy][this.dx] === 5) {
+              sendmap[this.dy][this.dx] = 4;
+            }else{
+              sendmap[this.dy][this.dx] = 0;
+            }
             objmap[this.dy][this.dx] = 0;
             this.dx--;
-            sendmap[this.dy][this.dx] = 1;
-            objmap[this.dy][this.dx] = this;
+            if(objmap[this.dy][this.dx].type!==1){
+              sendmap[this.dy][this.dx] = 1;
+              objmap[this.dy][this.dx] = this;
+            }
             codeScene2.tweens.add({
               targets: this,
               x: map[this.dy][this.dx][0],
@@ -105,6 +130,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             delay: 1200,
             callback: () => {
               this.anims.play("turn");
+              if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
+                objmap[this.dy][this.dx].destroy();
+                camera.shake(100, 0.01); //camera
+                objmap[this.dy][this.dx].health--;
+                sendmap[this.dy][this.dx] = 1;
+                objmap[this.dy][this.dx] = this;
+              }
             },
             loop: false,
           });
@@ -115,11 +147,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       case 3:
         if (this.dy > 0) {
           if (objmap[this.dy - 1][this.dx] === 0 || objmap[this.dy - 1][this.dx].type !== 0) {
-            sendmap[this.dy][this.dx] = 0;
+            if (sendmap[this.dy][this.dx] === 5) {
+              sendmap[this.dy][this.dx] = 4;
+            }else{
+              sendmap[this.dy][this.dx] = 0;
+            }
             objmap[this.dy][this.dx] = 0;
             this.dy--;
-            sendmap[this.dy][this.dx] = 1;
-            objmap[this.dy][this.dx] = this;
+            if(objmap[this.dy][this.dx].type!==1){
+              sendmap[this.dy][this.dx] = 1;
+              objmap[this.dy][this.dx] = this;
+            }
             codeScene2.tweens.add({
               targets: this,
               x: map[this.dy][this.dx][0],
@@ -133,6 +171,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               delay: 1200,
               callback: () => {
                 this.anims.play("turn");
+                if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
+                  objmap[this.dy][this.dx].destroy();
+                  camera.shake(100, 0.01); //camera
+                  objmap[this.dy][this.dx].health--;
+                  sendmap[this.dy][this.dx] = 1;
+                  objmap[this.dy][this.dx] = this;
+                }
               },
               loop: false,
             });
@@ -143,11 +188,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       case 4:
         if (this.dy < 6) {
           if (objmap[this.dy + 1][this.dx] === 0 || objmap[this.dy + 1][this.dx].type !== 0) {
-            sendmap[this.dy][this.dx] = 0;
+            if (sendmap[this.dy][this.dx] === 5) {
+              sendmap[this.dy][this.dx] = 4;
+            }else{
+              sendmap[this.dy][this.dx] = 0;
+            }
             objmap[this.dy][this.dx] = 0;
             this.dy++;
-            sendmap[this.dy][this.dx] = 1;
-            objmap[this.dy][this.dx] = this;
+            if(objmap[this.dy][this.dx].type!==1){
+              sendmap[this.dy][this.dx] = 1;
+              objmap[this.dy][this.dx] = this;
+            }
             codeScene2.tweens.add({
               targets: this,
               x: map[this.dy][this.dx][0],
@@ -161,6 +212,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               delay: 1200,
               callback: () => {
                 this.anims.play("turn");
+                if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
+                  objmap[this.dy][this.dx].destroy();
+                  camera.shake(100, 0.01); //camera
+                  objmap[this.dy][this.dx].health--;
+                  sendmap[this.dy][this.dx] = 1;
+                  objmap[this.dy][this.dx] = this;
+                }
               },
               loop: false,
             });
@@ -181,24 +239,38 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
           );
         }
         break;
-      // 왼쪽
+      // ↖ -1-1
       case 1:
+        for (let i = 0; i < 7; i++){
+          
+        }
         break;
-      // 위쪽
+      // ↑
       case 2:
+
         break;
-      // 아래쪽
+      // ↗
       case 3:
+
         break;
+      // ←
       case 4:
         break;
+      // →
       case 5:
+
         break;
+      // ↙
       case 6:
+
         break;
+      //  ↓ 
       case 7:
+
         break;
+      // ↘
       case 8:
+
         break;
     }
   }
