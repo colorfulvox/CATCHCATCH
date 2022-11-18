@@ -2,15 +2,13 @@ import ingameUi from "../../UI/ingame-ui";
 import { monsterSet } from "../game";
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
-  maxHealth = 3;
-  health = 3;
-  velo;
+  maxHealth = 1;
+  health = 1;
   invincible = false;
   type;
   monSpiece;
   dx;
   dy;
-  location;
   velo = 100;
   constructor(scene, i, j, x, y, type) {
     let monSpiece;
@@ -66,6 +64,122 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {}
+
+  move(direction) {
+    switch (direction) {
+      // 오른쪽
+      case 1:
+        if (this.dx < 6) {
+          if(objmap[this.dy][this.dx+1] === 0 || objmap[this.dy][this.dx+1].type !== 0){
+              sendmap[this.dy][this.dx] = 0;
+              objmap[this.dy][this.dx] = 0;
+              this.dx++;
+              sendmap[this.dy][this.dx] = 1;
+              objmap[this.dy][this.dx] = this;
+              codeScene2.tweens.add({
+                targets: this,
+                x: map[this.dy][this.dx][0],
+                y: map[this.dy][this.dx][1],
+                delay: 100,
+                ease: 'Linear'
+            });
+            this.anims.play("slime_move");
+            codeScene2.time.addEvent({
+              delay: 1200,
+              callback: () => {
+                this.anims.play("slime_idle");
+              },
+              loop: false,
+            });
+          }
+        }
+        break;
+      // 왼쪽
+      case 2:
+        if (this.dx > 0) {
+          this.flipX = true;
+          if (objmap[this.dy][this.dx - 1] === 0 || objmap[this.dy][this.dx - 1].type !== 0) {
+            sendmap[this.dy][this.dx] = 0;
+            objmap[this.dy][this.dx] = 0;
+            this.dx--;
+            sendmap[this.dy][this.dx] = 1;
+            objmap[this.dy][this.dx] = this;
+            codeScene2.tweens.add({
+              targets: this,
+              x: map[this.dy][this.dx][0],
+              y: map[this.dy][this.dx][1],
+              delay: 100,
+              ease: 'Linear'
+          });
+          this.anims.play("slime_move");
+          codeScene2.time.addEvent({
+            delay: 1200,
+            callback: () => {
+              this.anims.play("slime_idle");
+            },
+            loop: false,
+          });
+          }
+        }
+        break;
+      // 위쪽
+      case 3:
+        if (this.dy > 0) {
+          if (objmap[this.dy - 1][this.dx] === 0 || objmap[this.dy - 1][this.dx].type !== 0) {
+            sendmap[this.dy][this.dx] = 0;
+            objmap[this.dy][this.dx] = 0;
+            this.dy--;
+            sendmap[this.dy][this.dx] = 1;
+            objmap[this.dy][this.dx] = this;
+            codeScene2.tweens.add({
+              targets: this,
+              x: map[this.dy][this.dx][0],
+              y: map[this.dy][this.dx][1],
+              delay: 100,
+              ease: 'Linear'
+            });
+            this.flipX = true;
+            this.anims.play("slime_move");
+            codeScene2.time.addEvent({
+              delay: 1200,
+              callback: () => {
+                this.anims.play("slime_idle");
+              },
+              loop: false,
+            });
+          }
+        }
+        break;
+      // 아래쪽
+      case 4:
+        if (this.dy < 6) {
+          if (objmap[this.dy + 1][this.dx] === 0 || objmap[this.dy + 1][this.dx].type !== 0) {
+            sendmap[this.dy][this.dx] = 0;
+            objmap[this.dy][this.dx] = 0;
+            this.dy++;
+            sendmap[this.dy][this.dx] = 1;
+            objmap[this.dy][this.dx] = this;
+            codeScene2.tweens.add({
+              targets: this,
+              x: map[this.dy][this.dx][0],
+              y: map[this.dy][this.dx][1],
+              delay: 100,
+              ease: 'Linear'
+            });
+            this.flipX = true;
+            this.anims.play("slime_move");
+            codeScene2.time.addEvent({
+              delay: 1200,
+              callback: () => {
+                this.anims.play("slime_idle");
+              },
+              loop: false,
+            });
+          }
+        }
+        break; 
+    }
+  }
 
   anime() {
     this.clearTint().play(this.anim);

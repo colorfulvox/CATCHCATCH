@@ -70,7 +70,9 @@ let codeStart;
 export var camera;
 let frameTime = 0;
 global.map = [[[]]];
+global.sendmap = [[]];
 global.objmap = [[]];
+let code2MonsterSet;
 function preload() {
   //map start
   this.load.image("sprWater", "images/map/sprWater.png");
@@ -122,6 +124,10 @@ function preload() {
     frameWidth: 96,
     frameHeight: 100,
   });
+  this.load.spritesheet("teleport", "images/cat/teleport.png", {
+    frameWidth: 101,
+    frameHeight: 101,
+  });
   // 몬스터
   this.load.spritesheet("monster_die", "images/monster/monster_die2.png", {
     frameWidth: 64,
@@ -136,6 +142,10 @@ function preload() {
 }
 
 function create() {
+  codeScene2 = this;
+  map = [[[]]];
+  sendmap = [[]];
+  objmap = [[]];
   // resource load start
   IncodeUI();
   chunks = [];
@@ -159,6 +169,14 @@ function create() {
     frameRate: 7,
     repeat: -1,
   });
+  this.anims.create({
+    key: "teleport",
+    frames: this.anims.generateFrameNumbers("teleport", { start: 0, end: 17 }),
+    frameRate: 30,
+    repeat: 1,
+  });
+  code2MonsterSet = [];
+
   this.cameras.main.setZoom(0.85);
   // resource load end
   // var ssafy = this.add.image(0, 0, "ssafy");
@@ -180,8 +198,10 @@ function create() {
   let term = 100;
   for (let i = 0; i <= 6; i++) {
     map.push([]);
+    sendmap.push([]);
     objmap.push([]);
     for (let j = 0; j <= 6; j++) {
+      sendmap[i].push(0);
       objmap[i].push(0);
       map[i].push([]);
       let tileX = this.add.image(term * j, term * i, "square");
@@ -190,8 +210,8 @@ function create() {
       map[i][j].push(term * i);
     }
   }
+  sendmap.pop();
   objmap.pop();
-  console.log(objmap);
   let posX = Math.floor(Math.random() * 7);
   let posY = Math.floor(Math.random() * 7);
   player = new Player(
@@ -203,7 +223,8 @@ function create() {
     map[posY][posX][1],
     "cat1"
   );
-  objmap[i][j] = 1;
+  sendmap[posY][posX] = 1;
+  objmap[posY][posX] = player;
   player.setDepth(4);
   player.body.debugBodyColor = 0x7f921b;
 
@@ -317,6 +338,7 @@ function create() {
         chunk.unload();
       }
     }
+
   }
 
   //map end
@@ -325,7 +347,7 @@ function create() {
     while (true) {
       posX = Math.floor(Math.random() * 7);
       posY = Math.floor(Math.random() * 7);
-      if (objmap[posY][posX] === 0) {
+      if (sendmap[posY][posX] === 0) {
         break;
       }
     }
@@ -337,7 +359,34 @@ function create() {
       map[posY][posX][1],
       1
     );
-    objmap[posY][posX] = 3;
+    sendmap[posY][posX] = 3;
+    objmap[posY][posX] = enemy;
+    code2MonsterSet.push(enemy);
+  }
+
+  for (let i = 0; i < code2MonsterSet.length; i++){
+    let randomNum = Math.floor(Math.random()*4+1)
+    code2MonsterSet[i].move(randomNum);
+  }
+
+  for (let i = 0; i < 5; i++) {
+    while (true) {
+      posX = Math.floor(Math.random() * 7);
+      posY = Math.floor(Math.random() * 7);
+      if (sendmap[posY][posX] === 0) {
+        break;
+      }
+    }
+    let enemy = new Enemy(
+      this,
+      posX,
+      posY,
+      map[posY][posX][0],
+      map[posY][posX][1],
+      0
+    );
+    sendmap[posY][posX] = 2;
+    objmap[posY][posX] = enemy;
   }
 }
 

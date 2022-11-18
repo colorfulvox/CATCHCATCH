@@ -1,3 +1,4 @@
+
 export const Direction = Object.freeze({
   Up: "Up",
   Down: "Down",
@@ -24,6 +25,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
+    scene.anims.create({
+      key: "turn",
+      frames: this.anims.generateFrameNumbers(catname, { start: 0, end: 0 }),
+      frameRate: 10,
+    });
+    scene.anims.create({
+      key: "move",
+      frames: this.anims.generateFrameNumbers(catname, { start: 1, end: 7 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
   }
 
   action(key, direction) {
@@ -40,48 +53,120 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+
   move(direction) {
     switch (direction) {
       // 오른쪽
-      case 0:
-        if (dx < 6) {
-          this.dx++;
-          this.setPosition(
-            global.map[this.dy][this.dx][0],
-            global.map[this.dy][this.dx][1]
-          );
+      case 1:
+        if (this.dx < 6) {
+          if(objmap[this.dy][this.dx+1] === 0 || objmap[this.dy][this.dx+1].type !== 0){
+              sendmap[this.dy][this.dx] = 0;
+              objmap[this.dy][this.dx] = 0;
+              this.dx++;
+              sendmap[this.dy][this.dx] = 1;
+              objmap[this.dy][this.dx] = this;
+              codeScene2.tweens.add({
+                targets: this,
+                x: map[this.dy][this.dx][0],
+                y: map[this.dy][this.dx][1],
+                delay: 100,
+                ease: 'Linear'
+            });
+            this.anims.play("move");
+            codeScene2.time.addEvent({
+              delay: 1200,
+              callback: () => {
+                this.anims.play("turn");
+              },
+              loop: false,
+            });
+          }
         }
         break;
       // 왼쪽
-      case 1:
-        if (dx > 0) {
-          this.dx--;
-          this.setPosition(
-            global.map[this.dy][this.dx][0],
-            global.map[this.dy][this.dx][1]
-          );
+      case 2:
+        if (this.dx > 0) {
+          this.flipX = true;
+          if (objmap[this.dy][this.dx - 1] === 0 || objmap[this.dy][this.dx - 1].type !== 0) {
+            sendmap[this.dy][this.dx] = 0;
+            objmap[this.dy][this.dx] = 0;
+            this.dx--;
+            sendmap[this.dy][this.dx] = 1;
+            objmap[this.dy][this.dx] = this;
+            codeScene2.tweens.add({
+              targets: this,
+              x: map[this.dy][this.dx][0],
+              y: map[this.dy][this.dx][1],
+              delay: 100,
+              ease: 'Linear'
+          });
+          this.anims.play("move");
+          codeScene2.time.addEvent({
+            delay: 1200,
+            callback: () => {
+              this.anims.play("turn");
+            },
+            loop: false,
+          });
+          }
         }
         break;
       // 위쪽
-      case 2:
-        if (dy > 0) {
-          this.dy--;
-          this.setPosition(
-            global.map[this.dy][this.dx][0],
-            global.map[this.dy][this.dx][1]
-          );
+      case 3:
+        if (this.dy > 0) {
+          if (objmap[this.dy - 1][this.dx] === 0 || objmap[this.dy - 1][this.dx].type !== 0) {
+            sendmap[this.dy][this.dx] = 0;
+            objmap[this.dy][this.dx] = 0;
+            this.dy--;
+            sendmap[this.dy][this.dx] = 1;
+            objmap[this.dy][this.dx] = this;
+            codeScene2.tweens.add({
+              targets: this,
+              x: map[this.dy][this.dx][0],
+              y: map[this.dy][this.dx][1],
+              delay: 100,
+              ease: 'Linear'
+            });
+            this.flipX = true;
+            this.anims.play("move");
+            codeScene2.time.addEvent({
+              delay: 1200,
+              callback: () => {
+                this.anims.play("turn");
+              },
+              loop: false,
+            });
+          }
         }
         break;
       // 아래쪽
-      case 3:
-        if (dy < 6) {
-          this.dy++;
-          this.setPosition(
-            global.map[this.dy][this.dx][0],
-            global.map[this.dy][this.dx][1]
-          );
+      case 4:
+        if (this.dy < 6) {
+          if (objmap[this.dy + 1][this.dx] === 0 || objmap[this.dy + 1][this.dx].type !== 0) {
+            sendmap[this.dy][this.dx] = 0;
+            objmap[this.dy][this.dx] = 0;
+            this.dy++;
+            sendmap[this.dy][this.dx] = 1;
+            objmap[this.dy][this.dx] = this;
+            codeScene2.tweens.add({
+              targets: this,
+              x: map[this.dy][this.dx][0],
+              y: map[this.dy][this.dx][1],
+              delay: 100,
+              ease: 'Linear'
+            });
+            this.flipX = true;
+            this.anims.play("move");
+            codeScene2.time.addEvent({
+              delay: 1200,
+              callback: () => {
+                this.anims.play("turn");
+              },
+              loop: false,
+            });
+          }
         }
-        break;
+        break; 
     }
   }
   attack(direction) {
