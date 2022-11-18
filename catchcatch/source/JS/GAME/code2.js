@@ -153,7 +153,7 @@ function create() {
   sendmap = [[]];
   objmap = [[]];
   // resource load start
-  IncodeUI();
+  IncodeUI("턴");
   chunks = [];
   score = 0;
   codeStart = true;
@@ -344,7 +344,6 @@ function create() {
         chunk.unload();
       }
     }
-
   }
 
   //map end
@@ -389,9 +388,6 @@ function create() {
     sendmap[posY][posX] = 2;
     objmap[posY][posX] = enemy;
   }
-
-
-
 
   // 랜덤 빔 시작
   // let randomNum = Math.floor(Math.random() * 7);
@@ -465,7 +461,7 @@ function create() {
   //       sendmap[i][randomNum] = 4;
   //     }
   //   }
-  
+
   //   warning3.fillStyle(0xff0000);
   //   warning3.fillRect(map[0][randomNum][0] - 50, map[0][randomNum][1] - 50, 100, height);
   //   warning3.setAlpha(0.4);
@@ -488,7 +484,7 @@ function update(time, delta) {
       dataSend();
       let randomNum = Math.floor(Math.random() * 7);
       let width = 0;
-      for (let i = 0; i < 7; i++){
+      for (let i = 0; i < 7; i++) {
         width += 100;
         if (sendmap[randomNum][i] === 2) break;
         if (sendmap[randomNum][i] === 1 || sendmap[randomNum][i] === 5) {
@@ -498,11 +494,16 @@ function update(time, delta) {
         }
       }
       warning1.fillStyle(0xff0000);
-      warning1.fillRect(map[randomNum][0][0] - 50, map[randomNum][0][1] - 50, width, 100);
+      warning1.fillRect(
+        map[randomNum][0][0] - 50,
+        map[randomNum][0][1] - 50,
+        width,
+        100
+      );
       warning1.setAlpha(0.4);
       randomNum = Math.floor(Math.random() * 7);
       let height = 0;
-      for (let i = 0; i < 7; i++){
+      for (let i = 0; i < 7; i++) {
         height += 100;
         if (sendmap[i][randomNum] === 2) break;
         if (sendmap[i][randomNum] === 1 || sendmap[i][randomNum] === 5) {
@@ -513,20 +514,25 @@ function update(time, delta) {
       }
 
       warning2.fillStyle(0xff0000);
-      warning2.fillRect(map[0][randomNum][0] - 50, map[0][randomNum][1] - 50, 100, height);
+      warning2.fillRect(
+        map[0][randomNum][0] - 50,
+        map[0][randomNum][1] - 50,
+        100,
+        height
+      );
       warning2.setAlpha(0.4);
 
       randomNum = Math.floor(Math.random() * 2);
       if (randomNum === 0) {
+        randomNum = Math.floor(Math.random() * 7);
+        if (sendmap[randomNum][0] === 4) {
           randomNum = Math.floor(Math.random() * 7);
-          if (sendmap[randomNum][0] === 4) {
-            randomNum = Math.floor(Math.random() * 7);
-          }
-          if (sendmap[randomNum][0] === 4) {
-            randomNum = Math.floor(Math.random() * 7);
-          }
+        }
+        if (sendmap[randomNum][0] === 4) {
+          randomNum = Math.floor(Math.random() * 7);
+        }
         width = 0;
-        for (let i = 0; i < 7; i++){
+        for (let i = 0; i < 7; i++) {
           width += 100;
           if (sendmap[randomNum][i] === 2) break;
           if (sendmap[randomNum][i] === 1 || sendmap[randomNum][i] === 5) {
@@ -536,7 +542,12 @@ function update(time, delta) {
           }
         }
         warning3.fillStyle(0xff0000);
-        warning3.fillRect(map[randomNum][0][0] - 50, map[randomNum][0][1] - 50, width, 100);
+        warning3.fillRect(
+          map[randomNum][0][0] - 50,
+          map[randomNum][0][1] - 50,
+          width,
+          100
+        );
         warning3.setAlpha(0.4);
       } else {
         randomNum = Math.floor(Math.random() * 7);
@@ -547,7 +558,7 @@ function update(time, delta) {
           randomNum = Math.floor(Math.random() * 7);
         }
         height = 0;
-        for (let i = 0; i < 7; i++){
+        for (let i = 0; i < 7; i++) {
           height += 100;
           if (sendmap[i][randomNum] === 2) break;
           if (sendmap[i][randomNum] === 1 || sendmap[i][randomNum] === 5) {
@@ -556,14 +567,19 @@ function update(time, delta) {
             sendmap[i][randomNum] = 4;
           }
         }
-      
+
         warning3.fillStyle(0xff0000);
-        warning3.fillRect(map[0][randomNum][0] - 50, map[0][randomNum][1] - 50, 100, height);
+        warning3.fillRect(
+          map[0][randomNum][0] - 50,
+          map[0][randomNum][1] - 50,
+          100,
+          height
+        );
         warning3.setAlpha(0.4);
       }
       // 랜덤 빔 끝
     }
-    code2timer++
+    code2timer++;
   }
 }
 
@@ -584,16 +600,15 @@ function getChunk(x, y) {
 function dataSend() {
   if (socket.bufferedAmount == 0) {
     if (IsStarted != false && IsRunning != true) {
-
-        var Data = {
-          action: "exeData2",
-          pinnumber: PinNumber,
-          mapinfo: sendmap,
-          playerhp: player.health,
-        };
-        codeStart = false;
-        IsRunning = true;
-        socket.send(JSON.stringify(Data));
+      var Data = {
+        action: "exeData2",
+        pinnumber: PinNumber,
+        mapinfo: sendmap,
+        playerhp: player.health,
+      };
+      codeStart = false;
+      IsRunning = true;
+      socket.send(JSON.stringify(Data));
     }
   }
 }
@@ -608,10 +623,10 @@ export function action(action, direction) {
       warning1.destroy();
       warning2.destroy();
       warning3.destroy();
-      for (let i = 0; i < 7; i++){
-        for (let j = 0; j < 7;j++){
+      for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < 7; j++) {
           if (sendmap[i][j] === 4) {
-            let beam = new Beam(codeScene2,map[i][j][0],map[i][j][1]);
+            let beam = new Beam(codeScene2, map[i][j][0], map[i][j][1]);
             sendmap[i][j] = 0;
           } else if (sendmap[i][j] === 5) {
             let beam = new Beam(codeScene2, map[i][j][0], map[i][j][1]);
@@ -621,15 +636,14 @@ export function action(action, direction) {
           }
         }
       }
-    // 몬스터 이동 시작
-    for (let i = 0; i < code2MonsterSet.children.entries.length; i++){
-      let randomNum = Math.floor(Math.random()*4+1)
-      code2MonsterSet.children.entries[i].move(randomNum);
-    }
-    // 몬스터 이동 끝
+      // 몬스터 이동 시작
+      for (let i = 0; i < code2MonsterSet.children.entries.length; i++) {
+        let randomNum = Math.floor(Math.random() * 4 + 1);
+        code2MonsterSet.children.entries[i].move(randomNum);
+      }
+      // 몬스터 이동 끝
     },
     loop: false,
   });
-
 }
 // sock end
