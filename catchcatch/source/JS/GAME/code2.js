@@ -442,7 +442,7 @@ function update(time, delta) {
       code2timer = 0;
       turn++;
       UpdateTurn(turn);
-      dataSend();
+
       let randomNum = Math.floor(Math.random() * 7);
       let width = 0;
       for (let i = 0; i < 7; i++) {
@@ -539,6 +539,7 @@ function update(time, delta) {
         warning3.setAlpha(0.4);
       }
       // 랜덤 빔 끝
+      dataSend();
     }
     code2timer++;
   }
