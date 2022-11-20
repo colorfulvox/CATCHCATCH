@@ -129,21 +129,21 @@ function deletePin() {
   const gameContainer = document.querySelector("#game-container");
   const modal = document.querySelector(".pinModal");
   gameContainer.removeChild(modal);
+}
+
+function copypinnumber() {
+  copyStringToClipboard(global.PinNumber);
+  const modal = document.querySelector(".pinModal");
+  const gameContainer = document.querySelector("#game-container");
   if (mode === "턴") {
     const showTurn = document.createElement("div");
     showTurn.setAttribute("class", "showTurn");
     showTurn.textContent = "0 TURN";
     gameContainer.appendChild(showTurn);
   }
-}
-
-function copypinnumber() {
-  copyStringToClipboard(global.PinNumber);
-  const modal = document.querySelector(".pinModal");
   if (modal) {
     deletePin();
   }
-  const gameContainer = document.querySelector("#game-container");
   const pin = document.querySelector(".pin");
   gameContainer.removeChild(pin);
 
