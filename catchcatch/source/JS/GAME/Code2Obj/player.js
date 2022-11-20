@@ -2,6 +2,7 @@ import { LoseLife } from "../../UI/incode-ui.js";
 import { camera } from "../code2.js";
 import Attack from "./attack.js";
 import Barrier from "./Barrier.js";
+import { setSound } from "../../SOUND/sound.js";
 
 export const Direction = Object.freeze({
   Up: "Up",
@@ -99,6 +100,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
                   objmap[this.dy][this.dx].destroy();
                   camera.shake(100, 0.01); //camera
+                  setSound.playSE(12);
                   objmap[this.dy][this.dx].health--;
                   LoseLife();
                   sendmap[this.dy][this.dx] = 1;
@@ -142,6 +144,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
                 objmap[this.dy][this.dx].destroy();
                 camera.shake(100, 0.01); //camera
+                setSound.playSE(12);
                 objmap[this.dy][this.dx].health--;
                 LoseLife();
                 sendmap[this.dy][this.dx] = 1;
@@ -185,6 +188,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
                   objmap[this.dy][this.dx].destroy();
                   camera.shake(100, 0.01); //camera
+                  setSound.playSE(12);
                   objmap[this.dy][this.dx].health--;
                   LoseLife();
                   sendmap[this.dy][this.dx] = 1;
@@ -228,6 +232,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
                   objmap[this.dy][this.dx].destroy();
                   camera.shake(100, 0.01); //camera
+                  setSound.playSE(12);
                   objmap[this.dy][this.dx].health--;
                   LoseLife();
                   sendmap[this.dy][this.dx] = 1;
@@ -291,6 +296,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     let x = Math.cos(angle * (Math.PI / 180));
     let y = Math.sin(angle * (Math.PI / 180));
     attack.rotation += angle / 60;
+    setSound.playSE(2);
     codeScene2.physics.moveTo(attack, map[this.dy][this.dx][0] + x, map[this.dy][this.dx][1] + y, 800);
   }
 

@@ -1,3 +1,4 @@
+import { setSound } from "../../SOUND/sound.js";
 import { LoseLife } from "../../UI/incode-ui.js";
 import { camera } from "../code2.js";
 
@@ -94,6 +95,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 if (objmap[this.dy][this.dx].type===-1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
                   this.destroy();
                   camera.shake(100, 0.01); //camera
+                  setSound.playSE(11);
                   objmap[this.dy][this.dx].health--;
                   LoseLife();
                 }
@@ -130,6 +132,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
               if (objmap[this.dy][this.dx].type===-1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
                 this.destroy();
                 camera.shake(100, 0.01); //camera
+                setSound.playSE(11);
                 objmap[this.dy][this.dx].health--;
                 LoseLife();
               }
@@ -166,6 +169,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 if (objmap[this.dy][this.dx].type===-1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
                   this.destroy();
                   camera.shake(100, 0.01); //camera
+                  setSound.playSE(11);
                   objmap[this.dy][this.dx].health--;
                   LoseLife();
                 }
@@ -202,6 +206,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 if (objmap[this.dy][this.dx].type===-1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
                   this.destroy();
                   camera.shake(100, 0.01); //camera
+                  setSound.playSE(11);
                   objmap[this.dy][this.dx].health--;
                   LoseLife();
                 }

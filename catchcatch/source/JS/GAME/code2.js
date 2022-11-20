@@ -6,11 +6,12 @@ import IncodeUI, {
   LoseLife,
 } from "../UI/incode-ui.js";
 import { showscore } from "../UI/incode-ui.js";
-import { setSound } from "../SOUND/sound";
+import { setSound } from "../SOUND/sound.js";
 import Enemy from "./Code2Obj/enemy.js";
 import Player from "./Code2Obj/player.js";
 import Beam from "./Code2Obj/beam.js";
 import Attack from "./Code2Obj/attack.js";
+
 import { CodeCatch2Gamclear } from "../UI/incode-ui.js";
 import { CodeCatch2Gameover } from "../UI/incode-ui.js";
 export let codeConfig2 = {
@@ -35,7 +36,7 @@ export let codeConfig2 = {
     default: "arcade",
     arcade: {
       fps: 60,
-      debug: true,
+      debug: false,
       debugShowVelocity: true,
       fixedStep: false,
     },
@@ -98,7 +99,7 @@ function preload() {
   // this.load.image("ssafy", "images/map/ssafy.png");
   //map end
   let frameTime = 0;
-
+  
   //player start
   // 플레이어 스프라이트
   // player end
@@ -434,11 +435,25 @@ function update(time, delta) {
 
   if (frameTime > 16.5) {
     if (player.health <= 0) {
-      this.scene.pause();
+      setSound.playSE(20);
+      codeScene2.time.addEvent({
+        delay: 750,
+        callback: () => {
+          this.scene.pause();
+        },
+        loop: false,
+      });
       CodeCatch2Gameover();
     }
     if (code2MonsterSet.children.entries.length <= 0) {
-      this.scene.pause();
+      setSound.setBGM(3);
+      codeScene2.time.addEvent({
+        delay: 750,
+        callback: () => {
+          this.scene.pause();
+        },
+        loop: false,
+      });
       CodeCatch2Gamclear();
     }
     if (code2timer % 140 === 0) {
@@ -568,6 +583,7 @@ function getChunk(x, y) {
 
 //sock start
 function dataSend() {
+  setSound.playSE(4);
   if (socket.bufferedAmount == 0) {
     if (IsStarted != false && IsRunning != true) {
       var Data = {
@@ -591,6 +607,7 @@ function monsterHit(magic, enemy) {
     if (enemy.type === 1) {
       sendmap[enemy.dy][enemy.dx] = 0;
       objmap[enemy.dy][enemy.dx] = 0;
+      setSound.playSE(17);
       enemy.destroy();
       magic.destroy();
     }
@@ -603,6 +620,7 @@ export function action(action, direction) {
   codeScene2.time.addEvent({
     delay: 750,
     callback: () => {
+      setSound.playSE(8);
       warning1.destroy();
       warning2.destroy();
       warning3.destroy();
@@ -614,9 +632,11 @@ export function action(action, direction) {
           } else if (sendmap[i][j] === 5) {
             let beam = new Beam(codeScene2, map[i][j][0], map[i][j][1]);
             if (player.isDefense) {
+              setSound.playSE(11);
               player.health--;
               LoseLife();
             } else {
+              setSound.playSE(27);
               player.health -= 2;
               LoseLife();
               LoseLife();
