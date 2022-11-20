@@ -88,7 +88,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             });
             this.anims.play("slime_move");
             codeScene2.time.addEvent({
-              delay: 1200,
+              delay: 600,
               callback: () => {
                 this.anims.play("slime_idle");
                 if (objmap[this.dy][this.dx].type===-1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
@@ -124,7 +124,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
           });
           this.anims.play("slime_move");
           codeScene2.time.addEvent({
-            delay: 1200,
+            delay: 600,
             callback: () => {
               this.anims.play("slime_idle");
               if (objmap[this.dy][this.dx].type===-1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
@@ -160,7 +160,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.flipX = true;
             this.anims.play("slime_move");
             codeScene2.time.addEvent({
-              delay: 1200,
+              delay: 600,
               callback: () => {
                 this.anims.play("slime_idle");
                 if (objmap[this.dy][this.dx].type===-1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
@@ -196,7 +196,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.flipX = true;
             this.anims.play("slime_move");
             codeScene2.time.addEvent({
-              delay: 1200,
+              delay: 600,
               callback: () => {
                 this.anims.play("slime_idle");
                 if (objmap[this.dy][this.dx].type===-1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {

@@ -434,7 +434,7 @@ function update(time, delta) {
       console.log("GameClear!");
       this.scene.pause();
     }
-    if (code2timer % 240 === 0) {
+    if (code2timer % 140 === 0) {
       player.isDefense = false;
       warning1 = this.add.graphics();
       warning2 = this.add.graphics();
@@ -539,6 +539,7 @@ function update(time, delta) {
         warning3.setAlpha(0.4);
       }
       // 랜덤 빔 끝
+      
       dataSend();
     }
     code2timer++;
@@ -560,6 +561,7 @@ function getChunk(x, y) {
 
 //sock start
 function dataSend() {
+  
   if (socket.bufferedAmount == 0) {
     if (IsStarted != false && IsRunning != true) {
       var Data = {
@@ -571,6 +573,7 @@ function dataSend() {
       codeStart = false;
       IsRunning = true;
       socket.send(JSON.stringify(Data));
+      console.log(sendmap);
     }
   }
 }
@@ -591,9 +594,8 @@ function monsterHit(magic, enemy) {
 // sock end
 export function action(action, direction) {
   player.action(action, direction);
-  console.log(sendmap);
   codeScene2.time.addEvent({
-    delay: 1500,
+    delay: 750,
     callback: () => {
       warning1.destroy();
       warning2.destroy();

@@ -5,7 +5,7 @@ export default class Barrier extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     codeScene2.time.addEvent({
-      delay: 3000,
+      delay: 1500,
       callback: () => {
         this.destroy();
       },

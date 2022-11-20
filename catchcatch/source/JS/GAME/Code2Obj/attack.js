@@ -3,7 +3,7 @@ export default class Attack extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "attack");
     scene.time.addEvent({
-      delay: 1500,
+      delay: 750,
       callback: () => {
         this.destroy();
       },

@@ -3,7 +3,7 @@ export default class Beam extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, "beam");
     codeScene2.time.addEvent({
-      delay: 1000,
+      delay: 500,
       callback: () => {
         this.destroy();
       },

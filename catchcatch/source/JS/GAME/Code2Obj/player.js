@@ -60,7 +60,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 
   move(direction) {
-    console.log(1234);
     switch (direction) {
       // 오른쪽
       case 1:
@@ -85,12 +84,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 targets: this,
                 x: map[this.dy][this.dx][0],
                 y: map[this.dy][this.dx][1],
-                delay: 100,
+                delay: 80,
                 ease: 'Linear'
             });
             this.anims.play("move");
             codeScene2.time.addEvent({
-              delay: 1200,
+              delay: 600,
               callback: () => {
                 this.anims.play("turn");
                 if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
@@ -285,7 +284,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     let x = Math.cos(angle * (Math.PI / 180));
     let y = Math.sin(angle * (Math.PI / 180));
     attack.rotation += angle / 60;
-    codeScene2.physics.moveTo(attack, map[this.dy][this.dx][0] + x, map[this.dy][this.dx][1] + y, 500);
+    codeScene2.physics.moveTo(attack, map[this.dy][this.dx][0] + x, map[this.dy][this.dx][1] + y, 800);
   }
 
 }
