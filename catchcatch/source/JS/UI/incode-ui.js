@@ -354,6 +354,7 @@ export function CodeCatch2Gameover() {
   const backbtn = document.createElement("button");
   backbtn.setAttribute("class", "submitbtn");
   backbtn.textContent = "확인";
+  backbtn.addEventListener("click", BacktoStage);
   resultpanel.appendChild(backbtn);
 }
 
@@ -371,5 +372,6 @@ export function CodeCatch2Gamclear() {
   const backbtn = document.createElement("button");
   backbtn.setAttribute("class", "submitbtn");
   backbtn.textContent = "확인";
+  backbtn.addEventListener("click", BacktoStage);
   resultpanel.appendChild(backbtn);
 }
