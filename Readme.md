@@ -1,6 +1,6 @@
 # CatchCatch
 
-![Logo2](https://user-images.githubusercontent.com/52388470/202585594-5369004d-0750-4d15-b321-0150b668d02b.gif)
+![Logo2](https://user-images.githubusercontent.com/52388470/202899769-831e69d1-8fbf-4417-abfa-a4f66284f7cd.gif)
 
 ### UCC : [Link](https://drive.google.com/file/d/1-FeOOLFria1NnWZ3JuNyF8lZp3i6uGit/view?usp=sharing)
 
