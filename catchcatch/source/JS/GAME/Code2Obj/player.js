@@ -84,9 +84,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 targets: this,
                 x: map[this.dy][this.dx][0],
                 y: map[this.dy][this.dx][1],
-                delay: 80,
+                delay: 100,
+                duration: 500,
                 ease: 'Linear'
-            });
+              });
+            if (this.flipX) {
+              this.flipX = false;
+            }
             this.anims.play("move");
             codeScene2.time.addEvent({
               delay: 600,
@@ -127,11 +131,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               x: map[this.dy][this.dx][0],
               y: map[this.dy][this.dx][1],
               delay: 100,
+              duration: 500,
               ease: 'Linear'
           });
           this.anims.play("move");
           codeScene2.time.addEvent({
-            delay: 1200,
+            delay: 600,
             callback: () => {
               this.anims.play("turn");
               if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
@@ -168,12 +173,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               x: map[this.dy][this.dx][0],
               y: map[this.dy][this.dx][1],
               delay: 100,
+              duration: 500,
               ease: 'Linear'
             });
             this.flipX = true;
             this.anims.play("move");
             codeScene2.time.addEvent({
-              delay: 1200,
+              delay: 600,
               callback: () => {
                 this.anims.play("turn");
                 if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
@@ -210,12 +216,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               x: map[this.dy][this.dx][0],
               y: map[this.dy][this.dx][1],
               delay: 100,
+              duration: 500,
               ease: 'Linear'
             });
             this.flipX = true;
             this.anims.play("move");
             codeScene2.time.addEvent({
-              delay: 1200,
+              delay: 600,
               callback: () => {
                 this.anims.play("turn");
                 if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
