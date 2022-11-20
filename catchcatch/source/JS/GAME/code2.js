@@ -1,11 +1,18 @@
 import { Chunk, Tile } from "./entities.js";
-import IncodeUI, { makeranking, codegameclear, UpdateTurn, LoseLife } from "../UI/incode-ui.js";
+import IncodeUI, {
+  makeranking,
+  codegameclear,
+  UpdateTurn,
+  LoseLife,
+} from "../UI/incode-ui.js";
 import { showscore } from "../UI/incode-ui.js";
 import { setSound } from "../SOUND/sound";
 import Enemy from "./Code2Obj/enemy.js";
 import Player from "./Code2Obj/player.js";
 import Beam from "./Code2Obj/beam.js";
 import Attack from "./Code2Obj/attack.js";
+import { CodeCatch2Gamclear } from "../UI/incode-ui.js";
+import { CodeCatch2Gameover } from "../UI/incode-ui.js";
 export let codeConfig2 = {
   type: Phaser.AUTO,
   width: 600,
@@ -400,8 +407,8 @@ function create() {
 
   for (let i = 0; i < 3; i++) {
     while (true) {
-      posX = Math.floor(Math.random() * 5+1);
-      posY = Math.floor(Math.random() * 5+1);
+      posX = Math.floor(Math.random() * 5 + 1);
+      posY = Math.floor(Math.random() * 5 + 1);
       if (sendmap[posY][posX] === 0) {
         break;
       }
@@ -427,12 +434,12 @@ function update(time, delta) {
 
   if (frameTime > 16.5) {
     if (player.health <= 0) {
-      console.log("GameOver!");
       this.scene.pause();
+      CodeCatch2Gameover();
     }
     if (code2MonsterSet.children.entries.length <= 0) {
-      console.log("GameClear!");
       this.scene.pause();
+      CodeCatch2Gamclear();
     }
     if (code2timer % 140 === 0) {
       player.isDefense = false;
@@ -539,7 +546,7 @@ function update(time, delta) {
         warning3.setAlpha(0.4);
       }
       // 랜덤 빔 끝
-      
+
       dataSend();
     }
     code2timer++;
@@ -561,7 +568,6 @@ function getChunk(x, y) {
 
 //sock start
 function dataSend() {
-  
   if (socket.bufferedAmount == 0) {
     if (IsStarted != false && IsRunning != true) {
       var Data = {

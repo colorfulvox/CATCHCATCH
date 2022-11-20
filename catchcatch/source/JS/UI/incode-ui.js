@@ -339,3 +339,37 @@ export function UpdateTurn(n) {
   const showTurn = document.querySelector(".showTurn");
   showTurn.innerText = `${n} TURN`;
 }
+
+export function CodeCatch2Gameover() {
+  const gameContainer = document.querySelector("#game-container");
+
+  const resultpanel = document.createElement("div");
+  resultpanel.setAttribute("class", "resultpanel");
+  gameContainer.appendChild(resultpanel);
+
+  const Gameover = document.createElement("div");
+  Gameover.setAttribute("class", "Catch2Gameover");
+  resultpanel.appendChild(Gameover);
+
+  const backbtn = document.createElement("button");
+  backbtn.setAttribute("class", "submitbtn");
+  backbtn.textContent = "확인";
+  resultpanel.appendChild(backbtn);
+}
+
+export function CodeCatch2Gamclear() {
+  const gameContainer = document.querySelector("#game-container");
+
+  const resultpanel = document.createElement("div");
+  resultpanel.setAttribute("class", "resultpanel");
+  gameContainer.appendChild(resultpanel);
+
+  const Gameclear = document.createElement("div");
+  Gameclear.setAttribute("class", "Catch2Gameclear");
+  resultpanel.appendChild(Gameclear);
+
+  const backbtn = document.createElement("button");
+  backbtn.setAttribute("class", "submitbtn");
+  backbtn.textContent = "확인";
+  resultpanel.appendChild(backbtn);
+}

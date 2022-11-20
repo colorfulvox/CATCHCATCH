@@ -241,6 +241,7 @@
   background-size: contain;
   border: none;
   color: white;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 .submitbtn:active {
   background: url("../../../public/images/ui/GameStartBtnclick.png");
@@ -248,6 +249,7 @@
   background-position: center;
   background-size: contain;
   border: none;
+  cursor: url("../../../public/images/cursor/mouseSelect.png"), pointer;
 }
 
 .selectarea {
@@ -291,4 +293,24 @@
   opacity: 1;
   visibility: visible;
   transform: translate(-50%, 0);
+}
+
+.Catch2Gameover {
+  width: 250px;
+  height: 100px;
+  background: url("../../../public/images/ui/gameover.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
+}
+
+.Catch2Gameclear {
+  width: 250px;
+  height: 100px;
+  background: url("../../../public/images/ui/Gameclear.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: none;
 }
