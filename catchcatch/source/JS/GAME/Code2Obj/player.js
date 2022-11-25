@@ -59,16 +59,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-
   move(direction) {
     switch (direction) {
       // 오른쪽
       case 1:
         if (this.dx < 6) {
-          if (objmap[this.dy][this.dx + 1] === 0 || objmap[this.dy][this.dx + 1].type !== 0) {
+          if (
+            objmap[this.dy][this.dx + 1] === 0 ||
+            objmap[this.dy][this.dx + 1].type !== 0
+          ) {
             if (sendmap[this.dy][this.dx] === 5) {
               sendmap[this.dy][this.dx] = 4;
-            }else{
+            } else {
               sendmap[this.dy][this.dx] = 0;
             }
             objmap[this.dy][this.dx] = 0;
@@ -81,14 +83,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               }
               objmap[this.dy][this.dx] = this;
             }
-              codeScene2.tweens.add({
-                targets: this,
-                x: map[this.dy][this.dx][0],
-                y: map[this.dy][this.dx][1],
-                delay: 100,
-                duration: 500,
-                ease: 'Linear'
-              });
+            codeScene2.tweens.add({
+              targets: this,
+              x: map[this.dy][this.dx][0],
+              y: map[this.dy][this.dx][1],
+              delay: 100,
+              duration: 500,
+              ease: "Linear",
+            });
             if (this.flipX) {
               this.flipX = false;
             }
@@ -97,7 +99,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               delay: 600,
               callback: () => {
                 this.anims.play("turn");
-                if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
+                if (
+                  objmap[this.dy][this.dx].type === 1 &&
+                  this.dx === objmap[this.dy][this.dx].dx &&
+                  this.dy === objmap[this.dy][this.dx].dy
+                ) {
                   objmap[this.dy][this.dx].destroy();
                   camera.shake(100, 0.01); //camera
                   setSound.playSE(12);
@@ -116,16 +122,23 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       case 2:
         if (this.dx > 0) {
           this.flipX = true;
-          if (objmap[this.dy][this.dx - 1] === 0 || objmap[this.dy][this.dx - 1].type !== 0) {
+          if (
+            objmap[this.dy][this.dx - 1] === 0 ||
+            objmap[this.dy][this.dx - 1].type !== 0
+          ) {
             if (sendmap[this.dy][this.dx] === 5) {
               sendmap[this.dy][this.dx] = 4;
-            }else{
+            } else {
               sendmap[this.dy][this.dx] = 0;
             }
             objmap[this.dy][this.dx] = 0;
             this.dx--;
-            if(objmap[this.dy][this.dx].type!==1){
-              sendmap[this.dy][this.dx] = 1;
+            if (objmap[this.dy][this.dx].type !== 1) {
+              if (sendmap[this.dy][this.dx] === 4) {
+                sendmap[this.dy][this.dx] = 5;
+              } else {
+                sendmap[this.dy][this.dx] = 1;
+              }
               objmap[this.dy][this.dx] = this;
             }
             codeScene2.tweens.add({
@@ -134,41 +147,52 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               y: map[this.dy][this.dx][1],
               delay: 100,
               duration: 500,
-              ease: 'Linear'
-          });
-          this.anims.play("move");
-          codeScene2.time.addEvent({
-            delay: 600,
-            callback: () => {
-              this.anims.play("turn");
-              if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
-                objmap[this.dy][this.dx].destroy();
-                camera.shake(100, 0.01); //camera
-                setSound.playSE(12);
-                objmap[this.dy][this.dx].health--;
-                LoseLife();
-                sendmap[this.dy][this.dx] = 1;
-                objmap[this.dy][this.dx] = this;
-              }
-            },
-            loop: false,
-          });
+              ease: "Linear",
+            });
+            this.anims.play("move");
+            codeScene2.time.addEvent({
+              delay: 600,
+              callback: () => {
+                this.anims.play("turn");
+                if (
+                  objmap[this.dy][this.dx].type === 1 &&
+                  this.dx === objmap[this.dy][this.dx].dx &&
+                  this.dy === objmap[this.dy][this.dx].dy
+                ) {
+                  objmap[this.dy][this.dx].destroy();
+                  camera.shake(100, 0.01); //camera
+                  setSound.playSE(12);
+                  objmap[this.dy][this.dx].health--;
+                  LoseLife();
+                  sendmap[this.dy][this.dx] = 1;
+                  objmap[this.dy][this.dx] = this;
+                }
+              },
+              loop: false,
+            });
           }
         }
         break;
       // 위쪽
       case 3:
         if (this.dy > 0) {
-          if (objmap[this.dy - 1][this.dx] === 0 || objmap[this.dy - 1][this.dx].type !== 0) {
+          if (
+            objmap[this.dy - 1][this.dx] === 0 ||
+            objmap[this.dy - 1][this.dx].type !== 0
+          ) {
             if (sendmap[this.dy][this.dx] === 5) {
               sendmap[this.dy][this.dx] = 4;
-            }else{
+            } else {
               sendmap[this.dy][this.dx] = 0;
             }
             objmap[this.dy][this.dx] = 0;
             this.dy--;
-            if(objmap[this.dy][this.dx].type!==1){
-              sendmap[this.dy][this.dx] = 1;
+            if (objmap[this.dy][this.dx].type !== 1) {
+              if (sendmap[this.dy][this.dx] === 4) {
+                sendmap[this.dy][this.dx] = 5;
+              } else {
+                sendmap[this.dy][this.dx] = 1;
+              }
               objmap[this.dy][this.dx] = this;
             }
             codeScene2.tweens.add({
@@ -177,7 +201,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               y: map[this.dy][this.dx][1],
               delay: 100,
               duration: 500,
-              ease: 'Linear'
+              ease: "Linear",
             });
             this.flipX = true;
             this.anims.play("move");
@@ -185,7 +209,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               delay: 600,
               callback: () => {
                 this.anims.play("turn");
-                if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
+                if (
+                  objmap[this.dy][this.dx].type === 1 &&
+                  this.dx === objmap[this.dy][this.dx].dx &&
+                  this.dy === objmap[this.dy][this.dx].dy
+                ) {
                   objmap[this.dy][this.dx].destroy();
                   camera.shake(100, 0.01); //camera
                   setSound.playSE(12);
@@ -203,16 +231,23 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       // 아래쪽
       case 4:
         if (this.dy < 6) {
-          if (objmap[this.dy + 1][this.dx] === 0 || objmap[this.dy + 1][this.dx].type !== 0) {
+          if (
+            objmap[this.dy + 1][this.dx] === 0 ||
+            objmap[this.dy + 1][this.dx].type !== 0
+          ) {
             if (sendmap[this.dy][this.dx] === 5) {
               sendmap[this.dy][this.dx] = 4;
-            }else{
+            } else {
               sendmap[this.dy][this.dx] = 0;
             }
             objmap[this.dy][this.dx] = 0;
             this.dy++;
-            if(objmap[this.dy][this.dx].type!==1){
-              sendmap[this.dy][this.dx] = 1;
+            if (objmap[this.dy][this.dx].type !== 1) {
+              if (sendmap[this.dy][this.dx] === 4) {
+                sendmap[this.dy][this.dx] = 5;
+              } else {
+                sendmap[this.dy][this.dx] = 1;
+              }
               objmap[this.dy][this.dx] = this;
             }
             codeScene2.tweens.add({
@@ -221,7 +256,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               y: map[this.dy][this.dx][1],
               delay: 100,
               duration: 500,
-              ease: 'Linear'
+              ease: "Linear",
             });
             this.flipX = true;
             this.anims.play("move");
@@ -229,7 +264,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
               delay: 600,
               callback: () => {
                 this.anims.play("turn");
-                if (objmap[this.dy][this.dx].type===1&&this.dx === objmap[this.dy][this.dx].dx && this.dy === objmap[this.dy][this.dx].dy) {
+                if (
+                  objmap[this.dy][this.dx].type === 1 &&
+                  this.dx === objmap[this.dy][this.dx].dx &&
+                  this.dy === objmap[this.dy][this.dx].dy
+                ) {
                   objmap[this.dy][this.dx].destroy();
                   camera.shake(100, 0.01); //camera
                   setSound.playSE(12);
@@ -243,14 +282,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             });
           }
         }
-        break; 
+        break;
     }
   }
   attack(direction) {
     console.log(direction);
     switch (direction) {
       // ↖ -1-1
-      case 1: 
+      case 1:
         this.magic(225);
         break;
       // ↑ -1 0
@@ -285,19 +324,32 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
   defense() {
     this.isDefense = true;
-    let barrier = new Barrier(codeScene2, map[this.dy][this.dx][0],map[this.dy][this.dx][1], this );
+    let barrier = new Barrier(
+      codeScene2,
+      map[this.dy][this.dx][0],
+      map[this.dy][this.dx][1],
+      this
+    );
     barrier.setDepth(10);
   }
 
   magic(angle) {
-    let attack = new Attack(codeScene2, map[this.dy][this.dx][0],map[this.dy][this.dx][1]);
+    let attack = new Attack(
+      codeScene2,
+      map[this.dy][this.dx][0],
+      map[this.dy][this.dx][1]
+    );
     code2magicSet.add(attack);
     attack.setDepth(10);
     let x = Math.cos(angle * (Math.PI / 180));
     let y = Math.sin(angle * (Math.PI / 180));
     attack.rotation += angle / 60;
     setSound.playSE(2);
-    codeScene2.physics.moveTo(attack, map[this.dy][this.dx][0] + x, map[this.dy][this.dx][1] + y, 800);
+    codeScene2.physics.moveTo(
+      attack,
+      map[this.dy][this.dx][0] + x,
+      map[this.dy][this.dx][1] + y,
+      800
+    );
   }
-
 }
